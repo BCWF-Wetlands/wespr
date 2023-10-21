@@ -2,11 +2,17 @@ library(readr)
 library(dplyr)
 library(stringr)
 
-source("office.R")
+source("R/objects.R")
 
+# get weights table
 weights <- read_csv("input_data/weights.csv")
+
+# read in data and get in shape. This will go in a read_questions() function
 data <- read_csv("input_data/wetflat.csv", name_repair = "universal") |> 
-  # TODO: rename(across(starts_with("..."), function) and add site_
+  rename_with(
+    \(x) gsub("...", "site_", x), 
+    starts_with("...")
+    ) |> 
   select(1:2) |> 
   rename(
     response_no = Question,
@@ -16,17 +22,14 @@ data <- read_csv("input_data/wetflat.csv", name_repair = "universal") |>
   ) |> 
   select(q_no, everything()) |> 
   filter(
-    q_no %in% names(questions)
+    q_no %in% names(core_questions)
   )
 
-lapply(questions, function(x) {
-  values <- data[data$q_no == x$name, "...1"]
-  x$value <- values
-  x
-})
+core_questions <- record_values(core_questions, data)
 
 # Next: 
-# - Check valid values against template in list elements
+# - Check valid values against template in list elements.
+#     - This should happen inside `record_values()`
 # - Add questions that create derived values (always_water etc) and generate
 #   "derived_values" list
 # - look at purrr function that captures names

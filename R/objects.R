@@ -1,5 +1,7 @@
+source("R/functions.R")
+
 core_questions <- list(
-  OF1 = list(
+  list(
     name = "OF1",
     label = "Distance to Community",
     response_type = "multichoice",
@@ -8,7 +10,7 @@ core_questions <- list(
     used_by = c("FR", "FH", "KMB", "CRI"), # ecosystem services that rely on this. Is this necessary?
     value = c(0, 0, 0, 0, 0)
   ),
-  OF24 = list(
+  list(
     name = "OF24",
     label = "Species of Conservation Concern",
     response_type = "multiresponse-binary",
@@ -17,7 +19,7 @@ core_questions <- list(
     used_by = c("AM", "WB", "RSB", "PD", "Sens"),
     value = c(FALSE, FALSE, FALSE, FALSE) # come in as 0/1, convert to logical??
   ),
-  F1 = list(
+  list(
     name = "F1",
     label = "Vegetation Height and Form Diversity",
     response_type = "multiresponse-category",
@@ -26,7 +28,7 @@ core_questions <- list(
     used_by = c("SFTS", "NR", "CS", "APP", "FR", "KMB", "RSB", "PD", "POL", "Sens"),
     value = c(0, 0, 0, 0, 0, 0)
   ),
-  OF5 = list(
+  list(
     name = "OF5",
     label = "Relative Elevation in watershed ",
     response_type = "numeric",
@@ -37,7 +39,7 @@ core_questions <- list(
 )
 
 derived_values = list(
-  always_water = list(
+  list(
     name = "always_water",
     calculated_from = "the question",
     response_type = "derived",
@@ -47,28 +49,10 @@ derived_values = list(
   )
 )
 
-q_names <- names(questions)
-questions <- lapply(q_names, function(x) {
-  questions[[x]]$name <- x
-  questions[[x]]
-}
-)
-
-names(questions) <- q_names
-
-
-
-
-
-
-
-
+core_questions <- names_from_value(core_questions, "name")
+derived_values <- names_from_value(derived_values, "name")
 
 # # TODO: validator functions. They should flag which question is invalid, and why.
-# check_numeric <- function(x) {
-#   valid <- !is.na(x) && x >= 0 && x <= 1
-#   if (!valid) warning("Help!")
-# }
 # ,
 #   OF7 = list(
 #     label = "Stream Intersect ",
