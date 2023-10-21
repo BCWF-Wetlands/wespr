@@ -38,3 +38,5 @@ core_questions <- record_values(core_questions, data)
 #     - filter derived_values list by used_by
 #     - subset and match weights from weights table
 #     - ... magic
+# - For multi-site, I think each question in the core_questions object can have 
+#   a list of values one for each site (rather than a questions object for each site)
