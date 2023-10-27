@@ -2,25 +2,14 @@ library(readr)
 library(dplyr)
 library(stringr)
 
-source("R/objects.R")
+source("R/setup.R")
 
 # get weights table
 weights <- read_csv("input_data/weights.csv")
 
-# read in data and get in shape. This will go in a read_questions() function
-data <- read_csv("input_data/wetflat.csv", name_repair = "universal") |> 
-  rename_with(
-    \(x) gsub("...", "site_", x), 
-    starts_with("...")
-    ) |> 
-  select(1:2) |> 
-  rename(
-    response_no = Question,
-  ) |> 
-  mutate(
-   q_no = str_split_i(response_no, "_", 1)
-  ) |> 
-  select(q_no, everything()) |> 
+# read in data and filter to questions we have implemented, and just one site:
+data <- load_wesp_data("input_data/wetflat.csv") |> 
+  select(q_no, response_no, site_1) |> 
   filter(
     q_no %in% names(core_questions)
   )
