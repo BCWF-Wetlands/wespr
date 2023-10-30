@@ -16,12 +16,12 @@ data <- load_wesp_data("input_data/wetflat.csv") |>
 
 core_questions <- record_values(core_questions, data)
 
+derived_values <- derive_values(core_questions)
 # Next: 
 # - Check valid values against template in list elements.
 #     - This should happen inside `record_values()`
 # - Add questions that create derived values (always_water etc) and generate
 #   "derived_values" list
-# - look at purrr function that captures names
 # - For ecosystem service calculation:
 #     - filter questions list by used_by
 #     - filter derived_values list by used_by
