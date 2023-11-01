@@ -2,7 +2,7 @@ source("R/functions.R")
 
 core_questions <- list(
   list(
-    name = "OF1",
+    q_no = "OF1",
     label = "Distance to Community",
     response_type = "multichoice",
     n_choices = 5,
@@ -11,7 +11,7 @@ core_questions <- list(
     value = rep(NA, 5)
   ),
   list(
-    name = "OF5",
+    q_no = "OF5",
     label = "Relative Elevation in watershed ",
     response_type = "numeric",
     validator = numeric_value(min = 0, max = 1),
@@ -19,7 +19,8 @@ core_questions <- list(
     value = NA_real_
   ),
   list(
-    name = "OF7",
+    # TODO: This is actually OF6 but needs to be fixed in wetflat.csv
+    q_no = "OF7",
     label = "Stream Intersect ",
     response_type = "multiresponse-binary",
     n_choices = 3,
@@ -28,7 +29,7 @@ core_questions <- list(
     value = rep(NA, 3)
   ),
   list(
-    name = "OF24",
+    q_no = "OF24",
     label = "Species of Conservation Concern",
     response_type = "multiresponse-binary",
     n_choices = 4,
@@ -37,7 +38,7 @@ core_questions <- list(
     value = rep(NA, 4)
   ),
   list(
-    name = "F1",
+    q_no = "F1",
     label = "Vegetation Height and Form Diversity",
     response_type = "multiresponse-category",
     n_choices = 6,
@@ -46,17 +47,17 @@ core_questions <- list(
     value = rep(0, 6)
   ),
   list(
-    name = "F2",
+    q_no = "F2",
     label = "Height Class Interspersion",
     response_type = "multichoice",
     n_choices = 4, 
     validator = multi_choice(n = 4),
     used_by = c("RSB", "KMH", "PD"),
     value = rep(0, 4),
-    value_names = c("A1", "A2", "B1", "B2")
+    response_no = c("F2_A1", "F2_A2", "F2_B1", "F2_B2")
   ),
   list(
-    name = "F19", 
+    q_no = "F19", 
     label = "% Always WITHOUT Surface Water", 
     response_type = "multichoice",
     n_choices = 6,
@@ -66,5 +67,5 @@ core_questions <- list(
   )
 )
 
-core_questions <- names_from_value(core_questions, "name")
+core_questions <- names_from_value(core_questions, "q_no")
 

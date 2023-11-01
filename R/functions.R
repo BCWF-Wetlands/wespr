@@ -27,11 +27,11 @@ names_from_value <- function(x, value) {
 
 record_values <- function(questions, data) {
   lapply(questions, function(question) {
-    values <- data$site_1[data$q_no == question$name]
+    values <- data$site_1[data$q_no == question$q_no]
     question$value <- question$validator(values)
-    if (exists("value_names", question)) {
+    if (!exists("response_no", question)) {
       # This only applies to Q F2
-      names(question$value) <- question$value_names
+      question$response_no <- paste(question$q_no, seq(1, length(values)), sep = "_")
     }
     question
   })
@@ -138,3 +138,15 @@ empty_derived_values <- function() {
   
   names_from_value(derived_values, "name")
 }
+
+# Function functions
+
+fn <- function(responses, weights, fn) {
+  qs <- Filter(\(x) fn %in% x$used_by, responses)
+  qs <- lapply(qs, \(x) x[c("q_no", "label", "response_no", "value")])
+  q_df <- dplyr::bind_rows(qs)
+  dplyr::filter(weights, indicator == fn, `type (F/B)` == "function") |> 
+    select(q_no, response_no, q_responses, Q_weighting) |> 
+    right_join(q_df, by = c("q_no", "response_no"))
+}
+

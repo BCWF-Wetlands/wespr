@@ -1,6 +1,7 @@
 library(readr)
 library(dplyr)
 library(stringr)
+library(tidyr)
 
 source("R/setup.R")
 
@@ -17,6 +18,9 @@ data <- load_wesp_data("input_data/wetflat.csv") |>
 core_questions <- record_values(core_questions, data)
 
 derived_values <- derive_values(core_questions)
+
+fr_qs <- fn(core_questions, weights, fn = "FR")
+
 # Next: 
 # - Check valid values against template in list elements.
 #     - This should happen inside `record_values()`
