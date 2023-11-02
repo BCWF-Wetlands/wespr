@@ -1,5 +1,3 @@
-source("R/functions.R")
-
 core_questions <- list(
   list(
     q_no = "OF1",
@@ -50,15 +48,15 @@ core_questions <- list(
     q_no = "F2",
     label = "Height Class Interspersion",
     response_type = "multichoice",
-    n_choices = 4, 
+    n_choices = 4,
     validator = multi_choice(n = 4),
     used_by = c("RSB", "KMH", "PD"),
     value = rep(0, 4),
     response_no = c("F2_A1", "F2_A2", "F2_B1", "F2_B2")
   ),
   list(
-    q_no = "F19", 
-    label = "% Always WITHOUT Surface Water", 
+    q_no = "F19",
+    label = "% Always WITHOUT Surface Water",
     response_type = "multichoice",
     n_choices = 6,
     validator = multi_choice(n = 6),
