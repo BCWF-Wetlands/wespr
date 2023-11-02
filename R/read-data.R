@@ -1,3 +1,12 @@
+#' Load the data containing the responses
+#'
+#' This file is usually an output from the R script at
+#' https://github.com/BCWF-Wetlands/WESP_Calculator
+#'
+#' @param path path to csv
+#'
+#' @return a `data.frame` of the responses
+#' @export
 load_wesp_data <- function(path) {
   readr::read_csv(path, name_repair = "universal") |>
     dplyr::rename_with(
@@ -14,6 +23,14 @@ load_wesp_data <- function(path) {
     dplyr::select(q_no, response_no, dplyr::everything())
 }
 
+#' Validate and record responses into a standard object
+#'
+#' This currently is only implemented for a single site
+#'
+#' @param data a `data.frame`, the output of [load_wesp_data()]
+#'
+#' @return a `list` object containing validated responses and question metadata
+#' @export
 record_values <- function(data) {
   questions <- core_questions()
   lapply(questions, function(question) {
@@ -27,6 +44,14 @@ record_values <- function(data) {
   })
 }
 
+#' Calculate derived values from question responses
+#'
+#' Examples are `all_water`, `never_water`, etc.
+#'
+#' @param questions an object resulting from running [record_values()]
+#'
+#' @return A `list` object containing derived values and their metadata.
+#' @export
 derive_values <- function(questions) {
   lapply(empty_derived_values(), function(item) {
     item$value <- item$generator(questions)
