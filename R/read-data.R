@@ -14,13 +14,13 @@ load_wesp_data <- function(path) {
       dplyr::starts_with("...")
     ) |>
     dplyr::rename(
-      response_no = Question,
+      response_no = .data$Question,
     ) |>
     dplyr::mutate(
-      q_no = stringr::str_split_i(response_no, "_", 1),
-      response_no = stringr::str_split_i(response_no, "_", 2)
+      q_no = stringr::str_split_i(.data$response_no, "_", 1),
+      response_no = stringr::str_split_i(.data$response_no, "_", 2)
     ) |>
-    dplyr::select(q_no, response_no, dplyr::everything())
+    dplyr::select("q_no", "response_no", dplyr::everything())
 }
 
 #' Validate and record responses into a standard object

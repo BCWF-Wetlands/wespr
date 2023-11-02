@@ -3,3 +3,4 @@
 export(derive_values)
 export(load_wesp_data)
 export(record_values)
+importFrom(dplyr,.data)
