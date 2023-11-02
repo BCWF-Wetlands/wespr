@@ -13,7 +13,7 @@ weights <- read_csv("inst/input_data/weights.csv")
 data <- load_wesp_data("inst/input_data/wetflat.csv") |>
   select(q_no, response_no, site_1) |>
   filter(
-    q_no %in% names(core_questions)
+    q_no %in% names(core_questions())
   )
 
 core_questions <- record_values(data)
