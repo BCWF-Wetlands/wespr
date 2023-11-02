@@ -67,3 +67,28 @@ core_questions <- list(
 
 core_questions <- names_from_value(core_questions, "q_no")
 
+empty_derived_values <- function() {
+  derived_values = list(
+    list(
+      name = "never_water",
+      calculated_from = "F19",
+      # the [6] is the index of the sixth choice in q F19, indicating never
+      # water. I don't love the use of this "magic number" here
+      generator = \(x) x$F19$value[6],
+      used_by = c("services that use it"),
+      value = NA
+    ),
+    list(
+      name = "all_water",
+      calculated_from = "F19",
+      # the [1] is the index of the fist choice in q F19, indicating always
+      # water. I don't love the use of this "magic number" here
+      generator = \(x) x$F19$value[1],
+      used_by = c("services that use it"),
+      value = NA
+    )
+  )
+
+  names_from_value(derived_values, "name")
+}
+
