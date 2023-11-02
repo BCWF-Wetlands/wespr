@@ -1,5 +1,5 @@
 load_wesp_data <- function(path) {
-  readr::read_csv("input_data/wetflat.csv", name_repair = "universal") |>
+  readr::read_csv(path, name_repair = "universal") |>
     dplyr::rename_with(
       \(x) gsub("...", "site_", x),
       dplyr::starts_with("...")
@@ -14,7 +14,8 @@ load_wesp_data <- function(path) {
     dplyr::select(q_no, response_no, dplyr::everything())
 }
 
-record_values <- function(questions, data) {
+record_values <- function(data) {
+  questions <- core_questions()
   lapply(questions, function(question) {
     values <- data$site_1[data$q_no == question$q_no]
     question$value <- question$validator(values)
