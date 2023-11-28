@@ -47,7 +47,6 @@ TreeTyp6 <- max(
   max(WF3_1, WF3_2, WF3_3, WF3_4, WF3_5, WF3_6, WF3_7, WF3_8)
 
 
-
 # dense Moss Extent
 
 
