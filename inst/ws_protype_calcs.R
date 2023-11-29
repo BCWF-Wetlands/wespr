@@ -1,6 +1,6 @@
 #ws_protype_calcs
 
-
+# NOCA
 # NoOutlet
 # NoOutletX
 
@@ -9,6 +9,8 @@
 #SIMeco = OF44_3 # southern interior Mts
 #BPeco = OF44_4 # Boreal Plains
 #TPeco = OF44_5 # Taiga Plains
+
+
 
 
 # Function
@@ -325,23 +327,76 @@ floodprop1v <- ifelse((NoOutlet + NoOutletX) > 0, "",
 # OF12 - unvegetated surface in the wetlands WAU
 #=IF((D15=1),"",MAX(F103:F105)/MAX(E103:E105))
 
-
-### UP TO HERE
-
-impervCA1 <- ifelse(D15 == 1, "", max(F103:F105) / max(E103:E105))
-
-
-
+impervca1 <- ifelse(D15 == 1, "", max(OF12_1 * WOF12_1,
+                                          OF12_2 * WOF12_2,
+                                          OF12_3 * WOF12_3) / max(WOF12_1,
+                                                                 WOF12_2,
+                                                                 WOF12_3))
 
 
+# OF21 Local moisture deficit
 
-# OF21 Local moisture defecit
+#=1-(IFS(D106<=0,"", GDeco=1,(D106-0)/329,CMeco=1,(D106-0)/326,SIMeco=1,(D106-0)/825, BPeco-1,(D106-24)/381, TPeco=1,(D106-0)/219))
+
+dryness1 <- ifelse(OF25_1 <= 0, "",
+       ifelse(OF44_1== 1, (OF25_1 - 0) / 329,
+              ifelse(OF44_2 == 1, (OF25_1 - 0) / 326,
+                     ifelse(OF44_3 == 1, (OF25_1 - 0) / 825,
+                            ifelse(OF44_4 == 1, (OF25_1 - 24) / 381,
+                                   ifelse(OF44_5 == 1, (OF25_1 - 0) / 219, "")
+                            )
+                     )
+              )
+       )
+)
+
+
 
 # OF 30 Road Density Within AA's buffer
+rddens <- max(OF30_1 * WOF30_1,
+    OF30_2 * WOF30_2,
+    OF30_3 * WOF30_3) / max(WOF30_1,
+                            WOF30_2,
+                            WOF30_3)
 
 # OF41 Disturbed Percentage in the WAU
 
+disturb1 <- ifelse(NoCA == 1, "", max(
+  OF41_1 * WOF41_1,
+  OF41_2 * WOF41_2,
+  OF41_3 * WOF41_3,
+  OF41_4 * WOF41_4,
+  OF41_5 * WOF41_5
+) / max(WOF41_1,
+        WOF41_2,
+        WOF41_3,
+        WOF41_4,
+        WOF41_5))
+
+
+
 # OF42 Road Density in the WAU
+rddenswau1 <- ifelse(NoCA == 1, "", max(
+  OF42_1 * WOF42_1,
+  OF42_2 * WOF42_2,
+  OF42_3 * WOF42_3
+) / max(WOF42_1,
+        WOF42_2,
+        WOF42_3))
+
+
+
+
+
+#######################################################
+## Overall WS BENEFIT score
+
+## sub - function scores
+#=10*IF((FloodProp1v=1),1,AVERAGE(FloodProp1v,ImpervCA1,Elev1v, Aspect1, Disturb1,RdDensWAU1,RdDens1, Dryness1))
+
+ws_benefit_score  <- 10 * ifelse(FloodProp1v == 1, 1,
+                      mean(c(floodprop1v, impervca1, elev1v, aspect1, disturb1, rddenswau1, rddens1, dryness1), na.rm = TRUE))
+
 
 
 
