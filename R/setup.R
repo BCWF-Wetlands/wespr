@@ -93,3 +93,25 @@ empty_derived_values <- function() {
   names_from_value(derived_values, "name")
 }
 
+make_core_questions <- function() {
+  core_questions <- readr::read_csv(
+    system.file("input_data/all_indicators.csv", package = "wespr"),
+    col_types = readr::cols(
+      n_responses = readr::col_integer(),
+      no_indicators = readr::col_integer(),
+      .default = readr::col_character()
+    )
+  ) |>
+    dplyr::filter(no != "score")
+
+  q_list <- lapply(split(core_questions, core_questions$no), as.list)
+
+  format_q_list <- function(q) {
+    q$used_by <- Filter(Negate(is.na), unlist(q[indicator_names()]))
+    q <- q[setdiff(names(q), indicator_names())]
+    q$value <- rep(NA, q$n_responses)
+  }
+
+  lapply(q_list, format_q_list)
+}
+
