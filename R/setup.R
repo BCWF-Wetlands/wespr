@@ -115,3 +115,7 @@ make_core_questions <- function() {
   lapply(q_list, format_q_list)
 }
 
+indicator_names <- function() {
+  c("ws", "sfts", "sr", "pr", "nr", "cs", "oe", "app", "fr", "fh",
+    "am", "wb", "kmh", "rsb", "pd", "pol", "cri", "sens", "str")
+}
