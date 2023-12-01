@@ -17,6 +17,11 @@ load_wesp_data <- function(path) {
       response_no = .data$Question,
     ) |>
     dplyr::mutate(
+      response_no = dplyr::case_when(
+        .data$response_no == "F46_1" ~ "F46a_1",
+        .data$response_no == "F46_2" ~ "F46b_1",
+        .default = .data$response_no
+      ),
       q_no = stringr::str_split_i(.data$response_no, "_", 1),
       response_no = stringr::str_split_i(.data$response_no, "_", 2)
     ) |>
@@ -32,13 +37,13 @@ load_wesp_data <- function(path) {
 #' @return a `list` object containing validated responses and question metadata
 #' @export
 record_values <- function(data) {
-  questions <- core_questions()
+  questions <- make_core_questions()
   lapply(questions, function(question) {
-    values <- data$site_1[data$q_no == question$q_no]
+    values <- data$site_1[data$q_no == question$no]
     question$value <- question$validator(values)
     if (!exists("response_no", question)) {
       # This only applies to Q F2
-      question$response_no <- paste(question$q_no, seq(1, length(values)), sep = "_")
+      question$response_no <- paste(question$no, seq(1, length(values)), sep = "_")
     }
     question
   })
