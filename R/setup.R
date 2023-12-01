@@ -98,18 +98,23 @@ make_core_questions <- function() {
     system.file("input_data/all_indicators.csv", package = "wespr"),
     col_types = readr::cols(
       n_responses = readr::col_integer(),
-      no_indicators = readr::col_integer(),
+      no_indicators = readr::col_skip(),
       .default = readr::col_character()
     )
   ) |>
-    dplyr::filter(no != "score")
+    dplyr::filter(no != "score", !grepl("^S", no))
 
   q_list <- lapply(split(core_questions, core_questions$no), as.list)
 
   format_q_list <- function(q) {
     q$used_by <- Filter(Negate(is.na), unlist(q[indicator_names()]))
+    q$no_indicators <- length(q$used_by)
     q <- q[setdiff(names(q), indicator_names())]
-    q$value <- rep(NA, q$n_responses)
+    if (length(q$n_responses) > 0 && !is.na(q$n_responses)) {
+      q$value <- rep(NA, q$n_responses)
+    }
+    q$validator = validators[[q$type]](q$n_responses)
+    q
   }
 
   lapply(q_list, format_q_list)
