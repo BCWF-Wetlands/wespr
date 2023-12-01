@@ -103,12 +103,12 @@ F56,Non-consumptive Uses - Actual or Potential,multiresponse_binary,3,NA,NA,NA,N
 F57,Consumptive Uses (Provisioning Services),multiresponse_binary,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,NA,b,b,NA,b,NA,b,NA,NA,5
 F58,Focal Species Presence,multiresponse_binary,10,"FishFound,Moose,Beaver,Muskrat,Bear,Caribou","F58_1==1,F58_2==1,F58_3==1,F58_4==1,F58_5==1,F58_6==1",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,f/b,f,f/b,f/b,NA,NA,s,NA,10
 F59,Wetland Plant Associations,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,1
-S1,Altered Timing of Water Inputs,multi-response,NA,NA,NA,NA,b,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,f,NA,NA,NA,f,4
-S2,Accelerated Input of Nutrients,multi-response,NA,NA,NA,NA,NA,NA,b,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,f,4
-S3,Accelerated Inputs of Contaminants and/or Salts,multi-response,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,f,2
-S4,Excessive Sediment Loading from Runoff Contributing Area,multi-response,NA,NA,NA,NA,NA,b,NA,NA,NA,NA,f,NA,f,f,NA,NA,NA,f,NA,NA,NA,f,6
-S5,Soil or Sediment Alteration within the assessment Area,multi-response,NA,NA,NA,NA,NA,f,f,f,f,NA,f,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,f,7
-S6,Wildlife Disturbance Potential,multi-response,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,f,NA,NA,NA,NA,f,4
+S1,Altered Timing of Water Inputs,multiresponse_numeric,14,NA,NA,NA,b,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,f,NA,NA,NA,f,4
+S2,Accelerated Input of Nutrients,multiresponse_numeric,8,NA,NA,NA,NA,NA,b,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,f,4
+S3,Accelerated Inputs of Contaminants and/or Salts,multiresponse_numeric,12,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,f,2
+S4,Excessive Sediment Loading from Runoff Contributing Area,multiresponse_numeric,12,NA,NA,NA,NA,b,NA,NA,NA,NA,f,NA,f,f,NA,NA,NA,f,NA,NA,NA,f,6
+S5,Soil or Sediment Alteration within the assessment Area,multiresponse_numeric,12,NA,NA,NA,NA,f,f,f,f,NA,f,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,f,7
+S6,Wildlife Disturbance Potential,multiresponse_numeric,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,f,NA,NA,NA,NA,f,4
 score,FH score,calculated numeric,NA,NA,NA,NA,b,NA,NA,NA,NA,NA,b,NA,NA,NA,NA,NA,NA,NA,NA,b,NA,NA,3
 score,AP score,calculated numeric,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,f,f,f,f,f,f,NA,NA,NA,NA,7
 score,AH score,calculated numeric,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,1

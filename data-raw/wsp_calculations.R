@@ -4,6 +4,12 @@ library(dplyr)
 library(readr)
 library(janitor)
 
+# To authorize, set your google auth email with:
+# You can set in a project-specific .Rprofile file
+# options(
+#   gargle_oauth_email = "email.which.gives.you.access.to.these.files@gmail.com"
+# )
+
 xl <- drive_find("WSP_calculations.xlsx")
 
 tmp_xl_gs <- drive_cp(xl, name = "tmp-wsp-calcs", mime_type = drive_mime_type("spreadsheet"))
