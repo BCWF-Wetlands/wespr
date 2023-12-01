@@ -16,7 +16,7 @@ OF14,Sustained Scientific Use,binary,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 OF15,Burned,binary,1,NA,NA,NA,NA,b,NA,NA,f,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,4
 OF16,Karst Geology,binary,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,2
 OF17,Geology Faults,binary,1,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,1
-OF18,Lakes within 2km,binary,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,NA,NA,NA,NA,b,NA,NA,3
+OF18,Lakes within 2km,multiresponse_binary,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,NA,NA,NA,NA,b,NA,NA,3
 OF19,Wetlands and Lakes within 2km,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,f/b,f/b,f/b,f,NA,NA,s,NA,10
 OF20,Fish Occurance,multiresponse_numeric,5,Fishless,OF20_5==1,NA,NA,NA,NA,NA,NA,NA,f,NA,f,f,f,f,f,NA,NA,b,NA,NA,7
 OF21,Ecological Designation,binary,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,NA,b,NA,NA,3
@@ -44,7 +44,7 @@ OF42,Road density in the WAU,multi_choice,3,NA,NA,b,b,b,NA,NA,NA,NA,NA,NA,f,NA,N
 OF43,Wetland density in the WAU,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,f/b,NA,f/b,1,NA,NA,s,NA,8
 OF44,Ecoprovince,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,ALL
 F1,Vegetation Height & Form Diversity,multiresponse_numeric,6,NA,NA,NA,f,NA,NA,f,f,NA,f,f/b,NA,NA,NA,f,f,f,NA,NA,s,NA,10
-F2,Height Class Interspersion,multi_choice,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,f,NA,NA,NA,NA,3
+F2,Height Class Interspersion,multi_choice,4,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,f,NA,NA,NA,NA,3
 F3,Woody Diameter Classes,multiresponse_binary,8,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,2
 F4,Dominance of Most Abundant Shrub Genera,multi_choice,3,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,NA,NA,NA,NA,2
 F5,Tall Willow Cover,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,NA,f,NA,NA,NA,3
