@@ -6,7 +6,7 @@
 ## single response, to keep the pattern generalizable
 validators <- list(
 
-  multi_choice = function(n) {
+  multi_choice = function(q_no, n) {
     function(x) {
       x <- as.numeric(x)
       valid <- all(!is.na(x)) &&
@@ -14,33 +14,40 @@ validators <- list(
         sum(x) == 1 &&
         length(x) == n
       if (!valid) {
-        stop("Value must be length ", n, " and be all 0s and one 1", call. = FALSE)
+        if (sum(x) == 0) {
+          warning("Question ", q_no, " does not appear to have been filled out.")
+        } else {
+          stop("Question ", q_no,
+               ": Value must be length ", n, " and be all 0s and one 1", call. = FALSE)
+        }
       }
       as.logical(x)
     }
   },
 
-  multiresponse_binary = function(n) {
+  multiresponse_binary = function(q_no, n) {
     function(x) {
       x <- as.numeric(x)
       valid <- all(!is.na(x)) &&
         all(x %in% 0:1) &&
         length(x) == n
       if (!valid) {
-        stop("Value must be length ", n, " and be all 0s and 1s", call. = FALSE)
+        stop("Question ", q_no,
+             ": Value must be length ", n, " and be all 0s and 1s", call. = FALSE)
       }
       as.logical(x)
     }
   },
 
-  multiresponse_numeric = function(n, min = -Inf, max = Inf) {
+  multiresponse_numeric = function(q_no, n, min = -Inf, max = Inf) {
     function(x) {
       x <- as.numeric(x)
       valid <- all(!is.na(x)) &&
-        all(x %in% min:max) &&
+        all(x >= min & x <= max) &&
         length(x) == n
       if (!valid) {
-        stop("Value must be length ", n,
+        stop("Question ", q_no,
+             ": Value must be length ", n,
              " and be an integer from ", min, " to ", max,
              call. = FALSE)
       }
@@ -48,32 +55,34 @@ validators <- list(
     }
   },
 
-  numeric = function(n = 1, min = -Inf, max = Inf) {
+  numeric = function(q_no, n = 1, min = -Inf, max = Inf) {
     function(x) {
       x <- as.numeric(x)
       valid <- length(x) == 1 &&
         x >= min && x <= max
       if (!valid) {
-        stop("Value must be a single number between ", min, " and ", max,
+        stop("Question ", q_no,
+             ": Value must be a single number between ", min, " and ", max,
              call. = FALSE)
       }
       x
     }
   },
 
-  binary = function(n) {
+  binary = function(q_no, n) {
     function(x) {
       x <- as.numeric(x)
       valid <- length(x) == n &&
         !is.na(x) &&
         x %in% 0:1
-      if (!valid) stop("Value must be a single logical", call. = FALSE)
+      if (!valid) stop("Question ", q_no,
+                       ": Value must be a single logical", call. = FALSE)
       as.logical(x)
     }
   },
   # This one is a special case for pH, where the first value
   # should be a pH measurement (0-14) OR one of the other elements must be 1
-  multi_choice_numeric = function(n, min = 0, max = 14) {
+  multi_choice_numeric = function(q_no, n, min = 0, max = 14) {
     function(x) {
       x <- as.numeric(x)
       valid <- length(x) == n &&
@@ -86,19 +95,21 @@ validators <- list(
       }
 
       if (!valid) {
-        stop("Value must be a single number between ", min, " and ", max,
+        stop("Question ", q_no,
+             ": Value must be a single number between ", min, " and ", max,
              call. = FALSE)
       }
       x
     }
   },
-  category = function(n) {
+  category = function(q_no, n) {
     function(x) {
       x <- as.character(x)
       valid <- length(x) == n
 
       if (!valid) {
-        stop("Value must be a single string",
+        stop("Question ", q_no,
+             ": Value must be a single string",
              call. = FALSE)
       }
       x
