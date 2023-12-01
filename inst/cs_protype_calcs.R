@@ -2,7 +2,27 @@
 # CS calculation Prototype
 
 # Gen to populate with calculation in readable format.
-#
+
+
+
+# run_cs_calcul
+
+# check for dependencies (other scores being generates )
+
+# check for derived variables
+
+
+
+
+# # extract questionf and weighting for a particular
+
+
+
+
+
+
+
+
 # OF15 burned # OF15
 
 burn6 = 1 - OF15_1
