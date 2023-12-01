@@ -1,108 +1,108 @@
 no,question,type,n_responses,unique_values,unique_value_response,ws,sfts,sr,pr,nr,cs,oe,app,fr,fh,am,wb,kmh,rsb,pd,pol,cri,sens,str,no_indicators
-OF1,Distance to community,multi-choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,b,NA,NA,b,NA,f,NA,b,NA,NA,5
-OF2,Distance to Frequently-traveled Road,multi-choice,6,NA,NA,NA,NA,NA,NA,b,NA,NA,NA,NA,b,f,NA,f,f,f,NA,b,NA,f,8
-OF3,Distance to Ponded water,multi-choice,7,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,f/b,f/b,NA,NA,NA,NA,s,NA,7
-OF4,Distance to Large ponded water,multi-choice,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,NA,NA,NA,NA,NA,NA,NA,2
+OF1,Distance to community,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,b,NA,NA,b,NA,f,NA,b,NA,NA,5
+OF2,Distance to Frequently-traveled Road,multi_choice,6,NA,NA,NA,NA,NA,NA,b,NA,NA,NA,NA,b,f,NA,f,f,f,NA,b,NA,f,8
+OF3,Distance to Ponded water,multi_choice,7,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,f/b,f/b,NA,NA,NA,NA,s,NA,7
+OF4,Distance to Large ponded water,multi_choice,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,NA,NA,NA,NA,NA,NA,NA,2
 OF5,Relative Elevation in Watershed,numeric,1,NA,NA,b,b,b,b,f,NA,f,f/b,NA,f,NA,f,NA,NA,NA,NA,NA,s,NA,11
 OF6,Stream Intersect,binary,1,OutMap,OF6_1==1,f,f,f,f,f,NA,f,f,NA,f,NA,NA,NA,NA,f,f,NA,s,NA,11
-OF7,Aspect,multi-choice,3,NA,NA,b,b,NA,f,f,NA,NA,f,f,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,7
-OF8,Glacier influence,multi-choice,3,NA,NA,NA,b,b,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2
-OF9,Floodable Infrastructure,multi-choice,4,NA,NA,b,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,1
-OF10,Internal Flow Distance,multi-choice,6,NA,NA,f,NA,f,f,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,4
-OF11,Wetland as a % of Its Contributing Area (Catchment),multi-choice,4,NoCA,OF11_4==1,f,b,f/b,f/b,f,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,8
-OF12,Unvegetated Surface in the WAU,multi-choice,3,NA,NA,b,b,b,b,NA,NA,NA,f,NA,f,f,NA,NA,NA,f,f,NA,NA,f,10
+OF7,Aspect,multi_choice,3,NA,NA,b,b,NA,f,f,NA,NA,f,f,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,7
+OF8,Glacier influence,multi_choice,3,NA,NA,NA,b,b,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2
+OF9,Floodable Infrastructure,multi_choice,4,NA,NA,b,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,1
+OF10,Internal Flow Distance,multi_choice,6,NA,NA,f,NA,f,f,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,4
+OF11,Wetland as a % of Its Contributing Area (Catchment),multi_choice,4,NoCA,OF11_4==1,f,b,f/b,f/b,f,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,8
+OF12,Unvegetated Surface in the WAU,multi_choice,3,NA,NA,b,b,b,b,NA,NA,NA,f,NA,f,f,NA,NA,NA,f,f,NA,NA,f,10
 OF13,Conservation Investment,binary,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,NA,NA,1
 OF14,Sustained Scientific Use,binary,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,NA,NA,1
 OF15,Burned,binary,1,NA,NA,NA,NA,b,NA,NA,f,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,4
 OF16,Karst Geology,binary,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,2
 OF17,Geology Faults,binary,1,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,1
 OF18,Lakes within 2km,binary,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,NA,NA,NA,NA,b,NA,NA,3
-OF19,Wetlands and Lakes within 2km,multi-choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,f/b,f/b,f/b,f,NA,NA,s,NA,10
-OF20,Fish Occurance,multi-response,5,Fishless,OF20_5==1,NA,NA,NA,NA,NA,NA,NA,f,NA,f,f,f,f,f,NA,NA,b,NA,NA,7
+OF19,Wetlands and Lakes within 2km,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,f/b,f/b,f/b,f,NA,NA,s,NA,10
+OF20,Fish Occurance,multiresponse_numeric,5,Fishless,OF20_5==1,NA,NA,NA,NA,NA,NA,NA,f,NA,f,f,f,f,f,NA,NA,b,NA,NA,7
 OF21,Ecological Designation,binary,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,NA,b,NA,NA,3
 OF22,Protection from Intensive Uses,binary,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,NA,NA,NA,f,3
-OF23,BGC Protection Percentage,multi-choice,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,NA,b,NA,NA,2
-OF24,Species of Conservation Concern,multi-response,4,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,f/b,NA,f/b,f/b,b,NA,s,NA,10
+OF23,BGC Protection Percentage,multi_choice,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,NA,b,NA,NA,2
+OF24,Species of Conservation Concern,multiresponse_binary,4,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,f/b,NA,f/b,f/b,b,NA,s,NA,10
 OF25,Local Moisture Deficit,numeric,1,NA,NA,b,b,b,b,NA,f,f,f,b,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,8
 OF26,Degree Days Index,numeric,1,NA,NA,f,b,f,f,f,NA,f,f,NA,NA,f,f,f,NA,NA,NA,NA,s,NA,11
 OF27,Local Solar Input,numeric,1,NA,NA,NA,b,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2
-OF28,Site Index,multi-choice,5,NA,NA,NA,NA,NA,b,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2
+OF28,Site Index,multi_choice,5,NA,NA,NA,NA,NA,b,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2
 OF29,Topographic Position,category,1,NA,NA,NA,f,b,b,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,3
-OF30,Road Density within AA's buffer,multi-choice,3,NA,NA,b,b,b,b,NA,NA,NA,NA,NA,f,f,NA,NA,NA,f,NA,b,NA,f,9
-OF31,Road Density within 2kms if the AA,multi-choice,3,NA,NA,NA,NA,b,b,NA,NA,NA,NA,NA,NA,f,NA,f,NA,NA,NA,b,NA,f,6
-OF32,Intactness of landscape within 2kms,multi-choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,f,f,f,f/b,NA,s,f,8
-OF33,Mature & Old Growth Forest within 2km,multi-choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,f,NA,f,NA,NA,NA,NA,3
-OF34,Land Cover Type Uniqueness,multi-choice,3,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,b,NA,NA,NA,NA,2
+OF30,Road Density within AA's buffer,multi_choice,3,NA,NA,b,b,b,b,NA,NA,NA,NA,NA,f,f,NA,NA,NA,f,NA,b,NA,f,9
+OF31,Road Density within 2kms if the AA,multi_choice,3,NA,NA,NA,NA,b,b,NA,NA,NA,NA,NA,NA,f,NA,f,NA,NA,NA,b,NA,f,6
+OF32,Intactness of landscape within 2kms,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,f,f,f,f/b,NA,s,f,8
+OF33,Mature & Old Growth Forest within 2km,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,f,NA,f,NA,NA,NA,NA,3
+OF34,Land Cover Type Uniqueness,multi_choice,3,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,b,NA,NA,NA,NA,2
 OF35,Maximum Dominance of a Land Cover type,numeric,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,b,NA,NA,NA,NA,2
-OF36,Number of Land Cover types in the AA + 100m buffer,multi-choice,4,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,f,f/b,b,f/b,NA,NA,NA,7
-OF37,Number of Land Cover Types within 2km,multi-choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f/b,b,f/b,NA,NA,NA,6
-OF38,Deciduous within the AA plus 100m buffer,multi-choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,2
-OF39,Closed Coniferous within the AA + 100m buffer,multi-choice,5,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,3
-OF40,Non-tree Vegetation within the AA plus 100m buffer,multi-choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,1
-OF41,Disturbed Percentage in the Watershed Assessment Unit (WAU),multi-choice,5,NA,NA,b,b,b,b,NA,NA,NA,f,NA,f,NA,NA,NA,NA,f,NA,NA,s,f,9
-OF42,Road density in the WAU,multi-choice,3,NA,NA,b,b,b,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,f,NA,NA,NA,f,6
-OF43,Wetland density in the WAU,multi-choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,f/b,NA,f/b,1,NA,NA,s,NA,8
-OF44,Ecoprovince,multi-choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,ALL
-F1,Vegetation Height & Form Diversity,multi-response,6,NA,NA,NA,f,NA,NA,f,f,NA,f,f/b,NA,NA,NA,f,f,f,NA,NA,s,NA,10
-F2,Height Class Interspersion,multi-choice,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,f,NA,NA,NA,NA,3
-F3,Woody Diameter Classes,multi-response,8,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,2
-F4,Dominance of Most Abundant Shrub Genera,multi-response,3,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,NA,NA,NA,NA,2
-F5,Tall Willow Cover,multi-choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,NA,f,NA,NA,NA,3
-F6,Flowering Shrub,multi-choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,f,NA,NA,NA,2
-F7,Berry-producing Shrubs,multi-choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,b,NA,NA,NA,NA,3
-F8,Large Snags,multi-choice,3,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,f,NA,f,NA,NA,NA,3
-F9,Downed Wood,multi-choice,4,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,f,NA,NA,NA,2
-F10,Dense Moss Extent,multi-choice,5,NA,NA,NA,f,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,s,NA,4
-F11,Forb Cover,multi-choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,f,NA,NA,NA,3
-F12,Tussock Cover,multi-choice,4,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,2
-F13,Invasive Plant Cover,multi-choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,s,NA,2
-F14,N Fixers,multi-choice,5,NA,NA,NA,NA,NA,NA,b,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,s,NA,3
-F15,Percent Bare Ground,multi-choice,5,NA,NA,f,f,f,f,f,f,NA,f,f,NA,f,NA,NA,NA,NA,f,NA,s,NA,11
-F16,Shallow water+ bare Saturated Substrate,multi-choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,1
-F17,Soil Surface Texture,multi-choice,5,NA,NA,f,f,NA,f,f,f,f,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,s,NA,8
-F18,Microtopography (ground irregularity),multi-choice,3,NA,NA,f,NA,f,f,f,NA,NA,NA,NA,NA,f,NA,NA,NA,f,f,NA,NA,NA,7
-F19,Percent always without surface water,multi-choice,6,"AllWater,NeverWater","F19_1==1,F19_6==1",NA,f,b,NA,f,NA,NA,f,f,f,NA,NA,NA,NA,f,NA,NA,NA,NA,7
-F20,Percent flooded only seasonally,multi-choice,5,NoSeasonal,F20_1==1,f,NA,f,NA,f,NA,NA,f,NA,NA,NA,NA,NA,f,f,NA,NA,s,NA,7
-F21,Percent with Persistent Surface Water,multi-choice,6,"NoPersis,TempWet,AllPermW","F21_1==1,F21_2==1,F21_6==1",f,NA,NA,f,f,NA,NA,NA,f,f,f,f,f,f,NA,f,NA,NA,NA,10
+OF36,Number of Land Cover types in the AA + 100m buffer,multi_choice,4,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,f,f/b,b,f/b,NA,NA,NA,7
+OF37,Number of Land Cover Types within 2km,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f/b,b,f/b,NA,NA,NA,6
+OF38,Deciduous within the AA plus 100m buffer,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,2
+OF39,Closed Coniferous within the AA + 100m buffer,multi_choice,5,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,3
+OF40,Non-tree Vegetation within the AA plus 100m buffer,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,1
+OF41,Disturbed Percentage in the Watershed Assessment Unit (WAU),multi_choice,5,NA,NA,b,b,b,b,NA,NA,NA,f,NA,f,NA,NA,NA,NA,f,NA,NA,s,f,9
+OF42,Road density in the WAU,multi_choice,3,NA,NA,b,b,b,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,f,NA,NA,NA,f,6
+OF43,Wetland density in the WAU,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,f/b,NA,f/b,1,NA,NA,s,NA,8
+OF44,Ecoprovince,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,ALL
+F1,Vegetation Height & Form Diversity,multiresponse_numeric,6,NA,NA,NA,f,NA,NA,f,f,NA,f,f/b,NA,NA,NA,f,f,f,NA,NA,s,NA,10
+F2,Height Class Interspersion,multi_choice,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,f,NA,NA,NA,NA,3
+F3,Woody Diameter Classes,multiresponse_binary,8,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,2
+F4,Dominance of Most Abundant Shrub Genera,multi_choice,3,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,NA,NA,NA,NA,2
+F5,Tall Willow Cover,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,NA,f,NA,NA,NA,3
+F6,Flowering Shrub,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,f,NA,NA,NA,2
+F7,Berry-producing Shrubs,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,b,NA,NA,NA,NA,3
+F8,Large Snags,multi_choice,3,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,f,NA,f,NA,NA,NA,3
+F9,Downed Wood,multi_choice,4,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,f,NA,NA,NA,2
+F10,Dense Moss Extent,multi_choice,5,NA,NA,NA,f,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,s,NA,4
+F11,Forb Cover,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,f,NA,NA,NA,3
+F12,Tussock Cover,multi_choice,4,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,2
+F13,Invasive Plant Cover,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,s,NA,2
+F14,N Fixers,multi_choice,5,NA,NA,NA,NA,NA,NA,b,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,s,NA,3
+F15,Percent Bare Ground,multi_choice,5,NA,NA,f,f,f,f,f,f,NA,f,f,NA,f,NA,NA,NA,NA,f,NA,s,NA,11
+F16,Shallow water+ bare Saturated Substrate,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,1
+F17,Soil Surface Texture,multi_choice,5,NA,NA,f,f,NA,f,f,f,f,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,s,NA,8
+F18,Microtopography (ground irregularity),multi_choice,3,NA,NA,f,NA,f,f,f,NA,NA,NA,NA,NA,f,NA,NA,NA,f,f,NA,NA,NA,7
+F19,Percent always without surface water,multi_choice,6,"AllWater,NeverWater","F19_1==1,F19_6==1",NA,f,b,NA,f,NA,NA,f,f,f,NA,NA,NA,NA,f,NA,NA,NA,NA,7
+F20,Percent flooded only seasonally,multi_choice,5,NoSeasonal,F20_1==1,f,NA,f,NA,f,NA,NA,f,NA,NA,NA,NA,NA,f,f,NA,NA,s,NA,7
+F21,Percent with Persistent Surface Water,multi_choice,6,"NoPersis,TempWet,AllPermW","F21_1==1,F21_2==1,F21_6==1",f,NA,NA,f,f,NA,NA,NA,f,f,f,f,f,f,NA,f,NA,NA,NA,10
 F22,Fringe Wetland,binary,1,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,f,NA,NA,f,NA,NA,NA,NA,b,NA,NA,4
 F23,Lacustrine Wetland,numeric,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,NA,f,f,NA,NA,NA,b,NA,NA,5
-F24,Percent of summertime water that is shaded,multi-choice,5,NA,NA,NA,f,NA,NA,NA,NA,NA,f,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,3
-F25,Surface Water Fluctuation Range,multi-choice,5,HiFlucW,F25_5==1,f,NA,f,f,f,NA,NA,f,NA,NA,f,NA,f,NA,NA,NA,NA,NA,NA,7
-F26,Predominent Depth Class,multi-choice,5,TooShallow,F26_1==1,NA,f,f,f,NA,NA,NA,f,NA,f,NA,NA,f,NA,f,NA,NA,s,NA,8
-F27,Ponded Water,multi-choice,6,NoPond,F27_1==1,f,f,f,f,f,NA,NA,NA,NA,NA,f,f,NA,NA,NA,NA,NA,NA,NA,7
-F28,Non-vegetated Aquatic Cover,multi-choice,3,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,NA,NA,NA,NA,NA,NA,NA,NA,2
-F29,Largest Deep Ponded Water (as acreage),multi-choice,6,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,f,f,NA,NA,NA,NA,NA,NA,4
-F30,Largest Deep Ponded Water (as percentage of the AA),multi-choice,6,NoDeepPonded,F30_1==1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,NA,NA,NA,NA,NA,NA,NA,2
-F31,Open Water Extent,multi-choice,6,NoOW,F31_1==1,NA,f,NA,NA,NA,NA,NA,NA,f,f,NA,f,NA,NA,NA,NA,b,NA,NA,5
-F32,Distance Across Longest Open Water (Fetch),multi-choice,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,f,NA,f,NA,NA,NA,NA,NA,3
-F33,Distance from Open Water to Upland (Vegetated Width),multi-choice,6,NA,NA,NA,f,f,f,f,NA,NA,NA,NA,NA,f,f,f,f,f,NA,NA,s,NA,10
-F34,Distance from Open Water to Tall & Dense Woody Cover,multi-choice,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,1
-F35,Interspersion of Inundated Vegetation & Open Water,multi-choice,4,NA,NA,NA,NA,f,f,f,NA,f,f,NA,f,f,f,NA,f,NA,NA,NA,NA,NA,9
-F36,Steep Shoreline Extent,multi-choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,1
-F37,Inundated Erect Vegetation,multi-choice,6,NA,NA,NA,NA,f,NA,NA,NA,NA,f,NA,NA,f,f,f,NA,NA,NA,NA,NA,NA,5
-F38,Submerged & Floating-leaved Aquatics,multi-choice,3,NA,NA,NA,NA,NA,f,NA,NA,NA,f,NA,f,f,f,f,NA,f,NA,b,NA,NA,8
-F39,Water Colour,multi-choice,4,NA,NA,NA,NA,b,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2
-F40,Channel Connection & Outflow Duration,multi-choice,5,"NoOutletX,NoOutlet","F40_4==1,F40_5==1",f,f,f,f,f,f,f,f,NA,f,NA,NA,NA,NA,NA,f,NA,s,NA,11
-F41,Outflow Confinement & Artificial Drainage,multi-choice,4,NA,NA,f,NA,f,f,f,f,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,s,f,8
+F24,Percent of summertime water that is shaded,multi_choice,5,NA,NA,NA,f,NA,NA,NA,NA,NA,f,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,3
+F25,Surface Water Fluctuation Range,multi_choice,5,HiFlucW,F25_5==1,f,NA,f,f,f,NA,NA,f,NA,NA,f,NA,f,NA,NA,NA,NA,NA,NA,7
+F26,Predominent Depth Class,multi_choice,5,TooShallow,F26_1==1,NA,f,f,f,NA,NA,NA,f,NA,f,NA,NA,f,NA,f,NA,NA,s,NA,8
+F27,Ponded Water,multi_choice,6,NoPond,F27_1==1,f,f,f,f,f,NA,NA,NA,NA,NA,f,f,NA,NA,NA,NA,NA,NA,NA,7
+F28,Non-vegetated Aquatic Cover,multi_choice,3,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,NA,NA,NA,NA,NA,NA,NA,NA,2
+F29,Largest Deep Ponded Water (as acreage),multi_choice,6,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,f,f,NA,NA,NA,NA,NA,NA,4
+F30,Largest Deep Ponded Water (as percentage of the AA),multi_choice,6,NoDeepPonded,F30_1==1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,NA,NA,NA,NA,NA,NA,NA,2
+F31,Open Water Extent,multi_choice,6,NoOW,F31_1==1,NA,f,NA,NA,NA,NA,NA,NA,f,f,NA,f,NA,NA,NA,NA,b,NA,NA,5
+F32,Distance Across Longest Open Water (Fetch),multi_choice,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,f,NA,f,NA,NA,NA,NA,NA,3
+F33,Distance from Open Water to Upland (Vegetated Width),multi_choice,6,NA,NA,NA,f,f,f,f,NA,NA,NA,NA,NA,f,f,f,f,f,NA,NA,s,NA,10
+F34,Distance from Open Water to Tall & Dense Woody Cover,multi_choice,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,1
+F35,Interspersion of Inundated Vegetation & Open Water,multi_choice,4,NA,NA,NA,NA,f,f,f,NA,f,f,NA,f,f,f,NA,f,NA,NA,NA,NA,NA,9
+F36,Steep Shoreline Extent,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,1
+F37,Inundated Erect Vegetation,multi_choice,6,NA,NA,NA,NA,f,NA,NA,NA,NA,f,NA,NA,f,f,f,NA,NA,NA,NA,NA,NA,5
+F38,Submerged & Floating-leaved Aquatics,multi_choice,3,NA,NA,NA,NA,NA,f,NA,NA,NA,f,NA,f,f,f,f,NA,f,NA,b,NA,NA,8
+F39,Water Colour,multi_choice,4,NA,NA,NA,NA,b,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2
+F40,Channel Connection & Outflow Duration,multi_choice,5,"NoOutletX,NoOutlet","F40_4==1,F40_5==1",f,f,f,f,f,f,f,f,NA,f,NA,NA,NA,NA,NA,f,NA,s,NA,11
+F41,Outflow Confinement & Artificial Drainage,multi_choice,4,NA,NA,f,NA,f,f,f,f,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,s,f,8
 F42,Tributary Channel or Floodplain,binary,1,Inflow,F42_1==1,NA,NA,b,b,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,4
-F43,Throughflow Resistance,multi-choice,5,NA,NA,f,NA,f,f,f,NA,f,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,6
-F44,Internal Gradient,multi-choice,4,NA,NA,f,NA,f,f,f,NA,f,NA,NA,NA,f,f,NA,NA,NA,NA,NA,NA,NA,7
-F45,pH Measurement,numeric/binary,3,NA,NA,NA,NA,NA,f,f,f,NA,f,NA,f,f,NA,NA,NA,NA,NA,NA,s,NA,7
-F46a,Conductivity (EC),numeric/binary,1,NA,NA,NA,f,NA,b,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,s,NA,4
-F46b,TDS,numeric/binary,1,NA,NA,NA,f,NA,b,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,s,NA,4
-F47,Groundwater Input Probability,multi-choice,3,NA,NA,f,f,NA,NA,f,NA,f,f,NA,f,NA,NA,NA,NA,f,NA,NA,NA,NA,6
-F48,Beaver Probability,multi-choice,3,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,f,f,f,f,f,NA,NA,s,NA,7
+F43,Throughflow Resistance,multi_choice,5,NA,NA,f,NA,f,f,f,NA,f,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,6
+F44,Internal Gradient,multi_choice,4,NA,NA,f,NA,f,f,f,NA,f,NA,NA,NA,f,f,NA,NA,NA,NA,NA,NA,NA,7
+F45,pH Measurement,multi_choice_numeric,3,NA,NA,NA,NA,NA,f,f,f,NA,f,NA,f,f,NA,NA,NA,NA,NA,NA,s,NA,7
+F46a,Conductivity (EC),numeric,1,NA,NA,NA,f,NA,b,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,s,NA,4
+F46b,TDS,numeric,1,NA,NA,NA,f,NA,b,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,s,NA,4
+F47,Groundwater Input Probability,multi_choice,3,NA,NA,f,f,NA,NA,f,NA,f,f,NA,f,NA,NA,NA,NA,f,NA,NA,NA,NA,6
+F48,Beaver Probability,multi_choice,3,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,f,f,f,f,f,NA,NA,s,NA,7
 F49,Disturbance in Wetland Buffer,binary,1,Disturb,F49_1==1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,b?,NA,NA,NA,2
-F50,Vegetated Buffer Along Perimeter,multi-choice,5,NA,NA,NA,b,b,b,NA,NA,NA,NA,NA,f,f,f,f,f,f,f,NA,s,f,12
-F51,Type of Cover in Buffer,multi-choice,3,NA,NA,NA,NA,b,b,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,3
-F52,Buffer Slope,multi-choice,4,NA,NA,NA,NA,b,b,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2
-F53,"Distance to Steep Bank, Bridge, Building",multi-choice,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,f,NA,NA,NA,2
-F54,Domestic Well Proximity,multi-choice,6,NA,NA,NA,NA,NA,NA,b,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,NA,NA,2
-F55,Fire History,multi-choice,7,NA,NA,NA,NA,b,NA,NA,f,NA,f,f,NA,NA,NA,f,NA,f,NA,NA,NA,f,7
-F56,Non-consumptive Uses - Actual or Potential,multi-response,3,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,NA,b,NA,b,NA,NA,b,NA,NA,4
-F57,Consumptive Uses (Provisioning Services),multi-response,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,NA,b,b,NA,b,NA,b,NA,NA,5
-F58,Focal Species Presence,multi-response,10,"FishFound,Moose,Beaver,Muskrat,Bear,Caribou","F58_1==1,F58_2==1,F58_3==1,F58_4==1,F58_5==1,F58_6==1",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,f/b,f,f/b,f/b,NA,NA,s,NA,10
-F59,Wetland Plant Associations,plant list,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,1
+F50,Vegetated Buffer Along Perimeter,multi_choice,5,NA,NA,NA,b,b,b,NA,NA,NA,NA,NA,f,f,f,f,f,f,f,NA,s,f,12
+F51,Type of Cover in Buffer,multi_choice,3,NA,NA,NA,NA,b,b,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,3
+F52,Buffer Slope,multi_choice,4,NA,NA,NA,NA,b,b,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2
+F53,"Distance to Steep Bank, Bridge, Building",multi_choice,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,f,NA,NA,NA,2
+F54,Domestic Well Proximity,multi_choice,6,NA,NA,NA,NA,NA,NA,b,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,NA,NA,2
+F55,Fire History,multi_choice,7,NA,NA,NA,NA,b,NA,NA,f,NA,f,f,NA,NA,NA,f,NA,f,NA,NA,NA,f,7
+F56,Non-consumptive Uses - Actual or Potential,multiresponse_binary,3,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,NA,b,NA,b,NA,NA,b,NA,NA,4
+F57,Consumptive Uses (Provisioning Services),multiresponse_binary,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,NA,b,b,NA,b,NA,b,NA,NA,5
+F58,Focal Species Presence,multiresponse_binary,10,"FishFound,Moose,Beaver,Muskrat,Bear,Caribou","F58_1==1,F58_2==1,F58_3==1,F58_4==1,F58_5==1,F58_6==1",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,f/b,f,f/b,f/b,NA,NA,s,NA,10
+F59,Wetland Plant Associations,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,1
 S1,Altered Timing of Water Inputs,multi-response,NA,NA,NA,NA,b,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,f,NA,NA,NA,f,4
 S2,Accelerated Input of Nutrients,multi-response,NA,NA,NA,NA,NA,NA,b,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,f,4
 S3,Accelerated Inputs of Contaminants and/or Salts,multi-response,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,f,2
