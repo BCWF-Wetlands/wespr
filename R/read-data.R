@@ -40,11 +40,12 @@ record_values <- function(data) {
   questions <- make_core_questions()
   lapply(questions, function(question) {
     values <- data$site_1[data$q_no == question$no]
-    question$value <- question$validator(values)
+    question$value <- as.list(question$validator(values))
     if (!exists("response_no", question)) {
       # This only applies to Q F2
       question$response_no <- paste(question$no, seq(1, length(values)), sep = "_")
     }
+    names(question$value) <- question$response_no
     question
   })
 }
