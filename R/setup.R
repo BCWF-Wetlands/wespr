@@ -107,12 +107,22 @@ make_core_questions <- function() {
   q_list <- lapply(split(core_questions, core_questions$no), as.list)
 
   format_q_list <- function(q) {
+    # convert the columns of indicators that have a value (f,b,f/b)
+    # into a vector containing the indicators the question pertains to
     q$used_by <- Filter(Negate(is.na), unlist(q[indicator_names()]))
     q$no_indicators <- length(q$used_by)
+
+    # get rid of the original indicator columns since they're now stored
+    # in `used_by`
     q <- q[setdiff(names(q), indicator_names())]
+
+    # An empty vector to hold responses
     if (length(q$n_responses) > 0 && !is.na(q$n_responses)) {
       q$value <- rep(NA, q$n_responses)
     }
+
+    # get the validator function by matching the type with
+    # the validator list
     q$validator = validators[[q$type]](q$n_responses)
     q
   }

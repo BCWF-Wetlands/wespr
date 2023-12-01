@@ -1,7 +1,9 @@
 ## Validators
 ## These ensure that the values being input from the questions are of
 ## the right type and length, and within the right range. They are used in the
-## `record_values()` function
+## `record_values()` function.
+## Each validator must have n as its first argument, even if the question is a
+## single response, to keep the pattern generalizable
 validators <- list(
 
   multi_choice = function(n) {
