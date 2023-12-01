@@ -15,7 +15,7 @@ data <- load_wesp_data(system.file("input_data/wetflat.csv", package = "wespr"))
 
 core_questions <- record_values(data)
 
-derived_values <- derive_values(core_questions)
+derived_values <- make_derived_values(core_questions)
 
 fr_qs <- fn(core_questions, weights, fn = "FR")
 
