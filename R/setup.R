@@ -123,7 +123,12 @@ make_core_questions <- function() {
 
     # get the validator function by matching the type with
     # the validator list
-    q$validator = validators[[q$type]](q$n_responses)
+    q$validator = validators[[q$type]](q$no, q$n_responses)
+
+    if (grepl("^S", q$no)) {
+      q$sum <- NA_integer_
+      q$stressor_subscore <- NA_integer_
+    }
     q
   }
 
