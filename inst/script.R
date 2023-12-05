@@ -33,6 +33,9 @@ site <- as.wesp_site(data)
 
 indicator(site, "cs")
 
+get_q(site, "F1_1")
+get_q(site, "NeverWater")
+
 # Next:
 # - For ecosystem service calculation:
 #     - filter questions list by used_by

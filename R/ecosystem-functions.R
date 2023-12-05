@@ -9,7 +9,7 @@ fn <- function(responses, weights, fn) {
 
 indicator <- function(site, ind) {
   check_wesp_site(site)
-  qs <- Filter(\(x) ind %in% names(x$used_by), site)
+  qs <- Filter(\(x) ind %in% names(x$used_by), site$questions)
   qs <- lapply(qs, \(x) x[c("no", "question", "response_no", "value")])
   dplyr::bind_rows(qs)
 }
@@ -22,7 +22,7 @@ get_q <- function(wesp_site, q_no) {
   }
 
   q <- strsplit(q_no, split = "_")[[1]][1]
-  wesp_site[[q]]$value[[q_no]]
+  wesp_site$questions[[q]]$value[[q_no]]
 }
 
 
