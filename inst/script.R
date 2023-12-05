@@ -7,7 +7,7 @@ library(dplyr)
 # library(wespr)
 
 # get weights table
-# weights <- read_csv("inst/input_data/weights.csv")
+weightings <- read_csv("inst/input_data/weightings.csv")
 
 # read in data and filter to questions we have implemented, and just one site:
 data <- load_wesp_data(system.file("input_data/wetflat.csv", package = "wespr")) |>
@@ -29,15 +29,11 @@ data <- data |>
   ) |>
   arrange(q_no)
 
-core_questions <- record_values(data)
+site <- as.wesp_site(data)
 
-derived_values <- make_derived_values(core_questions)
-
-fr_qs <- fn(core_questions, weights, fn = "FR")
+indicator(site, "cs")
 
 # Next:
-# - Add questions that create derived values (always_water etc) and generate
-#   "derived_values" list
 # - For ecosystem service calculation:
 #     - filter questions list by used_by
 #     - filter derived_values list by used_by

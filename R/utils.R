@@ -10,3 +10,10 @@ names_from_value <- function(x, value) {
 }
 
 `%||%` <- function(x, y) if (is.null(x)) y else x
+
+check_wesp_site <- function(x) {
+  if (!inherits(x, "wesp_site")) {
+    stop("site must be an object of class 'wesp_site', created with `as.wesp_site`",
+         call. = FALSE)
+  }
+}

@@ -73,3 +73,11 @@ indicator_names <- function() {
     "am", "wb", "kmh", "rsb", "pd", "pol", "cri", "sens", "str")
 }
 
+as.wesp_site <- function(data) {
+  questions <- record_values(data)
+  derived_values <- make_derived_values(questions)
+  site <- c(questions, derived_values = list(derived_values))
+  class(site) <- "wesp_site"
+  site
+}
+
