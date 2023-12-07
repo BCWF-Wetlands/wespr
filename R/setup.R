@@ -40,6 +40,15 @@ make_core_questions <- function() {
   lapply(q_list, format_q_list)
 }
 
+
+#' Calculate derived values from question responses
+#'
+#' Examples are `all_water`, `never_water`, etc.
+#'
+#' @param cq an object resulting from running [record_values()]
+#'
+#' @return A named numeric vector containing derived values.
+#' @noRd
 make_derived_values <- function(cq) {
   derived_vals <- unname(lapply(cq, function(q) {
     if (!is.na(q$unique_values)) {

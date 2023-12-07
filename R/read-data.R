@@ -50,17 +50,3 @@ record_values <- function(data) {
   })
 }
 
-#' Calculate derived values from question responses
-#'
-#' Examples are `all_water`, `never_water`, etc.
-#'
-#' @param questions an object resulting from running [record_values()]
-#'
-#' @return A `list` object containing derived values and their metadata.
-#' @export
-derive_values <- function(questions) {
-  lapply(empty_derived_values(), function(item) {
-    item$value <- item$generator(questions)
-    item
-  })
-}
