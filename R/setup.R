@@ -55,7 +55,7 @@ make_derived_values <- function(cq) {
       extract_unique_values(q)
     }
   }))
-  unlist(derived_vals)
+  as.numeric(unlist(derived_vals))
 }
 
 extract_unique_values <- function(x) {
