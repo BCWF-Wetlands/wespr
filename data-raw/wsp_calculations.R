@@ -19,9 +19,12 @@ all_indicators <- read_sheet(tmp_xl_gs, sheet = "all_indicators", col_types = "c
   filter(!is.na(no)) |>
   select(-starts_with("x"))
 
-weightings <- read_sheet(tmp_xl_gs, sheet = "weightings",
-                         .name_repair = make_clean_names) |>
-  select(-starts_with("x"))
+weightings <- read_sheet(
+  tmp_xl_gs,
+  sheet = "weightings",
+  .name_repair = make_clean_names,
+  col_types = "_ccccncccncc__"
+)
 
 drive_rm(tmp_xl_gs)
 
