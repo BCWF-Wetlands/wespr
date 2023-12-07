@@ -1,4 +1,4 @@
-q_no,response_no,q_text,q_responses,q_weighting,indicator,output_name,type_f_b,rough_percent_contribution,dependancies,checked
+q_no,response_no,q_text,q_responses,q_weighting,indicator,output_name,type_f_b,rough_percent_contribution,dependencies,checked
 OF1,OF1_1,Distance to Community,<100 m,8,FR,DistTown7v,Benefit,24,NA,1
 OF1,OF1_2,Distance to Community,100 - 500 m,6,FR,DistTown7v,Benefit,24,NA,1
 OF1,OF1_3,Distance to Community,0.5 - 1 km,2,FR,DistTown7v,Benefit,24,NA,1
