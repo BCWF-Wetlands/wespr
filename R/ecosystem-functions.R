@@ -16,10 +16,11 @@ indicator <- function(site, weights, ind) {
     response_no = names(site$derived_values),
     value = unname(site$derived_values)
   )
+
   qs_df <- dplyr::bind_rows(qs)
   qs_df$value <- vapply(qs_df$value, function(x) {
-    unname(as.numeric(x))
-  }, FUN.VALUE = numeric(1))
+    as.numeric(x)
+  }, FUN.VALUE = numeric(1), USE.NAMES = FALSE)
 
   all_resps <- dplyr::bind_rows(qs_df, derived_values)
 
