@@ -17,3 +17,8 @@ check_wesp_site <- function(x) {
          call. = FALSE)
   }
 }
+
+max_na <- function(...) max(..., na.rm = TRUE)
+min_na <- function(...) min(..., na.rm = TRUE)
+mean_na <- function(x, trim = 0, ...) mean(x, trim = trim, na.rm = TRUE, ...)
+sum_na <- function(...) sum(..., na.rm = TRUE)
