@@ -53,7 +53,7 @@ wt_max <- function(indicator_data, question, type_f_b = c("function", "benefit")
   data <- dplyr::filter(
     indicator_data,
     .data$no == {{question}},
-    tolower(type_f_b) == tolower(type_f_b)
+    tolower(.data$type_f_b) == tolower(type_f_b)
   )
 
   st <- max_na(data$value * data$q_weighting) / max_na(data$q_weighting)
