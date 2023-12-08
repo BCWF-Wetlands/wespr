@@ -42,7 +42,7 @@ OF40,Non-tree Vegetation within the AA plus 100m buffer,multi_choice,5,NA,NA,NA,
 OF41,Disturbed Percentage in the Watershed Assessment Unit (WAU),multi_choice,5,NA,NA,b,b,b,b,NA,NA,NA,f,NA,f,NA,NA,NA,NA,f,NA,NA,s,f,9
 OF42,Road density in the WAU,multi_choice,3,NA,NA,b,b,b,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,f,NA,NA,NA,f,6
 OF43,Wetland density in the WAU,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,f/b,NA,f/b,1,NA,NA,s,NA,8
-OF44,Ecoprovince,multi_choice,5,"GDeco,CMeco,SIMeco,BPeco,TPeco","OF44_1==1,OF44_2==1,OF44_3==1,OF44_4==1,OF44_5==1",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,ALL
+OF44,Ecoprovince,multi_choice,5,GDeco;CMeco;SIMeco;BPeco;TPeco,OF44_1==1;OF44_2==1;OF44_3==1;OF44_4==1;OF44_5==1,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,ALL
 F1,Vegetation Height & Form Diversity,multiresponse_numeric,6,NA,NA,NA,f,NA,NA,f,f,NA,f,f/b,NA,NA,NA,f,f,f,NA,NA,s,NA,10
 F2,Height Class Interspersion,multi_choice,4,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,f,NA,NA,NA,NA,3
 F3,Woody Diameter Classes,multiresponse_binary,8,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,2
@@ -61,9 +61,9 @@ F15,Percent Bare Ground,multi_choice,5,NA,NA,f,f,f,f,f,f,NA,f,f,NA,f,NA,NA,NA,NA
 F16,Shallow water+ bare Saturated Substrate,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,1
 F17,Soil Surface Texture,multi_choice,5,NA,NA,f,f,NA,f,f,f,f,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,s,NA,8
 F18,Microtopography (ground irregularity),multi_choice,3,NA,NA,f,NA,f,f,f,NA,NA,NA,NA,NA,f,NA,NA,NA,f,f,NA,NA,NA,7
-F19,Percent always without surface water,multi_choice,6,"AllWater,NeverWater","F19_1==1,F19_6==1",NA,f,b,NA,f,NA,NA,f,f,f,NA,NA,NA,NA,f,NA,NA,NA,NA,7
+F19,Percent always without surface water,multi_choice,6,AllWater;NeverWater,F19_1==1;F19_6==1,NA,f,b,NA,f,NA,NA,f,f,f,NA,NA,NA,NA,f,NA,NA,NA,NA,7
 F20,Percent flooded only seasonally,multi_choice,5,NoSeasonal,F20_1==1,f,NA,f,NA,f,NA,NA,f,NA,NA,NA,NA,NA,f,f,NA,NA,s,NA,7
-F21,Percent with Persistent Surface Water,multi_choice,6,"NoPersis,TempWet,AllPermW","F21_1==1,F21_2==1,F21_6==1",f,NA,NA,f,f,NA,NA,NA,f,f,f,f,f,f,NA,f,NA,NA,NA,10
+F21,Percent with Persistent Surface Water,multi_choice,6,NoPersis;TempWet;AllPermW,F21_1==1;F21_2==1;F21_6==1,f,NA,NA,f,f,NA,NA,NA,f,f,f,f,f,f,NA,f,NA,NA,NA,10
 F22,Fringe Wetland,binary,1,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,f,NA,NA,f,NA,NA,NA,NA,b,NA,NA,4
 F23,Lacustrine Wetland,numeric,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,NA,f,f,NA,NA,NA,b,NA,NA,5
 F24,Percent of summertime water that is shaded,multi_choice,5,NA,NA,NA,f,NA,NA,NA,NA,NA,f,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,3
@@ -82,7 +82,7 @@ F36,Steep Shoreline Extent,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 F37,Inundated Erect Vegetation,multi_choice,6,NA,NA,NA,NA,f,NA,NA,NA,NA,f,NA,NA,f,f,f,NA,NA,NA,NA,NA,NA,5
 F38,Submerged & Floating-leaved Aquatics,multi_choice,3,NA,NA,NA,NA,NA,f,NA,NA,NA,f,NA,f,f,f,f,NA,f,NA,b,NA,NA,8
 F39,Water Colour,multi_choice,4,NA,NA,NA,NA,b,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2
-F40,Channel Connection & Outflow Duration,multi_choice,5,"NoOutletX,NoOutlet","F40_4==1,F40_5==1",f,f,f,f,f,f,f,f,NA,f,NA,NA,NA,NA,NA,f,NA,s,NA,11
+F40,Channel Connection & Outflow Duration,multi_choice,5,NoOutletX;NoOutlet,F40_4==1;F40_5==1,f,f,f,f,f,f,f,f,NA,f,NA,NA,NA,NA,NA,f,NA,s,NA,11
 F41,Outflow Confinement & Artificial Drainage,multi_choice,4,NA,NA,f,NA,f,f,f,f,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,s,f,8
 F42,Tributary Channel or Floodplain,binary,1,Inflow,F42_1==1,NA,NA,b,b,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,4
 F43,Throughflow Resistance,multi_choice,5,NA,NA,f,NA,f,f,f,NA,f,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,NA,6
@@ -101,14 +101,14 @@ F54,Domestic Well Proximity,multi_choice,6,NA,NA,NA,NA,NA,NA,b,NA,NA,NA,NA,NA,NA
 F55,Fire History,multi_choice,7,NA,NA,NA,NA,b,NA,NA,f,NA,f,f,NA,NA,NA,f,NA,f,NA,NA,NA,f,7
 F56,Non-consumptive Uses - Actual or Potential,multiresponse_binary,3,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,NA,b,NA,b,NA,NA,b,NA,NA,4
 F57,Consumptive Uses (Provisioning Services),multiresponse_binary,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,NA,b,b,NA,b,NA,b,NA,NA,5
-F58,Focal Species Presence,multiresponse_binary,10,"FishFound,Moose,Beaver,Muskrat,Bear,Caribou","F58_1==1,F58_2==1,F58_3==1,F58_4==1,F58_5==1,F58_6==1",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,f/b,f,f/b,f/b,NA,NA,s,NA,10
+F58,Focal Species Presence,multiresponse_binary,10,FishFound;Moose;Beaver;Muskrat;Bear;Caribou,F58_1==1;F58_2==1;F58_3==1;F58_4==1;F58_5==1;F58_6==1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f/b,f/b,f,f/b,f/b,NA,NA,s,NA,10
 F59,Wetland Plant Associations,multi_choice,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,1
-S1,Altered Timing of Water Inputs,multiresponse_numeric,14,NA,NA,NA,b,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,f,NA,NA,NA,f,4
-S2,Accelerated Input of Nutrients,multiresponse_numeric,8,NA,NA,NA,NA,NA,b,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,f,4
-S3,Accelerated Inputs of Contaminants and/or Salts,multiresponse_numeric,12,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,f,2
-S4,Excessive Sediment Loading from Runoff Contributing Area,multiresponse_numeric,12,NA,NA,NA,NA,b,NA,NA,NA,NA,f,NA,f,f,NA,NA,NA,f,NA,NA,NA,f,6
-S5,Soil or Sediment Alteration within the assessment Area,multiresponse_numeric,12,NA,NA,NA,NA,f,f,f,f,NA,f,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,f,7
-S6,Wildlife Disturbance Potential,multiresponse_numeric,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,f,NA,NA,NA,NA,f,4
+S1,Altered Timing of Water Inputs,multiresponse_numeric,14,S1_sum;S1_subscore,"sum(S1_11, S1_12,S1_13,S1_14);sum(S1_11, S1_12,S1_13,S1_14) / 12",NA,b,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,f,NA,NA,NA,f,4
+S2,Accelerated Input of Nutrients,multiresponse_numeric,8,S2_sum;S2_subscore,"sum(S2_6, S2_7,S2_8);sum(S2_6, S2_7,S2_8)/9",NA,NA,NA,b,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,f,4
+S3,Accelerated Inputs of Contaminants and/or Salts,multiresponse_numeric,12,S3_sum;S3_subscore,"sum(S3_10, S3_11,S3_12);sum(S3_10, S3_11,S3_12)/9",NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,NA,NA,NA,NA,NA,f,2
+S4,Excessive Sediment Loading from Runoff Contributing Area,multiresponse_numeric,12,S4_sum;S4_subscore,"sum(S4_9, S4_10,S4_11,S4_12);sum(S4_9, S4_10,S4_11,S4_12) / 12",NA,NA,b,NA,NA,NA,NA,f,NA,f,f,NA,NA,NA,f,NA,NA,NA,f,6
+S5,Soil or Sediment Alteration within the assessment Area,multiresponse_numeric,12,S5_sum;S5_subscore,"sum(S5_9, S5_10,S5_11,S5_12);sum(S5_9, S5_10,S5_11,S5_12) / 12",NA,NA,f,f,f,f,NA,f,NA,NA,NA,NA,NA,NA,f,NA,NA,NA,f,7
+S6,Wildlife Disturbance Potential,multiresponse_numeric,6,S6_sum;S6_subscore,"sum(S6_5, S6_6);sum(S6_5, S6_6)/6",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,f,f,NA,NA,NA,NA,f,4
 score,FH score,calculated numeric,NA,NA,NA,NA,b,NA,NA,NA,NA,NA,b,NA,NA,NA,NA,NA,NA,NA,NA,b,NA,NA,3
 score,AP score,calculated numeric,NA,NA,NA,NA,NA,NA,NA,NA,NA,f,NA,NA,f,f,f,f,f,f,NA,NA,NA,NA,7
 score,AH score,calculated numeric,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,b,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,1
