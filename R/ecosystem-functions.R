@@ -46,3 +46,18 @@ get_q <- function(wesp_site, q_no) {
   wesp_site$questions[[q]]$value[[q_no]]
 }
 
+wt_max <- function(indicator_data, question, type_f_b = c("function", "benefit")) {
+
+  type_f_b <- match.arg(type_f_b)
+
+  data <- filter(
+    indicator_data,
+    no == {{question}},
+    tolower(type_f_b) == tolower(type_f_b)
+  )
+
+  st <- max_na(data$value * data$q_weighting) / max_na(data$q_weighting)
+
+  return(st)
+
+}
