@@ -30,17 +30,3 @@ data <- data |>
   arrange(q_no)
 
 site <- as.wesp_site(data)
-
-cs_f(site, weightings)
-
-get_q(site, "F1_1")
-get_q(site, "NeverWater")
-
-# Next:
-# - For ecosystem service calculation:
-#     - filter questions list by used_by
-#     - filter derived_values list by used_by
-#     - subset and match weights from weights table
-#     - ... magic
-# - For multi-site, I think each question in the core_questions object can have
-#   a list of values one for each site (rather than a questions object for each site)
