@@ -1,8 +1,8 @@
 cs_f <- function(site, weightings) {
 
-  x <- get_indicator_data(site, weightings, "cs")
-  vals <- get_vals(x)
-  weights <- get_weights(x)
+  indicator_data <- get_indicator_data(site, weightings, "cs")
+  vals <- get_vals(indicator_data)
+  weights <- get_weights(indicator_data)
 
   # OF15 burned # OF15
 
@@ -45,28 +45,28 @@ cs_f <- function(site, weightings) {
   #=MAX(F13:F20)/MAX(E13:E20)
   #<- max(F13:F20) / max(E13:E20)
 
-  treetyp6 <- wt_max(x, "F3", "function")
+  treetyp6 <- wt_max(indicator_data, "F3", "function")
 
 
   # F10 - dense Moss Extent
   #=MAX(F22:F26)/MAX(E22:E26)
 
-  moss6 <- wt_max(x, "F10", "function")
+  moss6 <- wt_max(indicator_data, "F10", "function")
 
   # F15 - Percent Bare Ground
-  gcover6 <- wt_max(x, "F15", "function")
+  gcover6 <- wt_max(indicator_data, "F15", "function")
 
   # F17 - soil surface texture
   #=MAX(F33:F37)/MAX(E33:E37)
 
-  soiltex6 <- wt_max(x, "F17", "function")
+  soiltex6 <- wt_max(indicator_data, "F17", "function")
 
   # F40 - Channel connections and outflows
   #ifelse((D42 + D43) > 0, 1, max(F39:F43) / max(E39:E43))
 
   outdura6 <- ifelse(
     (vals$F40_4 + vals$F40_5) > 0, 1,
-    wt_max(x, "F40", "function")
+    wt_max(indicator_data, "F40", "function")
   )
 
 
@@ -78,7 +78,7 @@ cs_f <- function(site, weightings) {
     vals$NeverWater + vals$TempWet > 0 ~ NA,
     vals$NoOutlet + vals$NoOutletX > 0 ~ NA,
     vals$F41_4 == 1 ~ NA,
-    .default = wt_max(x, "F41", "function")
+    .default = wt_max(indicator_data, "F41", "function")
   )
 
 
@@ -98,7 +98,7 @@ cs_f <- function(site, weightings) {
 
   #Fire history # F55
 
-  fire6 <- wt_max(x, "F55", "function")
+  fire6 <- wt_max(indicator_data, "F55", "function")
 
   # S5 - Soil or Sediment Alteration within the assessment area
 
