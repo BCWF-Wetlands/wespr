@@ -31,7 +31,9 @@ data <- data |>
 
 site <- as.wesp_site(data)
 
-indicator(site, weightings, "cs")
+ind <- indicator(site, weightings, "cs")
+
+cs_func(ind)
 
 get_q(site, "F1_1")
 get_q(site, "NeverWater")

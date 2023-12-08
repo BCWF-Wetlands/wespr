@@ -224,7 +224,7 @@ cs_func <- function(x) {
 
   # S5 - Soil or Sediment Alteration within the assessment area
 
-  soildisturb6 <- vals$S5_14
+  soildisturb6 <- vals$S5_subscore
 
 
   ## Overall CS score
