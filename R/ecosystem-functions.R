@@ -1,15 +1,9 @@
-fn <- function(responses, weights, fn) {
-  qs <- Filter(\(x) fn %in% x$used_by, responses)
-  qs <- lapply(qs, \(x) x[c("q_no", "label", "response_no", "value")])
-  q_df <- dplyr::bind_rows(qs)
-  dplyr::filter(weights, .data$indicator == fn, .data$`type (F/B)` == "function") |>
-    dplyr::select("q_no", "response_no", "q_responses", "Q_weighting") |>
-    dplyr::right_join(q_df, by = c("q_no", "response_no"))
-}
-
-indicator <- function(site, weights, ind) {
+get_indicator_data <- function(site, weights, ind) {
   check_wesp_site(site)
-  qs <- Filter(\(x) ind %in% names(x$used_by), site$questions)
+  qs <- Filter(
+    \(x) ind %in% names(x$used_by),
+    site$questions
+    )
   qs <- lapply(qs, \(x) x[c("no", "question", "response_no", "value")])
   derived_values <- list(
     no = "derived",
@@ -27,6 +21,18 @@ indicator <- function(site, weights, ind) {
   weights <- filter(weights, tolower(indicator) == tolower(ind))
 
   dplyr::left_join(all_resps, weights, by = "response_no")
+}
+
+get_vals <- function(indicator_data) {
+  vals <- as.list(indicator_data$value)
+  names(vals) <- indicator_data$response_no
+  vals
+}
+
+get_weights <- function(indicator_data) {
+  weights <- as.list(indicator_data$q_weighting)
+  names(weights) <- paste0("W", indicator_data$response_no)
+  weights
 }
 
 get_q <- function(wesp_site, q_no) {

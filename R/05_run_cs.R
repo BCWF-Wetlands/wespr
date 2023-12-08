@@ -18,13 +18,11 @@
 
 # # extract questionf and weighting for a particular
 
-cs_func <- function(x) {
+cs_f <- function(site, weightings) {
 
-  vals <- as.list(x$value)
-  names(vals) <- x$response_no
-
-  weights <- as.list(x$q_weighting)
-  names(weights) <- paste0("W", names(vals))
+  x <- get_indicator_data(site, weightings, "cs")
+  vals <- get_vals(x)
+  weights <- get_weights(x)
 
   # OF15 burned # OF15
 
@@ -196,8 +194,6 @@ cs_func <- function(x) {
     pH > 7.5 ~ 0,
     .default = 0.2
   )
-
-
 
   #Fire history # F55
 
