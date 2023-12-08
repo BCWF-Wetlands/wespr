@@ -32,38 +32,11 @@ ws_f <- function(site, weightings) {
 
   # OF10 - internal flow distance
 
-  flodist1 <- max_na(
-    vals$OF10_1 * weights$WOF10_1,
-    vals$OF10_2 * weights$WOF10_2,
-    vals$OF10_3 * weights$WOF10_3,
-    vals$OF10_4 * weights$WOF10_4,
-    vals$OF10_5 * weights$WOF10_5,
-    vals$OF10_6 * weights$WOF10_6
-  ) / max_na(
-    weights$WOF10_1,
-    weights$WOF10_2,
-    weights$WOF10_3,
-    weights$WOF10_4,
-    weights$WOF10_5,
-    weights$WOF10_6,
-    weights$WOF10_7
-  )
+  flodist1 <- wt_max(indicator_data, "OF10", "function")
 
   # OF11 - wetland as % of its contributing area
 
-  wetpctrca1 <- max_na(
-    vals$OF11_1 * weights$WOF11_1,
-    vals$OF11_2 * weights$WOF11_2,
-    vals$OF11_3 * weights$WOF11_3,
-    vals$OF11_4 * weights$WOF11_4
-  ) / max_na(
-    weights$WOF11_1,
-    weights$WOF11_2,
-    weights$WOF11_3,
-    weights$WOF11_4
-  )
-
-
+  wetpctrca1 <- wt_max(indicator_data, "OF11", "function")
 
   # OF 26 - Degree Days Index
 
@@ -92,47 +65,13 @@ ws_f <- function(site, weightings) {
 
   # F15 - Percent Bare Ground
 
-  gcover1 <- max_na(
-    vals$F15_1 * weights$WF15_1,
-    vals$F15_2 * weights$WF15_2,
-    vals$F15_3 * weights$WF15_3,
-    vals$F15_4 * weights$WF15_4
-  ) / max_na(
-    weights$WF15_1,
-    weights$WF15_2,
-    weights$WF15_3,
-    weights$WF15_4
-  )
-
+  gcover1 <- wt_max(indicator_data, "F15", "function")
 
   # F17 - Soil Surface Texture
-  soiltex1 <- max_na(
-    vals$F17_1 * weights$WF17_1,
-    vals$F17_2 * weights$WF17_2,
-    vals$F17_3 * weights$WF17_3,
-    vals$F17_4 * weights$WF17_4,
-    vals$F17_5 * weights$WF17_5
-  ) / max_na(
-    weights$WF17_1,
-    weights$WF17_2,
-    weights$WF17_3,
-    weights$WF17_4,
-    weights$WF17_5
-  )
-
+  soiltex1 <- wt_max(indicator_data, "F17", "function")
 
   # f18 Microtopography
-  girreg1 <- max_na(
-    vals$F18_1 * weights$WF18_1,
-    vals$F18_2 * weights$WF18_2,
-    vals$F18_3 * weights$WF18_3
-  ) / max_na(
-    weights$WF18_1,
-    weights$WF18_2,
-    weights$WF18_3
-  )
-
-
+  girreg1 <- wt_max(indicator_data, "F18", "function")
 
   # F20 Percent only flooded seasonally
   #=IF((NeverWater=1),"",MAX(F33:F37)/MAX(E33:E37))
@@ -140,19 +79,7 @@ ws_f <- function(site, weightings) {
   seaspct1 <- ifelse(
     vals$NeverWater == 1,
     "",
-    max_na(
-      vals$F20_1 * weights$WF20_1,
-      vals$F20_2 * weights$WF20_2,
-      vals$F20_3 * weights$WF20_3,
-      vals$F20_4 * weights$WF20_4,
-      vals$F20_5 * weights$WF20_5
-    ) / max_na(
-      weights$WF20_1,
-      weights$WF20_2,
-      weights$WF20_3,
-      weights$WF20_4,
-      weights$WF20_5
-    )
+    wt_max(indicator_data, "F20", "function")
   )
 
 
@@ -162,21 +89,7 @@ ws_f <- function(site, weightings) {
   permwpct1 <- ifelse(
     vals$NeverWater == 1,
     "",
-    max_na(
-      vals$F21_1 * weights$WF21_1,
-      vals$F21_2 * weights$WF21_2,
-      vals$F21_3 * weights$WF21_3,
-      vals$F21_4 * weights$WF21_4,
-      vals$F21_5 * weights$WF21_5,
-      vals$F21_6 * weights$WF21_6
-    ) / max_na(
-      weights$WF21_1,
-      weights$WF21_2,
-      weights$WF21_3,
-      weights$WF21_4,
-      weights$WF21_5,
-      weights$WF21_6
-    )
+    wt_max(indicator_data, "F21", "function")
   )
 
 
@@ -187,19 +100,7 @@ ws_f <- function(site, weightings) {
   fluctu1 <- dplyr::case_when(
     vals$NeverWater == 1 ~ NA,
     vals$NoPersis == 1 ~ NA,
-    .default = max_na(
-      vals$F25_1 * weights$WF25_1,
-      vals$F25_2 * weights$WF25_2,
-      vals$F25_3 * weights$WF25_3,
-      vals$F25_4 * weights$WF25_4,
-      vals$F25_5 * weights$WF25_5
-    ) / max_na(
-      weights$WF25_1,
-      weights$WF25_2,
-      weights$WF25_3,
-      weights$WF25_4,
-      weights$WF25_5
-    )
+    .default = wt_max(indicator_data, "F25", "function")
   )
 
 
@@ -209,21 +110,7 @@ ws_f <- function(site, weightings) {
   pondpct1 <- dplyr::case_when(
     vals$NeverWater == 1 ~ NA,
     vals$NoPersis == 1 ~ NA,
-    .default = max_na(
-      vals$F27_1 * weights$WF27_1,
-      vals$F27_2 * weights$WF27_2,
-      vals$F27_3 * weights$WF27_3,
-      vals$F27_4 * weights$WF27_4,
-      vals$F27_5 * weights$WF27_5,
-      vals$F27_6 * weights$WF27_6
-    ) / max_na(
-      weights$WF27_1,
-      weights$WF27_2,
-      weights$WF27_3,
-      weights$WF27_4,
-      weights$WF27_5,
-      weights$WF27_6
-    )
+    .default = wt_max(indicator_data, "F27", "function")
   )
 
 
@@ -234,21 +121,7 @@ ws_f <- function(site, weightings) {
     vals$NeverWater == 1 ~ NA,
     vals$NoPersis == 1 ~ NA,
     vals$NoPond == 1 ~ NA,
-    .default = max_na(
-      vals$F29_1 * weights$WF29_1,
-      vals$F29_2 * weights$WF29_2,
-      vals$F29_3 * weights$WF29_3,
-      vals$F29_4 * weights$WF29_4,
-      vals$F29_5 * weights$WF29_5,
-      vals$F29_6 * weights$WF29_6
-    ) / max_na(
-      weights$WF29_1,
-      weights$WF29_2,
-      weights$WF29_3,
-      weights$WF29_4,
-      weights$WF29_5,
-      weights$WF29_6
-    )
+    .default = wt_max(indicator_data, "F29", "function")
   )
 
 
@@ -258,19 +131,7 @@ ws_f <- function(site, weightings) {
   outdura1 <- ifelse(
     (vals$F40_4 + vals$F40_5 > 0),
     outmap1,
-    max_na(
-      vals$F40_1 * weights$WF40_1,
-      vals$F40_2 * weights$WF40_2,
-      vals$F40_3 * weights$WF40_3,
-      vals$F40_4 * weights$WF40_4,
-      vals$F40_5 * weights$WF40_5
-    ) / max_na(
-      weights$WF40_1,
-      weights$WF40_2,
-      weights$WF40_3,
-      weights$WF40_4,
-      weights$WF40_5
-    )
+    wt_max(indicator_data, "F40", "function")
   )
 
 
@@ -282,16 +143,7 @@ ws_f <- function(site, weightings) {
     # (vals$NeverWater + vals$TempWet) > 0 ~ NA,
     (vals$NoOutlet + vals$NoOutletX) > 0 ~ NA,
     vals$F41_4 == 1 ~ NA,
-    .default = max_na(
-      vals$F41_1 * weights$WF41_1,
-      vals$F41_2 * weights$WF41_2,
-      vals$F41_3 * weights$WF41_3
-    ) /
-      max_na(
-        weights$WF41_1,
-        weights$WF41_2,
-        weights$WF41_3
-      )
+    .default = wt_max(indicator_data, "F41", "function")
   )
 
   # F43 - Thoughflow Resistance
@@ -299,21 +151,8 @@ ws_f <- function(site, weightings) {
 
   thruflo1 <- ifelse(
     vals$Inflow == 0 | (vals$NoOutlet + vals$NoOutletX) > 0, NA,
-    max_na(
-      vals$F43_1 * weights$WF43_1,
-      vals$F43_2 * weights$WF43_2,
-      vals$F43_3 * weights$WF43_3,
-      vals$F43_4 * weights$WF43_4,
-      vals$F43_5 * weights$WF43_5
-    ) / max_na(
-      weights$WF43_1,
-      weights$WF43_2,
-      weights$WF43_3,
-      weights$WF43_4,
-      weights$WF43_5
-    )
+    wt_max(indicator_data, "F43", "function")
   )
-
 
   # F44 Internal Gradient
   #=IF((NoOutlet+NoOutletX>0),"",IF((Inflow=1),"",MAX(F83:F86)/MAX(E83:E86)))
@@ -321,32 +160,12 @@ ws_f <- function(site, weightings) {
   gradient1 <- dplyr::case_when(
     (vals$NoOutlet + vals$NoOutletX) > 0 ~ NA,
     vals$Inflow == 1 ~ NA,
-    .default = max_na(
-      vals$F44_1 * weights$WF44_1,
-      vals$F44_2 * weights$WF44_2,
-      vals$F44_3 * weights$WF44_3,
-      vals$F44_4 * weights$WF44_4
-    ) / max_na(
-      weights$WF44_1,
-      weights$WF44_2,
-      weights$WF44_3,
-      weights$WF44_4
-    )
+    .default = wt_max(indicator_data, "F44", "function")
   )
 
   # F47 - gound water input probability
 
-  groundw1 <- max_na(
-    vals$F47_1 * weights$WF47_1,
-    vals$F47_2 * weights$WF47_2,
-    vals$F47_3 * weights$WF47_3
-  ) / max_na(
-    weights$WF47_1,
-    weights$WF47_2,
-    weights$WF47_3
-  )
-
-
+  groundw1 <- wt_max(indicator_data, "F47", "function")
 
   #######################################################
   ## Overall WS Function  score
