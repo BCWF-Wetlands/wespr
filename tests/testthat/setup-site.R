@@ -10,7 +10,7 @@ library(dplyr)
 weightings <- read_csv(system.file("input_data/weightings.csv", package = "wespr"))
 
 # read in data and filter to questions we have implemented, and just one site:
-data <- load_wesp_data(system.file("input_data/wetflat.csv", package = "wespr")) |>
+data <- load_wesp_data("wetflat.csv") |>
   select(q_no, response_no, site_1)
 
 # temporary hack to remove extra calculated rows in some of the S questions in
