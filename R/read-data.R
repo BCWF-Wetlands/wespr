@@ -14,7 +14,7 @@ load_wesp_data <- function(path) {
       dplyr::starts_with("...")
     ) |>
     dplyr::rename(
-      response_no = .data$Question,
+      response_no = "Question",
     ) |>
     dplyr::mutate(
       response_no = dplyr::case_when(
