@@ -14,15 +14,7 @@ cs_f <- function(site, weightings) {
   # 326 in this case
   # need to ask paul how these are calculated?
 
-  wetdef6 <- 1 - dplyr::case_when(
-    vals$OF25_1 <= 0 ~ NA,
-    vals$GDeco == 1 ~ (vals$OF25_1 - 0) / 329,
-    vals$CMeco == 1 ~ (vals$OF25_1 - 0) / 326,
-    vals$SIMeco == 1 ~ (vals$OF25_1 - 0) / 825,
-    vals$BPeco == 1 ~ (vals$OF25_1 - 24) / 381,
-    vals$TPeco == 1 ~ (vals$OF25_1 - 0) / 219,
-    .default = NA
-  )
+  wetdef6 <- 1 - local_moisture_defecit(vals)
 
   # F1 - Vegetation height & form diversity F1 _0 + weighted values
   #In calculations, score is the average of the sum of coniferous cover among the 3 height classes, adjusted to a 0-1 scale, and the maximum of the coniferous height classes, adjusted to a 0-1 scale.
