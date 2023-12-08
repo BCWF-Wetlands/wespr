@@ -1,23 +1,3 @@
-#05_run_CS_f,
-
-
-# CS calculation Prototype
-
-# Gen to populate with calculation in readable format.
-
-
-
-# run_cs_calcul
-
-# check for dependencies (other scores being generates )
-
-# check for derived variables
-
-
-
-
-# # extract questionf and weighting for a particular
-
 cs_f <- function(site, weightings) {
 
   x <- get_indicator_data(site, weightings, "cs")
@@ -61,106 +41,32 @@ cs_f <- function(site, weightings) {
       sum_na(vals$F1_1, vals$F1_3, vals$F1_5) / 10
   ) / 2
 
-
   # F3 - woody Diameter Classes
   #=MAX(F13:F20)/MAX(E13:E20)
   #<- max(F13:F20) / max(E13:E20)
 
-  treetyp6 <- max_na(
-    vals$F3_1 * weights$WF3_1 ,
-    vals$F3_2 * weights$WF3_2,
-    vals$F3_3 * weights$WF3_3,
-    vals$F3_4 * weights$WF3_4,
-    vals$F3_5 * weights$WF3_5,
-    vals$F3_6 * weights$WF3_6,
-    vals$F3_7 * weights$WF3_7,
-    vals$F3_8 * weights$WF3_8
-  ) /
-    max_na(
-      weights$WF3_1,
-      weights$WF3_2,
-      weights$WF3_3,
-      weights$WF3_4,
-      weights$WF3_5,
-      weights$WF3_6,
-      weights$WF3_7,
-      weights$WF3_8
-    )
+  treetyp6 <- wt_max(x, "F3", "function")
 
 
   # F10 - dense Moss Extent
   #=MAX(F22:F26)/MAX(E22:E26)
 
-  moss6 <- max_na(
-    vals$F10_1 * weights$WF10_1,
-    vals$F10_2 * weights$WF10_2,
-    vals$F10_3 * weights$WF10_3,
-    vals$F10_4 * weights$WF10_4,
-    vals$F10_5 * weights$WF10_5
-  ) /
-    max_na(
-      weights$WF10_1,
-      weights$WF10_2,
-      weights$WF10_3,
-      weights$WF10_4,
-      weights$WF10_5
-    )
-
-
+  moss6 <- wt_max(x, "F10", "function")
 
   # F15 - Percent Bare Ground
-  gcover6 <- max_na(
-    vals$F15_1 * weights$WF15_1,
-    vals$F15_2 * weights$WF15_2,
-    vals$F15_3 * weights$WF15_3,
-    vals$F15_4 * weights$WF15_4
-  ) /
-    max_na(
-      weights$WF15_1,
-      weights$WF15_2,
-      weights$WF15_3,
-      weights$WF15_4
-    )
-
+  gcover6 <- wt_max(x, "F15", "function")
 
   # F17 - soil surface texture
   #=MAX(F33:F37)/MAX(E33:E37)
 
-  soiltex6 <- max_na(
-    vals$F17_1 * weights$WF17_1,
-    vals$F17_2 * weights$WF17_2,
-    vals$F17_3 * weights$WF17_3,
-    vals$F17_4 * weights$WF17_4,
-    vals$F17_5 * weights$WF17_5
-  ) /
-    max_na(
-      weights$WF17_1,
-      weights$WF17_2,
-      weights$WF17_3,
-      weights$WF17_4,
-      weights$WF17_5
-    )
-
+  soiltex6 <- wt_max(x, "F17", "function")
 
   # F40 - Channel connections and outflows
   #ifelse((D42 + D43) > 0, 1, max(F39:F43) / max(E39:E43))
 
   outdura6 <- ifelse(
     (vals$F40_4 + vals$F40_5) > 0, 1,
-    max_na(
-      vals$F40_1 * weights$WF40_1,
-      vals$F40_2 * weights$WF40_2,
-      vals$F40_3 * weights$WF40_3,
-      vals$F40_4 * weights$WF40_4,
-      vals$F40_5 * weights$WF40_5
-    ) /
-      max_na(
-        weights$WF40_1,
-        weights$WF40_2,
-        weights$WF40_3,
-        weights$WF40_4,
-        weights$WF40_5
-      )
+    wt_max(x, "F40", "function")
   )
 
 
@@ -172,12 +78,7 @@ cs_f <- function(site, weightings) {
     vals$NeverWater + vals$TempWet > 0 ~ NA,
     vals$NoOutlet + vals$NoOutletX > 0 ~ NA,
     vals$F41_4 == 1 ~ NA,
-    .default = max_na(
-      vals$F41_1 * weights$WF41_1,
-      vals$F41_2 * weights$WF41_2,
-      vals$F41_3 * weights$WF41_3
-    ) /
-      max_na(weights$WF41_1, weights$WF41_2, weights$WF41_3)
+    .default = wt_max(x, "F41", "function")
   )
 
 
@@ -197,31 +98,11 @@ cs_f <- function(site, weightings) {
 
   #Fire history # F55
 
-  fire6 <- max_na(
-    vals$F55_1 * weights$WF55_1,
-    vals$F55_2 * weights$WF55_2,
-    vals$F55_3 * weights$WF55_3,
-    vals$F55_4 * weights$WF55_4,
-    vals$F55_5 * weights$WF55_5,
-    vals$F55_6 * weights$WF55_6,
-    vals$F55_7 * weights$WF55_7
-  ) /
-    max_na(
-      weights$WF55_1,
-      weights$WF55_2,
-      weights$WF55_3,
-      weights$WF55_4,
-      weights$WF55_5,
-      weights$WF55_6,
-      weights$WF55_7
-    )
-
-
+  fire6 <- wt_max(x, "F55", "function")
 
   # S5 - Soil or Sediment Alteration within the assessment area
 
   soildisturb6 <- vals$S5_subscore
-
 
   ## Overall CS score
   # Assuming SoilTex6, Moss6, Acidic6, OutDura6, WoodyPct6, TreeTyp6, Fire6, Burn6,
