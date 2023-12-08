@@ -7,7 +7,7 @@ make_core_questions <- function() {
       .default = readr::col_character()
     )
   ) |>
-    dplyr::filter(no != "score")
+    dplyr::filter(.data$no != "score")
 
   q_list <- lapply(split(core_questions, core_questions$no), as.list)
 

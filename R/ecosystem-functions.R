@@ -18,7 +18,7 @@ get_indicator_data <- function(site, weights, ind) {
 
   all_resps <- dplyr::bind_rows(qs_df, derived_values)
 
-  weights <- dplyr::filter(weights, tolower(indicator) == tolower(ind))
+  weights <- dplyr::filter(weights, tolower(.data$indicator) == tolower(ind))
 
   dplyr::left_join(all_resps, weights, by = "response_no")
 }
@@ -52,7 +52,7 @@ wt_max <- function(indicator_data, question, type_f_b = c("function", "benefit")
 
   data <- dplyr::filter(
     indicator_data,
-    no == {{question}},
+    .data$no == {{question}},
     tolower(type_f_b) == tolower(type_f_b)
   )
 
