@@ -4,12 +4,6 @@
 # NoOutlet
 # NoOutletX
 
-#GDeco = OF44_1 # georgia depression
-#CMeco = OF44_2 # coast and mountain (CM)
-#SIMeco = OF44_3 # southern interior Mts
-#BPeco = OF44_4 # Boreal Plains
-#TPeco = OF44_5 # Taiga Plains
-
 ws_f <- function(site, weightings) {
 
   indicator_data <- get_indicator_data(site, weightings, "ws")

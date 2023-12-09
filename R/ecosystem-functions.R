@@ -45,31 +45,3 @@ get_q <- function(wesp_site, q_no) {
   q <- strsplit(q_no, split = "_")[[1]][1]
   wesp_site$questions[[q]]$value[[q_no]]
 }
-
-wt_max <- function(indicator_data, question, type_f_b = c("function", "benefit")) {
-
-  type_f_b <- match.arg(type_f_b)
-
-  data <- dplyr::filter(
-    indicator_data,
-    .data$no == {{question}},
-    tolower(.data$type_f_b) == tolower(type_f_b)
-  )
-
-  st <- max_na(data$value * data$q_weighting) / max_na(data$q_weighting)
-
-  return(st)
-
-}
-
-local_moisture_defecit <- function(vals) {
-  dplyr::case_when(
-    vals$OF25_1 <= 0 ~ NA,
-    vals$GDeco == 1 ~ (vals$OF25_1 - 0) / 329,
-    vals$CMeco == 1 ~ (vals$OF25_1 - 0) / 326,
-    vals$SIMeco == 1 ~ (vals$OF25_1 - 0) / 825,
-    vals$BPeco == 1 ~ (vals$OF25_1 - 24) / 381,
-    vals$TPeco == 1 ~ (vals$OF25_1 - 0) / 219,
-    .default = NA
-  )
-}
