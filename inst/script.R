@@ -33,6 +33,8 @@ data <- data |>
 site <- as.wesp_site(data)
 
 cs_f(site, weightings)
+ws_f(site, weightings)
+ws_b(site, weightings)
 
 get_q(site, "F1_1")
 get_q(site, "NeverWater")

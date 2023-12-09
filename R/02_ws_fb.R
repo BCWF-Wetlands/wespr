@@ -23,10 +23,9 @@ ws_f <- function(site, weightings) {
 
   # NoOutlet, NoOutletX
 
-  outmap1 <- ifelse(
-    (vals$NoOutlet + vals$NoOutletX) > 0,
-    1,
-    vals$OF6_1
+  outmap1 <- dplyr::case_when(
+    (vals$NoOutlet + vals$NoOutletX) > 0 ~ 1,
+    .default = vals$OF6_1
   )
 
 
@@ -76,20 +75,18 @@ ws_f <- function(site, weightings) {
   # F20 Percent only flooded seasonally
   #=IF((NeverWater=1),"",MAX(F33:F37)/MAX(E33:E37))
 
-  seaspct1 <- ifelse(
-    vals$NeverWater == 1,
-    "",
-    wt_max(indicator_data, "F20", "function")
+  seaspct1 <- dplyr::case_when(
+    vals$NeverWater == 1 ~ NA,
+    .default = wt_max(indicator_data, "F20", "function")
   )
 
 
 
   # F21 Percent with Persistent Surface water
 
-  permwpct1 <- ifelse(
-    vals$NeverWater == 1,
-    "",
-    wt_max(indicator_data, "F21", "function")
+  permwpct1 <- dplyr::case_when(
+    vals$NeverWater == 1 ~ NA,
+    .default = wt_max(indicator_data, "F21", "function")
   )
 
 
@@ -128,10 +125,9 @@ ws_f <- function(site, weightings) {
   # F40 Channel connection and outflow duration
   #=IF((D69+D70>0), Outmap1,MAX(F66:F70)/MAX(E66:E70))
 
-  outdura1 <- ifelse(
-    (vals$F40_4 + vals$F40_5 > 0),
-    outmap1,
-    wt_max(indicator_data, "F40", "function")
+  outdura1 <- dplyr::case_when(
+    (vals$F40_4 + vals$F40_5 > 0) ~ outmap1,
+    .default = wt_max(indicator_data, "F40", "function")
   )
 
 
@@ -149,9 +145,9 @@ ws_f <- function(site, weightings) {
   # F43 - Thoughflow Resistance
   #=IF(OR(Inflow=0,NoOutlet+NoOutletX>0),"",MAX(F77:F81)/MAX(E77:E81))
 
-  thruflo1 <- ifelse(
-    vals$Inflow == 0 | (vals$NoOutlet + vals$NoOutletX) > 0, NA,
-    wt_max(indicator_data, "F43", "function")
+  thruflo1 <- dplyr::case_when(
+    vals$Inflow == 0 | (vals$NoOutlet + vals$NoOutletX) > 0 ~ NA,
+    .default = wt_max(indicator_data, "F43", "function")
   )
 
   # F44 Internal Gradient
@@ -177,15 +173,15 @@ ws_f <- function(site, weightings) {
   #=IF((NeverWater=1), AVERAGE(Gradient1,Girreg1,Gcover1), AVERAGE(Gradient1,Constric1,ThruFlo1, FloDist1, PondPct1))
 
   subsurf <- mean_na(c(groundw1,soiltex1,wetpctrca1,growdays1))
-  livestore <- ifelse(
-    vals$NeverWater == 1, NA,
-    mean_na(c(seaspct1, fluctu1))
+
+  livestore <- dplyr::case_when(
+    vals$NeverWater == 1 ~ NA,
+    .default = mean_na(c(seaspct1, fluctu1))
   )
 
-  friction <- ifelse(
-    vals$NeverWater == 1,
-    mean_na(c(gradient1, girreg1, gcover1)),
-    mean_na(c(gradient1, constric1, thruflo1, flodist1, pondpct1))
+  friction <- dplyr::case_when(
+    vals$NeverWater == 1 ~ mean_na(c(gradient1, girreg1, gcover1)),
+    .default = mean_na(c(gradient1, constric1, thruflo1, flodist1, pondpct1))
   )
 
   # final function score
@@ -208,98 +204,58 @@ ws_f <- function(site, weightings) {
 
 ## Benefit
 
-ws_b <- function(x) {
+ws_b <- function(site, weightings) {
+
+  indicator_data <- get_indicator_data(site, weightings, "ws")
+  vals <- get_vals(indicator_data)
+  weights <- get_weights(indicator_data)
 
   # OF5 Relative elevation
-  elev1v <- OF5_1
+  elev1v <- vals$OF5_1
 
   # OF7 Aspect
 
-  aspect1 <- max(
-    OF7_1 * WOF7_1,
-    OF7_2 * WOF7_2,
-    OF7_3 * WOF7_3
-  ) / max(WOF7_1,
-          WOF7_2,
-          WOF7_3)
-
+  aspect1 <- wt_max(indicator_data, "OF7", "benefit")
 
   # OF9 - Floodable infrastucture
   #=IF((NoOutlet+ NoOutletX>0),"",MAX(F98:F101)/MAX(E98:E101))
 
-  floodprop1v <- ifelse((NoOutlet + NoOutletX) > 0, "",
-                        max(OF9_1 * WOF9_1,
-                            OF9_2 * WOF9_2,
-                            OF9_3 * WOF9_3,
-                            OF9_4 * WOF9_4,) / max(WOF9_1,
-                                                   WOF9_2,
-                                                   WOF9_3,
-                                                   WOF9_4))
-
+  floodprop1v <- dplyr::case_when(
+    (vals$NoOutlet + vals$NoOutletX) > 0 ~ NA,
+    .default = wt_max(indicator_data, "OF9", "benefit")
+  )
 
   # OF12 - unvegetated surface in the wetlands WAU
   #=IF((D15=1),"",MAX(F103:F105)/MAX(E103:E105))
 
-  impervca1 <- ifelse(D15 == 1, "", max(OF12_1 * WOF12_1,
-                                        OF12_2 * WOF12_2,
-                                        OF12_3 * WOF12_3) / max(WOF12_1,
-                                                                WOF12_2,
-                                                                WOF12_3))
-
+  impervca1 <- dplyr::case_when(
+    vals$OF11_4 == 1 ~ NA,
+    .default = wt_max(indicator_data, "OF12", "benefit")
+  )
 
   # OF21 Local moisture deficit
 
   #=1-(IFS(D106<=0,"", GDeco=1,(D106-0)/329,CMeco=1,(D106-0)/326,SIMeco=1,(D106-0)/825, BPeco-1,(D106-24)/381, TPeco=1,(D106-0)/219))
 
-  dryness1 <- ifelse(OF25_1 <= 0, "",
-                     ifelse(OF44_1== 1, (OF25_1 - 0) / 329,
-                            ifelse(OF44_2 == 1, (OF25_1 - 0) / 326,
-                                   ifelse(OF44_3 == 1, (OF25_1 - 0) / 825,
-                                          ifelse(OF44_4 == 1, (OF25_1 - 24) / 381,
-                                                 ifelse(OF44_5 == 1, (OF25_1 - 0) / 219, "")
-                                          )
-                                   )
-                            )
-                     )
+  dryness1 <- local_moisture_defecit(vals)
+
+  # OF 30 Road Density Within AA's buffer
+  rddens1 <- wt_max(indicator_data, "OF30", "benefit")
+
+  # OF41 Disturbed Percentage in the WAU
+
+  disturb1 <- dplyr::case_when(
+    vals$NoCA == 1 ~ NA,
+    .default = wt_max(indicator_data, "OF41", "benefit")
   )
 
 
 
-  # OF 30 Road Density Within AA's buffer
-  rddens <- max(OF30_1 * WOF30_1,
-                OF30_2 * WOF30_2,
-                OF30_3 * WOF30_3) / max(WOF30_1,
-                                        WOF30_2,
-                                        WOF30_3)
-
-  # OF41 Disturbed Percentage in the WAU
-
-  disturb1 <- ifelse(NoCA == 1, "", max(
-    OF41_1 * WOF41_1,
-    OF41_2 * WOF41_2,
-    OF41_3 * WOF41_3,
-    OF41_4 * WOF41_4,
-    OF41_5 * WOF41_5
-  ) / max(WOF41_1,
-          WOF41_2,
-          WOF41_3,
-          WOF41_4,
-          WOF41_5))
-
-
-
   # OF42 Road Density in the WAU
-  rddenswau1 <- ifelse(NoCA == 1, "", max(
-    OF42_1 * WOF42_1,
-    OF42_2 * WOF42_2,
-    OF42_3 * WOF42_3
-  ) / max(WOF42_1,
-          WOF42_2,
-          WOF42_3))
-
-
-
-
+  rddenswau1 <- dplyr::case_when(
+    vals$NoCA == 1 ~ NA,
+    .default = wt_max(indicator_data, "OF42", "benefit")
+  )
 
   #######################################################
   ## Overall WS BENEFIT score
@@ -307,10 +263,11 @@ ws_b <- function(x) {
   ## sub - function scores
   #=10*IF((FloodProp1v=1),1,AVERAGE(FloodProp1v,ImpervCA1,Elev1v, Aspect1, Disturb1,RdDensWAU1,RdDens1, Dryness1))
 
-  ws_benefit_score  <- 10 * ifelse(FloodProp1v == 1, 1,
-                                   mean(c(floodprop1v, impervca1, elev1v, aspect1, disturb1, rddenswau1, rddens1, dryness1)))
+  ws_benefit_score  <- 10 * dplyr::case_when(
+    floodprop1v == 1 ~ 1,
+    .default = mean_na(c(floodprop1v, impervca1, elev1v, aspect1, disturb1, rddenswau1, rddens1, dryness1))
+  )
 
+  ws_benefit_score
 }
-
-
 

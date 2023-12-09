@@ -56,9 +56,9 @@ cs_f <- function(site, weightings) {
   # F40 - Channel connections and outflows
   #ifelse((D42 + D43) > 0, 1, max(F39:F43) / max(E39:E43))
 
-  outdura6 <- ifelse(
-    (vals$F40_4 + vals$F40_5) > 0, 1,
-    wt_max(indicator_data, "F40", "function")
+  outdura6 <- dplyr::case_when(
+    (vals$F40_4 + vals$F40_5) > 0 ~ 1,
+    .default = wt_max(indicator_data, "F40", "function")
   )
 
 
