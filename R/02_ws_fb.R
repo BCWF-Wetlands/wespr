@@ -231,7 +231,7 @@ ws_b <- function(site, weightings) {
 
   #=1-(IFS(D106<=0,"", GDeco=1,(D106-0)/329,CMeco=1,(D106-0)/326,SIMeco=1,(D106-0)/825, BPeco-1,(D106-24)/381, TPeco=1,(D106-0)/219))
 
-  dryness1 <- local_moisture_defecit(vals)
+  dryness1 <- local_moisture_deficit(vals)
 
   # OF 30 Road Density Within AA's buffer
   rddens1 <- wt_max(indicator_data, "OF30", "benefit")

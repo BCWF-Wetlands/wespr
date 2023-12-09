@@ -13,7 +13,7 @@ wt_max <- function(indicator_data, question, type_f_b = c("function", "benefit")
   return(st)
 }
 
-local_moisture_defecit <- function(vals) {
+local_moisture_deficit <- function(vals) {
   #GDeco = OF44_1 # georgia depression
   #CMeco = OF44_2 # coast and mountain (CM)
   #SIMeco = OF44_3 # southern interior Mts
