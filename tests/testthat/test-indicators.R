@@ -11,5 +11,5 @@ test_that("ws_f works", {
 })
 
 test_that("ws_b works", {
-  expect_equal(round(ws_f(site, weightings), 2), 5.89)
+  expect_equal(round(ws_b(site, weightings), 2), 5.89)
 })
