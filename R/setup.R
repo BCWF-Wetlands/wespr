@@ -64,9 +64,28 @@ extract_unique_values <- function(x) {
   stats::setNames(is_val_true, unique_vals)
 }
 
-indicator_names <- function() {
-  c("ws", "sfts", "sr", "pr", "nr", "cs", "oe", "app", "fr", "fh",
-    "am", "wb", "kmh", "rsb", "pd", "pol", "cri", "sens", "str")
+indicators <- function() {
+  list(
+    ws = list(func = NULL, benefit = NULL),
+    sr = list(func = NULL, benefit = NULL),
+    pr = list(func = NULL, benefit = NULL),
+    cs = list(func = NULL),
+    fr = list(func = NULL, benefit = NULL),
+    sens = list(func = NULL),
+    str = list(func = NULL),
+    nr = list(func = NULL, benefit = NULL),
+    ap = list(func = NULL, benefit = NULL),
+    pd = list(func = NULL, benefit = NULL),
+    kmh = list(func = NULL, benefit = NULL),
+    wb = list(func = NULL, benefit = NULL),
+    pol = list(func = NULL, benefit = NULL),
+    rsb = list(func = NULL, benefit = NULL),
+    oe = list(func = NULL),
+    am = list(func = NULL, benefit = NULL),
+    fh = list(func = NULL, benefit = NULL),
+    sfts = list(func = NULL, benefit = NULL),
+    cri = list(benefit = NULL)
+  )
 }
 
 as.wesp_site <- function(data) {
@@ -74,7 +93,8 @@ as.wesp_site <- function(data) {
   derived_values <- make_derived_values(questions)
   site <- list(
     questions = questions,
-    derived_values = derived_values
+    derived_values = derived_values,
+    indicators = indicators()
   )
   class(site) <- "wesp_site"
   site
