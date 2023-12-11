@@ -7,7 +7,7 @@ make_core_questions <- function() {
       .default = readr::col_character()
     )
   ) |>
-    dplyr::filter(no != "score")
+    dplyr::filter(.data$no != "score")
 
   q_list <- lapply(split(core_questions, core_questions$no), as.list)
 
@@ -30,16 +30,21 @@ make_core_questions <- function() {
     # the validator list
     q$validator = validators[[q$type]](q$no, q$n_responses)
 
-    if (grepl("^S", q$no)) {
-      q$sum <- NA_integer_
-      q$stressor_subscore <- NA_integer_
-    }
     q
   }
 
   lapply(q_list, format_q_list)
 }
 
+
+#' Calculate derived values from question responses
+#'
+#' Examples are `all_water`, `never_water`, etc.
+#'
+#' @param cq an object resulting from running [record_values()]
+#'
+#' @return A named numeric vector containing derived values.
+#' @noRd
 make_derived_values <- function(cq) {
   derived_vals <- unname(lapply(cq, function(q) {
     if (!is.na(q$unique_values)) {
@@ -53,17 +58,18 @@ extract_unique_values <- function(x) {
   # The unique values are specified in two columns, the first (unique_values)
   # denoting the names of the values derived from that question, separated
   # by commas (e.g., Moose,Bear,... etc).
-  # The second (unique_value_response) are the conditions (as logical R
-  # statements separated by commas) that make that derived value TRUE or FALSE
+  # The second (unique_value_response) are the R statements (separated by commas)
+  # that make that derived value
   # (almost all Q==1)
-  unique_vals <- strsplit(x$unique_values, split = ",")[[1]]
-  unique_resps <- strsplit(x$unique_value_response, split = ",")[[1]]
+  unique_vals <- trimws(strsplit(x$unique_values, split = ";")[[1]])
+  unique_resps <- trimws(strsplit(x$unique_value_response, split = ";")[[1]])
 
-  # parse and evaluate the logical expression for each
-  is_val_true <- vapply(unique_resps, function(resp) {
-    eval(parse(text = paste0("x$value$", resp)))
-  },
-  FUN.VALUE = logical(1))
+  # parse and evaluate the expression for each in the "value" environment.
+  # This includes calculating stressor sums and subscores
+  is_val_true <- lapply(unique_resps, function(resp) {
+    cll <- str2lang(resp)
+    eval(cll, envir = x$value)
+  })
 
   stats::setNames(is_val_true, unique_vals)
 }
@@ -76,8 +82,10 @@ indicator_names <- function() {
 as.wesp_site <- function(data) {
   questions <- record_values(data)
   derived_values <- make_derived_values(questions)
-  site <- list(questions = questions, derived_values = derived_values)
+  site <- list(
+    questions = questions,
+    derived_values = derived_values
+  )
   class(site) <- "wesp_site"
   site
 }
-

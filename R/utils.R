@@ -3,12 +3,6 @@ check_numeric <- function(x) {
   if (!valid) warning("Help!")
 }
 
-names_from_value <- function(x, value) {
-  if (!is.list(x)) stop("x must be a list", call. = FALSE)
-  names(x) <- vapply(x, `[[`, value, FUN.VALUE = "")
-  x
-}
-
 `%||%` <- function(x, y) if (is.null(x)) y else x
 
 check_wesp_site <- function(x) {
@@ -17,3 +11,8 @@ check_wesp_site <- function(x) {
          call. = FALSE)
   }
 }
+
+max_na <- function(...) max(..., na.rm = TRUE)
+min_na <- function(...) min(..., na.rm = TRUE)
+mean_na <- function(x, trim = 0, ...) mean(x, trim = trim, na.rm = TRUE, ...)
+sum_na <- function(...) sum(..., na.rm = TRUE)
