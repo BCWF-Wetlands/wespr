@@ -1,4 +1,4 @@
-wt_max <- function(indicator_data, question, type_f_b = c("function", "benefit")) {
+wt_max <- function(indicator_data, question, type_f_b = c("func", "benefit")) {
 
   type_f_b <- match.arg(type_f_b)
 
@@ -29,13 +29,19 @@ local_moisture_deficit <- function(vals) {
   )
 }
 
-update_site_indicator <- function(site, indicator, type = c("func", "benefit"), value) {
+update_site_indicator <- function(site, indicator, type = c("func", "benefit")) {
   check_wesp_site(site)
   if (!indicator %in% names(indicators())) {
     stop("Invalid site: ", indicator, call. = FALSE)
   }
   type <- match.arg(type)
 
+  # This is a bit fragile - make the name of the function from indicator and type
+  # args, and call it with do.call:
+  indicator_fun <- paste(indicator, type, sep = "_")
+  value <- do.call(indicator_fun, list(site = site))
+
   site$indicators[[indicator]][[type]] <- value
+
   site
 }
