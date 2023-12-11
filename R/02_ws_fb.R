@@ -191,7 +191,7 @@ ws_f <- function(site) {
     )
   )
 
-  ws_func_score
+  update_site_indicator(site, "ws", "func", ws_func_score)
 }
 
 #########################################################
@@ -262,6 +262,6 @@ ws_b <- function(site) {
     .default = mean_na(c(floodprop1v, impervca1, elev1v, aspect1, disturb1, rddenswau1, rddens1, dryness1))
   )
 
-  ws_benefit_score
+  update_site_indicator(site, "ws", "benefit", ws_benefit_score)
 }
 

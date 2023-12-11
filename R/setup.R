@@ -4,12 +4,12 @@ make_core_questions <- function() {
   format_q_list <- function(q) {
     # convert the columns of indicators that have a value (f,b,f/b)
     # into a vector containing the indicators the question pertains to
-    q$used_by <- Filter(Negate(is.na), unlist(q[indicator_names()]))
+    q$used_by <- Filter(Negate(is.na), unlist(q[names(indicators())]))
     q$no_indicators <- length(q$used_by)
 
     # get rid of the original indicator columns since they're now stored
     # in `used_by`
-    q <- q[setdiff(names(q), indicator_names())]
+    q <- q[setdiff(names(q), names(indicators()))]
 
     # An empty vector to hold responses
     if (length(q$n_responses) > 0 && !is.na(q$n_responses)) {

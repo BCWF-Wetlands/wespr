@@ -29,9 +29,11 @@ data <- data |>
 
 site <- as.wesp_site(data)
 
-cs_f(site)
-ws_f(site)
-ws_b(site)
+site <- calc_indicators(site)
+
+# cs_f(site)
+# ws_f(site)
+# ws_b(site)
 
 get_q(site, "F1_1")
 get_q(site, "NeverWater")

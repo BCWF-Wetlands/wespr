@@ -28,3 +28,14 @@ local_moisture_deficit <- function(vals) {
     .default = NA
   )
 }
+
+update_site_indicator <- function(site, indicator, type = c("func", "benefit"), value) {
+  check_wesp_site(site)
+  if (!indicator %in% names(indicators())) {
+    stop("Invalid site: ", indicator, call. = FALSE)
+  }
+  type <- match.arg(type)
+
+  site$indicators[[indicator]][[type]] <- value
+  site
+}

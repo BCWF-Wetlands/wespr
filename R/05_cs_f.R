@@ -100,7 +100,9 @@ cs_f <- function(site) {
   # Assuming SoilTex6, Moss6, Acidic6, OutDura6, WoodyPct6, TreeTyp6, Fire6, Burn6,
   # Gcover6, Constric6, WetDef6, SoilDisturb6 are variables
 
-  10 * (5 * max_na(soiltex6, moss6, acidic6) +
+  cs_func_score <- 10 * (5 * max_na(soiltex6, moss6, acidic6) +
           2 * outdura6 + woodypct6 +
           mean_na(c(treetyp6, fire6, burn6, gcover6, constric6, wetdef6, soildisturb6))) / 9
+
+  update_site_indicator(site, "cs", "func", cs_func_score)
 }
