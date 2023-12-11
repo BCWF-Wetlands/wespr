@@ -1,4 +1,4 @@
-get_indicator_data <- function(site, weights, ind) {
+get_indicator_data <- function(site, ind) {
   check_wesp_site(site)
   qs <- Filter(
     \(x) ind %in% names(x$used_by),
@@ -18,7 +18,7 @@ get_indicator_data <- function(site, weights, ind) {
 
   all_resps <- dplyr::bind_rows(qs_df, derived_values)
 
-  weights <- dplyr::filter(weights, tolower(.data$indicator) == tolower(ind))
+  weights <- dplyr::filter(indicator_weightings, tolower(.data$indicator) == tolower(ind))
 
   dplyr::left_join(all_resps, weights, by = "response_no")
 }

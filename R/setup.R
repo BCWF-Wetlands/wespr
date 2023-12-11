@@ -1,15 +1,5 @@
 make_core_questions <- function() {
-  core_questions <- readr::read_csv(
-    system.file("input_data/all_indicators.csv", package = "wespr"),
-    col_types = readr::cols(
-      n_responses = readr::col_integer(),
-      no_indicators = readr::col_skip(),
-      .default = readr::col_character()
-    )
-  ) |>
-    dplyr::filter(.data$no != "score")
-
-  q_list <- lapply(split(core_questions, core_questions$no), as.list)
+  q_list <- lapply(split(question_metadata, question_metadata$no), as.list)
 
   format_q_list <- function(q) {
     # convert the columns of indicators that have a value (f,b,f/b)

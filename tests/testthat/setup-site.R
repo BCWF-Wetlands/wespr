@@ -7,8 +7,6 @@ library(dplyr)
 # library(wespr)
 
 # get weights table
-weightings <- read_csv(system.file("input_data/weightings.csv", package = "wespr"))
-
 # read in data and filter to questions we have implemented, and just one site:
 data <- load_wesp_data("wetFlat.csv") |>
   select(q_no, response_no, site_1)

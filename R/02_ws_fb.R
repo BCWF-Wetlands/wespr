@@ -4,9 +4,9 @@
 # NoOutlet
 # NoOutletX
 
-ws_f <- function(site, weightings) {
+ws_f <- function(site) {
 
-  indicator_data <- get_indicator_data(site, weightings, "ws")
+  indicator_data <- get_indicator_data(site, "ws")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
@@ -198,9 +198,9 @@ ws_f <- function(site, weightings) {
 
 ## Benefit
 
-ws_b <- function(site, weightings) {
+ws_b <- function(site) {
 
-  indicator_data <- get_indicator_data(site, weightings, "ws")
+  indicator_data <- get_indicator_data(site, "ws")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
