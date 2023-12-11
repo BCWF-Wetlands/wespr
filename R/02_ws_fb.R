@@ -4,7 +4,7 @@
 # NoOutlet
 # NoOutletX
 
-ws_f <- function(site) {
+ws_func <- function(site) {
 
   indicator_data <- get_indicator_data(site, "ws")
   vals <- get_vals(indicator_data)
@@ -25,11 +25,11 @@ ws_f <- function(site) {
 
   # OF10 - internal flow distance
 
-  flodist1 <- wt_max(indicator_data, "OF10", "function")
+  flodist1 <- wt_max(indicator_data, "OF10", "func")
 
   # OF11 - wetland as % of its contributing area
 
-  wetpctrca1 <- wt_max(indicator_data, "OF11", "function")
+  wetpctrca1 <- wt_max(indicator_data, "OF11", "func")
 
   # OF 26 - Degree Days Index
 
@@ -58,20 +58,20 @@ ws_f <- function(site) {
 
   # F15 - Percent Bare Ground
 
-  gcover1 <- wt_max(indicator_data, "F15", "function")
+  gcover1 <- wt_max(indicator_data, "F15", "func")
 
   # F17 - Soil Surface Texture
-  soiltex1 <- wt_max(indicator_data, "F17", "function")
+  soiltex1 <- wt_max(indicator_data, "F17", "func")
 
   # f18 Microtopography
-  girreg1 <- wt_max(indicator_data, "F18", "function")
+  girreg1 <- wt_max(indicator_data, "F18", "func")
 
   # F20 Percent only flooded seasonally
   #=IF((NeverWater=1),"",MAX(F33:F37)/MAX(E33:E37))
 
   seaspct1 <- dplyr::case_when(
     vals$NeverWater == 1 ~ NA,
-    .default = wt_max(indicator_data, "F20", "function")
+    .default = wt_max(indicator_data, "F20", "func")
   )
 
 
@@ -80,7 +80,7 @@ ws_f <- function(site) {
 
   permwpct1 <- dplyr::case_when(
     vals$NeverWater == 1 ~ NA,
-    .default = wt_max(indicator_data, "F21", "function")
+    .default = wt_max(indicator_data, "F21", "func")
   )
 
 
@@ -91,7 +91,7 @@ ws_f <- function(site) {
   fluctu1 <- dplyr::case_when(
     vals$NeverWater == 1 ~ NA,
     vals$NoPersis == 1 ~ NA,
-    .default = wt_max(indicator_data, "F25", "function")
+    .default = wt_max(indicator_data, "F25", "func")
   )
 
 
@@ -101,7 +101,7 @@ ws_f <- function(site) {
   pondpct1 <- dplyr::case_when(
     vals$NeverWater == 1 ~ NA,
     vals$NoPersis == 1 ~ NA,
-    .default = wt_max(indicator_data, "F27", "function")
+    .default = wt_max(indicator_data, "F27", "func")
   )
 
 
@@ -112,7 +112,7 @@ ws_f <- function(site) {
     vals$NeverWater == 1 ~ NA,
     vals$NoPersis == 1 ~ NA,
     vals$NoPond == 1 ~ NA,
-    .default = wt_max(indicator_data, "F29", "function")
+    .default = wt_max(indicator_data, "F29", "func")
   )
 
 
@@ -121,7 +121,7 @@ ws_f <- function(site) {
 
   outdura1 <- dplyr::case_when(
     (vals$F40_4 + vals$F40_5 > 0) ~ outmap1,
-    .default = wt_max(indicator_data, "F40", "function")
+    .default = wt_max(indicator_data, "F40", "func")
   )
 
 
@@ -133,7 +133,7 @@ ws_f <- function(site) {
     # (vals$NeverWater + vals$TempWet) > 0 ~ NA,
     (vals$NoOutlet + vals$NoOutletX) > 0 ~ NA,
     vals$F41_4 == 1 ~ NA,
-    .default = wt_max(indicator_data, "F41", "function")
+    .default = wt_max(indicator_data, "F41", "func")
   )
 
   # F43 - Thoughflow Resistance
@@ -141,7 +141,7 @@ ws_f <- function(site) {
 
   thruflo1 <- dplyr::case_when(
     vals$Inflow == 0 | (vals$NoOutlet + vals$NoOutletX) > 0 ~ NA,
-    .default = wt_max(indicator_data, "F43", "function")
+    .default = wt_max(indicator_data, "F43", "func")
   )
 
   # F44 Internal Gradient
@@ -150,12 +150,12 @@ ws_f <- function(site) {
   gradient1 <- dplyr::case_when(
     (vals$NoOutlet + vals$NoOutletX) > 0 ~ NA,
     vals$Inflow == 1 ~ NA,
-    .default = wt_max(indicator_data, "F44", "function")
+    .default = wt_max(indicator_data, "F44", "func")
   )
 
   # F47 - gound water input probability
 
-  groundw1 <- wt_max(indicator_data, "F47", "function")
+  groundw1 <- wt_max(indicator_data, "F47", "func")
 
   #######################################################
   ## Overall WS Function  score
@@ -191,18 +191,17 @@ ws_f <- function(site) {
     )
   )
 
-  update_site_indicator(site, "ws", "func", ws_func_score)
+  ws_func_score
 }
 
 #########################################################
 
 ## Benefit
 
-ws_b <- function(site) {
+ws_benefit <- function(site) {
 
   indicator_data <- get_indicator_data(site, "ws")
   vals <- get_vals(indicator_data)
-  weights <- get_weights(indicator_data)
 
   # OF5 Relative elevation
   elev1v <- vals$OF5_1
@@ -262,6 +261,6 @@ ws_b <- function(site) {
     .default = mean_na(c(floodprop1v, impervca1, elev1v, aspect1, disturb1, rddenswau1, rddens1, dryness1))
   )
 
-  update_site_indicator(site, "ws", "benefit", ws_benefit_score)
+  ws_benefit_score
 }
 
