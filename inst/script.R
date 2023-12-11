@@ -7,9 +7,6 @@ library(testthat)
 # install_github("BCWF-wetlands/wespr)
 # library(wespr)
 
-# get weights table
-weightings <- read_csv(system.file("input_data/weightings.csv", package = "wespr"))
-
 # read in data and filter to questions we have implemented, and just one site:
 data <- load_wesp_data(test_path("wetflat.csv")) |>
   select(q_no, response_no, site_1)
@@ -32,9 +29,9 @@ data <- data |>
 
 site <- as.wesp_site(data)
 
-cs_f(site, weightings)
-ws_f(site, weightings)
-ws_b(site, weightings)
+cs_f(site)
+ws_f(site)
+ws_b(site)
 
 get_q(site, "F1_1")
 get_q(site, "NeverWater")

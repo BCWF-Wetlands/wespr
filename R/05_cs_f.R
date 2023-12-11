@@ -1,6 +1,6 @@
-cs_f <- function(site, weightings) {
+cs_f <- function(site) {
 
-  indicator_data <- get_indicator_data(site, weightings, "cs")
+  indicator_data <- get_indicator_data(site, "cs")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
