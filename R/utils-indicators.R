@@ -2,10 +2,12 @@ wt_max <- function(indicator_data, question, type_f_b = c("func", "benefit")) {
 
   type_f_b <- match.arg(type_f_b)
 
+  if (type_f_b == "func") type_f_b <- "function"
+
   data <- dplyr::filter(
     indicator_data,
     .data$no == {{question}},
-    tolower(.data$type_f_b) == tolower(type_f_b)
+    tolower(.data$type_f_b) == tolower({{type_f_b}})
   )
 
   max_na(data$value * data$q_weighting) / max_na(data$q_weighting)

@@ -18,7 +18,10 @@ get_indicator_data <- function(site, ind) {
 
   all_resps <- dplyr::bind_rows(qs_df, derived_values)
 
-  weights <- dplyr::filter(indicator_weightings, tolower(.data$indicator) == tolower(ind))
+  weights <- dplyr::filter(
+    indicator_weightings,
+    tolower(.data$indicator) == tolower({{ind}})
+  )
 
   dplyr::left_join(all_resps, weights, by = "response_no")
 }
