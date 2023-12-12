@@ -183,7 +183,7 @@ ws_func <- function(site) {
   #=10*(IF((NoOutlet=1),1, IF((NeverWater=1),AVERAGE(MAX(Outmap1,OutDura1), AVERAGE(Friction, Subsurf)),AVERAGE(OutDura1, ((4*LiveStore+2*Friction+Subsurf)/7)))))
   ws_func_score <- 10 * dplyr::case_when(
     vals$NoOutlet + vals$NoOutletX > 1 ~ 1,
-    vals$NeverWater == 1 ~ mean(
+    vals$NeverWater == 1 ~ mean_na(
       c(max_na(outmap1, outdura1), mean_na(c(friction, subsurf)))
     ),
     .default = mean_na(
