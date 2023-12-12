@@ -42,14 +42,14 @@ load_wesp_data <- function(path) {
 #'
 #' This currently is only implemented for a single site
 #'
-#' @param data a `data.frame`, the output of [load_wesp_data()]
+#' @inheritParams as.wesp_site
 #'
 #' @return a `list` object containing validated responses and question metadata
-#' @export
-record_values <- function(data) {
+#' @noRd
+record_values <- function(data, site) {
   questions <- make_core_questions()
   lapply(questions, function(question) {
-    values <- data$site_1[data$q_no == question$no]
+    values <- data[[site]][data$q_no == question$no]
     question$value <- as.list(question$validator(values))
     if (!exists("response_no", question)) {
       # This only applies to Q F2

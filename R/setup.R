@@ -88,10 +88,39 @@ indicators <- function() {
   )
 }
 
-as.wesp_site <- function(data) {
-  questions <- record_values(data)
+#' Convert a data.frame of WESP question responses to a `wesp_site`
+#'
+#' Read a `data.frame` that has been read in by [load_wesp_data()]
+#' and convert it into a `wesp_site` object, in preparation for
+#' calculating the indicators. This function also calculates various
+#' "derived" values that are used in indicator calculations.
+#'
+#' @param data `data.frame` of questions and responses, ideally created by
+#'   reading in data with [load_wesp_data()]. Contains columns `q_no`,
+#'   `response_no`, and one or more `site_[x]` columns.
+#' @param site A number, or the name of a column in `data` indicating which site to
+#'   calculate, if more than one site in `data`. Defaults to the
+#'   first `site_[x]` column.
+#'
+#' @return An object of type `wesp_site`
+#' @export
+as.wesp_site <- function(data, site = NULL) {
+
+  site <- site %||% setdiff(names(data), c("q_no", "response_no"))[1]
+
+  if (!is.numeric(site) && !site %in% names(data)) {
+    stop("Invalid site specified. Must be a number or the name of a column in 'data'",
+         call. = FALSE)
+  }
+
+  if (is.numeric(site)) {
+    site <- setdiff(names(data), c("q_no", "response_no"))[site]
+  }
+
+  questions <- record_values(data, site = site)
   derived_values <- make_derived_values(questions)
   site <- list(
+    site_name = site,
     questions = questions,
     derived_values = derived_values,
     indicators = indicators()

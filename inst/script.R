@@ -1,6 +1,5 @@
 library(readr)
 library(dplyr)
-library(testthat)
 
 # Run devtools::load_all(), or in RStudio Ctrl+Shift+L to load the package
 # during development, or:
@@ -9,7 +8,7 @@ library(testthat)
 
 # read in data and filter to questions we have implemented, and just one site:
 data <- load_wesp_data(system.file("input_data/wetFlat.csv", package = "wespr")) |>
-  select(q_no, response_no, site_1)
+  select(q_no, response_no)
 
 # temporary hack to remove extra calculated rows in some of the S questions in
 # wetFlat.csv, and add missing rows
