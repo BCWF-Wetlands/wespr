@@ -8,9 +8,11 @@
 #' @return a `data.frame` of the responses
 #' @export
 load_wesp_data <- function(path) {
-  withr::local_options(
+
+  opts <- options(
     rlib_name_repair_verbosity = "quiet"
   )
+  on.exit(options(opts))
 
   readr::read_csv(
     path,
