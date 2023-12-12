@@ -46,3 +46,11 @@ test_that("update_site_indicator warns when exisiting value", {
     "has exisiting value"
   )
 })
+
+test_that("calc_indicators calculates all indicators", {
+  site <- make_test_site()
+  site <- calc_indicators(site)
+  expect_type(site$indicators$cs$func, "double")
+  expect_type(site$indicators$ws$func, "double")
+  expect_type(site$indicators$ws$benefit, "double")
+})
