@@ -4,12 +4,12 @@ make_core_questions <- function() {
   format_q_list <- function(q) {
     # convert the columns of indicators that have a value (f,b,f/b)
     # into a vector containing the indicators the question pertains to
-    q$used_by <- Filter(Negate(is.na), unlist(q[indicator_names()]))
+    q$used_by <- Filter(Negate(is.na), unlist(q[names(indicators())]))
     q$no_indicators <- length(q$used_by)
 
     # get rid of the original indicator columns since they're now stored
     # in `used_by`
-    q <- q[setdiff(names(q), indicator_names())]
+    q <- q[setdiff(names(q), names(indicators()))]
 
     # An empty vector to hold responses
     if (length(q$n_responses) > 0 && !is.na(q$n_responses)) {
@@ -64,17 +64,66 @@ extract_unique_values <- function(x) {
   stats::setNames(is_val_true, unique_vals)
 }
 
-indicator_names <- function() {
-  c("ws", "sfts", "sr", "pr", "nr", "cs", "oe", "app", "fr", "fh",
-    "am", "wb", "kmh", "rsb", "pd", "pol", "cri", "sens", "str")
+indicators <- function() {
+  list(
+    ws = list(func = NULL, benefit = NULL),
+    sr = list(func = NULL, benefit = NULL),
+    pr = list(func = NULL, benefit = NULL),
+    cs = list(func = NULL),
+    fr = list(func = NULL, benefit = NULL),
+    sens = list(func = NULL),
+    str = list(func = NULL),
+    nr = list(func = NULL, benefit = NULL),
+    ap = list(func = NULL, benefit = NULL),
+    pd = list(func = NULL, benefit = NULL),
+    kmh = list(func = NULL, benefit = NULL),
+    wb = list(func = NULL, benefit = NULL),
+    pol = list(func = NULL, benefit = NULL),
+    rsb = list(func = NULL, benefit = NULL),
+    oe = list(func = NULL),
+    am = list(func = NULL, benefit = NULL),
+    fh = list(func = NULL, benefit = NULL),
+    sfts = list(func = NULL, benefit = NULL),
+    cri = list(benefit = NULL)
+  )
 }
 
-as.wesp_site <- function(data) {
-  questions <- record_values(data)
+#' Convert a data.frame of WESP question responses to a `wesp_site`
+#'
+#' Read a `data.frame` that has been read in by [load_wesp_data()]
+#' and convert it into a `wesp_site` object, in preparation for
+#' calculating the indicators. This function also calculates various
+#' "derived" values that are used in indicator calculations.
+#'
+#' @param data `data.frame` of questions and responses, ideally created by
+#'   reading in data with [load_wesp_data()]. Contains columns `q_no`,
+#'   `response_no`, and one or more `site_[x]` columns.
+#' @param site A number, or the name of a column in `data` indicating which site to
+#'   calculate, if more than one site in `data`. Defaults to the
+#'   first `site_[x]` column.
+#'
+#' @return An object of type `wesp_site`
+#' @export
+as.wesp_site <- function(data, site = NULL) {
+
+  site <- site %||% setdiff(names(data), c("q_no", "response_no"))[1]
+
+  if (!is.numeric(site) && !site %in% names(data)) {
+    stop("Invalid site specified. Must be a number or the name of a column in 'data'",
+         call. = FALSE)
+  }
+
+  if (is.numeric(site)) {
+    site <- setdiff(names(data), c("q_no", "response_no"))[site]
+  }
+
+  questions <- record_values(data, site = site)
   derived_values <- make_derived_values(questions)
   site <- list(
+    site_name = site,
     questions = questions,
-    derived_values = derived_values
+    derived_values = derived_values,
+    indicators = indicators()
   )
   class(site) <- "wesp_site"
   site

@@ -1,10 +1,37 @@
 
 calc_indicators <- function(site) {
-  ws_f <- ws_f(site)
-  ws_b <- ws_b(site)
-  sr_f <- sr_f(site)
-  sr_b <- sr_b(site)
-  pr_f <- pr_f(site)
-  pr_b <- pr_b(site)
-  cs_f <- cs_f(site)
+  site <- update_site_indicator(site, "ws", "func")
+  site <- update_site_indicator(site, "ws", "benefit")
+  # site <- update_site_indicator(site, "sr", "f")
+  # site <- update_site_indicator(site, "sr", "b")
+  # site <- update_site_indicator(site, "pr", "f")
+  # site <- update_site_indicator(site, "pr", "b")
+  site <- update_site_indicator(site, "cs", "func")
+  # site <- update_site_indicator(site, "fr", "func")
+  # site <- update_site_indicator(site, "fr", "benefit")
+  # site <- update_site_indicator(site, "sens", "func")
+  # site <- update_site_indicator(site, "str", "func")
+  # site <- update_site_indicator(site, "nr", "func")
+  # site <- update_site_indicator(site, "nr", "benefit")
+  # site <- update_site_indicator(site, "ap", "func")
+  # site <- update_site_indicator(site, "pd", "func") # requires ap_func
+  # site <- update_site_indicator(site, "kmh", "func") # requires ap_func * check ref with Paul as unclear
+  # site <- update_site_indicator(site, "kmh", "benefit")
+  # site <- update_site_indicator(site, "wb", "func")  # requires ap_func
+  # site <- update_site_indicator(site, "wb", "benefit")
+  # site <- update_site_indicator(site, "pol", "func") # requires pd_func
+  # site <- update_site_indicator(site, "pol", "benefit")
+  # site <- update_site_indicator(site, "rsb", "func") # requires ap_func, pd_func
+  # site <- update_site_indicator(site, "rsb", "benefit")
+  # site <- update_site_indicator(site, "pd", "benefit") # requires pol_func, rsb_func
+  # site <- update_site_indicator(site, "oe", "func") # requires ap_func , cs_func
+  # site <- update_site_indicator(site, "am", "func") # requires ap_func ,
+  # site <- update_site_indicator(site, "am", "benefit") # requires wb_func
+  # site <- update_site_indicator(site, "fh", "func") # requires ap_func,
+  # site <- update_site_indicator(site, "fh", "benefit") # requires wb_func
+  # site <- update_site_indicator(site, "sfts", "func")
+  # site <- update_site_indicator(site, "sfts", "benefit") # requires fh_func
+  # site <- update_site_indicator(site, "ap", "benefit") # requires fh_func , ah_func, wb_func, rsb_func
+  # site <- update_site_indicator(site, "cri", "benefit") # requires wb_func, fh_func
+  site
 }

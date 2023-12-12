@@ -1,4 +1,4 @@
-cs_f <- function(site) {
+cs_func <- function(site) {
 
   indicator_data <- get_indicator_data(site, "cs")
   vals <- get_vals(indicator_data)
@@ -37,28 +37,28 @@ cs_f <- function(site) {
   #=MAX(F13:F20)/MAX(E13:E20)
   #<- max(F13:F20) / max(E13:E20)
 
-  treetyp6 <- wt_max(indicator_data, "F3", "function")
+  treetyp6 <- wt_max(indicator_data, "F3", "func")
 
 
   # F10 - dense Moss Extent
   #=MAX(F22:F26)/MAX(E22:E26)
 
-  moss6 <- wt_max(indicator_data, "F10", "function")
+  moss6 <- wt_max(indicator_data, "F10", "func")
 
   # F15 - Percent Bare Ground
-  gcover6 <- wt_max(indicator_data, "F15", "function")
+  gcover6 <- wt_max(indicator_data, "F15", "func")
 
   # F17 - soil surface texture
   #=MAX(F33:F37)/MAX(E33:E37)
 
-  soiltex6 <- wt_max(indicator_data, "F17", "function")
+  soiltex6 <- wt_max(indicator_data, "F17", "func")
 
   # F40 - Channel connections and outflows
   #ifelse((D42 + D43) > 0, 1, max(F39:F43) / max(E39:E43))
 
   outdura6 <- dplyr::case_when(
     (vals$F40_4 + vals$F40_5) > 0 ~ 1,
-    .default = wt_max(indicator_data, "F40", "function")
+    .default = wt_max(indicator_data, "F40", "func")
   )
 
 
@@ -70,7 +70,7 @@ cs_f <- function(site) {
     vals$NeverWater + vals$TempWet > 0 ~ NA,
     vals$NoOutlet + vals$NoOutletX > 0 ~ NA,
     vals$F41_4 == 1 ~ NA,
-    .default = wt_max(indicator_data, "F41", "function")
+    .default = wt_max(indicator_data, "F41", "func")
   )
 
 
@@ -90,7 +90,7 @@ cs_f <- function(site) {
 
   #Fire history # F55
 
-  fire6 <- wt_max(indicator_data, "F55", "function")
+  fire6 <- wt_max(indicator_data, "F55", "func")
 
   # S5 - Soil or Sediment Alteration within the assessment area
 
@@ -100,7 +100,9 @@ cs_f <- function(site) {
   # Assuming SoilTex6, Moss6, Acidic6, OutDura6, WoodyPct6, TreeTyp6, Fire6, Burn6,
   # Gcover6, Constric6, WetDef6, SoilDisturb6 are variables
 
-  10 * (5 * max_na(soiltex6, moss6, acidic6) +
+  cs_func_score <- 10 * (5 * max_na(soiltex6, moss6, acidic6) +
           2 * outdura6 + woodypct6 +
           mean_na(c(treetyp6, fire6, burn6, gcover6, constric6, wetdef6, soildisturb6))) / 9
+
+  cs_func_score
 }
