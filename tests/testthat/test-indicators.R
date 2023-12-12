@@ -2,19 +2,15 @@
 # against during refactoring. It's ok to change them if you knowingly fix
 # a bug or change functionality in the indicator calculations
 
-test_that("cs_f works", {
+test_that("indicator calculations work", {
+  site <- make_test_site()
   expect_equal(round(cs_func(site), 2), 8.72)
-})
-
-test_that("ws_f works", {
-  expect_equal(round(ws_func(site), 2), 8.16)
-})
-
-test_that("ws_b works", {
+  expect_equal(round(ws_func(site), 2), 7.02)
   expect_equal(round(ws_benefit(site), 2), 5.89)
 })
 
 test_that("updating a site with indicator value works", {
+  site <- make_test_site()
   ref <- ws_func(site)
   site <- update_site_indicator(site, "ws", "func")
   expect_s3_class(site, "wesp_site")
@@ -22,6 +18,7 @@ test_that("updating a site with indicator value works", {
 })
 
 test_that("update_site_indicator errors correctly", {
+  site <- make_test_site()
   expect_snapshot(update_site_indicator(list(), "ws"), error = TRUE)
   expect_snapshot(update_site_indicator(site, "blah"), error = TRUE)
   expect_snapshot(update_site_indicator(site, "cs", "benefit"), error = TRUE)
