@@ -8,7 +8,15 @@
 #' @return a `data.frame` of the responses
 #' @export
 load_wesp_data <- function(path) {
-  readr::read_csv(path, name_repair = "universal") |>
+  withr::local_options(
+    rlib_name_repair_verbosity = "quiet"
+  )
+
+  readr::read_csv(
+    path,
+    col_types = "c",
+    name_repair = "universal"
+  ) |>
     dplyr::rename_with(
       \(x) gsub("...", "site_", x),
       dplyr::starts_with("...")
