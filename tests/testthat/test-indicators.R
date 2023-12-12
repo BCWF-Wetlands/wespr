@@ -23,3 +23,12 @@ test_that("update_site_indicator errors correctly", {
   expect_snapshot(update_site_indicator(site, "blah"), error = TRUE)
   expect_snapshot(update_site_indicator(site, "cs", "benefit"), error = TRUE)
 })
+
+test_that("update_site_indicator warns when exisiting value", {
+  site <- make_test_site()
+  site$indicators$ws$benefit <- 1.0
+  expect_warning(
+    update_site_indicator(site, "ws", "benefit"),
+    "has exisiting value"
+  )
+})

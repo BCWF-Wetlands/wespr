@@ -49,6 +49,13 @@ update_site_indicator <- function(site, indicator, type = c("func", "benefit")) 
   indicator_fun <- paste(indicator, type, sep = "_")
   value <- do.call(indicator_fun, list(site = site))
 
+  existing_value <- site$indicators[[indicator]][[type]]
+
+  if (!is.null(existing_value)) {
+    warning("'", indicator, ":", type, "' has exisiting value: ", existing_value, ". ",
+            "Replacing it with ", round(value, 2))
+  }
+
   site$indicators[[indicator]][[type]] <- value
 
   site
