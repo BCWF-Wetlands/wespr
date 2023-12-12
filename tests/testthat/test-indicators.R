@@ -2,11 +2,25 @@
 # against during refactoring. It's ok to change them if you knowingly fix
 # a bug or change functionality in the indicator calculations
 
-test_that("indicator calculations work", {
+test_that("indicator calculations work (site 1)", {
   site <- make_test_site()
   expect_equal(round(cs_func(site), 2), 8.72)
   expect_equal(round(ws_func(site), 2), 7.02)
   expect_equal(round(ws_benefit(site), 2), 5.89)
+})
+
+test_that("indicator calculations work (site 2)", {
+  site <- make_test_site(site = 2)
+  expect_equal(round(cs_func(site), 2), 6.77)
+  expect_equal(round(ws_func(site), 2), 4.49)
+  expect_equal(round(ws_benefit(site), 2), 10)
+})
+
+test_that("indicator calculations work (site 3)", {
+  site <- make_test_site(site = "site_3")
+  expect_equal(round(cs_func(site), 2), 9.09)
+  expect_equal(round(ws_func(site), 2), 6.76)
+  expect_equal(round(ws_benefit(site), 2), 4.56)
 })
 
 test_that("updating a site with indicator value works", {
