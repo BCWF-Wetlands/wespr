@@ -13,3 +13,16 @@ test_that("ws_f works", {
 test_that("ws_b works", {
   expect_equal(round(ws_benefit(site), 2), 5.89)
 })
+
+test_that("updating a site with indicator value works", {
+  ref <- ws_func(site)
+  site <- update_site_indicator(site, "ws", "func")
+  expect_s3_class(site, "wesp_site")
+  expect_equal(site$indicators$ws$func, ref)
+})
+
+test_that("update_site_indicator errors correctly", {
+  expect_snapshot(update_site_indicator(list(), "ws"), error = TRUE)
+  expect_snapshot(update_site_indicator(site, "blah"), error = TRUE)
+  expect_snapshot(update_site_indicator(site, "cs", "benefit"), error = TRUE)
+})
