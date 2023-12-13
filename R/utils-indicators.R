@@ -10,6 +10,10 @@ wt_max <- function(indicator_data, question, type_f_b = c("func", "benefit")) {
     tolower(.data$type_f_b) == tolower({{type_f_b}})
   )
 
+  # values are stored as a list because they can be different types. For this
+  # function they must be numeric.
+  data$value <- as.numeric(unlist(data$value))
+
   max_na(data$value * data$q_weighting) / max_na(data$q_weighting)
 }
 
