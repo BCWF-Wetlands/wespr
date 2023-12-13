@@ -128,3 +128,35 @@ as.wesp_site <- function(data, site = NULL) {
   class(site) <- "wesp_site"
   site
 }
+
+update_site_indicator <- function(site, indicator, type = c("func", "benefit")) {
+  check_wesp_site(site)
+
+  if (!indicator %in% names(indicators()) ||
+      !exists(indicator, where = site$indicators)) {
+    stop("Invalid indicator: ", indicator, call. = FALSE)
+  }
+
+  type <- match.arg(type)
+
+  if (!exists(type, where = site$indicators[[indicator]])) {
+    stop("'", type, "' is not a valid type for indicator '", indicator, "'",
+         call. = FALSE)
+  }
+
+  # This is a bit fragile - make the name of the function from indicator and type
+  # args, and call it with do.call:
+  indicator_fun <- paste(indicator, type, sep = "_")
+  value <- do.call(indicator_fun, list(site = site))
+
+  existing_value <- site$indicators[[indicator]][[type]]
+
+  if (!is.null(existing_value)) {
+    warning("'", indicator, ":", type, "' has exisiting value: ", existing_value, ". ",
+            "Replacing it with ", round(value, 2))
+  }
+
+  site$indicators[[indicator]][[type]] <- value
+
+  site
+}
