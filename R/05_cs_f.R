@@ -56,23 +56,23 @@ cs_func <- function(site) {
   # F40 - Channel connections and outflows
   #ifelse((D42 + D43) > 0, 1, max(F39:F43) / max(E39:E43))
 
-  outdura6 <- dplyr::case_when(
-    (vals$F40_4 + vals$F40_5) > 0 ~ 1,
-    .default = wt_max(indicator_data, "F40", "func")
-  )
-
+  outdura6 <- if ((vals$F40_4 + vals$F40_5) > 0) {
+    1
+  } else {
+    wt_max(indicator_data, "F40", "func")
+  }
 
   # F41 - outflow confinement and Artificial drainage
   #=IF((NeverWater+TempWet>0),"",IF((NoOutlet+NoOutletX>0),"",IF((D48=1),"",MAX(F45:F47)/MAX(E45:E47))))
   # requires
 
-  constric6 <- dplyr::case_when(
-    vals$NeverWater + vals$TempWet > 0 ~ NA,
-    vals$NoOutlet + vals$NoOutletX > 0 ~ NA,
-    vals$F41_4 == 1 ~ NA,
-    .default = wt_max(indicator_data, "F41", "func")
-  )
-
+  constric6 <- if (vals$NeverWater + vals$TempWet > 0 ||
+                   vals$NoOutlet + vals$NoOutletX > 0 ||
+                   vals$F41_4 == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F41", "func")
+  }
 
   # F55 - PH MEASUREMENT
 
