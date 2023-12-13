@@ -35,6 +35,18 @@ local_moisture_deficit <- function(vals) {
   )
 }
 
+degree_days_index <- function(vals) {
+  dplyr::case_when(
+    vals$OF26_1 == 0 ~ NA,
+    vals$GDeco == 1 ~ (vals$OF26_1 - 931) / 1545,
+    vals$CMeco == 1 ~ (vals$OF26_1 - 238) / 1475,
+    vals$SIMeco == 1 ~ (vals$OF26_1 - 205) / 2279,
+    vals$BPeco == 1 ~ (vals$OF26_1 - 720) / 1114,
+    vals$TPeco == 1 ~ (vals$OF26_1 - 487) / 957,
+    .default = NA
+  )
+}
+
 update_site_indicator <- function(site, indicator, type = c("func", "benefit")) {
   check_wesp_site(site)
 
