@@ -7,7 +7,9 @@ wt_max <- function(indicator_data, question, type_f_b = c("func", "benefit")) {
   data <- dplyr::filter(
     indicator_data,
     .data$no == {{question}},
-    tolower(.data$type_f_b) == tolower({{type_f_b}})
+    tolower(.data$type_f_b) == tolower({{type_f_b}}),
+    !is.na(.data$q_weighting),
+    !is.na(.data$value)
   )
 
   # values are stored as a list because they can be different types. For this
