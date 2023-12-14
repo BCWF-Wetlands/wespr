@@ -80,21 +80,11 @@ ws_func <- function(site) {
   # F25 Surface water fluctuations
   #=IF((NeverWater=1),"",IF((NoPersis=1),"",MAX(F46:F50)/MAX(E46:E50)))
 
-  fluctu1 <- dplyr::case_when(
-    vals$NeverWater == 1 ~ NA_real_,
-    vals$NoPersis == 1 ~ NA_real_,
-    .default = wt_max(indicator_data, "F25", "func")
-  )
-
-
+  fluctu1 <- surface_water_fluctuation(vals, indicator_data)
 
   #F27 Ponded water
 
-  pondpct1 <- if (vals$NeverWater == 1 || vals$NoPersis == 1) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F27", "func")
-  }
+  pondpct1 <- ponded_water(vals, indicator_data)
 
   # F29 - Largest Deep Ponded Water
   # =IF((NeverWater=1),"",IF((NoPersis=1),"",IF((NoPond=1),"",MAX(F59:F64)/MAX(E59:E64))))
@@ -116,8 +106,10 @@ ws_func <- function(site) {
 
   # F41 Outflow
   # =IF((NoOutlet+NoOutletX>0),"",IF((D75=1),"", MAX(F72:F74)/MAX(E72:E74)))
-  # this is differnt to cs version of this formular
+  # this is differnt to cs version of this formula. Use outflow_confinement() if
+  # resolved to be the same. See https://github.com/BCWF-Wetlands/wespr/issues/17.
 
+  # constric1 <- outflow_confinement(vals, indicator_data)
   constric1 <- dplyr::case_when(
     # (vals$NeverWater + vals$TempWet) > 0 ~ NA,
     (vals$NoOutlet + vals$NoOutletX) > 0 ~ NA_real_,
@@ -128,20 +120,12 @@ ws_func <- function(site) {
   # F43 - Thoughflow Resistance
   #=IF(OR(Inflow=0,NoOutlet+NoOutletX>0),"",MAX(F77:F81)/MAX(E77:E81))
 
-  thruflo1 <- if (vals$Inflow == 0 || (vals$NoOutlet + vals$NoOutletX) > 0) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F43", "func")
-  }
+  thruflo1 <- throughflow_resistance(vals, indicator_data)
 
   # F44 Internal Gradient
   #=IF((NoOutlet+NoOutletX>0),"",IF((Inflow=1),"",MAX(F83:F86)/MAX(E83:E86)))
 
-  gradient1 <- if ((vals$NoOutlet + vals$NoOutletX) > 0 || vals$Inflow == 1) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F44", "func")
-  }
+  gradient1 <- internal_gradient(vals, indicator_data)
 
   # F47 - gound water input probability
 

@@ -66,13 +66,7 @@ cs_func <- function(site) {
   #=IF((NeverWater+TempWet>0),"",IF((NoOutlet+NoOutletX>0),"",IF((D48=1),"",MAX(F45:F47)/MAX(E45:E47))))
   # requires
 
-  constric6 <- if (vals$NeverWater + vals$TempWet > 0 ||
-                   vals$NoOutlet + vals$NoOutletX > 0 ||
-                   vals$F41_4 == 1) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F41", "func")
-  }
+  constric6 <- outflow_confinement(vals, indicator_data)
 
   # F55 - PH MEASUREMENT
 

@@ -27,24 +27,66 @@ local_moisture_deficit <- function(vals) {
   #TPeco = OF44_5 # Taiga Plains
 
   dplyr::case_when(
-    vals$OF25_1 <= 0 ~ NA,
+    vals$OF25_1 <= 0 ~ NA_real_,
     vals$GDeco == 1 ~ (vals$OF25_1 - 0) / 329,
     vals$CMeco == 1 ~ (vals$OF25_1 - 0) / 326,
     vals$SIMeco == 1 ~ (vals$OF25_1 - 0) / 825,
     vals$BPeco == 1 ~ (vals$OF25_1 - 24) / 381,
     vals$TPeco == 1 ~ (vals$OF25_1 - 0) / 219,
-    .default = NA
+    .default = NA_real_
   )
 }
 
 degree_days_index <- function(vals) {
   dplyr::case_when(
-    vals$OF26_1 == 0 ~ NA,
+    vals$OF26_1 == 0 ~ NA_real_,
     vals$GDeco == 1 ~ (vals$OF26_1 - 931) / 1545,
     vals$CMeco == 1 ~ (vals$OF26_1 - 238) / 1475,
     vals$SIMeco == 1 ~ (vals$OF26_1 - 205) / 2279,
     vals$BPeco == 1 ~ (vals$OF26_1 - 720) / 1114,
     vals$TPeco == 1 ~ (vals$OF26_1 - 487) / 957,
-    .default = NA
+    .default = NA_real_
   )
+}
+
+surface_water_fluctuation <- function(vals, indicator_data) {
+  if (vals$NeverWater == 1 || vals$NoPersis == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F25", "func")
+  }
+}
+
+ponded_water <- function(vals, indicator_data) {
+  if (vals$NeverWater == 1 || vals$NoPersis == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F27", "func")
+  }
+}
+
+outflow_confinement <- function(vals, indicator_data) {
+  if (vals$NeverWater + vals$TempWet > 0 ||
+      vals$NoOutlet + vals$NoOutletX > 0 ||
+      vals$F41_4 == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F41", "func")
+  }
+}
+
+throughflow_resistance <- function(vals, indicator_data) {
+  if (vals$Inflow == 0 || (vals$NoOutlet + vals$NoOutletX) > 0) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F43", "func")
+  }
+}
+
+internal_gradient <- function(vals, indicator_data) {
+  if ((vals$NoOutlet + vals$NoOutletX) > 0 || vals$Inflow == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F44", "func")
+  }
 }
