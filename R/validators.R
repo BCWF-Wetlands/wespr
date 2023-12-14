@@ -21,7 +21,7 @@ validators <- list(
                ": Value must be length ", n, " and be all 0s and one 1", call. = FALSE)
         }
       }
-      as.logical(x)
+      x
     }
   },
 
@@ -35,7 +35,7 @@ validators <- list(
         stop("Question ", q_no,
              ": Value must be length ", n, " and be all 0s and 1s", call. = FALSE)
       }
-      as.logical(x)
+      x
     }
   },
 
@@ -77,7 +77,7 @@ validators <- list(
         x %in% 0:1
       if (!valid) stop("Question ", q_no,
                        ": Value must be a single logical", call. = FALSE)
-      as.logical(x)
+      x
     }
   },
   # This one is a special case for pH, where the first value
