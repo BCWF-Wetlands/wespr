@@ -108,3 +108,11 @@ unveg_surface <- function(vals, indicator_data, type_f_b) {
     wt_max(indicator_data, "OF12", type_f_b)
   }
 }
+
+internal_flow_distance <- function(vals, indicator_data) {
+  if (vals$NoCA == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "OF10", "function") # TODO confirm range of OF10 responses to include in weighted max. https://github.com/BCWF-Wetlands/wespr/issues/21
+  }
+}

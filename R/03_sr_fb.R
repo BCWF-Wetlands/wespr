@@ -13,11 +13,7 @@ sr_function <- function(site) {
 
   wetpctrca3 <- wt_max(indicator_data, "OF11", "function")
 
-  flodist3 <- if (vals$NoCA == 1) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "OF10", "function") # TODO confirm range of OF10 responses to include in weighted max. https://github.com/BCWF-Wetlands/wespr/issues/21
-  }
+  flodist3 <- internal_flow_distance(vals, indicator_data)
 
   degreed3 <- degree_days_index(vals)
 
@@ -102,7 +98,7 @@ sr_function <- function(site) {
   dryintercept <- mean_na(
     c(gradient3, wetpctrca3,
       mean_na(
-        c(girreg3, gcover3, soil_disturb3)
+        c(girreg3, sedge3, gcover3, soil_disturb3)
       )
     )
   )
