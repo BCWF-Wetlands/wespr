@@ -4,7 +4,7 @@ sr_function <- function(site) {
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-  outmap3 <- if (vals$NoOutlet + vals$NoOutletX == 0) {
+  outmap3 <- if (vals$NoOutlet + vals$NoOutletX > 0) {
     1 # TODO: verify 1 vs OutDura3 (calced from F40 - Channel Connection and Ouflow duration)
     # https://github.com/BCWF-Wetlands/wespr/issues/23
   } else {
