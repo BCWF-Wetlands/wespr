@@ -4,7 +4,7 @@
 # NoOutlet
 # NoOutletX
 
-ws_func <- function(site) {
+ws_function <- function(site) {
 
   indicator_data <- get_indicator_data(site, "ws")
   vals <- get_vals(indicator_data)
@@ -27,11 +27,11 @@ ws_func <- function(site) {
 
   # OF10 - internal flow distance
 
-  flodist1 <- wt_max(indicator_data, "OF10", "func")
+  flodist1 <- wt_max(indicator_data, "OF10", "function")
 
   # OF11 - wetland as % of its contributing area
 
-  wetpctrca1 <- wt_max(indicator_data, "OF11", "func")
+  wetpctrca1 <- wt_max(indicator_data, "OF11", "function")
 
   # OF 26 - Degree Days Index
 
@@ -51,13 +51,13 @@ ws_func <- function(site) {
 
   # F15 - Percent Bare Ground
 
-  gcover1 <- wt_max(indicator_data, "F15", "func")
+  gcover1 <- wt_max(indicator_data, "F15", "function")
 
   # F17 - Soil Surface Texture
-  soiltex1 <- wt_max(indicator_data, "F17", "func")
+  soiltex1 <- wt_max(indicator_data, "F17", "function")
 
   # f18 Microtopography
-  girreg1 <- wt_max(indicator_data, "F18", "func")
+  girreg1 <- wt_max(indicator_data, "F18", "function")
 
   # F20 Percent only flooded seasonally
   #=IF((NeverWater=1),"",MAX(F33:F37)/MAX(E33:E37))
@@ -65,7 +65,7 @@ ws_func <- function(site) {
   seaspct1 <- if (vals$NeverWater == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F20", "func")
+    wt_max(indicator_data, "F20", "function")
   }
 
 
@@ -75,7 +75,7 @@ ws_func <- function(site) {
   permwpct1 <- if (vals$NeverWater == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F21", "func")
+    wt_max(indicator_data, "F21", "function")
   }
 
   # F25 Surface water fluctuations
@@ -93,7 +93,7 @@ ws_func <- function(site) {
   owareawet1 <- if (any(unlist(vals[c("NeverWater", "NoPersis", "NoPond")]) == 1)) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F29", "func")
+    wt_max(indicator_data, "F29", "function")
   }
 
   # F40 Channel connection and outflow duration
@@ -102,7 +102,7 @@ ws_func <- function(site) {
   outdura1 <- if (vals$F40_4 + vals$F40_5 > 0) {
     outmap1
   } else {
-    wt_max(indicator_data, "F40", "func")
+    wt_max(indicator_data, "F40", "function")
   }
 
   # F41 Outflow
@@ -115,7 +115,7 @@ ws_func <- function(site) {
     # (vals$NeverWater + vals$TempWet) > 0 ~ NA,
     (vals$NoOutlet + vals$NoOutletX) > 0 ~ NA_real_,
     vals$F41_4 == 1 ~ NA_real_,
-    .default = wt_max(indicator_data, "F41", "func")
+    .default = wt_max(indicator_data, "F41", "function")
   )
 
   # F43 - Thoughflow Resistance
@@ -130,7 +130,7 @@ ws_func <- function(site) {
 
   # F47 - gound water input probability
 
-  groundw1 <- wt_max(indicator_data, "F47", "func")
+  groundw1 <- wt_max(indicator_data, "F47", "function")
 
   #######################################################
   ## Overall WS Function  score
@@ -160,7 +160,7 @@ ws_func <- function(site) {
   # formula. https://github.com/BCWF-Wetlands/wespr/issues/24
 
   #=10*(IF((NoOutlet=1),1, IF((NeverWater=1),AVERAGE(MAX(Outmap1,OutDura1), AVERAGE(Friction, Subsurf)),AVERAGE(OutDura1, ((4*LiveStore+2*Friction+Subsurf)/7)))))
-  ws_func_score <- 10 * dplyr::case_when(
+  ws_function_score <- 10 * dplyr::case_when(
     vals$NoOutlet + vals$NoOutletX > 1 ~ 1,
     vals$NeverWater == 1 ~ mean_na(
       c(max_na(outmap1, outdura1), mean_na(c(friction, subsurf)))
@@ -170,7 +170,7 @@ ws_func <- function(site) {
     )
   )
 
-  ws_func_score
+  ws_function_score
 }
 
 #########################################################

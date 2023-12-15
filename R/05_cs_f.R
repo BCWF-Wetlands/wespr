@@ -1,4 +1,4 @@
-cs_func <- function(site) {
+cs_function <- function(site) {
 
   indicator_data <- get_indicator_data(site, "cs")
   vals <- get_vals(indicator_data)
@@ -37,21 +37,21 @@ cs_func <- function(site) {
   #=MAX(F13:F20)/MAX(E13:E20)
   #<- max(F13:F20) / max(E13:E20)
 
-  treetyp6 <- wt_max(indicator_data, "F3", "func")
+  treetyp6 <- wt_max(indicator_data, "F3", "function")
 
 
   # F10 - dense Moss Extent
   #=MAX(F22:F26)/MAX(E22:E26)
 
-  moss6 <- wt_max(indicator_data, "F10", "func")
+  moss6 <- wt_max(indicator_data, "F10", "function")
 
   # F15 - Percent Bare Ground
-  gcover6 <- wt_max(indicator_data, "F15", "func")
+  gcover6 <- wt_max(indicator_data, "F15", "function")
 
   # F17 - soil surface texture
   #=MAX(F33:F37)/MAX(E33:E37)
 
-  soiltex6 <- wt_max(indicator_data, "F17", "func")
+  soiltex6 <- wt_max(indicator_data, "F17", "function")
 
   # F40 - Channel connections and outflows
   #ifelse((D42 + D43) > 0, 1, max(F39:F43) / max(E39:E43))
@@ -59,7 +59,7 @@ cs_func <- function(site) {
   outdura6 <- if ((vals$F40_4 + vals$F40_5) > 0) {
     1
   } else {
-    wt_max(indicator_data, "F40", "func")
+    wt_max(indicator_data, "F40", "function")
   }
 
   # F41 - outflow confinement and Artificial drainage
@@ -84,7 +84,7 @@ cs_func <- function(site) {
 
   #Fire history # F55
 
-  fire6 <- wt_max(indicator_data, "F55", "func")
+  fire6 <- wt_max(indicator_data, "F55", "function")
 
   # S5 - Soil or Sediment Alteration within the assessment area
 
@@ -94,9 +94,9 @@ cs_func <- function(site) {
   # Assuming SoilTex6, Moss6, Acidic6, OutDura6, WoodyPct6, TreeTyp6, Fire6, Burn6,
   # Gcover6, Constric6, WetDef6, SoilDisturb6 are variables
 
-  cs_func_score <- 10 * (5 * max_na(soiltex6, moss6, acidic6) +
+  cs_function_score <- 10 * (5 * max_na(soiltex6, moss6, acidic6) +
           2 * outdura6 + woodypct6 +
           mean_na(c(treetyp6, fire6, burn6, gcover6, constric6, wetdef6, soildisturb6))) / 9
 
-  cs_func_score
+  cs_function_score
 }

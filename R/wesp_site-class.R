@@ -107,29 +107,29 @@ extract_unique_values <- function(x) {
 
 indicators <- function() {
   list(
-    ws = list(func = NULL, benefit = NULL),
-    sr = list(func = NULL, benefit = NULL),
-    pr = list(func = NULL, benefit = NULL),
-    cs = list(func = NULL),
-    fr = list(func = NULL, benefit = NULL),
-    sens = list(func = NULL),
-    str = list(func = NULL),
-    nr = list(func = NULL, benefit = NULL),
-    ap = list(func = NULL, benefit = NULL),
-    pd = list(func = NULL, benefit = NULL),
-    kmh = list(func = NULL, benefit = NULL),
-    wb = list(func = NULL, benefit = NULL),
-    pol = list(func = NULL, benefit = NULL),
-    rsb = list(func = NULL, benefit = NULL),
-    oe = list(func = NULL),
-    am = list(func = NULL, benefit = NULL),
-    fh = list(func = NULL, benefit = NULL),
-    sfts = list(func = NULL, benefit = NULL),
-    cri = list(benefit = NULL)
+    ws = list("function" = NULL, "benefit" = NULL),
+    sr = list("function" = NULL, "benefit" = NULL),
+    pr = list("function" = NULL, "benefit" = NULL),
+    cs = list("function" = NULL),
+    fr = list("function" = NULL, "benefit" = NULL),
+    sens = list("function" = NULL),
+    str = list("function" = NULL),
+    nr = list("function" = NULL, "benefit" = NULL),
+    ap = list("function" = NULL, "benefit" = NULL),
+    pd = list("function" = NULL, "benefit" = NULL),
+    kmh = list("function" = NULL, "benefit" = NULL),
+    wb = list("function" = NULL, "benefit" = NULL),
+    pol = list("function" = NULL, "benefit" = NULL),
+    rsb = list("function" = NULL, "benefit" = NULL),
+    oe = list("function" = NULL),
+    am = list("function" = NULL, "benefit" = NULL),
+    fh = list("function" = NULL, "benefit" = NULL),
+    sfts = list("function" = NULL, "benefit" = NULL),
+    cri = list("benefit" = NULL)
   )
 }
 
-update_site_indicator <- function(site, indicator, type = c("func", "benefit")) {
+update_site_indicator <- function(site, indicator, type = c("function", "benefit")) {
   check_wesp_site(site)
 
   if (!indicator %in% names(indicators()) ||

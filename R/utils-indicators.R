@@ -1,8 +1,6 @@
-wt_max <- function(indicator_data, question, type_f_b = c("func", "benefit")) {
+wt_max <- function(indicator_data, question, type_f_b = c("function", "benefit")) {
 
   type_f_b <- match.arg(type_f_b)
-
-  if (type_f_b == "func") type_f_b <- "function"
 
   data <- dplyr::filter(
     indicator_data,
@@ -65,7 +63,7 @@ surface_water_fluctuation <- function(vals, indicator_data) {
   if (vals$NeverWater == 1 || vals$NoPersis == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F25", "func")
+    wt_max(indicator_data, "F25", "function")
   }
 }
 
@@ -73,7 +71,7 @@ ponded_water <- function(vals, indicator_data) {
   if (vals$NeverWater == 1 || vals$NoPersis == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F27", "func")
+    wt_max(indicator_data, "F27", "function")
   }
 }
 
@@ -83,7 +81,7 @@ outflow_confinement <- function(vals, indicator_data) {
       vals$F41_4 == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F41", "func")
+    wt_max(indicator_data, "F41", "function")
   }
 }
 
@@ -91,7 +89,7 @@ throughflow_resistance <- function(vals, indicator_data) {
   if (vals$Inflow == 0 || (vals$NoOutlet + vals$NoOutletX) > 0) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F43", "func")
+    wt_max(indicator_data, "F43", "function")
   }
 }
 
@@ -99,7 +97,7 @@ internal_gradient <- function(vals, indicator_data) {
   if ((vals$NoOutlet + vals$NoOutletX) > 0 || vals$Inflow == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F44", "func")
+    wt_max(indicator_data, "F44", "function")
   }
 }
 
