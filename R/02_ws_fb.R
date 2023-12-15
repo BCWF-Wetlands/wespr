@@ -198,11 +198,7 @@ ws_benefit <- function(site) {
   # OF12 - unvegetated surface in the wetlands WAU
   #=IF((D15=1),"",MAX(F103:F105)/MAX(E103:E105))
 
-  impervca1 <- if (vals$OF11_4 == 1) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "OF12", "benefit")
-  }
+  impervca1 <- unveg_surface(vals, indicator_data, "benefit")
 
   # OF21 Local moisture deficit
 

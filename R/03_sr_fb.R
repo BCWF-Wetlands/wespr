@@ -131,3 +131,24 @@ sr_func <- function(site) {
 
 # benefit
 
+sr_benefit <- function(site) {
+  indicator_data <- get_indicator_data(site, "sr")
+  vals <- get_vals(indicator_data)
+  weights <- get_weights(indicator_data)
+
+  elev3v <- vals$OF5_1
+
+  glacier3v <- wt_max(indicator_data, "OF8", "benefit")
+
+  wetpctrca3v <- wt_max(indicator_data, "OF11", "benefit")
+
+  impervrca3v <- unveg_surface(vals, indicator_data, "benefit")
+
+  burn3v <- vals$OF15_1
+
+  dryness3v <- local_moisture_deficit(vals)
+
+  topopos3v <- topo_position(vals)
+
+}
+

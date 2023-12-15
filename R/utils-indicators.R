@@ -49,6 +49,18 @@ degree_days_index <- function(vals) {
   )
 }
 
+topo_position <- function(vals) {
+  switch(
+    vals$OF29_1,
+    "T" = 5,
+    "L" = 4,
+    "D" = 3,
+    "M" = 2,
+    `NA_character_` = NA_character_,
+    0
+  ) / 5
+}
+
 surface_water_fluctuation <- function(vals, indicator_data) {
   if (vals$NeverWater == 1 || vals$NoPersis == 1) {
     NA_real_
@@ -88,5 +100,13 @@ internal_gradient <- function(vals, indicator_data) {
     NA_real_
   } else {
     wt_max(indicator_data, "F44", "func")
+  }
+}
+
+unveg_surface <- function(vals, indicator_data, type_f_b) {
+  if (vals$OF11_4 == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "OF12", type_f_b)
   }
 }
