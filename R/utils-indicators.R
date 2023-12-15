@@ -116,3 +116,11 @@ internal_flow_distance <- function(vals, indicator_data) {
     wt_max(indicator_data, "OF10", "function") # TODO confirm range of OF10 responses to include in weighted max. https://github.com/BCWF-Wetlands/wespr/issues/21
   }
 }
+
+ground_cover <- function(vals, indicator_data) {
+  if (vals$F15_4 == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F15", "function")
+  }
+}

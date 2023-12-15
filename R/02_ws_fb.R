@@ -53,6 +53,8 @@ ws_function <- function(site) {
 
   # F15 - Percent Bare Ground
 
+  # TODO: See if this should condition on F15_4 like in PR and SR. If so,
+  # use ground_cover()
   gcover1 <- wt_max(indicator_data, "F15", "function")
 
   # F17 - Soil Surface Texture

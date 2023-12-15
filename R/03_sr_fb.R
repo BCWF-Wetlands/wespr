@@ -19,11 +19,7 @@ sr_function <- function(site) {
 
   sedge3 <- wt_max(indicator_data, "F12", "function")
 
-  gcover3 <- if (vals$F15_4 == 1) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F15", "function")
-  }
+  gcover3 <- ground_cover(vals, indicator_data)
 
   girreg3 <- wt_max(indicator_data, "F18", "function")
 
