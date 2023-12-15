@@ -27,6 +27,8 @@ ws_function <- function(site) {
 
   # OF10 - internal flow distance
 
+  # TODO: should this condition on noCA as do PR and SR? If so, use
+  # internal_flow_distance() function. https://github.com/BCWF-Wetlands/wespr/issues/21
   flodist1 <- wt_max(indicator_data, "OF10", "function")
 
   # OF11 - wetland as % of its contributing area
