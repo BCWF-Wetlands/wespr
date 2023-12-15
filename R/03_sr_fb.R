@@ -6,6 +6,7 @@ sr_func <- function(site) {
 
   outmap3 <- if (vals$NoOutlet + vals$NoOutletX == 0) {
     1 # TODO: verify 1 vs OutDura3 (calced from F40 - Channel Connection and Ouflow duration)
+    # https://github.com/BCWF-Wetlands/wespr/issues/23
   } else {
     vals$OutMap
   }
@@ -15,7 +16,7 @@ sr_func <- function(site) {
   flodist3 <- if (vals$NoCA == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "OF10", "func") # TODO confirm range of OF10 responses to include in weighted max
+    wt_max(indicator_data, "OF10", "func") # TODO confirm range of OF10 responses to include in weighted max. https://github.com/BCWF-Wetlands/wespr/issues/21
   }
 
   degreed3 <- degree_days_index(vals)
@@ -148,11 +149,13 @@ sr_benefit <- function(site) {
 
   dryness3v <- local_moisture_deficit(vals)
 
-  topopos3v <- topo_position(vals) # TODO: The formula is wrong in the spreadsheet, need to verify
+  # TODO: The formula is wrong in the spreadsheet, need to verify. https://github.com/BCWF-Wetlands/wespr/issues/20
+  topopos3v <- topo_position(vals)
 
   #TODO: For the next three calculations, the formula in spreadsheet says:
   # if sum(OF30:OF43) == O, NA, else wt_max.
-  # Seems like a huge range https://github.com/BCWF-Wetlands/wespr/issues/18
+  # Seems like a huge range. Currently skipping that condition, and using noCA only
+  # https://github.com/BCWF-Wetlands/wespr/issues/18
   rddens3v <- wt_max(indicator_data, "OF30", "benefit")
 
   disturb3v <- if (vals$NoCA == 1) {
@@ -161,6 +164,8 @@ sr_benefit <- function(site) {
     wt_max(indicator_data, "OF41", "benefit")
   }
 
+  # TODO: rddenswau3v is not currently used in the SR benefit calculation:
+  # https://github.com/BCWF-Wetlands/wespr/issues/19
   rddenswau3v <- if (vals$NoCA == 1) {
     NA_real_
   } else {

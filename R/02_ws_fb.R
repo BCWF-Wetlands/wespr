@@ -17,6 +17,7 @@ ws_func <- function(site) {
 
   # NoOutlet, NoOutletX
 
+  # TODO: Resolve value if no outlet: https://github.com/BCWF-Wetlands/wespr/issues/22
   outmap1 <- if ((vals$NoOutlet + vals$NoOutletX) > 0) {
     1
   } else {
@@ -106,7 +107,7 @@ ws_func <- function(site) {
 
   # F41 Outflow
   # =IF((NoOutlet+NoOutletX>0),"",IF((D75=1),"", MAX(F72:F74)/MAX(E72:E74)))
-  # this is differnt to cs version of this formula. Use outflow_confinement() if
+  # TODO: this is differnt to cs version of this formula. Use outflow_confinement() if
   # resolved to be the same. See https://github.com/BCWF-Wetlands/wespr/issues/17.
 
   # constric1 <- outflow_confinement(vals, indicator_data)
@@ -155,6 +156,8 @@ ws_func <- function(site) {
   }
 
   # final function score
+  # TODO: Text describing formula includes `NoOutletX`, but is not included in the
+  # formula. https://github.com/BCWF-Wetlands/wespr/issues/24
 
   #=10*(IF((NoOutlet=1),1, IF((NeverWater=1),AVERAGE(MAX(Outmap1,OutDura1), AVERAGE(Friction, Subsurf)),AVERAGE(OutDura1, ((4*LiveStore+2*Friction+Subsurf)/7)))))
   ws_func_score <- 10 * dplyr::case_when(
