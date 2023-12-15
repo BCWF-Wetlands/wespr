@@ -148,7 +148,67 @@ sr_benefit <- function(site) {
 
   dryness3v <- local_moisture_deficit(vals)
 
-  topopos3v <- topo_position(vals)
+  topopos3v <- topo_position(vals) # TODO: The formula is wrong in the spreadsheet, need to verify
 
+  #TODO: For the next three calculations, the formula in spreadsheet says:
+  # if sum(OF30:OF43) == O, NA, else wt_max.
+  # Seems like a huge range https://github.com/BCWF-Wetlands/wespr/issues/18
+  rddens3v <- wt_max(indicator_data, "OF30", "benefit")
+
+  disturb3v <- if (vals$NoCA == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "OF41", "benefit")
+  }
+
+  rddenswau3v <- if (vals$NoCA == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "OF42", "benefit")
+  }
+
+  alldry3 <- wt_max(indicator_data, "F19", "benefit")
+
+  colour3 <- if (vals$F39_3 == 1) {
+    1
+  } else {
+    NA_real_
+  }
+
+  inflow3v <- if (vals$NoOutlet + vals$NoOutletX > 0) {
+    NA_real_
+  } else {
+    vals$F42_1
+  }
+
+  perimpctper3v <- if (vals$Disturb == 0) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F50", "benefit")
+  }
+
+  buffcovtyp3v <- if (vals$Disturb == 0) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F51", "benefit")
+  }
+
+  buffslope3v <- if (vals$Disturb == 0) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F52", "benefit")
+  }
+
+  fire3 <- wt_max(indicator_data, "F55", "benefit")
+
+  sedin2 <- vals$S4_subscore
+
+  # =10*(2*AVERAGE(colour3, Burn3v, Fire3, Glacier3v, RdDens3v, ImpervRCA3v, SedIn2 ) + AVERAGE(BuffCovTyp3v, BuffSlope3v, PerimPctPer3v, Disturb3v) + AVERAGE(Elev3v, WetPctRCA3v, TopoPos3v, Inflow3v, Alldry3, Dryness3v))/4
+
+  10 * (
+    2 * mean_na(c(colour3, burn3v, fire3, glacier3v, rddens3v, impervrca3v, sedin2)) +
+      mean_na(c(buffcovtyp3v, buffslope3v, perimpctper3v, disturb3v)) +
+      mean_na(c(elev3v, wetpctrca3v, topopos3v, inflow3v, alldry3, dryness3v))
+    ) / 4
 }
 

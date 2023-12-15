@@ -3,7 +3,7 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "ws", "func")
   site <- update_site_indicator(site, "ws", "benefit")
   site <- update_site_indicator(site, "sr", "func")
-  # site <- update_site_indicator(site, "sr", "benefit")
+  site <- update_site_indicator(site, "sr", "benefit")
   # site <- update_site_indicator(site, "pr", "func")
   # site <- update_site_indicator(site, "pr", "benefit")
   site <- update_site_indicator(site, "cs", "func")
