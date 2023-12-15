@@ -94,6 +94,7 @@ cs_function <- function(site) {
   # Assuming SoilTex6, Moss6, Acidic6, OutDura6, WoodyPct6, TreeTyp6, Fire6, Burn6,
   # Gcover6, Constric6, WetDef6, SoilDisturb6 are variables
 
+  # TODO: Should score be calculated by 10? https://github.com/BCWF-Wetlands/wespr/issues/26
   cs_function_score <- 10 * (5 * max_na(soiltex6, moss6, acidic6) +
           2 * outdura6 + woodypct6 +
           mean_na(c(treetyp6, fire6, burn6, gcover6, constric6, wetdef6, soildisturb6))) / 9
