@@ -1,4 +1,4 @@
-sr_function <- function(site) {
+sr_fun <- function(site) {
 
   indicator_data <- get_indicator_data(site, "sr")
   vals <- get_vals(indicator_data)
@@ -11,22 +11,22 @@ sr_function <- function(site) {
     vals$OutMap
   }
 
-  wetpctrca3 <- wt_max(indicator_data, "OF11", "function")
+  wetpctrca3 <- wt_max(indicator_data, "OF11", "fun")
 
   flodist3 <- internal_flow_distance(vals, indicator_data)
 
   degreed3 <- degree_days_index(vals)
 
-  sedge3 <- wt_max(indicator_data, "F12", "function")
+  sedge3 <- wt_max(indicator_data, "F12", "fun")
 
   gcover3 <- ground_cover(vals, indicator_data)
 
-  girreg3 <- wt_max(indicator_data, "F18", "function")
+  girreg3 <- wt_max(indicator_data, "F18", "fun")
 
   seaspct3 <- if (vals$NeverWater == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F20", "function")
+    wt_max(indicator_data, "F20", "fun")
   }
 
   fluc2 <- surface_water_fluctuation(vals, indicator_data)
@@ -34,7 +34,7 @@ sr_function <- function(site) {
   depthdom3 <- if (vals$NeverWater == 1 || vals$NoPersis == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F26", "function")
+    wt_max(indicator_data, "F26", "fun")
   }
 
   ponded3 <- ponded_water(vals, indicator_data)
@@ -45,7 +45,7 @@ sr_function <- function(site) {
                    vals$NoOW == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F33", "function")
+    wt_max(indicator_data, "F33", "fun")
   }
 
   interspers3 <- if (vals$NeverWater == 1 ||
@@ -54,20 +54,20 @@ sr_function <- function(site) {
                      vals$NoOW == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F35", "function")
+    wt_max(indicator_data, "F35", "fun")
   }
 
   emarea3 <- if (vals$NeverWater == 1 ||
                  vals$NoPersis == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F37", "function")
+    wt_max(indicator_data, "F37", "fun")
   }
 
   outdura3 <- if (vals$F40_4 + vals$F40_5 > 0) {
     outmap3
   } else {
-    wt_max(indicator_data, "F40", "function")
+    wt_max(indicator_data, "F40", "fun")
   }
 
   constric3 <- outflow_confinement(vals, indicator_data)
@@ -110,7 +110,7 @@ sr_function <- function(site) {
   #
   ## Final:
   # =IF((NeverWater=1),DryIntercept,IF((Outmap3=0),10,10*OutDura3*AVERAGE(LiveStore3,DryIntercept,WetIntercept)))
-  sr_function_score <- if (vals$NeverWater == 1) {
+  sr_fun_score <- if (vals$NeverWater == 1) {
     dryintercept
   } else if (outmap3 == 0) {
     10
@@ -118,24 +118,24 @@ sr_function <- function(site) {
     10 * outdura3 * mean_na(c(livestore3, dryintercept, wetintercept))
   }
 
-  sr_function_score
+  sr_fun_score
 }
 
 
 # benefit
 
-sr_benefit <- function(site) {
+sr_ben <- function(site) {
   indicator_data <- get_indicator_data(site, "sr")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
   elev3v <- vals$OF5_1
 
-  glacier3v <- wt_max(indicator_data, "OF8", "benefit")
+  glacier3v <- wt_max(indicator_data, "OF8", "ben")
 
-  wetpctrca3v <- wt_max(indicator_data, "OF11", "benefit")
+  wetpctrca3v <- wt_max(indicator_data, "OF11", "ben")
 
-  impervrca3v <- unveg_surface(vals, indicator_data, "benefit")
+  impervrca3v <- unveg_surface(vals, indicator_data, "ben")
 
   burn3v <- vals$OF15_1
 
@@ -148,12 +148,12 @@ sr_benefit <- function(site) {
   # if sum(OF30:OF43) == O, NA, else wt_max.
   # Seems like a huge range. Currently skipping that condition, and using noCA only
   # https://github.com/BCWF-Wetlands/wespr/issues/18
-  rddens3v <- wt_max(indicator_data, "OF30", "benefit")
+  rddens3v <- wt_max(indicator_data, "OF30", "ben")
 
   disturb3v <- if (vals$NoCA == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "OF41", "benefit")
+    wt_max(indicator_data, "OF41", "ben")
   }
 
   # TODO: rddenswau3v is not currently used in the SR benefit calculation:
@@ -161,10 +161,10 @@ sr_benefit <- function(site) {
   rddenswau3v <- if (vals$NoCA == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "OF42", "benefit")
+    wt_max(indicator_data, "OF42", "ben")
   }
 
-  alldry3 <- wt_max(indicator_data, "F19", "benefit")
+  alldry3 <- wt_max(indicator_data, "F19", "ben")
 
   colour3 <- if (vals$F39_3 == 1) {
     1
@@ -181,33 +181,33 @@ sr_benefit <- function(site) {
   perimpctper3v <- if (vals$Disturb == 0) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F50", "benefit")
+    wt_max(indicator_data, "F50", "ben")
   }
 
   buffcovtyp3v <- if (vals$Disturb == 0) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F51", "benefit")
+    wt_max(indicator_data, "F51", "ben")
   }
 
   buffslope3v <- if (vals$Disturb == 0) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F52", "benefit")
+    wt_max(indicator_data, "F52", "ben")
   }
 
-  fire3 <- wt_max(indicator_data, "F55", "benefit")
+  fire3 <- wt_max(indicator_data, "F55", "ben")
 
   sedin2 <- vals$S4_subscore
 
   # =10*(2*AVERAGE(colour3, Burn3v, Fire3, Glacier3v, RdDens3v, ImpervRCA3v, SedIn2 ) + AVERAGE(BuffCovTyp3v, BuffSlope3v, PerimPctPer3v, Disturb3v) + AVERAGE(Elev3v, WetPctRCA3v, TopoPos3v, Inflow3v, Alldry3, Dryness3v))/4
 
-  sr_benefit_score <- 10 * (
+  sr_ben_score <- 10 * (
     2 * mean_na(c(colour3, burn3v, fire3, glacier3v, rddens3v, impervrca3v, sedin2)) +
       mean_na(c(buffcovtyp3v, buffslope3v, perimpctper3v, disturb3v)) +
       mean_na(c(elev3v, wetpctrca3v, topopos3v, inflow3v, alldry3, dryness3v))
     ) / 4
 
-  sr_benefit_score
+  sr_ben_score
 }
 

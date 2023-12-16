@@ -107,29 +107,29 @@ extract_unique_values <- function(x) {
 
 indicators <- function() {
   list(
-    ws = list("function" = NULL, "benefit" = NULL),
-    sr = list("function" = NULL, "benefit" = NULL),
-    pr = list("function" = NULL, "benefit" = NULL),
-    cs = list("function" = NULL),
-    fr = list("function" = NULL, "benefit" = NULL),
-    sens = list("function" = NULL),
-    str = list("function" = NULL),
-    nr = list("function" = NULL, "benefit" = NULL),
-    ap = list("function" = NULL, "benefit" = NULL),
-    pd = list("function" = NULL, "benefit" = NULL),
-    kmh = list("function" = NULL, "benefit" = NULL),
-    wb = list("function" = NULL, "benefit" = NULL),
-    pol = list("function" = NULL, "benefit" = NULL),
-    rsb = list("function" = NULL, "benefit" = NULL),
-    oe = list("function" = NULL),
-    am = list("function" = NULL, "benefit" = NULL),
-    fh = list("function" = NULL, "benefit" = NULL),
-    sfts = list("function" = NULL, "benefit" = NULL),
-    cri = list("benefit" = NULL)
+    ws = list(fun = NULL, ben = NULL),
+    sr = list(fun = NULL, ben = NULL),
+    pr = list(fun = NULL, ben = NULL),
+    cs = list(fun = NULL),
+    fr = list(fun = NULL, ben = NULL),
+    sens = list(fun = NULL),
+    str = list(fun = NULL),
+    nr = list(fun = NULL, ben = NULL),
+    ap = list(fun = NULL, ben = NULL),
+    pd = list(fun = NULL, ben = NULL),
+    kmh = list(fun = NULL, ben = NULL),
+    wb = list(fun = NULL, ben = NULL),
+    pol = list(fun = NULL, ben = NULL),
+    rsb = list(fun = NULL, ben = NULL),
+    oe = list(fun = NULL),
+    am = list(fun = NULL, ben = NULL),
+    fh = list(fun = NULL, ben = NULL),
+    sfts = list(fun = NULL, ben = NULL),
+    cri = list(ben = NULL)
   )
 }
 
-update_site_indicator <- function(site, indicator, type = c("function", "benefit")) {
+update_site_indicator <- function(site, indicator, type = c("fun", "ben")) {
   check_wesp_site(site)
 
   if (!indicator %in% names(indicators()) ||

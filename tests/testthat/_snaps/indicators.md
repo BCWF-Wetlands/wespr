@@ -9,16 +9,16 @@
 ---
 
     Code
-      update_site_indicator(site, "blah")
+      update_site_indicator(site, "PEANUT BUTTER COW")
     Condition
       Error:
-      ! Invalid indicator: blah
+      ! Invalid indicator: PEANUT BUTTER COW
 
 ---
 
     Code
-      update_site_indicator(site, "cs", "benefit")
+      update_site_indicator(site, "cs", "ben")
     Condition
       Error:
-      ! 'benefit' is not a valid type for indicator 'cs'
+      ! 'ben' is not a valid type for indicator 'cs'
 

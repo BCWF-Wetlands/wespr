@@ -1,6 +1,6 @@
 
 # function
-pr_function <- function(site) {
+pr_fun <- function(site) {
   indicator_data <- get_indicator_data(site, "pr")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
@@ -11,9 +11,9 @@ pr_function <- function(site) {
     vals$OF6_1
   }
 
-  aspect4 <- wt_max(indicator_data, "OF7", "function")
+  aspect4 <- wt_max(indicator_data, "OF7", "fun")
 
-  wetpctrca4 <- wt_max(indicator_data, "OF11", "function")
+  wetpctrca4 <- wt_max(indicator_data, "OF11", "fun")
 
   flodist4 <- internal_flow_distance(vals, indicator_data)
 
@@ -25,7 +25,7 @@ pr_function <- function(site) {
 
 
 # benefit
-pr_benefit <- function(site) {
+pr_ben <- function(site) {
   indicator_data <- get_indicator_data(site, "pr")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)

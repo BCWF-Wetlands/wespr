@@ -1,11 +1,11 @@
-wt_max <- function(indicator_data, question, type_f_b = c("function", "benefit")) {
+wt_max <- function(indicator_data, question, type_f_b = c("fun", "ben")) {
 
   type_f_b <- match.arg(type_f_b)
 
   data <- dplyr::filter(
     indicator_data,
     .data$no == {{question}},
-    tolower(.data$type_f_b) == tolower({{type_f_b}}),
+    .data$type_f_b == {{type_f_b}},
     !is.na(.data$q_weighting),
     !is.na(.data$value)
   )
@@ -63,7 +63,7 @@ surface_water_fluctuation <- function(vals, indicator_data) {
   if (vals$NeverWater == 1 || vals$NoPersis == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F25", "function")
+    wt_max(indicator_data, "F25", "fun")
   }
 }
 
@@ -71,7 +71,7 @@ ponded_water <- function(vals, indicator_data) {
   if (vals$NeverWater == 1 || vals$NoPersis == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F27", "function")
+    wt_max(indicator_data, "F27", "fun")
   }
 }
 
@@ -81,7 +81,7 @@ outflow_confinement <- function(vals, indicator_data) {
       vals$F41_4 == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F41", "function")
+    wt_max(indicator_data, "F41", "fun")
   }
 }
 
@@ -89,7 +89,7 @@ throughflow_resistance <- function(vals, indicator_data) {
   if (vals$Inflow == 0 || (vals$NoOutlet + vals$NoOutletX) > 0) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F43", "function")
+    wt_max(indicator_data, "F43", "fun")
   }
 }
 
@@ -97,7 +97,7 @@ internal_gradient <- function(vals, indicator_data) {
   if ((vals$NoOutlet + vals$NoOutletX) > 0 || vals$Inflow == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F44", "function")
+    wt_max(indicator_data, "F44", "fun")
   }
 }
 
@@ -113,7 +113,7 @@ internal_flow_distance <- function(vals, indicator_data) {
   if (vals$NoCA == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "OF10", "function") # TODO confirm range of OF10 responses to include in weighted max. https://github.com/BCWF-Wetlands/wespr/issues/21
+    wt_max(indicator_data, "OF10", "fun") # TODO confirm range of OF10 responses to include in weighted max. https://github.com/BCWF-Wetlands/wespr/issues/21
   }
 }
 
@@ -121,6 +121,6 @@ ground_cover <- function(vals, indicator_data) {
   if (vals$F15_4 == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F15", "function")
+    wt_max(indicator_data, "F15", "fun")
   }
 }
