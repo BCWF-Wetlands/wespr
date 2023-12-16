@@ -54,7 +54,7 @@ ws_function <- function(site) {
   # F15 - Percent Bare Ground
 
   # TODO: See if this should condition on F15_4 like in PR and SR. If so,
-  # use ground_cover()
+  # use ground_cover(). https://github.com/BCWF-Wetlands/wespr/issues/27
   gcover1 <- wt_max(indicator_data, "F15", "function")
 
   # F17 - Soil Surface Texture
@@ -71,8 +71,6 @@ ws_function <- function(site) {
   } else {
     wt_max(indicator_data, "F20", "function")
   }
-
-
 
   # F21 Percent with Persistent Surface water
 
