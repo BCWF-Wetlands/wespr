@@ -21,6 +21,8 @@ pr_fun <- function(site) {
 
   gcover4 <- ground_cover(vals, indicator_data)
 
+  # soiltex4 <- ...
+
 }
 
 
