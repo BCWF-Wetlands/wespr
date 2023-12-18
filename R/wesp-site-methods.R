@@ -74,5 +74,6 @@ get_indicator_scores.wesp_site <- function(site, ...) {
   dplyr::bind_cols(
     site = site$site_name,
     dplyr::bind_rows(site$indicators, .id = "indicator")
-  )
+  ) %>%
+    dplyr::mutate(indicator = toupper(indicator))
 }
