@@ -1,7 +1,8 @@
-#' Load the data containing the responses
+#' Load the data containing the responses to WESP form
 #'
 #' This file is usually an output from the R script at
-#' https://github.com/BCWF-Wetlands/WESP_Calculator
+#' https://github.com/BCWF-Wetlands/WESP_Calculator, and includes
+#' answers to Office (OF), Field (F), and Stressor (S) questions.
 #'
 #' @param path path to csv
 #'
