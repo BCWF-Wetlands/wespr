@@ -1,4 +1,14 @@
 
+#' Calculate Indicators for WESP assessment site
+#'
+#' Calculate all Function and Benefit indicators
+#' for a site.
+#'
+#' @param site An object of type `wesp_site`, as created
+#'   with [as.wesp_site()].
+#'
+#' @return `wesp_site` object with indicators calculated.
+#' @export
 calc_indicators <- function(site) {
   site <- update_site_indicator(site, "ws", "fun")
   site <- update_site_indicator(site, "ws", "ben")
