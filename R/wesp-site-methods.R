@@ -28,7 +28,7 @@ print_incomplete_questions_helper <- function(x) {
 }
 
 print_derived_values_helper <- function(x) {
-  labels <- paste(names(x), x, sep = " = ")
+  labels <- paste(names(x), format_value(x), sep = " = ")
   cat(paste("  * ", labels), sep = "\n")
 }
 
