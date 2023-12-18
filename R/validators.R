@@ -15,7 +15,7 @@ validators <- list(
         length(x) == n
       if (!valid) {
         if (sum(x) == 0) {
-          warning("Question ", q_no, " does not appear to have been filled out.")
+          attr(x, "incomplete") <- TRUE
         } else {
           stop("Question ", q_no,
                ": Value must be length ", n, " and be all 0s and one 1", call. = FALSE)

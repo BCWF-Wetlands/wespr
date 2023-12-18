@@ -3,9 +3,8 @@ print.wesp_site <- function(x, ...) {
   cat("A wesp_site object\n\n")
 
   cat("Site: ", x$site_name, "\n\n")
-  # TODO: Use withCallingHandlers on validation to detect if a warning is thrown
-  #       about incomplete questions, and add a slot to the question so we can
-  #       tell the user about it in the print method.
+
+  print_incomplete_questions_helper(x$questions)
 
   cat("Derived values:\n")
   print_derived_values_helper(x$derived_values)
@@ -15,6 +14,17 @@ print.wesp_site <- function(x, ...) {
   print_indicators_helper(x$indicators)
 
   invisible(x)
+}
+
+print_incomplete_questions_helper <- function(x) {
+  incomplete_q <- vapply(x, function(y) {
+    isTRUE(y$incomplete)
+  }, FUN.VALUE = logical(1))
+
+  if (any(incomplete_q)) {
+    incomplete <- names(x)[incomplete_q]
+    cat("Incomplete Questions: ", paste(incomplete, collapse = ", "), "\n\n")
+  }
 }
 
 print_derived_values_helper <- function(x) {
