@@ -2,10 +2,13 @@
 
 S3method(get_indicator_scores,default)
 S3method(get_indicator_scores,wesp_site)
+S3method(get_responses,default)
+S3method(get_responses,wesp_site)
 S3method(print,wesp_site)
 export(as.wesp_site)
 export(calc_indicators)
 export(get_indicator_scores)
+export(get_responses)
 export(load_wesp_data)
 importFrom(dplyr,"%>%")
 importFrom(dplyr,.data)

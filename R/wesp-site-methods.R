@@ -77,3 +77,29 @@ get_indicator_scores.wesp_site <- function(site, ...) {
   ) %>%
     dplyr::mutate(indicator = toupper(.data$indicator))
 }
+
+
+#' Retrieve all input responses from a `wesp_site` object as a data.frame.
+#'
+#' @param site A `wesp_site` object
+#' @param ... ignored for now
+#'
+#' @return A data.frame of responses
+#' @export
+get_responses <- function(site, ...) {
+  UseMethod("get_responses")
+}
+
+#' @export
+get_responses.default <- function(site, ...) {
+  stop("No method defined for object of class '", class(site), call. = FALSE)
+}
+
+#' @export
+get_responses.wesp_site <- function(site, ...) {
+  lapply(site$questions, function(q) {
+    dplyr::as_tibble(q[c("no", "question", "response_no", "value")])
+  }) %>%
+    dplyr::bind_rows()
+}
+
