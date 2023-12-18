@@ -2,7 +2,7 @@ test_that("as.wesp_site works", {
   data <- load_wesp_data(test_path("test-wetflat.csv"))
   expect_s3_class(data, "data.frame")
 
-  suppressWarnings(
+  expect_snapshot(
     site <- as.wesp_site(data)
   )
   expect_s3_class(site, "wesp_site")
