@@ -2,5 +2,6 @@
 
 S3method(print,wesp_site)
 export(as.wesp_site)
+export(calc_indicators)
 export(load_wesp_data)
 importFrom(dplyr,.data)

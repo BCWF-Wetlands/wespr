@@ -4,7 +4,7 @@
 # NoOutlet
 # NoOutletX
 
-ws_func <- function(site) {
+ws_fun <- function(site) {
 
   indicator_data <- get_indicator_data(site, "ws")
   vals <- get_vals(indicator_data)
@@ -17,19 +17,23 @@ ws_func <- function(site) {
 
   # NoOutlet, NoOutletX
 
-  outmap1 <- dplyr::case_when(
-    (vals$NoOutlet + vals$NoOutletX) > 0 ~ 1,
-    .default = vals$OF6_1
-  )
+  # TODO: Resolve value if no outlet: https://github.com/BCWF-Wetlands/wespr/issues/22
+  outmap1 <- if ((vals$NoOutlet + vals$NoOutletX) > 0) {
+    1
+  } else {
+    vals$OF6_1
+  }
 
 
   # OF10 - internal flow distance
 
-  flodist1 <- wt_max(indicator_data, "OF10", "func")
+  # TODO: should this condition on noCA as do PR and SR? If so, use
+  # internal_flow_distance() function. https://github.com/BCWF-Wetlands/wespr/issues/21
+  flodist1 <- wt_max(indicator_data, "OF10", "fun")
 
   # OF11 - wetland as % of its contributing area
 
-  wetpctrca1 <- wt_max(indicator_data, "OF11", "func")
+  wetpctrca1 <- wt_max(indicator_data, "OF11", "fun")
 
   # OF 26 - Degree Days Index
 
@@ -45,117 +49,90 @@ ws_func <- function(site) {
   #BPeco = OF44_4 # Boreal Plains
   #TPeco = OF44_5 # Taiga Plains
 
-  growdays1 <- dplyr::case_when(
-    vals$OF26_1 == 0 ~ NA,
-    vals$GDeco == 1 ~ (vals$OF26_1 - 931) / 1545,
-    vals$CMeco == 1 ~ (vals$OF26_1 - 238) / 1475,
-    vals$SIMeco == 1 ~ (vals$OF26_1 - 205) / 2279,
-    vals$BPeco == 1 ~ (vals$OF26_1 - 720) / 1114,
-    vals$TPeco == 1 ~ (vals$OF26_1 - 487) / 957,
-    .default = NA
-  )
-
+  growdays1 <- degree_days_index(vals)
 
   # F15 - Percent Bare Ground
 
-  gcover1 <- wt_max(indicator_data, "F15", "func")
+  # TODO: See if this should condition on F15_4 like in PR and SR. If so,
+  # use ground_cover(). https://github.com/BCWF-Wetlands/wespr/issues/27
+  gcover1 <- wt_max(indicator_data, "F15", "fun")
 
   # F17 - Soil Surface Texture
-  soiltex1 <- wt_max(indicator_data, "F17", "func")
+  soiltex1 <- wt_max(indicator_data, "F17", "fun")
 
   # f18 Microtopography
-  girreg1 <- wt_max(indicator_data, "F18", "func")
+  girreg1 <- wt_max(indicator_data, "F18", "fun")
 
   # F20 Percent only flooded seasonally
   #=IF((NeverWater=1),"",MAX(F33:F37)/MAX(E33:E37))
 
-  seaspct1 <- dplyr::case_when(
-    vals$NeverWater == 1 ~ NA,
-    .default = wt_max(indicator_data, "F20", "func")
-  )
-
-
+  seaspct1 <- if (vals$NeverWater == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F20", "fun")
+  }
 
   # F21 Percent with Persistent Surface water
 
-  permwpct1 <- dplyr::case_when(
-    vals$NeverWater == 1 ~ NA,
-    .default = wt_max(indicator_data, "F21", "func")
-  )
-
-
+  permwpct1 <- if (vals$NeverWater == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F21", "fun")
+  }
 
   # F25 Surface water fluctuations
   #=IF((NeverWater=1),"",IF((NoPersis=1),"",MAX(F46:F50)/MAX(E46:E50)))
 
-  fluctu1 <- dplyr::case_when(
-    vals$NeverWater == 1 ~ NA,
-    vals$NoPersis == 1 ~ NA,
-    .default = wt_max(indicator_data, "F25", "func")
-  )
-
-
+  fluctu1 <- surface_water_fluctuation(vals, indicator_data)
 
   #F27 Ponded water
 
-  pondpct1 <- dplyr::case_when(
-    vals$NeverWater == 1 ~ NA,
-    vals$NoPersis == 1 ~ NA,
-    .default = wt_max(indicator_data, "F27", "func")
-  )
-
+  pondpct1 <- ponded_water(vals, indicator_data)
 
   # F29 - Largest Deep Ponded Water
   # =IF((NeverWater=1),"",IF((NoPersis=1),"",IF((NoPond=1),"",MAX(F59:F64)/MAX(E59:E64))))
 
-  owareawet1 <- dplyr::case_when(
-    vals$NeverWater == 1 ~ NA,
-    vals$NoPersis == 1 ~ NA,
-    vals$NoPond == 1 ~ NA,
-    .default = wt_max(indicator_data, "F29", "func")
-  )
-
+  owareawet1 <- if (any(unlist(vals[c("NeverWater", "NoPersis", "NoPond")]) == 1)) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F29", "fun")
+  }
 
   # F40 Channel connection and outflow duration
   #=IF((D69+D70>0), Outmap1,MAX(F66:F70)/MAX(E66:E70))
 
-  outdura1 <- dplyr::case_when(
-    (vals$F40_4 + vals$F40_5 > 0) ~ outmap1,
-    .default = wt_max(indicator_data, "F40", "func")
-  )
-
+  outdura1 <- if (vals$F40_4 + vals$F40_5 > 0) {
+    outmap1
+  } else {
+    wt_max(indicator_data, "F40", "fun")
+  }
 
   # F41 Outflow
   # =IF((NoOutlet+NoOutletX>0),"",IF((D75=1),"", MAX(F72:F74)/MAX(E72:E74)))
-  # this is differnt to cs version of this formular
+  # TODO: this is differnt to cs version of this formula. Use outflow_confinement() if
+  # resolved to be the same. See https://github.com/BCWF-Wetlands/wespr/issues/17.
 
+  # constric1 <- outflow_confinement(vals, indicator_data)
   constric1 <- dplyr::case_when(
     # (vals$NeverWater + vals$TempWet) > 0 ~ NA,
-    (vals$NoOutlet + vals$NoOutletX) > 0 ~ NA,
-    vals$F41_4 == 1 ~ NA,
-    .default = wt_max(indicator_data, "F41", "func")
+    (vals$NoOutlet + vals$NoOutletX) > 0 ~ NA_real_,
+    vals$F41_4 == 1 ~ NA_real_,
+    .default = wt_max(indicator_data, "F41", "fun")
   )
 
   # F43 - Thoughflow Resistance
   #=IF(OR(Inflow=0,NoOutlet+NoOutletX>0),"",MAX(F77:F81)/MAX(E77:E81))
 
-  thruflo1 <- dplyr::case_when(
-    vals$Inflow == 0 | (vals$NoOutlet + vals$NoOutletX) > 0 ~ NA,
-    .default = wt_max(indicator_data, "F43", "func")
-  )
+  thruflo1 <- throughflow_resistance(vals, indicator_data)
 
   # F44 Internal Gradient
   #=IF((NoOutlet+NoOutletX>0),"",IF((Inflow=1),"",MAX(F83:F86)/MAX(E83:E86)))
 
-  gradient1 <- dplyr::case_when(
-    (vals$NoOutlet + vals$NoOutletX) > 0 ~ NA,
-    vals$Inflow == 1 ~ NA,
-    .default = wt_max(indicator_data, "F44", "func")
-  )
+  gradient1 <- internal_gradient(vals, indicator_data)
 
   # F47 - gound water input probability
 
-  groundw1 <- wt_max(indicator_data, "F47", "func")
+  groundw1 <- wt_max(indicator_data, "F47", "fun")
 
   #######################################################
   ## Overall WS Function  score
@@ -168,20 +145,24 @@ ws_func <- function(site) {
 
   subsurf <- mean_na(c(groundw1,soiltex1,wetpctrca1,growdays1))
 
-  livestore <- dplyr::case_when(
-    vals$NeverWater == 1 ~ NA,
-    .default = mean_na(c(seaspct1, fluctu1))
-  )
+  livestore <- if (vals$NeverWater == 1) {
+    NA_real_
+  } else {
+    mean_na(c(seaspct1, fluctu1))
+  }
 
-  friction <- dplyr::case_when(
-    vals$NeverWater == 1 ~ mean_na(c(gradient1, girreg1, gcover1)),
-    .default = mean_na(c(gradient1, constric1, thruflo1, flodist1, pondpct1))
-  )
+  friction <- if (vals$NeverWater == 1) {
+    mean_na(c(gradient1, girreg1, gcover1))
+  } else {
+    mean_na(c(gradient1, constric1, thruflo1, flodist1, pondpct1))
+  }
 
   # final function score
+  # TODO: Text describing formula includes `NoOutletX`, but is not included in the
+  # formula. https://github.com/BCWF-Wetlands/wespr/issues/24
 
   #=10*(IF((NoOutlet=1),1, IF((NeverWater=1),AVERAGE(MAX(Outmap1,OutDura1), AVERAGE(Friction, Subsurf)),AVERAGE(OutDura1, ((4*LiveStore+2*Friction+Subsurf)/7)))))
-  ws_func_score <- 10 * dplyr::case_when(
+  ws_fun_score <- 10 * dplyr::case_when(
     vals$NoOutlet + vals$NoOutletX > 1 ~ 1,
     vals$NeverWater == 1 ~ mean_na(
       c(max_na(outmap1, outdura1), mean_na(c(friction, subsurf)))
@@ -191,14 +172,14 @@ ws_func <- function(site) {
     )
   )
 
-  ws_func_score
+  ws_fun_score
 }
 
 #########################################################
 
 ## Benefit
 
-ws_benefit <- function(site) {
+ws_ben <- function(site) {
 
   indicator_data <- get_indicator_data(site, "ws")
   vals <- get_vals(indicator_data)
@@ -208,23 +189,21 @@ ws_benefit <- function(site) {
 
   # OF7 Aspect
 
-  aspect1 <- wt_max(indicator_data, "OF7", "benefit")
+  aspect1 <- wt_max(indicator_data, "OF7", "ben")
 
   # OF9 - Floodable infrastucture
   #=IF((NoOutlet+ NoOutletX>0),"",MAX(F98:F101)/MAX(E98:E101))
 
-  floodprop1v <- dplyr::case_when(
-    (vals$NoOutlet + vals$NoOutletX) > 0 ~ NA,
-    .default = wt_max(indicator_data, "OF9", "benefit")
-  )
+  floodprop1v <- if ((vals$NoOutlet + vals$NoOutletX) > 0) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "OF9", "ben")
+  }
 
   # OF12 - unvegetated surface in the wetlands WAU
   #=IF((D15=1),"",MAX(F103:F105)/MAX(E103:E105))
 
-  impervca1 <- dplyr::case_when(
-    vals$OF11_4 == 1 ~ NA,
-    .default = wt_max(indicator_data, "OF12", "benefit")
-  )
+  impervca1 <- unveg_surface(vals, indicator_data, "ben")
 
   # OF21 Local moisture deficit
 
@@ -233,22 +212,22 @@ ws_benefit <- function(site) {
   dryness1 <- local_moisture_deficit(vals)
 
   # OF 30 Road Density Within AA's buffer
-  rddens1 <- wt_max(indicator_data, "OF30", "benefit")
+  rddens1 <- wt_max(indicator_data, "OF30", "ben")
 
   # OF41 Disturbed Percentage in the WAU
 
-  disturb1 <- dplyr::case_when(
-    vals$NoCA == 1 ~ NA,
-    .default = wt_max(indicator_data, "OF41", "benefit")
-  )
-
-
+  disturb1 <- if (vals$NoCA == 1) {
+   NA_real_
+  } else {
+    wt_max(indicator_data, "OF41", "ben")
+  }
 
   # OF42 Road Density in the WAU
-  rddenswau1 <- dplyr::case_when(
-    vals$NoCA == 1 ~ NA,
-    .default = wt_max(indicator_data, "OF42", "benefit")
-  )
+  rddenswau1 <- if (vals$NoCA == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "OF42", "ben")
+  }
 
   #######################################################
   ## Overall WS BENEFIT score
@@ -256,11 +235,13 @@ ws_benefit <- function(site) {
   ## sub - function scores
   #=10*IF((FloodProp1v=1),1,AVERAGE(FloodProp1v,ImpervCA1,Elev1v, Aspect1, Disturb1,RdDensWAU1,RdDens1, Dryness1))
 
-  ws_benefit_score  <- 10 * dplyr::case_when(
-    floodprop1v == 1 ~ 1,
-    .default = mean_na(c(floodprop1v, impervca1, elev1v, aspect1, disturb1, rddenswau1, rddens1, dryness1))
-  )
+  ws_ben_score  <- 10 *
+    if (isTRUE(floodprop1v == 1)) {
+      1
+    } else {
+      mean_na(c(floodprop1v, impervca1, elev1v, aspect1, disturb1, rddenswau1, rddens1, dryness1))
+    }
 
-  ws_benefit_score
+  ws_ben_score
 }
 

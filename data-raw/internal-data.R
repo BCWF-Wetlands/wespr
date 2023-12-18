@@ -34,7 +34,8 @@ indicator_weightings <- read_sheet(
   sheet = "weightings",
   .name_repair = make_clean_names,
   col_types = "_ccccncccncc__"
-)
+) |>
+  mutate(type_f_b = tolower(substr(type_f_b, 1, 3)))
 
 # Discard the temporary google sheet
 drive_rm(tmp_xl_gs)

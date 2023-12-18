@@ -8,17 +8,17 @@ get_indicator_data <- function(site, ind) {
   derived_values <- list(
     no = "derived",
     response_no = names(site$derived_values),
-    value = unname(site$derived_values)
+    value = as.list(site$derived_values)
   )
 
   qs_df <- dplyr::bind_rows(qs)
-  qs_df$value <- vapply(qs_df$value, function(x) {
-    as.numeric(x)
-  }, FUN.VALUE = numeric(1), USE.NAMES = FALSE)
 
   all_resps <- dplyr::bind_rows(qs_df, derived_values)
 
-  weights <- dplyr::filter(indicator_weightings, tolower(.data$indicator) == tolower(ind))
+  weights <- dplyr::filter(
+    indicator_weightings,
+    tolower(.data$indicator) == tolower({{ind}})
+  )
 
   dplyr::left_join(all_resps, weights, by = "response_no")
 }
