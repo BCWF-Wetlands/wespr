@@ -42,6 +42,7 @@ print_indicators_helper <- function(x) {
         cat(paste0("    - ", t, ": ", format_value(x[[n]][[t]])), "\n") # Indicator type and value
     })
     })
+    cat("\n* Retrieve indicator scores with `get_indicator_scores()`")
   }
 }
 
@@ -52,4 +53,26 @@ format_value <- function(x) {
   x
 }
 
+#' Retrieve indicator scores from a `wesp_site` object as a data.frame.
+#'
+#' @param site A `wesp_site` object, having been updated with [calc_indicators()]
+#' @param ... ignored for now
+#'
+#' @return A data.frame of indicator scores
+#' @export
+get_indicator_scores <- function(site, ...) {
+  UseMethod("get_indicator_scores")
+}
 
+#' @export
+get_indicator_scores.default <- function(site, ...) {
+  stop("No method defined for object of class '", class(site), call. = FALSE)
+}
+
+#' @export
+get_indicator_scores.wesp_site <- function(site, ...) {
+  dplyr::bind_cols(
+    site = site$site_name,
+    dplyr::bind_rows(site$indicators, .id = "indicator")
+  )
+}
