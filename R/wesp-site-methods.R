@@ -27,12 +27,19 @@ print_indicators_helper <- function(x) {
     cat("All indicators are NULL. Run `calc_indicators()` to calculate them.\n")
   } else {
     lapply(names(x), function(n) {
-      cat(paste("  *", toupper(n), ":"), "\n")
+      cat(paste0("  * ", toupper(n), ": "), "\n") # Indicator name
       lapply(names(x[[n]]), function(t) {
-        cat(paste("    -", t, ":", x[[n]][[t]]), "\n")
+        cat(paste0("    - ", t, ": ", format_value(x[[n]][[t]])), "\n") # Indicator type and value
     })
     })
   }
+}
+
+format_value <- function(x) {
+  if (!is.null(x)) {
+    x <- round(x, 2)
+  }
+  x
 }
 
 
