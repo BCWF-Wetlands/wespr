@@ -83,7 +83,53 @@ site <- as.wesp_site(wesp_data, site = 1)
 ```
 
 You should not normally need to work with the internals of the `wesp_site` object
-as it is quite complex, however we can examine the basic structure:
+as it is quite complex, however we can get an overview of what is in it by just 
+typing the name of the object:
+
+```{r}
+site
+```
+
+We can see that the responses are loaded, with a few flagged as incomplete, and
+the derived values have been calculated. However, the indicators have not yet
+been calculated.
+
+Now, we can calculate the indicator scores with the `calc_indicators()` function.
+
+You must assign the output of this function back to the original `wesp_site` 
+object, as it updates the `indicators` with the calculated values:
+
+```{r}
+site <- calc_indicators(site)
+```
+
+If we view the site object again, we can see the calculated indicator scores.
+
+```{r}
+site
+```
+
+We probably want to get the indicator scores out as a usable object. We can do 
+that with `get_indicator_scores()`, which gives them to us as a `data.frame`:
+
+```{r}
+ind_scores <- get_indicator_scores(site)
+
+ind_scores
+```
+
+Similarly, we can extract the original responses with `get_responses()`:
+
+```{r}
+get_responses(site)
+```
+
+## Anatomy of the `wesp_site` object
+
+As mentioned above, this is a large, complex object, and it is almost always 
+best to interact with the `wesp_site` object via the provided functions. If 
+there is functionality that is missing please 
+[open an issue](https://github.com/BCWF-Wetlands/wespr/issues). 
 
 It has four elements:
 
@@ -93,7 +139,7 @@ names(site)
 ```
 
 The first three (`site_name`, `questions`, and `derived_values`) are populated when 
-the `wesp_site` object is created, but the `indicators` element is just a placeholder:
+the `wesp_site` object is created, but the `indicators` element is just a placeholder, until `calc_indicators()` has been run:
 
 ```{r}
 site$site_name
@@ -102,17 +148,10 @@ site$site_name
 names(site$questions)
 
 site$derived_values
-```
-
-Now, we can calculate the indicator scores with the `calc_indicators()` function.
-
-You must assign the output of this function back to the original `wesp_site` 
-object, as it updates the `indicators` with the calculated values:
-
-```{r}
-site <- calc_indicators(site)
 
 site$indicators
 ```
+
+
 
 
