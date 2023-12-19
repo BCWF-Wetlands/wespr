@@ -103,3 +103,27 @@ get_responses.wesp_site <- function(site, ...) {
     dplyr::bind_rows()
 }
 
+#' Retrieve all derived values from a `wesp_site` object as a data.frame.
+#'
+#' @param site A `wesp_site` object
+#' @param ... ignored for now
+#'
+#' @return A data.frame of responses
+#' @export
+get_derived_values <- function(site, ...) {
+  UseMethod("get_derived_values")
+}
+
+#' @export
+get_derived_values.default <- function(site, ...) {
+  stop("No method defined for object of class '", class(site), call. = FALSE)
+}
+
+#' @export
+get_derived_values.wesp_site <- function(site, ...) {
+dplyr::tibble(
+  name = names(site$derived_values),
+  value = unname(site$derived_values)
+  )
+}
+
