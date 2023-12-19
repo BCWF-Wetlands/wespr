@@ -124,6 +124,14 @@ Similarly, we can extract the original responses with `get_responses()`:
 get_responses(site)
 ```
 
+We can also get out a data.frame of derived values, those values which are 
+calculated from the responses, and used as inputs into many indicators.
+
+```{r}
+get_derived_values(site)
+```
+
+
 ## Anatomy of the `wesp_site` object
 
 As mentioned above, this is a large, complex object, and it is almost always 
