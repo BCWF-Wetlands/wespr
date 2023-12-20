@@ -7,24 +7,7 @@ library(dplyr)
 # library(wespr)
 
 # read in data and filter to questions we have implemented, and just one site:
-data <- load_wesp_data(system.file("input_data/wetFlat.csv", package = "wespr")) |>
-  select(q_no, response_no)
-
-# temporary hack to remove extra calculated rows in some of the S questions in
-# wetFlat.csv, and add missing rows
-data <- data |>
-  filter(grepl("^S[1-5]", q_no)) |>
-  group_by(q_no) |>
-  slice_head(n = -2) |>
-  bind_rows(
-    filter(data, !grepl("^S[1-5]", q_no)),
-    tibble(
-      q_no = c("S6", "S6"),
-      response_no = c("5","6"),
-      site_1 = c("0","0")
-    )
-  ) |>
-  arrange(q_no)
+data <- load_wesp_data(system.file("input_data/wetFlat.csv", package = "wespr"))
 
 site <- as.wesp_site(data)
 
