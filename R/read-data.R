@@ -51,7 +51,7 @@ record_values <- function(data, site) {
   questions <- make_core_questions()
   lapply(questions, function(question) {
     values <- data[[site]][data$q_no == question$no]
-    question$value <- as.list(question$validator(values))
+    question <- validate(question, values)
     if (!exists("response_no", question)) {
       # This only applies to Q F2
       question$response_no <- paste(question$no, seq(1, length(values)), sep = "_")
@@ -59,5 +59,21 @@ record_values <- function(data, site) {
     names(question$value) <- question$response_no
     question
   })
+}
+
+validate <- function(question, values) {
+  question$value <- question$validator(values)
+  question <- signal_incomplete(question)
+  question$value <- as.list(question$value)
+  question
+}
+
+signal_incomplete <- function(q) {
+  if (isTRUE(attr(q$value, "incomplete"))) {
+    q$incomplete <- TRUE
+    warning("Question ", q$no, " does not appear to have been filled out.",
+            call. = FALSE)
+  }
+  q
 }
 
