@@ -2,7 +2,7 @@
 % Please edit documentation in R/read-data.R
 \name{load_wesp_data}
 \alias{load_wesp_data}
-\title{Load the data containing the responses}
+\title{Load the data containing the responses to WESP form}
 \usage{
 load_wesp_data(path)
 }
@@ -14,5 +14,6 @@ a \code{data.frame} of the responses
 }
 \description{
 This file is usually an output from the R script at
-https://github.com/BCWF-Wetlands/WESP_Calculator
+https://github.com/BCWF-Wetlands/WESP_Calculator, and includes
+answers to Office (OF), Field (F), and Stressor (S) questions.
 }

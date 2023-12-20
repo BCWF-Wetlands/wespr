@@ -6,7 +6,7 @@
 \alias{wespr-package}
 \title{wespr: Calculate ecosystem function and benefit scores for wetlands}
 \description{
-Takes responses from a predetermined set of office and field-based questions, validates the responses, and calculates scores for various aspects of wetland functions and benefits.
+Takes responses from a predetermined set of office and field-based questions, validates the responses, and calculates indicator scores for various aspects of wetland functions and benefits.
 }
 \author{
 \strong{Maintainer}: Genevieve Perkins \email{gperkins@ninoxconsulting.ca}
