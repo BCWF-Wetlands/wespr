@@ -64,6 +64,10 @@ record_values <- function(data, site) {
 validate <- function(question, values) {
   question$value <- question$validator(values)
   question <- signal_incomplete(question)
+  if (question$no == "OF29") {
+    # Convert topo position character to numeric
+    question$value <- topo_position(question$value)
+  }
   question$value <- as.list(question$value)
   question
 }
@@ -75,5 +79,17 @@ signal_incomplete <- function(q) {
             call. = FALSE)
   }
   q
+}
+
+topo_position <- function(val) {
+  switch(
+    val,
+    "T" = 5,
+    "L" = 4,
+    "D" = 3,
+    "M" = 2,
+    `NA_character_` = NA_character_,
+    0
+  )
 }
 

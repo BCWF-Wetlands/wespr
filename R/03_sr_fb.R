@@ -142,7 +142,7 @@ sr_ben <- function(site) {
   dryness3v <- local_moisture_deficit(vals)
 
   # TODO: The formula is wrong in the spreadsheet, need to verify. https://github.com/BCWF-Wetlands/wespr/issues/20
-  topopos3v <- topo_position(vals)
+  topopos3v <- vals$OF29_1 / 5
 
   #TODO: For the next three calculations, the formula in spreadsheet says:
   # if sum(OF30:OF43) == O, NA, else wt_max.
