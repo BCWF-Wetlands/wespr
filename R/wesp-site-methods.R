@@ -100,7 +100,8 @@ get_responses.wesp_site <- function(site, ...) {
   lapply(site$questions, function(q) {
     dplyr::as_tibble(q[c("no", "question", "response_no", "value")])
   }) %>%
-    dplyr::bind_rows()
+    dplyr::bind_rows() %>%
+    dplyr::mutate(value = unlist(.data$value))
 }
 
 #' Retrieve all derived values from a `wesp_site` object as a data.frame.

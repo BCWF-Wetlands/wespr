@@ -308,18 +308,18 @@ Similarly, we can extract the original responses with `get_responses()`:
 ``` r
 get_responses(site)
 #> # A tibble: 488 × 4
-#>    no    question                           response_no value       
-#>    <chr> <chr>                              <chr>       <named list>
-#>  1 F1    Vegetation Height & Form Diversity F1_1        <dbl [1]>   
-#>  2 F1    Vegetation Height & Form Diversity F1_2        <dbl [1]>   
-#>  3 F1    Vegetation Height & Form Diversity F1_3        <dbl [1]>   
-#>  4 F1    Vegetation Height & Form Diversity F1_4        <dbl [1]>   
-#>  5 F1    Vegetation Height & Form Diversity F1_5        <dbl [1]>   
-#>  6 F1    Vegetation Height & Form Diversity F1_6        <dbl [1]>   
-#>  7 F10   Dense Moss Extent                  F10_1       <dbl [1]>   
-#>  8 F10   Dense Moss Extent                  F10_2       <dbl [1]>   
-#>  9 F10   Dense Moss Extent                  F10_3       <dbl [1]>   
-#> 10 F10   Dense Moss Extent                  F10_4       <dbl [1]>   
+#>    no    question                           response_no value
+#>    <chr> <chr>                              <chr>       <dbl>
+#>  1 F1    Vegetation Height & Form Diversity F1_1            1
+#>  2 F1    Vegetation Height & Form Diversity F1_2            0
+#>  3 F1    Vegetation Height & Form Diversity F1_3            1
+#>  4 F1    Vegetation Height & Form Diversity F1_4            1
+#>  5 F1    Vegetation Height & Form Diversity F1_5            1
+#>  6 F1    Vegetation Height & Form Diversity F1_6            1
+#>  7 F10   Dense Moss Extent                  F10_1           0
+#>  8 F10   Dense Moss Extent                  F10_2           0
+#>  9 F10   Dense Moss Extent                  F10_3           0
+#> 10 F10   Dense Moss Extent                  F10_4           0
 #> # ℹ 478 more rows
 ```
 
