@@ -63,6 +63,9 @@ ponded_water <- function(vals, indicator_data) {
   }
 }
 
+# TO DO - there are multiple calcultions for outflow confinment - listed as issues
+# in the mean time I created multiple versions to continue.
+
 outflow_confinement <- function(vals, indicator_data) {
   if (vals$NeverWater + vals$TempWet > 0 ||
       vals$NoOutlet + vals$NoOutletX > 0 ||
@@ -72,6 +75,18 @@ outflow_confinement <- function(vals, indicator_data) {
     wt_max(indicator_data, "F41", "fun")
   }
 }
+
+
+#https://github.com/BCWF-Wetlands/wespr/issues/17
+outflow_confinement_1 <- function(vals, indicator_data) {
+  if (vals$NoOutlet + vals$NoOutletX > 0 ||
+      vals$F41_4 == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F41", "fun")
+  }
+}
+
 
 throughflow_resistance <- function(vals, indicator_data) {
   if (vals$Inflow == 0 || (vals$NoOutlet + vals$NoOutletX) > 0) {
@@ -112,3 +127,35 @@ ground_cover <- function(vals, indicator_data) {
     wt_max(indicator_data, "F15", "fun")
   }
 }
+
+persist_water <- function(vals, indicator_data){
+  if (vals$NeverWater == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F21", "fun")
+  }
+}
+
+predom_depth_class <- function(vals, indicator_data) {
+  if (vals$NeverWater == 1 || vals$NoPersis == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F26", "fun")
+  }
+}
+
+distance_open_water_upland_veg <- function(vals, indicator_data) {
+  if (vals$NeverWater == 1 || vals$NoPersis == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F26", "fun")
+  }
+}
+
+outflow_confinement()
+constric1 <- dplyr::case_when(
+  # (vals$NeverWater + vals$TempWet) > 0 ~ NA,
+  (vals$NoOutlet + vals$NoOutletX) > 0 ~ NA_real_,
+  vals$F41_4 == 1 ~ NA_real_,
+  .default = wt_max(indicator_data, "F41", "fun")
+)
