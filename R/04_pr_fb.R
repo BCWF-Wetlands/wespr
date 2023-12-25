@@ -15,8 +15,8 @@ pr_fun <- function(site) {
   aspect4 <- wt_max(indicator_data, "OF7", "fun")
 
   # check this indicator
+  # TO DO - edit the weights file to remove duplicate OF 11 for PR
   wetpctrca4 <- wt_max(indicator_data, "OF11", "fun")
-
 
   flodist4 <- internal_flow_distance(vals, indicator_data)
 
@@ -72,9 +72,7 @@ pr_fun <- function(site) {
   gradient4 <- internal_gradient(vals, indicator_data)
 
 
-
   # TO do ; suspect this function is also not consistent with the ph calculations
-
    acid4 <- if(vals$F45_1 > 8) {
      1
    } else {
@@ -87,11 +85,9 @@ pr_fun <- function(site) {
 
 
    ## calculate function sub-components
-
    # TO DO - check this calculation
    interceptdry3 <- sum_na(mean_na(gradient4,wetpctrca4),
                            mean_na(girreg4 , gcover4, soildisturb4, aspect4, growd4))/2
-
 
    # TO DO - check this calculation also as values do not equal all values : might be due to ignoring NAs with average value.
    interceptwet3 <- if(any(unlist(vals[c("NeverWater", "NoOW")]) == 1)) {
@@ -127,6 +123,48 @@ pr_ben <- function(site) {
   indicator_data <- get_indicator_data(site, "pr")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
+
+  elev4v <- 1 - vals$OF5_1
+
+  wetpctca4v <- wt_max(indicator_data, "OF11", "ben")
+
+  impervsca4v <- unveg_surface(vals, indicator_data, "ben")
+
+  dryness4v <- local_moisture_deficit(vals)
+
+  index4v <- if(sum_na(vals$OF28_1, vals$OF28_2,vals$OF28_3,vals$OF28_4,vals$OF28_5)==0){
+     NA_real_
+    } else {
+      wt_max(indicator_data, "OF28", "ben")
+  }
+
+  topopos4v <- vals$OF29_1 / 5
+
+  rddens4v <-if(sum_na(vals$OF30_1, vals$OF30_2,vals$OF30_3)==0){
+    NA_real_
+  } else {
+    wt_max(indicator_data, "OF30", "ben")
+  }
+
+  ## TOdo - check calculation here as the numbers range from D112 - D180? seems wrong? https://github.com/BCWF-Wetlands/wespr/issues/40
+
+  disturb4v <- if(sum_na(vals$OF41_1, vals$OF41_2, vals$OF41_3, vals$OF41_4, vals$OF41_5)==0 ||
+    vals$NoCA == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "OF41", "ben")
+  }
+
+  rddenswau4v <-  road_density_wau(vals, indicator_data)
+
+
+  inflow4v <- if (vals$NoOutlet + vals$NoOutletX > 0) {
+    NA_real_
+  } else {
+    vals$F42_1
+  }
+
+
 
   # ...
 }

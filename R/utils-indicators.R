@@ -65,16 +65,16 @@ ponded_water <- function(vals, indicator_data) {
 
 # TO DO - there are multiple calcultions for outflow confinment - listed as issues
 # in the mean time I created multiple versions to continue.
-
-outflow_confinement <- function(vals, indicator_data) {
-  if (vals$NeverWater + vals$TempWet > 0 ||
-      vals$NoOutlet + vals$NoOutletX > 0 ||
-      vals$F41_4 == 1) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F41", "fun")
-  }
-}
+#
+# outflow_confinement <- function(vals, indicator_data) {
+#   if (vals$NeverWater + vals$TempWet > 0 ||
+#       vals$NoOutlet + vals$NoOutletX > 0 ||
+#       vals$F41_4 == 1) {
+#     NA_real_
+#   } else {
+#     wt_max(indicator_data, "F41", "fun")
+#   }
+# }
 
 
 #https://github.com/BCWF-Wetlands/wespr/issues/17
