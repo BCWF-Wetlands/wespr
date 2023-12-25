@@ -17,6 +17,38 @@ wt_max <- function(indicator_data, question, type_f_b = c("fun", "ben")) {
   max_na(data$value * data$q_weighting) / max_na(data$q_weighting)
 }
 
+
+# Standard functions for OFFICE QUESTIONS
+
+
+
+#OF5
+
+
+
+
+
+
+#OF10
+internal_flow_distance <- function(vals, indicator_data) {
+  if (vals$NoCA == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "OF10", "fun") # TODO confirm range of OF10 responses to include in weighted max. https://github.com/BCWF-Wetlands/wespr/issues/21
+  }
+}
+
+#OF12
+unveg_surface <- function(vals, indicator_data, type_f_b) {
+  if (vals$OF11_4 == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "OF12", type_f_b)
+  }
+}
+
+
+#OF25
 local_moisture_deficit <- function(vals) {
   #GDeco = OF44_1 # georgia depression
   #CMeco = OF44_2 # coast and mountain (CM)
@@ -35,6 +67,9 @@ local_moisture_deficit <- function(vals) {
   )
 }
 
+
+
+# OF26
 degree_days_index <- function(vals) {
   dplyr::case_when(
     vals$OF26_1 == 0 ~ NA_real_,
@@ -47,6 +82,48 @@ degree_days_index <- function(vals) {
   )
 }
 
+
+# OF 42
+road_density_wau <- function(vals, indicator_data) {
+    if (vals$NoCA == 1) {
+      NA_real_
+    } else {
+      wt_max(indicator_data, "OF12", "ben")
+    }
+  }
+
+
+
+
+
+
+
+
+##################################################
+# Standard functions for FIELD QUESTIONS
+###################################################
+
+#F15
+ground_cover <- function(vals, indicator_data) {
+  if (vals$F15_4 == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F15", "fun")
+  }
+}
+
+
+#F21
+persist_water <- function(vals, indicator_data){
+  if (vals$NeverWater == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F21", "fun")
+  }
+}
+
+
+#F25
 surface_water_fluctuation <- function(vals, indicator_data) {
   if (vals$NeverWater == 1 || vals$NoPersis == 1) {
     NA_real_
@@ -55,6 +132,26 @@ surface_water_fluctuation <- function(vals, indicator_data) {
   }
 }
 
+
+#F26
+predom_depth_class <- function(vals, indicator_data) {
+  if (vals$NeverWater == 1 || vals$NoPersis == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F26", "fun")
+  }
+}
+
+distance_open_water_upland_veg <- function(vals, indicator_data) {
+  if (vals$NeverWater == 1 || vals$NoPersis == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F26", "fun")
+  }
+}
+
+
+#F27
 ponded_water <- function(vals, indicator_data) {
   if (vals$NeverWater == 1 || vals$NoPersis == 1) {
     NA_real_
@@ -63,18 +160,21 @@ ponded_water <- function(vals, indicator_data) {
   }
 }
 
+
+#F41
+
 # TO DO - there are multiple calcultions for outflow confinment - listed as issues
 # in the mean time I created multiple versions to continue.
 #
-# outflow_confinement <- function(vals, indicator_data) {
-#   if (vals$NeverWater + vals$TempWet > 0 ||
-#       vals$NoOutlet + vals$NoOutletX > 0 ||
-#       vals$F41_4 == 1) {
-#     NA_real_
-#   } else {
-#     wt_max(indicator_data, "F41", "fun")
-#   }
-# }
+outflow_confinement <- function(vals, indicator_data) {
+  if (vals$NeverWater + vals$TempWet > 0 ||
+      vals$NoOutlet + vals$NoOutletX > 0 ||
+      vals$F41_4 == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F41", "fun")
+  }
+}
 
 
 #https://github.com/BCWF-Wetlands/wespr/issues/17
@@ -86,6 +186,13 @@ outflow_confinement_1 <- function(vals, indicator_data) {
     wt_max(indicator_data, "F41", "fun")
   }
 }
+
+
+tributary_channel_floodplain()
+
+
+
+
 
 
 throughflow_resistance <- function(vals, indicator_data) {
@@ -104,58 +211,11 @@ internal_gradient <- function(vals, indicator_data) {
   }
 }
 
-unveg_surface <- function(vals, indicator_data, type_f_b) {
-  if (vals$OF11_4 == 1) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "OF12", type_f_b)
-  }
-}
 
-internal_flow_distance <- function(vals, indicator_data) {
-  if (vals$NoCA == 1) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "OF10", "fun") # TODO confirm range of OF10 responses to include in weighted max. https://github.com/BCWF-Wetlands/wespr/issues/21
-  }
-}
-
-ground_cover <- function(vals, indicator_data) {
-  if (vals$F15_4 == 1) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F15", "fun")
-  }
-}
-
-persist_water <- function(vals, indicator_data){
-  if (vals$NeverWater == 1) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F21", "fun")
-  }
-}
-
-predom_depth_class <- function(vals, indicator_data) {
-  if (vals$NeverWater == 1 || vals$NoPersis == 1) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F26", "fun")
-  }
-}
-
-distance_open_water_upland_veg <- function(vals, indicator_data) {
-  if (vals$NeverWater == 1 || vals$NoPersis == 1) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F26", "fun")
-  }
-}
-
-outflow_confinement()
-constric1 <- dplyr::case_when(
-  # (vals$NeverWater + vals$TempWet) > 0 ~ NA,
-  (vals$NoOutlet + vals$NoOutletX) > 0 ~ NA_real_,
-  vals$F41_4 == 1 ~ NA_real_,
-  .default = wt_max(indicator_data, "F41", "fun")
-)
+# outflow_confinement()
+# constric1 <- dplyr::case_when(
+#   # (vals$NeverWater + vals$TempWet) > 0 ~ NA,
+#   (vals$NoOutlet + vals$NoOutletX) > 0 ~ NA_real_,
+#   vals$F41_4 == 1 ~ NA_real_,
+#   .default = wt_max(indicator_data, "F41", "fun")
+# )
