@@ -132,7 +132,7 @@ pr_ben <- function(site) {
 
   dryness4v <- local_moisture_deficit(vals)
 
-  index4v <- if(sum_na(vals$OF28_1, vals$OF28_2,vals$OF28_3,vals$OF28_4,vals$OF28_5)==0){
+  sindex4v <- if(sum_na(vals$OF28_1, vals$OF28_2,vals$OF28_3,vals$OF28_4,vals$OF28_5)==0){
      NA_real_
     } else {
       wt_max(indicator_data, "OF28", "ben")
@@ -164,7 +164,50 @@ pr_ben <- function(site) {
     vals$F42_1
   }
 
+  # TO DO - check this calculation - does not seem correct
+  #=IF((D139=""),"",IF((D139<150),0, IF((D139>500),1,0.5)))
+
+  conductiv4v <- if(vals$F46a_1 == NA){
+    vals$F46a_1
+  } else if (vals$F46a_1 < 150) {
+    0
+  } else if(vals$F46a_1 > 500){
+    1
+  }
 
 
-  # ...
+  # TO DO - check this calculation - does not seem correct
+  #=IF((D140=""),"",IF((D140<100),0, IF((D140>350),1,0.5)))
+
+  tds4v <- if(vals$F46b_1 == NA){
+    vals$F46b_1
+  } else if (vals$F46b_1 < 100) {
+    0
+  } else if(vals$F46b_1 > 350){
+    1
+  } else {0.5}
+
+
+
+  perminpectper4v <- vegetation_buffer_along_permin(vals, indicator_data, "ben")
+
+
+  imperv4v <- type_of_cover_buff(vals, indicator_data, "ben")
+
+  slopebuff4v <- buffer_slope(vals, indicator_data, "ben")
+
+  nutrload4v <- vals$S2_subscore
+
+
+  # check this calculation
+  # no - Karst4v,
+
+  pr_ben_score <- 10 * (
+    3 * mean_na(c(nutrload4v, conductiv4v, tds4v, sindex4v)) +
+      mean_na(c(rddenswau4v, rddens4v, disturb4v, imperv4v, slopebuff4v, perminpectper4v))+
+      mean_na(c(inflow4v, dryness4v))+
+      mean_na(c(wetpctca4v, elev4v, topopos4v))/6 )
+
+  pr_ben_score
+
 }
