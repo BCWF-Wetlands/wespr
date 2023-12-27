@@ -188,7 +188,7 @@ outflow_confinement_1 <- function(vals, indicator_data) {
 }
 
 
-tributary_channel_floodplain()
+#tributary_channel_floodplain()
 
 
 
@@ -219,3 +219,33 @@ internal_gradient <- function(vals, indicator_data) {
 #   vals$F41_4 == 1 ~ NA_real_,
 #   .default = wt_max(indicator_data, "F41", "fun")
 # )
+
+
+# F50
+vegetation_buffer_along_permin <- function(vals, indicator_data, type_f_b){
+  if(vals$Disturb == 0) {
+  NA_real_
+} else {
+  wt_max(indicator_data, "F50", type_f_b)
+  }
+}
+
+# F51
+type_of_cover_buff <- function(vals, indicator_data, type_f_b){
+  if(vals$Disturb == 0) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F51", type_f_b)
+  }
+}
+
+# F52
+buffer_slope <- function(vals, indicator_data, type_f_b){
+  if(vals$Disturb == 0) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F52", type_f_b)
+  }
+}
+
+
