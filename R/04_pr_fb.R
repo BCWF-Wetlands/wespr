@@ -83,7 +83,6 @@ pr_fun <- function(site) {
    soildisturb4 <- vals$S5_subscore
 
 
-
    ## calculate function sub-components
    # TO DO - check this calculation
    interceptdry3 <- sum_na(mean_na(gradient4,wetpctrca4),
@@ -119,6 +118,7 @@ pr_fun <- function(site) {
 
 
 # benefit
+
 pr_ben <- function(site) {
   indicator_data <- get_indicator_data(site, "pr")
   vals <- get_vals(indicator_data)
@@ -163,12 +163,12 @@ pr_ben <- function(site) {
     vals$F42_1
   }
 
-
+  # check these are NA and not blanks
   conductiv4v <- ifelse(vals$F46a_1 == NA , NA_real_ ,
                         ifelse(vals$F46a_1 < 150, 0,
                                ifelse(vals$F46a_1 > 500, 1, 0.5)))
 
-
+  # check these are NA and not blanks
   tds4v <- ifelse(vals$F46b_1 == NA, NA_real_ ,
                   ifelse(vals$F46b_1 < 100, 0,
                          ifelse(vals$F46b_1 > 350, 1, 0.5)))
