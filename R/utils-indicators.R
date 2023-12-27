@@ -82,13 +82,20 @@ degree_days_index <- function(vals) {
   )
 }
 
+#OF 39
+
+
+
+
+
+
 
 # OF 42
 road_density_wau <- function(vals, indicator_data) {
     if (vals$NoCA == 1) {
       NA_real_
     } else {
-      wt_max(indicator_data, "OF12", "ben")
+      wt_max(indicator_data, "OF42", "ben")
     }
   }
 
@@ -194,7 +201,7 @@ outflow_confinement_1 <- function(vals, indicator_data) {
 
 
 
-
+# F43
 throughflow_resistance <- function(vals, indicator_data) {
   if (vals$Inflow == 0 || (vals$NoOutlet + vals$NoOutletX) > 0) {
     NA_real_
