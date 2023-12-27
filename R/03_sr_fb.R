@@ -150,7 +150,7 @@ sr_ben <- function(site) {
   # https://github.com/BCWF-Wetlands/wespr/issues/18
   rddens3v <- wt_max(indicator_data, "OF30", "ben")
 
-  disturb3v <- if (vals$NoCA == 1) {
+  disturb3v <- if(vals$NoCA == 1) {
     NA_real_
   } else {
     wt_max(indicator_data, "OF41", "ben")
@@ -178,23 +178,11 @@ sr_ben <- function(site) {
     vals$F42_1
   }
 
-  perimpctper3v <- if (vals$Disturb == 0) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F50", "ben")
-  }
+  perimpctper3v <- vegetation_buffer_along_permin(vals, indicator_data, "ben")
 
-  buffcovtyp3v <- if (vals$Disturb == 0) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F51", "ben")
-  }
+  buffcovtyp3v <- type_of_cover_buff(vals, indicator_data, "ben")
 
-  buffslope3v <- if (vals$Disturb == 0) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F52", "ben")
-  }
+  buffslope3v <- buffer_slope(vals, indicator_data, "ben")
 
   fire3 <- wt_max(indicator_data, "F55", "ben")
 
