@@ -157,36 +157,21 @@ pr_ben <- function(site) {
 
   rddenswau4v <-  road_density_wau(vals, indicator_data)
 
-
   inflow4v <- if (vals$NoOutlet + vals$NoOutletX > 0) {
     NA_real_
   } else {
     vals$F42_1
   }
 
-  # TO DO - check this calculation - does not seem correct
-  #=IF((D139=""),"",IF((D139<150),0, IF((D139>500),1,0.5)))
 
-  conductiv4v <- if(vals$F46a_1 == NA){
-    vals$F46a_1
-  } else if (vals$F46a_1 < 150) {
-    0
-  } else if(vals$F46a_1 > 500){
-    1
-  }
+  conductiv4v <- ifelse(vals$F46a_1 == NA , NA_real_ ,
+                        ifelse(vals$F46a_1 < 150, 0,
+                               ifelse(vals$F46a_1 > 500, 1, 0.5)))
 
 
-  # TO DO - check this calculation - does not seem correct
-  #=IF((D140=""),"",IF((D140<100),0, IF((D140>350),1,0.5)))
-
-  tds4v <- if(vals$F46b_1 == NA){
-    vals$F46b_1
-  } else if (vals$F46b_1 < 100) {
-    0
-  } else if(vals$F46b_1 > 350){
-    1
-  } else {0.5}
-
+  tds4v <- ifelse(vals$F46b_1 == NA, NA_real_ ,
+                  ifelse(vals$F46b_1 < 100, 0,
+                         ifelse(vals$F46b_1 > 350, 1, 0.5)))
 
 
   perminpectper4v <- vegetation_buffer_along_permin(vals, indicator_data, "ben")
