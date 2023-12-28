@@ -23,6 +23,14 @@ wt_max <- function(indicator_data, question, type_f_b = c("fun", "ben")) {
 
 
 #OF5
+stream_intersect <- function(vals){
+  if ((vals$NoOutlet + vals$NoOutletX) > 0) {
+     1
+  } else {
+  vals$OF6_1
+  }
+}
+
 
 
 
@@ -206,7 +214,7 @@ distance_open_water_upland_veg <- function(vals, indicator_data) {
 }
 
 
-# F33 : version 2 (sens)
+# F33 : version 2 (sens)/ NR
 distance_open_water_upland_veg_1 <- function(vals, indicator_data) {
 
   if((vals$NeverWater + vals$TempWet > 0) ||
@@ -219,6 +227,22 @@ distance_open_water_upland_veg_1 <- function(vals, indicator_data) {
     wt_max(indicator_data, "F33", "fun")
   }
 }
+
+
+# F35
+interspersion_inundated_veg <- function(vals, indicator_data){
+   if((vals$NeverWater + vals$TempWet > 0) ||
+       vals$NoDeepPonded == 1 ||
+       vals$NoOW == 1 ||
+       vals$NoPersis == 1 ) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F35", "fun")
+  }
+}
+
+
+
 
 
 
