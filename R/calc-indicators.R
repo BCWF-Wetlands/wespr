@@ -19,7 +19,7 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "cs", "fun")
   site <- update_site_indicator(site, "fr", "fun")
   site <- update_site_indicator(site, "fr", "ben")
-  # site <- update_site_indicator(site, "sens", "fun")
+  # site <- update_site_indicator(site, "sens", "fun") # requires a major fix with weights table
   # site <- update_site_indicator(site, "str", "fun")
   # site <- update_site_indicator(site, "nr", "fun")
   # site <- update_site_indicator(site, "nr", "ben")
