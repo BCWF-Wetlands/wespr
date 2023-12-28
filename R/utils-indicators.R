@@ -48,6 +48,18 @@ unveg_surface <- function(vals, indicator_data, type_f_b) {
 }
 
 
+#OF12 # STR
+unveg_surface_1 <- function(vals, indicator_data) {
+  if (vals$NoCA == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "OF12", "fun")
+  }
+}
+
+
+
+
 #OF25
 local_moisture_deficit <- function(vals) {
   #GDeco = OF44_1 # georgia depression
