@@ -113,9 +113,6 @@ nr_ben <- function(site) {
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-
-  # TO DO
-  # check weights for this value
   rddist5 <- wt_max(indicator_data, "OF2", "ben")
 
   nfix5v <- wt_max(indicator_data, "F14", "ben")
