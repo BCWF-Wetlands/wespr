@@ -14,12 +14,12 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "ws", "ben")
   site <- update_site_indicator(site, "sr", "fun")
   site <- update_site_indicator(site, "sr", "ben")
-  # site <- update_site_indicator(site, "pr", "fun") # requires a fix for the weights table
+  # site <- update_site_indicator(site, "pr", "fun") # draft complete - requires a fix for the weights table
   site <- update_site_indicator(site, "pr", "ben")
   site <- update_site_indicator(site, "cs", "fun")
   site <- update_site_indicator(site, "fr", "fun")
   site <- update_site_indicator(site, "fr", "ben")
-  # site <- update_site_indicator(site, "sens", "fun") # requires a major fix with weights table
+  # site <- update_site_indicator(site, "sens", "fun") # draft complete - requires a major fix with weights table
   # site <- update_site_indicator(site, "str", "fun")
   # site <- update_site_indicator(site, "nr", "fun")
   # site <- update_site_indicator(site, "nr", "ben")
