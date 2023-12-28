@@ -13,7 +13,7 @@ sens_fun <- function(site) {
   elev18 <- vals$OF5_1
 
   # TODO - CHeck the calculation is correct (https://github.com/BCWF-Wetlands/wespr/issues/42)
-  outmap18 <- if (vals$NoOutlet + vals$NoOutletX = 0) {
+  outmap18 <- if (vals$NoOutlet + vals$NoOutletX == 0) {
     1 # TODO: verify this valiue? vs OutDura3 (calc'ed from F40 - Channel Connection and Ouflow duration)
   } else {
     vals$OF6_1
@@ -78,14 +78,14 @@ sens_fun <- function(site) {
   # fix check where limited to fun and ben
   widthwet18a <- distance_open_water_upland_veg_1(vals, indicator_data)
 
-  wt_max(indicator_data, "F17", "ben")
+  #wt_max(indicator_data, "F17", "ben")\
   outdura18a <- if (vals$F40_4 + vals$F40_5 > 0) {
     outmap18
   } else {
     wt_max(indicator_data, "F40", "fun")
   }
 
-  wt_max(indicator_data, "F17", "ben")
+  #wt_max(indicator_data, "F17", "ben")
   constric18a <- outflow_confinement_2(vals, indicator_data)
 
   # check this calculation - specifically refernce to D95? this is another question entirely
@@ -138,6 +138,8 @@ sens_fun <- function(site) {
 
    # calculate the final score.
    sens_score_fun <- 10 * mean_na(abiosens, biosens, colonizer, growrate)
+
+   sens_score_fun
 
 }
 
