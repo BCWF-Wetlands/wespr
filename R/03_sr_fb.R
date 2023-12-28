@@ -23,11 +23,7 @@ sr_fun <- function(site) {
 
   girreg3 <- wt_max(indicator_data, "F18", "fun")
 
-  seaspct3 <- if (vals$NeverWater == 1) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F20", "fun")
-  }
+  seaspct3 <- percent_flooded_only_seasonally(vals, indicator_data)
 
   fluc2 <- surface_water_fluctuation(vals, indicator_data)
 
