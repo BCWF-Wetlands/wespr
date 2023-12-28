@@ -120,6 +120,18 @@ ground_cover <- function(vals, indicator_data) {
 }
 
 
+#F20
+percent_flooded_only_seasonally <- function(vals, indicator_data) {
+  if (vals$NeverWater == 1) {
+  NA_real_
+} else {
+  wt_max(indicator_data, "F20", "fun")
+  }
+}
+
+
+
+
 #F21
 persist_water <- function(vals, indicator_data){
   if (vals$NeverWater == 1) {
@@ -149,13 +161,17 @@ predom_depth_class <- function(vals, indicator_data) {
   }
 }
 
-distance_open_water_upland_veg <- function(vals, indicator_data) {
-  if (vals$NeverWater == 1 || vals$NoPersis == 1) {
+#F26 _ version 2 (Sens)
+predom_depth_class_1 <- function(vals, indicator_data) {
+  if ((vals$NeverWater + vals$TempWet > 0) ||
+      vals$TempWet == 1 ||
+      vals$NoPersis == 1) {
     NA_real_
   } else {
     wt_max(indicator_data, "F26", "fun")
   }
 }
+
 
 
 #F27
@@ -166,6 +182,33 @@ ponded_water <- function(vals, indicator_data) {
     wt_max(indicator_data, "F27", "fun")
   }
 }
+
+
+# F33
+distance_open_water_upland_veg <- function(vals, indicator_data) {
+  if (vals$NeverWater == 1 || vals$NoPersis == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F33", "fun")
+  }
+}
+
+
+# F33 : version 2 (sens)
+distance_open_water_upland_veg_1 <- function(vals, indicator_data) {
+
+  if((vals$NeverWater + vals$TempWet > 0) ||
+      vals$NoPond == 1 ||
+      vals$NoDeepPonded == 1 ||
+      vals$NoOW == 1 ||
+      vals$NoPersis == 1 ) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F33", "fun")
+  }
+}
+
+
 
 
 #F41
@@ -194,7 +237,16 @@ outflow_confinement_1 <- function(vals, indicator_data) {
   }
 }
 
-
+#https://github.com/BCWF-Wetlands/wespr/issues/17 # sens
+outflow_confinement_2 <- function(vals, indicator_data) {
+  if (vals$NeverWater + vals$TempWet > 0 ||
+      vals$NoOutlet ==1 ||
+      vals$F41_4 == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F41", "fun")
+  }
+}
 #tributary_channel_floodplain()
 
 
