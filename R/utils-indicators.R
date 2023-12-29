@@ -217,6 +217,20 @@ predom_depth_class_1 <- function(vals, indicator_data) {
 
 
 
+#F26 _ version 3 (PD)
+predom_depth_class_2 <- function(vals, indicator_data) {
+  if ((vals$NeverWater == 1) ||
+      vals$TempWet == 1 ||
+      vals$NoPersis == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F26", "fun")
+  }
+}
+
+
+
+
 #F27
 ponded_water <- function(vals, indicator_data) {
   if (vals$NeverWater == 1 || vals$NoPersis == 1) {
@@ -250,6 +264,22 @@ distance_open_water_upland_veg_1 <- function(vals, indicator_data) {
     wt_max(indicator_data, "F33", "fun")
   }
 }
+
+
+# F33 : version 3 / PD
+distance_open_water_upland_veg_2 <- function(vals, indicator_data) {
+  if((vals$NeverWater ==1) ||
+     vals$NoPond == 1 ||
+     vals$NoDeepPonded == 1 ||
+     vals$NoOW == 1 ||
+     vals$NoPersis == 1 ) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F33", "fun")
+  }
+}
+
+
 
 
 # F35
