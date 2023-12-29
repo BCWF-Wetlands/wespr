@@ -53,12 +53,7 @@ sr_fun <- function(site) {
     wt_max(indicator_data, "F35", "fun")
   }
 
-  emarea3 <- if (vals$NeverWater == 1 ||
-                 vals$NoPersis == 1) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F37", "fun")
-  }
+  emarea3 <- inundated_erect_veg(vals, indicator_data)
 
   outdura3 <- if (vals$F40_4 + vals$F40_5 > 0) {
     outmap3
