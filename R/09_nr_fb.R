@@ -105,7 +105,7 @@ nr_fun <- function(site) {
 }
 
 
-# benefit
+# benefit score
 
 nr_ben <- function(site) {
 
