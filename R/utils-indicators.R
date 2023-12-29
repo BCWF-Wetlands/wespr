@@ -102,7 +102,19 @@ degree_days_index <- function(vals) {
   )
 }
 
-#OF 39
+#OF 27
+local_solar_input <- function(vals){
+  ifelse(vals$OF27_1 == 0 ~ NA_real_,
+  dplyr::case_when(
+    vals$GDeco == 1 ~ (vals$OF27_1 - 28.7) / 14.4,
+    vals$CMeco == 1 ~ (vals$OF27_1 - 26.3) / 11,
+    vals$SIMeco == 1 ~ (vals$OF27_1 - 32.3) / 14.2,
+    vals$BPeco == 1 ~ (vals$OF27_1 - 32.1) /6.4,
+    vals$TPeco == 1 ~ (vals$OF27_1 - 30.1) / 7.1,
+    .default = NA_real_
+  ))
+}
+
 
 
 
@@ -160,6 +172,17 @@ persist_water <- function(vals, indicator_data){
     wt_max(indicator_data, "F21", "fun")
   }
 }
+
+# F23
+percent_summerwater_shaded <- function(vals, indicator_data) {
+  if (vals$NeverWater == 1 || vals$NoPersis == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F23", "fun")
+  }
+}
+
+
 
 
 #F25
@@ -241,8 +264,41 @@ interspersion_inundated_veg <- function(vals, indicator_data){
   }
 }
 
+# F35 (AP)
+interspersion_inundated_veg_1 <- function(vals, indicator_data){
+  if((vals$NeverWater == 1) ||
+     vals$NoDeepPonded == 1 ||
+     vals$NoOW == 1 ||
+     vals$NoPersis == 1 ) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F35", "fun")
+  }
+}
 
 
+
+# F37
+inundated_erect_veg <- function(vals, indicator_data){
+  if (vals$NeverWater == 1 ||
+      vals$NoPersis == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F37", "fun")
+  }
+}
+
+
+
+# F38
+submerged_floating_aquatics <- function(vals, indicator_data){
+  if (vals$NeverWater == 1 ||
+      vals$NoPersis == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F38", "fun")
+  }
+}
 
 
 
