@@ -329,6 +329,21 @@ submerged_floating_aquatics <- function(vals, indicator_data){
     wt_max(indicator_data, "F38", "fun")
   }
 }
+# F38 - version2 (PD)
+submerged_floating_aquatics_1 <- function(vals){
+  if (vals$NeverWater == 1 ||
+      vals$NoPersis == 1 ||
+      vals$NoDeepPonded == 1 ||
+      vals$Nopond == 1||
+      vals$F38_2 != 1) {
+    NA_real_
+  } else {
+    1
+  }
+}
+
+
+
 
 # F39
 water_color <- function(vals, indicator_data){
