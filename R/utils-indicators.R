@@ -66,6 +66,16 @@ unveg_surface_1 <- function(vals, indicator_data) {
 }
 
 
+# OF20
+fish_occurance <- function(vals){
+  ifelse(vals$OF20_5 == 1, 0,
+       ifelse(vals$OF20_4 == 1, 0.5,
+              max(c(vals$OF20_1, vals$OF20_2, vals$OF20_3)) / 3
+       )
+  )
+
+}
+
 
 
 #OF25
