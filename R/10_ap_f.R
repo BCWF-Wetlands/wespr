@@ -25,11 +25,7 @@ ap_fun <- function(site) {
     }
 
 
-  anadf7 <- ifelse(vals$OF20_5 == 1, 0,
-                ifelse(vals$OF20_4 == 1, 0.5,
-                    max(c(vals$OF20_1, vals$OF20_2, vals$OF20_3)) / 3
-                        )
-                      )
+  anadf7 <- fish_occurance(vals)
 
   wetdef8 <- local_moisture_deficit(vals)
 
