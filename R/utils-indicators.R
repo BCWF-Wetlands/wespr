@@ -300,6 +300,16 @@ submerged_floating_aquatics <- function(vals, indicator_data){
   }
 }
 
+# F39
+water_color <- function(vals, indicator_data){
+  if (vals$NeverWater == 1 ||
+      vals$NoPersis == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F39", "fun")
+  }
+}
+
 
 
 
