@@ -33,6 +33,14 @@ stream_intersect <- function(vals){
 
 
 
+#OF3
+dist_to_ponded_water <- function(vals, indicator_data) {
+  if (vals$NeverWater == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "OF3", "fun") }
+}
+
 
 
 
@@ -183,6 +191,9 @@ persist_water <- function(vals, indicator_data){
   }
 }
 
+
+
+
 # F23
 percent_summerwater_shaded <- function(vals, indicator_data) {
   if (vals$NeverWater == 1 || vals$NoPersis == 1) {
@@ -251,6 +262,29 @@ ponded_water <- function(vals, indicator_data) {
 }
 
 
+# F31
+open_water_extent <- function(vals, indicator_data) {
+  if (vals$NeverWater == 1 ||
+      vals$NoPersis == 1 ||
+      vals$NoDeepPonded == 1  ) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F31", "fun")
+  }
+}
+
+# F32
+distance_across_longest_openwater <- function(vals, indicator_data) {
+  if (vals$NeverWater == 1 ||
+      vals$NoPersis == 1 ||
+      vals$NoDeepPonded == 1  ) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F32", "fun")
+  }
+}
+
+
 # F33
 distance_open_water_upland_veg <- function(vals, indicator_data) {
   if (vals$NeverWater == 1 || vals$NoPersis == 1) {
@@ -278,7 +312,7 @@ distance_open_water_upland_veg_1 <- function(vals, indicator_data) {
 
 # F33 : version 3 / PD
 distance_open_water_upland_veg_2 <- function(vals, indicator_data) {
-  if((vals$NeverWater ==1) ||
+  if(vals$NeverWater == 1 ||
      vals$NoPond == 1 ||
      vals$NoDeepPonded == 1 ||
      vals$NoOW == 1 ||
@@ -289,7 +323,17 @@ distance_open_water_upland_veg_2 <- function(vals, indicator_data) {
   }
 }
 
-
+# F33 : version 4 / WB
+distance_open_water_upland_veg_3 <- function(vals, indicator_data) {
+  if(vals$NeverWater ==1 ||
+     vals$NoDeepPonded == 1 ||
+     vals$NoOW == 1 ||
+     vals$NoPersis == 1 ) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F33", "fun")
+  }
+}
 
 
 # F35
@@ -304,9 +348,9 @@ interspersion_inundated_veg <- function(vals, indicator_data){
   }
 }
 
-# F35 (AP)
+# F35 (AP), wb
 interspersion_inundated_veg_1 <- function(vals, indicator_data){
-  if((vals$NeverWater == 1) ||
+  if(vals$NeverWater == 1 ||
      vals$NoDeepPonded == 1 ||
      vals$NoOW == 1 ||
      vals$NoPersis == 1 ) {
@@ -419,6 +463,7 @@ throughflow_resistance <- function(vals, indicator_data) {
   }
 }
 
+#44
 internal_gradient <- function(vals, indicator_data) {
   if ((vals$NoOutlet + vals$NoOutletX) > 0 || vals$Inflow == 1) {
     NA_real_
