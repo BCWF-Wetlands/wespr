@@ -153,8 +153,36 @@ wb_ben <- function(site) {
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
+  distpond11v <- wt_max(indicator_data, "OF3", "fun")
 
-  # UP to here....
+  distlake11v <- wt_max(indicator_data, "OF4", "fun")
+
+  lakepct11v <- wt_max(indicator_data, "OF18", "fun")
+
+  lakewetpct11v <- wt_max(indicator_data, "OF19", "fun")
+
+  rarespp11v <- ifelse(vals$OF24_3 == 1, 1, NA_real_)
+
+  # TO do - check the range in this calcualtion
+  # https://github.com/BCWF-Wetlands/wespr/issues/52
+
+  wetdenswau12v <- if(sum_na (XXXXXXX) == 0){
+      NA_real_
+    } else {
+      wt_max(indicator_data, "OF43", "ben")
+    }
+
+  recrea13v <- sum_na(vals$F56_1, vals$F56_2, vals$F56_3 )/3
+
+  duckhunt13 <- ifelse(vals$F57_3 == 1, 1, NA_real_)
+
+  rarebird11v <- ifelse(vals$F58_9 == 1, 1, NA_real_)
+
+
+  wb_ben_score <- 10 * (max_na(mean_na(distpond11v, distlake11v, lakepct11v, wetdenswau12v),
+                               max_na(rarebird11v, rarespp11v),
+                               mean_na(duckhunt13, recrea13v)))
+
 
   wb_ben_score
 
