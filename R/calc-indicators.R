@@ -32,7 +32,7 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "pol", "fun") # draft complete - requires pd_fun()
   site <- update_site_indicator(site, "pol", "ben") # draft complete
   site <- update_site_indicator(site, "rsb", "fun") # draft complete - requires ap_fun(), pd_fun()
-  # site <- update_site_indicator(site, "rsb", "ben")
+  site <- update_site_indicator(site, "rsb", "ben")
   # site <- update_site_indicator(site, "pd", "ben") # requires pol_fun(), rsb_fun()
   # site <- update_site_indicator(site, "oe", "fun") # requires ap_fun() , cs_fun()
   # site <- update_site_indicator(site, "am", "fun") # requires ap_fun() ,
