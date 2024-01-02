@@ -64,6 +64,8 @@ pol_fun <- function(site) {
 
   permwpct16 <- wt_max(indicator_data, "F21", "fun")
 
+   # TO DO - note these two values outlet16 and outmap16 rely on each other - might need to add another if
+  # else statement to try and prevent circular refernce.
 
   outlet16 <- if(vals$F40_4 + vals$F40_5 > 0) {
     outmap16
