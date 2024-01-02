@@ -118,3 +118,66 @@ rsb_fun <- function(site) {
 
   rsb_fun_score
 }
+
+
+
+# benfit score
+
+
+rsb_ben <- function(site) {
+
+  indicator_data <- get_indicator_data(site, "rsb")
+  vals <- get_vals(indicator_data)
+  weights <- get_weights(indicator_data)
+
+
+  lakewetpct14v <- wt_max(indicator_data, "OF19", "ben")
+
+  rarespp14v <- ifelse(vals$OF24_1 == 1, 1, NA_real_)
+
+  # to do : check this is correct
+  #https://github.com/BCWF-Wetlands/wespr/issues/54
+  lcovuniq14v <- if(sum_na (XXXXXXX) == 0){
+      NA_real_
+    } else {
+      wt_max(indicator_data, "OF34", "ben")
+    }
+
+
+  # to do : check this is correct
+  #https://github.com/BCWF-Wetlands/wespr/issues/54
+  lcrich14v <- if(sum_na (XXXXXXX) == 0){
+      NA_real_
+    } else {
+      wt_max(indicator_data, "OF36", "ben")
+    }
+
+  # to do : check this is correct
+  #https://github.com/BCWF-Wetlands/wespr/issues/54
+  lcrich2k14v <- if(sum_na (XXXXXXX) == 0){
+    NA_real_
+  } else {
+    wt_max(indicator_data, "OF37", "ben")
+  }
+
+  # to do : check this is correct
+  ## also the else cell points to D188 which doesnt contain any information?
+  #https://github.com/BCWF-Wetlands/wespr/issues/54
+  wetdenswau14v <- if(sum_na (XXXXXXX) == 0){
+    NA_real_
+  } else {
+   vals$OF43
+  }
+
+  recrea14v <- sum_na(vals$F56_1, vals$F56_2, vals$F56_3 )/3
+
+  rarebird14v <- ifelse(vals$F58_10 == 1, 1, NA_real_)
+
+
+  rsb_ben_score <- 10 * ifelse(rarebird14v == 1, 1,
+                        ifelse(rarespp14v == 1, 1,
+                               mean(c(lakewetpct14v, lcovuniq14v, lcrich14v, lcrich2k14, recrea14v))))
+
+  rsb_ben_score
+
+}
