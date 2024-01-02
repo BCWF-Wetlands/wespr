@@ -24,13 +24,13 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "nr", "fun")
   site <- update_site_indicator(site, "nr", "ben")
   # site <- update_site_indicator(site, "ap", "fun") # draft complete - check the app is correct on site object
-  #site <- update_site_indicator(site, "pd", "fun") # draft complete - requires ap_fun()
+  site <- update_site_indicator(site, "pd", "fun") # draft complete - requires ap_fun()
   site <- update_site_indicator(site, "kmh", "fun") # draft complete - requires ap_fun() * check ref with Paul as unclear
   site <- update_site_indicator(site, "kmh", "ben")
- # site <- update_site_indicator(site, "wb", "fun")  # draft complete requires ap_fun()
-  # site <- update_site_indicator(site, "wb", "ben")
-  # site <- update_site_indicator(site, "pol", "fun") # requires pd_fun()
-  # site <- update_site_indicator(site, "pol", "ben")
+  site <- update_site_indicator(site, "wb", "fun")  # draft complete requires ap_fun()
+  site <- update_site_indicator(site, "wb", "ben") # draft complete
+  site <- update_site_indicator(site, "pol", "fun") # draft complete - requires pd_fun()
+  site <- update_site_indicator(site, "pol", "ben") # draft complete
   # site <- update_site_indicator(site, "rsb", "fun") # requires ap_fun(), pd_fun()
   # site <- update_site_indicator(site, "rsb", "ben")
   # site <- update_site_indicator(site, "pd", "ben") # requires pol_fun(), rsb_fun()
