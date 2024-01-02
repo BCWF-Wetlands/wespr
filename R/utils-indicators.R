@@ -283,6 +283,18 @@ distance_across_longest_openwater <- function(vals, indicator_data) {
     wt_max(indicator_data, "F32", "fun")
   }
 }
+# F32 - version 2
+distance_across_longest_openwater_1 <- function(vals, indicator_data) {
+  if (vals$NeverWater + vals$TempWet >0 ||
+      vals$NoPersis == 1 ||
+      vals$NoDeepPonded == 1 ||
+      vals$NoOW == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F32", "fun")
+  }
+}
+
 
 
 # F33
@@ -297,7 +309,6 @@ distance_open_water_upland_veg <- function(vals, indicator_data) {
 
 # F33 : version 2 (sens)/ NR
 distance_open_water_upland_veg_1 <- function(vals, indicator_data) {
-
   if((vals$NeverWater + vals$TempWet > 0) ||
       vals$NoPond == 1 ||
       vals$NoDeepPonded == 1 ||
@@ -334,6 +345,20 @@ distance_open_water_upland_veg_3 <- function(vals, indicator_data) {
     wt_max(indicator_data, "F33", "fun")
   }
 }
+
+
+# F33 : version 4 / RSB
+distance_open_water_upland_veg_4 <- function(vals, indicator_data) {
+  if((vals$NeverWater + vals$TempWet > 0) ||
+     vals$NoDeepPonded == 1 ||
+     vals$NoOW == 1 ||
+     vals$NoPersis == 1 ) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F33", "fun")
+  }
+}
+
 
 
 # F35
