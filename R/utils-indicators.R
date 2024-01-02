@@ -18,6 +18,29 @@ wt_max <- function(indicator_data, question, type_f_b = c("fun", "ben")) {
 }
 
 
+intact_vals <- c(vals$OF30_1, vals$OF30_2, vals$OF30_3,
+                 vals$OF31_1, vals$OF31_2, vals$OF31_3,
+                 vals$OF32_1, vals$OF32_2, vals$OF32_3, vals$OF32_4, vals$OF32_5,
+                 vals$OF33_1, vals$OF33_2, vals$OF33_3, vals$OF33_4, vals$OF33_5,
+                 vals$OF34_1, vals$OF34_2, vals$OF34_3,
+                 vals$OF35_1,
+                 vals$OF36_1, vals$OF36_2, vals$OF36_3, vals$OF36_4,
+                 vals$OF37_1, vals$OF37_2, vals$OF37_3, vals$OF37_4, vals$OF37_5,
+                 vals$OF38_1, vals$OF38_2, vals$OF38_3, vals$OF38_4, vals$OF38_5,
+                 vals$OF39_1, vals$OF39_2, vals$OF39_3, vals$OF39_4, vals$OF39_5,
+                 vals$OF40_1, vals$OF40_2, vals$OF40_3, vals$OF40_4, vals$OF40_5,
+                 vals$OF41_1, vals$OF41_2, vals$OF41_3, vals$OF41_4, vals$OF41_5,
+                 vals$OF42_1, vals$OF42_2, vals$OF42_3,
+                 vals$OF43_1, vals$OF43_2, vals$OF43_3, vals$OF43_4, vals$OF43_5)
+
+
+
+
+
+
+
+
+
 # Standard functions for OFFICE QUESTIONS
 
 
