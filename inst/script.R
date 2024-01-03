@@ -2,7 +2,7 @@ library(readr)
 library(dplyr)
 
 # Run
-devtools::load_all()#, or in RStudio Ctrl+Shift+L to load the package
+#devtools::load_all()#, or in RStudio Ctrl+Shift+L to load the package
 # during development, or:
 # install_github("BCWF-wetlands/wespr)
 # library(wespr)
