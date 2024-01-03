@@ -291,6 +291,33 @@ non_veg_aquatic_cover <- function(vals, indicator_data) {
 }
 
 
+#F28 : version 2
+non_veg_aquatic_cover_1 <- function(vals, indicator_data) {
+  if((vals$NeverWater == 0) ||
+     vals$NoPersis == 1 ||
+     vals$NoPond == 1 ) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F28", "fun")
+  }
+}
+
+
+#F29
+largest_deep_pond_acre <- function(vals, indicator_data) {
+  if((vals$NeverWater == 0) ||
+     vals$NoPersis == 1 ||
+     vals$NoPond == 1 ) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F29", "fun")
+  }
+}
+
+
+
+
+
 #F30
 largest_deep_pond <- function(vals, indicator_data) {
   if((vals$NeverWater + vals$TempWet > 0) ||
@@ -313,6 +340,20 @@ open_water_extent <- function(vals, indicator_data) {
     wt_max(indicator_data, "F31", "fun")
   }
 }
+
+# F31 - version 2
+open_water_extent_1 <- function(vals, indicator_data) {
+  if (vals$NeverWater == 0 ||
+      vals$NoPersis == 1 ) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F31", "fun")
+  }
+}
+
+
+
+
 
 # F32
 distance_across_longest_openwater <- function(vals, indicator_data) {
@@ -425,6 +466,16 @@ interspersion_inundated_veg_1 <- function(vals, indicator_data){
     wt_max(indicator_data, "F35", "fun")
   }
 }
+
+
+# F35 : version 3 - FH
+interspersion_inundated_veg_2 <- function(vals){
+  ifelse(vals$NeverWater == 1, NA_real_,
+                 ifelse(vals$NoPersis == 1, NA_real_,
+                        ifelse(vals$NoPond == 1, NA_real_,
+                               ifelse(vals$F35_1 == 1, 0, NA_real_))))
+}
+
 
 
 
