@@ -18,7 +18,8 @@ wt_max <- function(indicator_data, question, type_f_b = c("fun", "ben")) {
 }
 
 
-intact_vals <- c(vals$OF30_1, vals$OF30_2, vals$OF30_3,
+intact_vals <- function(vals) {
+  intact_vals <- c(vals$OF30_1, vals$OF30_2, vals$OF30_3,
                  vals$OF31_1, vals$OF31_2, vals$OF31_3,
                  vals$OF32_1, vals$OF32_2, vals$OF32_3, vals$OF32_4, vals$OF32_5,
                  vals$OF33_1, vals$OF33_2, vals$OF33_3, vals$OF33_4, vals$OF33_5,
@@ -33,12 +34,12 @@ intact_vals <- c(vals$OF30_1, vals$OF30_2, vals$OF30_3,
                  vals$OF42_1, vals$OF42_2, vals$OF42_3,
                  vals$OF43_1, vals$OF43_2, vals$OF43_3, vals$OF43_4, vals$OF43_5)
 
+  intact_vals
 
+}
 
 
 # Standard functions for OFFICE QUESTIONS
-
-
 
 #OF5
 stream_intersect <- function(vals){
@@ -48,7 +49,6 @@ stream_intersect <- function(vals){
   vals$OF6_1
   }
 }
-
 
 
 #OF3
