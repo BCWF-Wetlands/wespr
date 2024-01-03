@@ -58,7 +58,7 @@ pol_fun <- function(site) {
       NA_real_
     } else {
       wt_max(indicator_data, "F15", "fun")
-
+}
 
   girreg16 <- wt_max(indicator_data, "F18", "fun")
 
@@ -111,9 +111,6 @@ pol_fun <- function(site) {
 
 }
 
-
-
-
 # calculate benefits
 
 pol_ben <- function(site){
@@ -160,7 +157,5 @@ pol_ben <- function(site){
 
   pol_ben_score <- 10 * mean_na(perimpctper16v, intact16v, lcrich16v,lcrich2k16v , rareplant16v)
 
-
-  pol_ben_score
-
+   pol_ben_score
 }
