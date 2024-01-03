@@ -17,7 +17,7 @@ library(janitor)
 # If this is different from your normal google auth email you can add this to a
 # project-specific .Rprofile file to cache
 
-xl <- drive_find("WSP_calculations.xlsx")
+xl <- drive_get(id = "1l2h7Z65H5z0cKv_gvorxkT6k9LC7ZKLS")
 
 # Since it's an excel file, make a temporary copy as a google sheet so we can
 # use `read_sheet()`
