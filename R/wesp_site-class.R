@@ -45,6 +45,7 @@ make_core_questions <- function() {
   format_q_list <- function(q) {
     # convert the columns of indicators that have a value (f,b,f/b)
     # into a vector containing the indicators the question pertains to
+
     q$used_by <- Filter(Negate(is.na), unlist(q[names(indicators())]))
     q$no_indicators <- length(q$used_by)
 
@@ -115,7 +116,7 @@ indicators <- function() {
     sens = list(fun = NULL),
     str = list(fun = NULL),
     nr = list(fun = NULL, ben = NULL),
-    ap = list(fun = NULL, ben = NULL),
+    app = list(fun = NULL, ben = NULL),
     pd = list(fun = NULL, ben = NULL),
     kmh = list(fun = NULL, ben = NULL),
     wb = list(fun = NULL, ben = NULL),
