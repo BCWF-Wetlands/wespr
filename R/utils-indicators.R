@@ -36,11 +36,6 @@ intact_vals <- c(vals$OF30_1, vals$OF30_2, vals$OF30_3,
 
 
 
-
-
-
-
-
 # Standard functions for OFFICE QUESTIONS
 
 
@@ -217,12 +212,12 @@ persist_water <- function(vals, indicator_data){
 
 
 
-# F23
+# 24
 percent_summerwater_shaded <- function(vals, indicator_data) {
   if (vals$NeverWater == 1 || vals$NoPersis == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F23", "fun")
+    wt_max(indicator_data, "F24", "fun")
   }
 }
 
@@ -281,6 +276,29 @@ ponded_water <- function(vals, indicator_data) {
     NA_real_
   } else {
     wt_max(indicator_data, "F27", "fun")
+  }
+}
+
+#F28
+non_veg_aquatic_cover <- function(vals, indicator_data) {
+  if((vals$NeverWater + vals$TempWet > 0) ||
+      vals$NoPersis == 1 ||
+      vals$NoPond == 1 ) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F28", "fun")
+  }
+}
+
+
+#F30
+largest_deep_pond <- function(vals, indicator_data) {
+  if((vals$NeverWater + vals$TempWet > 0) ||
+     vals$NoPersis == 1 ||
+     vals$NoPond == 1 ) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F30", "fun")
   }
 }
 
@@ -445,6 +463,15 @@ submerged_floating_aquatics_1 <- function(vals){
 }
 
 
+# F38- version3 (AM)
+submerged_floating_aquatics_2 <- function(vals, indicator_data){
+  if (vals$NeverWater + vals$TempWet == 1 ||
+      vals$NoPersis == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F38", "fun")
+  }
+}
 
 
 # F39
