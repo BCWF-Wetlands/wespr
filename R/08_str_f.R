@@ -1,0 +1,76 @@
+str_fun <- function(site) {
+
+  indicator_data <- get_indicator_data(site, "str")
+  vals <- get_vals(indicator_data)
+  weights <- get_weights(indicator_data)
+
+
+  # TODO : update stressor in weight table to "fun"
+  distRd20 <- wt_max(indicator_data, "OF2", "str")
+
+  impervRCA20 <- unveg_surface_1(vals, indicator_data)
+
+  burned20 <- vals$OF15_1
+
+  protected20 <- 1 - vals$OF22_1
+
+  # TODO : update weights table
+  rddens20 <- wt_max(indicator_data, "OF30", "fun")
+
+  # TODO : update weights table
+  rddens2k20 <-  wt_max(indicator_data, "OF31", "fun")
+
+  intact20 <- 1 - (wt_max(indicator_data, "OF32", "fun"))
+
+  # update fun in weights table
+  disturb20 <- if(vals$NoCA == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "OF41", "fun")
+  }
+
+
+  rddenswau20 <- if(vals$NoCA == 1) {
+    NA_real_
+  } else {
+    wt_max(indicator_data, "OF42", "fun")
+  }
+
+  constric20 <- outflow_confinement(vals, indicator_data)
+
+  #todo update the f_b_type
+  perimpctper20 <- vegetation_buffer_along_permin(vals, indicator_data, "fun")
+
+  #todo update the f_b_type
+  imperv20 <- type_of_cover_buff(vals, indicator_data, "fun")
+
+  #todo update the f_b_type
+  fire20 <- wt_max(indicator_data, "F55", "fun")
+
+  alttiming <- vals$S1_subscore
+
+  nutrload <- vals$S2_subscore
+
+  contam20 <- vals$S3_subscore
+
+  sedload <- vals$S4_subscore
+
+  soildisturb <- vals$S5_subscore
+
+  wldisturb <- vals$S6_subscore
+
+
+  # subcomponents
+
+  hydrostress <- mean_na(alttiming, constric20, disturb20)
+
+  wqstress <- mean_na(nutrload, contam20, sedload, soildisturb, impervRCA20, imperv20, burned20, fire20)
+
+  connecstress <- mean_na(perimpctper20, distRd20, rddens20, rddenswau20, protected20, intact20, wldisturb)
+
+
+  str_fun_score <- 10 * max_na(hydrostress, wqstress, connecstress)
+
+
+  str_fun_score
+}

@@ -23,11 +23,7 @@ sr_fun <- function(site) {
 
   girreg3 <- wt_max(indicator_data, "F18", "fun")
 
-  seaspct3 <- if (vals$NeverWater == 1) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F20", "fun")
-  }
+  seaspct3 <- percent_flooded_only_seasonally(vals, indicator_data)
 
   fluc2 <- surface_water_fluctuation(vals, indicator_data)
 
@@ -57,12 +53,7 @@ sr_fun <- function(site) {
     wt_max(indicator_data, "F35", "fun")
   }
 
-  emarea3 <- if (vals$NeverWater == 1 ||
-                 vals$NoPersis == 1) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F37", "fun")
-  }
+  emarea3 <- inundated_erect_veg(vals, indicator_data)
 
   outdura3 <- if (vals$F40_4 + vals$F40_5 > 0) {
     outmap3
@@ -150,7 +141,7 @@ sr_ben <- function(site) {
   # https://github.com/BCWF-Wetlands/wespr/issues/18
   rddens3v <- wt_max(indicator_data, "OF30", "ben")
 
-  disturb3v <- if (vals$NoCA == 1) {
+  disturb3v <- if(vals$NoCA == 1) {
     NA_real_
   } else {
     wt_max(indicator_data, "OF41", "ben")
@@ -178,23 +169,11 @@ sr_ben <- function(site) {
     vals$F42_1
   }
 
-  perimpctper3v <- if (vals$Disturb == 0) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F50", "ben")
-  }
+  perimpctper3v <- vegetation_buffer_along_permin(vals, indicator_data, "ben")
 
-  buffcovtyp3v <- if (vals$Disturb == 0) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F51", "ben")
-  }
+  buffcovtyp3v <- type_of_cover_buff(vals, indicator_data, "ben")
 
-  buffslope3v <- if (vals$Disturb == 0) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F52", "ben")
-  }
+  buffslope3v <- buffer_slope(vals, indicator_data, "ben")
 
   fire3 <- wt_max(indicator_data, "F55", "ben")
 

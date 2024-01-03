@@ -1,7 +1,8 @@
 library(readr)
 library(dplyr)
 
-# Run devtools::load_all(), or in RStudio Ctrl+Shift+L to load the package
+# Run
+devtools::load_all()#, or in RStudio Ctrl+Shift+L to load the package
 # during development, or:
 # install_github("BCWF-wetlands/wespr)
 # library(wespr)
@@ -28,3 +29,8 @@ get_q(site, "NeverWater")
 #     - ... magic
 # - For multi-site, I think each question in the core_questions object can have
 #   a list of values one for each site (rather than a questions object for each site)
+
+
+ind_scores <- get_indicator_scores(site)
+get_responses(site)
+get_derived_values(site)
