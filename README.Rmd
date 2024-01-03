@@ -160,6 +160,22 @@ site$derived_values
 site$indicators
 ```
 
+## Development
 
+### Updating internal data
+
+The wespr package contains two internal datasets which facilitate question validation and indicator calculations: `question_metadata` and `indicator_weightings`.
+
+These are updated by:
+
+1. Update the Google Sheet at:  https://docs.google.com/spreadsheets/d/1l2h7Z65H5z0cKv_gvorxkT6k9LC7ZKLS/edit#gid=924841838 (you need to be authorized to edit this document)
+
+2. Run the script in `data-raw/internal-data.R`
+
+3. Reload/reinstall the package.
+
+4. Run `devtools::check()` to make sure the changes you made to the Google Sheet haven't broken any existing behaviour.
+
+5. Commit the changes to `R/sysdata.rda` (this file contains both datasets)
 
 
