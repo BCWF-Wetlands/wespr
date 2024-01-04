@@ -159,11 +159,11 @@ local_solar_input <- function(vals){
 
 
 # OF 42
-road_density_wau <- function(vals, indicator_data) {
+road_density_wau <- function(vals, indicator_data, type_f_b) {
     if (vals$NoCA == 1) {
       NA_real_
     } else {
-      wt_max(indicator_data, "OF42", "ben")
+      wt_max(indicator_data, "OF42", type_f_b)
     }
   }
 

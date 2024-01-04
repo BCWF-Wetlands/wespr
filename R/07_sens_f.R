@@ -5,10 +5,7 @@ sens_fun <- function(site) {
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-
-  # TO do update to sensitivity
-  # fix check where limited to fun and ben
-  distpond18 <- wt_max(indicator_data, "OF3", "ben")
+  distpond18 <- wt_max(indicator_data, "OF3", "fun")
 
   elev18 <- vals$OF5_1
 
@@ -19,8 +16,6 @@ sens_fun <- function(site) {
     vals$OF6_1
   }
 
-  # TO do update to sensitivity
-  # fix check where limited to fun and ben
   water2k18 <- wt_max(indicator_data, "OF19", "fun")
 
   # check if amphibian response is to be included in this calculation or not
@@ -30,65 +25,42 @@ sens_fun <- function(site) {
 
   gdd18 <- degree_days_index(vals)
 
-  # TO do update to sensitivity
-  # fix check where limited to fun and ben
-  intact18 <- wt_max(indicator_data, "OF32", "ben")
+  intact18 <- wt_max(indicator_data, "OF32", "fun")
 
-  # TO do update to sensitivity
-  # fix check where limited to fun and ben
-  disturb18 <- wt_max(indicator_data, "OF41", "ben")
+  disturb18 <- wt_max(indicator_data, "OF41", "fun")
 
-  # TO do update to sensitivity
-  # fix check where limited to fun and ben
-  wetdenswau18 <- wt_max(indicator_data, "OF43", "ben")
+  wetdenswau18 <- wt_max(indicator_data, "OF43", "fun")
 
   # todo check the calculation is correct
   #https://github.com/BCWF-Wetlands/wespr/issues/42
   woodypct18a <- max_na(vals$F1_1, vals$F1_2)/6
 
-  # TO do update to sensitivity
-  # fix check where limited to fun and ben
-  moss18a <- wt_max(indicator_data, "F10", "ben")
+  moss18a <- wt_max(indicator_data, "F10", "fun")
 
-  # TO do update to sensitivity
-  # fix check where limited to fun and ben
-  invas18a <-  wt_max(indicator_data, "F13", "ben")
+  invas18a <-  wt_max(indicator_data, "F13", "fun")
 
-  # TO do update to sensitivity
-  # fix check where limited to fun and ben
-  nfix18a<-  wt_max(indicator_data, "F14", "ben")
+  nfix18a<-  wt_max(indicator_data, "F14", "fun")
 
-  # TO do update to sensitivity
-  # fix check where limited to fun and ben
   gcover18a <- ground_cover(vals, indicator_data)
 
-  # TO do update to sensitivity
-  # fix check where limited to fun and ben
-  soiltex18a <-   wt_max(indicator_data, "F17", "ben")
+  soiltex18a <-   wt_max(indicator_data, "F17", "fun")
 
-  # TO do update to sensitivity
-  # fix check where limited to fun and ben
   seaspct18a <- percent_flooded_only_seasonally(vals, indicator_data)
 
-  # TO do update to sensitivity
-  # fix check where limited to fun and ben
   depthdom18a <- predom_depth_class_1(vals, indicator_data)
 
-  # TO do update to sensitivity
-  # fix check where limited to fun and ben
   widthwet18a <- distance_open_water_upland_veg_1(vals, indicator_data)
 
-  #wt_max(indicator_data, "F17", "ben")\
   outdura18a <- if (vals$F40_4 + vals$F40_5 > 0) {
     outmap18
   } else {
     wt_max(indicator_data, "F40", "fun")
   }
 
-  #wt_max(indicator_data, "F17", "ben")
   constric18a <- outflow_confinement_2(vals, indicator_data)
 
-  # check this calculation - specifically refernce to D95? this is another question entirely
+  # TODO: check this calculation - specifically reference to D95? this is another question entirely
+  # this does not seem correct
   acid18 <- ifelse(vals$F45_3 == 1,  NA_real_ ,
                ifelse(is.na(vals$F45_1) & vals$F45_2 == 1, 0.7,
                     ifelse(D95 < 5 | D95 > 9, 1, 0.5)
@@ -96,24 +68,19 @@ sens_fun <- function(site) {
   )
 
 
-
-  conductiv18 <- ifelse(vals$F46a_1 == NA , NA_real_ ,
+  conductiv18 <- ifelse(is.na(vals$F46a_1) , NA_real_ ,
                         ifelse(vals$F46a_1 < 150, 1,
                                ifelse(vals$F46a_1 > 500, 0, 0.5)))
 
   # check these are NA and not blanks
-  tds18a <- ifelse(vals$F46b_1 == NA, NA_real_ ,
+  tds18a <- ifelse(is.na(vals$F46b_1), NA_real_ ,
                   ifelse(vals$F46b_1 < 100, 0,
                          ifelse(vals$F46b_1 > 350, 1, 0.5)))
 
 
-  # TO do update to sensitivity
-  # fix check where limited to fun and ben
-  beaver18a <- wt_max(indicator_data, "F48", "ben")
+  beaver18a <- wt_max(indicator_data, "F48", "fun")
 
-  # TO do update to sensitivity
-  # fix check where limited to fun and ben
-  perimpectper18a <- vegetation_buffer_along_permin(vals, indicator_data, "ben")
+  perimpectper18a <- vegetation_buffer_along_permin(vals, indicator_data, "fun")
 
 
   rareonsite18a <- sum(c(vals$F58_6, vals$F58_7, vals$F58_8,  vals$F58_9))/4 +
