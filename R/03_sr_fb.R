@@ -5,10 +5,9 @@ sr_fun <- function(site) {
   weights <- get_weights(indicator_data)
 
   outmap3 <- if (vals$NoOutlet + vals$NoOutletX > 0) {
-    1 # TODO: verify 1 vs OutDura3 (calced from F40 - Channel Connection and Ouflow duration)
-    # https://github.com/BCWF-Wetlands/wespr/issues/23
+    1
   } else {
-    vals$OutMap
+    vals$OutMap # should this be vals$OF6_1?
   }
 
   wetpctrca3 <- wt_max(indicator_data, "OF11", "fun")
@@ -180,4 +179,3 @@ sr_ben <- function(site) {
 
   sr_ben_score
 }
-
