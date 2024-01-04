@@ -74,14 +74,13 @@ sr_fun <- function(site) {
   }
 
   ## Subscores:
-  #
-  # LiveStore3=IF((NeverWater=1),"", AVERAGE(Fluc2,SeasPct2))
+
   livestore3 <- if (vals$NeverWater == 1) {
     NA_real_
   } else {
     mean_na(c(fluc2, seaspct3))
   }
-  # DryIntercept=AVERAGE(Gradient3, WetPctRCA3, AVERAGE(Girreg3, Sedge3,Gcover3, SoilDisturb3))
+
   dryintercept <- mean_na(
     c(gradient3, wetpctrca3,
       mean_na(
@@ -89,18 +88,17 @@ sr_fun <- function(site) {
       )
     )
   )
-  # WetIntercept==IF((NeverWater=1),"",AVERAGE(WidthWet3, ThruFlo3, EmArea3, Interspers3, DegreeD3, FloDist3, DepthDom3, Ponded3, Constric3))
+
   wetintercept <- if (vals$NeverWater == 1) {
     NA_real_
   } else {
     mean_na(c(widthwet3, thruflo3, emarea3, interspers3, degreed3, flodist3,
             depthdom3, ponded3, constric3))
   }
-  # Connectiv3==OutDura2
+
   connectiv3 <- outdura3
-  #
+
   ## Final:
-  # =IF((NeverWater=1),DryIntercept,IF((Outmap3=0),10,10*OutDura3*AVERAGE(LiveStore3,DryIntercept,WetIntercept)))
   sr_fun_score <- if (vals$NeverWater == 1) {
     dryintercept
   } else if (outmap3 == 0) {
@@ -132,8 +130,12 @@ sr_ben <- function(site) {
 
   dryness3v <- local_moisture_deficit(vals)
 
-  # TODO: The formula is wrong in the spreadsheet, need to verify. https://github.com/BCWF-Wetlands/wespr/issues/20
   topopos3v <- vals$OF29_1 / 5
+
+
+
+
+
 
   #TODO: For the next three calculations, the formula in spreadsheet says:
   # if sum(OF30:OF43) == O, NA, else wt_max.
