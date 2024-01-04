@@ -6,7 +6,6 @@ ws_fun <- function(site) {
 
   # Function
 
-  # TODO: Resolve value if no outlet: https://github.com/BCWF-Wetlands/wespr/issues/22
   outmap1 <- if ((vals$NoOutlet + vals$NoOutletX) > 0) {
     1
   } else {
@@ -36,7 +35,8 @@ ws_fun <- function(site) {
 
   # TODO: See if this should condition on F15_4 like in PR and SR. If so,
   # use ground_cover(). https://github.com/BCWF-Wetlands/wespr/issues/27
-  gcover1 <- wt_max(indicator_data, "F15", "fun")
+  gcover1 <- ground_cover(vals, indicator_data)
+
 
   soiltex1 <- wt_max(indicator_data, "F17", "fun")
 

@@ -17,13 +17,7 @@ nr_fun <- function(site) {
   # TODO: Check calculation here: https://github.com/BCWF-Wetlands/wespr/issues/45
   woodypct5 <- wt_max(indicator_data, "F1", "fun")
 
-  # number of options does not match the F15 catergories - appears to be missing one
-  #https://github.com/BCWF-Wetlands/wespr/issues/27
-  gcover5 <- if(vals$F15_4 == 1) {
-       NA_real_
-    } else {
-      wt_max(indicator_data, "F15", "fun")
-    }
+  gcover5 <- ground_cover(vals, indicator_data)
 
   soiltex5 <- wt_max(indicator_data, "F17", "fun")
 
