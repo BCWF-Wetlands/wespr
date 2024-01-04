@@ -12,10 +12,6 @@ ws_fun <- function(site) {
     vals$OF6_1
   }
 
-  # OF10 - internal flow distance
-
-  # TODO: should this condition on noCA as do PR and SR? If so, use
-  # internal_flow_distance() function. https://github.com/BCWF-Wetlands/wespr/issues/21
   flodist1 <- wt_max(indicator_data, "OF10", "fun")
 
   wetpctrca1 <- wt_max(indicator_data, "OF11", "fun")
@@ -92,11 +88,9 @@ ws_fun <- function(site) {
   }
 
   # final function score
-  # TODO: Text describing formula includes `NoOutletX`, but is not included in the
-  # formula. https://github.com/BCWF-Wetlands/wespr/issues/24
 
    ws_fun_score <- 10 * dplyr::case_when(
-    vals$NoOutlet + vals$NoOutletX > 1 ~ 1,
+    vals$NoOutlet + vals$NoOutletX > 0 ~ 1,
     vals$NeverWater == 1 ~ mean_na(
       c(max_na(outmap1, outdura1), mean_na(c(friction, subsurf)))
     ),
