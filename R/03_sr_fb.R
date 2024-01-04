@@ -114,6 +114,7 @@ sr_fun <- function(site) {
 # benefit
 
 sr_ben <- function(site) {
+
   indicator_data <- get_indicator_data(site, "sr")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
@@ -132,15 +133,6 @@ sr_ben <- function(site) {
 
   topopos3v <- vals$OF29_1 / 5
 
-
-
-
-
-
-  #TODO: For the next three calculations, the formula in spreadsheet says:
-  # if sum(OF30:OF43) == O, NA, else wt_max.
-  # Seems like a huge range. Currently skipping that condition, and using noCA only
-  # https://github.com/BCWF-Wetlands/wespr/issues/18
   rddens3v <- wt_max(indicator_data, "OF30", "ben")
 
   disturb3v <- if(vals$NoCA == 1) {
