@@ -20,7 +20,7 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "fr", "fun")
   site <- update_site_indicator(site, "fr", "ben")
   #site <- update_site_indicator(site, "sens", "fun") # need responses from Paul to complete indicator
-  site <- update_site_indicator(site, "str", "fun") # draft complete - requires a major fix with weights table
+  #site <- update_site_indicator(site, "str", "fun") # draft complete - requires a major fix with weights table
   #site <- update_site_indicator(site, "nr", "fun")
   #site <- update_site_indicator(site, "nr", "ben")
   # site <- update_site_indicator(site, "ap", "fun") # draft complete - check the app is correct on site object
