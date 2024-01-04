@@ -141,8 +141,6 @@ sr_ben <- function(site) {
     wt_max(indicator_data, "OF41", "ben")
   }
 
-  # TODO: rddenswau3v is not currently used in the SR benefit calculation:
-  # https://github.com/BCWF-Wetlands/wespr/issues/19
   rddenswau3v <- if (vals$NoCA == 1) {
     NA_real_
   } else {
@@ -173,10 +171,9 @@ sr_ben <- function(site) {
 
   sedin2 <- vals$S4_subscore
 
-  # =10*(2*AVERAGE(colour3, Burn3v, Fire3, Glacier3v, RdDens3v, ImpervRCA3v, SedIn2 ) + AVERAGE(BuffCovTyp3v, BuffSlope3v, PerimPctPer3v, Disturb3v) + AVERAGE(Elev3v, WetPctRCA3v, TopoPos3v, Inflow3v, Alldry3, Dryness3v))/4
 
   sr_ben_score <- 10 * (
-    2 * mean_na(c(colour3, burn3v, fire3, glacier3v, rddens3v, impervrca3v, sedin2)) +
+    2 * mean_na(c(colour3, burn3v, fire3, glacier3v, rddens3v, rddenswau3v, impervrca3v, sedin2)) +
       mean_na(c(buffcovtyp3v, buffslope3v, perimpctper3v, disturb3v)) +
       mean_na(c(elev3v, wetpctrca3v, topopos3v, inflow3v, alldry3, dryness3v))
     ) / 4
