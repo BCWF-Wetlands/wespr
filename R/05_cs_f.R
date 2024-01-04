@@ -4,25 +4,14 @@ cs_fun <- function(site) {
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-  # OF15 burned # OF15
 
   burn6 = 1 - vals$OF15_1
-
-  # OF25 - local moisure deficit - OF25_1
 
   ##requires standardized range of measures from region
   # 326 in this case
   # need to ask paul how these are calculated?
 
   wetdef6 <- 1 - local_moisture_deficit(vals)
-
-  # F1 - Vegetation height & form diversity F1 _0 + weighted values
-  #In calculations, score is the average of the sum of coniferous cover among the 3 height classes, adjusted to a 0-1 scale, and the maximum of the coniferous height classes, adjusted to a 0-1 scale.
-
-  # not sure where 18 and 10 come from?
-  #(MAX(F6,F8,F10)/18 + SUM(D6,D8,D10)/10)/2
-
-  # value * weight
 
   woodypct6 <- (
     (max_na(
@@ -33,28 +22,13 @@ cs_fun <- function(site) {
       sum_na(vals$F1_1, vals$F1_3, vals$F1_5) / 10
   ) / 2
 
-  # F3 - woody Diameter Classes
-  #=MAX(F13:F20)/MAX(E13:E20)
-  #<- max(F13:F20) / max(E13:E20)
-
   treetyp6 <- wt_max(indicator_data, "F3", "fun")
-
-
-  # F10 - dense Moss Extent
-  #=MAX(F22:F26)/MAX(E22:E26)
 
   moss6 <- wt_max(indicator_data, "F10", "fun")
 
-  # F15 - Percent Bare Ground
   gcover6 <- wt_max(indicator_data, "F15", "fun")
 
-  # F17 - soil surface texture
-  #=MAX(F33:F37)/MAX(E33:E37)
-
   soiltex6 <- wt_max(indicator_data, "F17", "fun")
-
-  # F40 - Channel connections and outflows
-  #ifelse((D42 + D43) > 0, 1, max(F39:F43) / max(E39:E43))
 
   outdura6 <- if ((vals$F40_4 + vals$F40_5) > 0) {
     1
@@ -62,13 +36,7 @@ cs_fun <- function(site) {
     wt_max(indicator_data, "F40", "fun")
   }
 
-  # F41 - outflow confinement and Artificial drainage
-  #=IF((NeverWater+TempWet>0),"",IF((NoOutlet+NoOutletX>0),"",IF((D48=1),"",MAX(F45:F47)/MAX(E45:E47))))
-  # requires
-
   constric6 <- outflow_confinement(vals, indicator_data)
-
-  # F55 - PH MEASUREMENT
 
   # This should be NA or numeric
   pH <- vals$F45_1
@@ -82,17 +50,11 @@ cs_fun <- function(site) {
     .default = 0.2
   )
 
-  #Fire history # F55
-
   fire6 <- wt_max(indicator_data, "F55", "fun")
-
-  # S5 - Soil or Sediment Alteration within the assessment area
 
   soildisturb6 <- vals$S5_subscore
 
   ## Overall CS score
-  # Assuming SoilTex6, Moss6, Acidic6, OutDura6, WoodyPct6, TreeTyp6, Fire6, Burn6,
-  # Gcover6, Constric6, WetDef6, SoilDisturb6 are variables
 
   # TODO: Should score be calculated by 10? https://github.com/BCWF-Wetlands/wespr/issues/26
   cs_fun_score <- 10 * (5 * max_na(soiltex6, moss6, acidic6) +

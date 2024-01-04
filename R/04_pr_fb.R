@@ -14,8 +14,6 @@ pr_fun <- function(site) {
 
   aspect4 <- wt_max(indicator_data, "OF7", "fun")
 
-  # check this indicator
-  # TO DO - edit the weights file to remove duplicate OF 11 for PR
   wetpctrca4 <- wt_max(indicator_data, "OF11", "fun")
 
   flodist4 <- internal_flow_distance(vals, indicator_data)
@@ -120,6 +118,7 @@ pr_fun <- function(site) {
 # benefit
 
 pr_ben <- function(site) {
+
   indicator_data <- get_indicator_data(site, "pr")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
@@ -147,15 +146,18 @@ pr_ben <- function(site) {
   }
 
   ## TOdo - check calculation here as the numbers range from D112 - D180? seems wrong? https://github.com/BCWF-Wetlands/wespr/issues/40
-
-  disturb4v <- if(sum_na(vals$OF41_1, vals$OF41_2, vals$OF41_3, vals$OF41_4, vals$OF41_5)==0 ||
+  ## if this list is the full extent , need to add other questions to "used by Q list"
+  disturb4v <- if(sum_na(intact_vals(vals))==0 ||
     vals$NoCA == 1) {
     NA_real_
   } else {
     wt_max(indicator_data, "OF41", "ben")
   }
 
-  rddenswau4v <-  road_density_wau(vals, indicator_data)
+
+  # TODO : add OF42 to benefits "Used BY"
+  rddenswau4v <-  road_density_wau(vals, indicator_data, "ben")
+
 
   inflow4v <- if (vals$NoOutlet + vals$NoOutletX > 0) {
     NA_real_
@@ -164,12 +166,12 @@ pr_ben <- function(site) {
   }
 
   # check these are NA and not blanks
-  conductiv4v <- ifelse(vals$F46a_1 == NA , NA_real_ ,
+  conductiv4v <- ifelse(is.na(vals$F46a_1) , NA_real_ ,
                         ifelse(vals$F46a_1 < 150, 0,
                                ifelse(vals$F46a_1 > 500, 1, 0.5)))
 
   # check these are NA and not blanks
-  tds4v <- ifelse(vals$F46b_1 == NA, NA_real_ ,
+  tds4v <- ifelse(is.na(vals$F46b_1), NA_real_ ,
                   ifelse(vals$F46b_1 < 100, 0,
                          ifelse(vals$F46b_1 > 350, 1, 0.5)))
 
@@ -182,7 +184,6 @@ pr_ben <- function(site) {
   slopebuff4v <- buffer_slope(vals, indicator_data, "ben")
 
   nutrload4v <- vals$S2_subscore
-
 
   # check this calculation
   # no - Karst4v,
