@@ -31,12 +31,7 @@ ws_fun <- function(site) {
 
   growdays1 <- degree_days_index(vals)
 
-  # F15 - Percent Bare Ground
-
-  # TODO: See if this should condition on F15_4 like in PR and SR. If so,
-  # use ground_cover(). https://github.com/BCWF-Wetlands/wespr/issues/27
   gcover1 <- ground_cover(vals, indicator_data)
-
 
   soiltex1 <- wt_max(indicator_data, "F17", "fun")
 
@@ -70,19 +65,7 @@ ws_fun <- function(site) {
     wt_max(indicator_data, "F40", "fun")
   }
 
-  # F41 Outflow
-  # =IF((NoOutlet+NoOutletX>0),"",IF((D75=1),"", MAX(F72:F74)/MAX(E72:E74)))
-  # TODO: this is differnt to cs version of this formula. Use outflow_confinement() if
-  # resolved to be the same. See https://github.com/BCWF-Wetlands/wespr/issues/17.
-
-  # constric1 <- outflow_confinement(vals, indicator_data)
-  constric1 <- dplyr::case_when(
-    # (vals$NeverWater + vals$TempWet) > 0 ~ NA,
-    (vals$NoOutlet + vals$NoOutletX) > 0 ~ NA_real_,
-    vals$F41_4 == 1 ~ NA_real_,
-    .default = wt_max(indicator_data, "F41", "fun")
-  )
-
+  constric1 <- outflow_confinement_1(vals, indicator_data)
 
   thruflo1 <- throughflow_resistance(vals, indicator_data)
 
