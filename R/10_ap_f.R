@@ -17,7 +17,7 @@ ap_fun <- function(site) {
 
   # TO DO : check this formlar makes sense in order with other formulars
   outdur8 <- if(vals$F40_4 + vals$F40_5 > 0) {
-    outmap8
+    mappedout8
   } else {
     wt_max(indicator_data, "F40", "fun")
   }
@@ -43,7 +43,9 @@ ap_fun <- function(site) {
   degreed8 <- degree_days_index(vals)
 
   # to do : check this is working corectly after app values added
-  solar8 <- local_solar_input(vals)
+  #https://github.com/BCWF-Wetlands/wespr/issues/65
+  solar8 <- 1 #local_solar_input(vals) # replace with function
+
 
   sindex8 <- if(sum_na(vals$OF28_1,vals$OF28_2,vals$OF28_3,vals$OF28_4,vals$OF28_5) == 0){
      NA_real_
@@ -70,8 +72,7 @@ ap_fun <- function(site) {
                   (sum_na(vals$F1_2, vals$F1_4, vals$F1_6)/10))/2
 
 
- nfix8 <- wt_max(indicator_data, "OF14", "fun")
-
+ nfix8 <- wt_max(indicator_data, "F14", "fun")
 
  gcover8 <- ground_cover(vals, indicator_data)
 
@@ -79,7 +80,7 @@ ap_fun <- function(site) {
 
  drypct8 <- wt_max(indicator_data, "F19", "fun")
 
- seaspct5 <- percent_flooded_only_seasonally(vals, indicator_data)
+ seaspct8 <- percent_flooded_only_seasonally(vals, indicator_data)
 
  shade8 <- percent_summerwater_shaded(vals, indicator_data)
 
