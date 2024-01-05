@@ -113,6 +113,7 @@ nr_ben <- function(site) {
   wells5v <- wt_max(indicator_data, "F54", "ben")
 
   # TODO - check this works
+  # might need to make this more robust
   pval5 <- pr_ben_score/10
 
   nr_ben_score <- 10 * max_na(wells5v, pval5, mean_na(nfix5vm, rddist5))
