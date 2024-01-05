@@ -7,7 +7,7 @@ sr_fun <- function(site) {
   outmap3 <- if (vals$NoOutlet + vals$NoOutletX > 0) {
     1
   } else {
-    vals$OutMap # should this be vals$OF6_1?
+    vals$OF6_1
   }
 
   wetpctrca3 <- wt_max(indicator_data, "OF11", "fun")
