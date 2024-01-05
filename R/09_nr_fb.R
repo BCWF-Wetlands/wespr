@@ -14,8 +14,7 @@ nr_fun <- function(site) {
 
   gdd5 <- degree_days_index(vals)
 
-  # TODO: Check calculation here: https://github.com/BCWF-Wetlands/wespr/issues/45
-  woodypct5 <- wt_max(indicator_data, "F1", "fun")
+  woodypct5 <- max(vals$F1_2, vals$F41_4)/6
 
   gcover5 <- ground_cover(vals, indicator_data)
 
@@ -81,7 +80,7 @@ nr_fun <- function(site) {
                    mean_na(c(widthwet5, gcover5, watermixwet5, thruflo5, girreg5)))/3
 
   ## TO do : fix this function so doesnt throw error where only single value
-  connec5 <- mean_na(outdura5, constric5)
+  connec5 <- mean_na(c(outdura5, constric5))
 
   organic4 <- mean_na(soiltex5, soildisturb5)
 
