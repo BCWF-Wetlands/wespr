@@ -10,9 +10,7 @@ fr_fun <- function(site) {
 
   burned7 <- vals$OF15_1
 
-  # TO DO - check the range of values - https://github.com/BCWF-Wetlands/wespr/issues/41
-
-  conif7 <- if(sum(vals$OF39_1 ,vals$OF39_2, vals$OF39_3 ,vals$OF39_4 , vals$OF39_5)== 0){
+  conif7 <- if(sum(vals$OF39_1 , vals$OF39_2, vals$OF39_3 ,vals$OF39_4 , vals$OF39_5)== 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF39", "fun")
@@ -37,9 +35,7 @@ fr_fun <- function(site) {
 
   satpct7 <- wt_max(indicator_data, "F19", "fun")
 
-  # percent with persistent surface water
-  # this has no reference in calculation : https://github.com/BCWF-Wetlands/wespr/issues/41
-  #???
+  persispct7 <- wt_max(indicator_data, "F21", "fun")
 
 
   # TO DO - reference to ALLSAT but not found in batch?
@@ -81,13 +77,11 @@ fr_fun <- function(site) {
   fire7 <-  wt_max(indicator_data, "F55", "fun")
 
 
-  # calculate the fr function subscore
-  # TO DO - should this include a 10*
-  fr_fun_score <- 10 * ((3 * mean_na(c(fringe7, lake7, openw7, fetch7, satpct7)) +
+  fr_fun_score <- 10 * ((3 * mean_na(c(fringe7, lake7, persispct7, openw7, fetch7, satpct7)) +
                         2 * woodycov7 +
                        mean_na(c(aspect7, gcov8, fire7))) / 6)
 
-
+  fr_fun_score
 }
 
 # Benefit
@@ -114,4 +108,6 @@ fr_ben <- function(site){
 
   fr_ben_score <- 10* ((4*disttown7v + conif7v + dryness7v)/6)
 
-}
+  fr_ben_score
+
+  }
