@@ -23,61 +23,48 @@ pf_fun <- function(site) {
 
   rarespp15 <- ifelse(vals$OF24_1 == 1, 1, NA_real_)
 
-  # check this calculator with Paul
-  # https://github.com/BCWF-Wetlands/wespr/issues/49
-
-  rddens15 <- if(sum_na (XXXXXXX) == 0){
+  rddens15 <- if(sum_na (vals$OF30_1, vals$OF30_2, vals$OF30_3) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF30", "fun")
   }
 
-  # check this calculator with Paul
-  # https://github.com/BCWF-Wetlands/wespr/issues/49
-  intact15 <- if(sum_na (XXXXXXX) == 0){
+  intact15 <- if(sum_na (vals$OF32_1, vals$OF32_2, vals$OF32_3, vals$OF32_4, vals$OF32_5) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF32", "fun")
   }
 
-
-  # check this calculator with Paul
-  # https://github.com/BCWF-Wetlands/wespr/issues/49
-  oldgro15 <- if(sum_na (XXXXXXX) == 0){
+  oldgro15 <- if(sum_na (vals$OF33_1, vals$OF33_2, vals$OF33_3, vals$OF33_4, vals$OF33_5) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF33", "fun")
   }
 
-  # check this calculator with Paul
-  # https://github.com/BCWF-Wetlands/wespr/issues/49
-  disturbwau15 <- if(sum_na (XXXXXXX) == 0 ||
+  disturbwau15 <- if(sum_na (vals$OF41_1, vals$OF41_2, vals$OF41_3, vals$OF41_4, vals$OF41_5) == 0 ||
                      vals$NoCA == 1){
     NA_real_
   } else {
     wt_max(indicator_data, "OF41", "fun")
   }
 
-
-  # check this calculator with Paul
-  # https://github.com/BCWF-Wetlands/wespr/issues/49
-  rddenswau15 <- if(sum_na (XXXXXXX) == 0 ||
+  rddenswau15 <- if(sum_na ( vals$OF42_1, vals$OF42_2, vals$OF42_3) == 0 ||
                     vals$NoCA == 1){
     NA_real_
   } else {
     wt_max(indicator_data, "OF42", "fun")
   }
 
-
   woodyformrich15 <- max_na(
     sum(c(vals$F1_1, vals$F1_2, vals$F1_3, vals$F1_4, vals$F1_5, vals$F1_6) > 0) / 6,
     (vals$F1_2 + vals$F1_4) / 8
   )
 
-  # todo : missing calculation entirely
-  #https://github.com/BCWF-Wetlands/wespr/issues/49
 
- # woodyhtmix15 <- XXXX
+  # missing information on F2
+  #https://github.com/BCWF-Wetlands/wespr/issues/49
+  # check how F2 is read in
+ # woodyhtmix15 <- wt_max(indicator_data, "F2", "fun")
 
 
   shrubrich15 <- if(sum_na(vals$F1_1, vals$F1_2, vals$F1_3, vals$F1_4, vals$F1_5, vals$F1_6) == 0){
@@ -129,16 +116,10 @@ pf_fun <- function(site) {
 
   rareplant15 <- if_else(vals$F58_7 == 1, 1, NA_real_)
 
-
-  # to do : check this calculation as it reference wrong cell?
-  # https://github.com/BCWF-Wetlands/wespr/issues/49
-
-   plantrich15 <- if(vals$F59_1 == 0){
+   plantrich15 <- if(sum(vals$F59_1, vals$F59_2, vals$F59_3, vals$F59_4, vals$F59_5)  == 0){
     NA_real_
-   } else { if((vals$F59_1/8) > 1){
-    1 } else {
-      (vals$F59_1/8)
-    }
+   } else {
+     wt_max(indicator_data, "F59", "fun")
    }
 
    alttiming15 <- vals$S1_subscore
@@ -150,6 +131,8 @@ pf_fun <- function(site) {
    #todo: find a nice way to extract the subscores
    #https://github.com/BCWF-Wetlands/wespr/issues/48
   # appscore15 <- ind_scores?????
+
+
 
 
    # function subscores
@@ -171,6 +154,7 @@ pf_fun <- function(site) {
 
 
    # TO do: reference to invashigh? not sure where this is ?
+   ## needs more clarification on this.
    #https://github.com/BCWF-Wetlands/wespr/issues/48
 
    pd_fun_score <- 10 * if(invashigh == 1){

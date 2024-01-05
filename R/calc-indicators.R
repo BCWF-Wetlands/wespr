@@ -23,7 +23,7 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "str", "fun") # need to update weights table inport
   site <- update_site_indicator(site, "nr", "fun")
   site <- update_site_indicator(site, "nr", "ben") # requires minor tweak to input a calculate value
-  # site <- update_site_indicator(site, "ap", "fun") # draft complete - some issues still to fix
+  site <- update_site_indicator(site, "ap", "fun") # draft complete - some issues still to fix
   #site <- update_site_indicator(site, "pd", "fun") # draft complete - requires ap_fun()
   #site <- update_site_indicator(site, "kmh", "fun") # draft complete - requires ap_fun() * check ref with Paul as unclear
   #site <- update_site_indicator(site, "kmh", "ben")
