@@ -9,17 +9,14 @@ sens_fun <- function(site) {
 
   elev18 <- vals$OF5_1
 
-  # TODO - CHeck the calculation is correct (https://github.com/BCWF-Wetlands/wespr/issues/42)
   outmap18 <- if (vals$NoOutlet + vals$NoOutletX == 0) {
-    1 # TODO: verify this valiue? vs OutDura3 (calc'ed from F40 - Channel Connection and Ouflow duration)
+    1
   } else {
     vals$OF6_1
   }
 
   water2k18 <- wt_max(indicator_data, "OF19", "fun")
 
-  # check if amphibian response is to be included in this calculation or not
-  # https://github.com/BCWF-Wetlands/wespr/issues/42
   rarespp18 <-((max_na(c(vals$OF24_1, vals$OF24_2, vals$OF24_3, vals$OF24_4)) +
     mean_na(c(vals$OF24_1, vals$OF24_2, vals$OF24_3, vals$OF24_4)))/2)
 
@@ -31,8 +28,6 @@ sens_fun <- function(site) {
 
   wetdenswau18 <- wt_max(indicator_data, "OF43", "fun")
 
-  # todo check the calculation is correct
-  #https://github.com/BCWF-Wetlands/wespr/issues/42
   woodypct18a <- max_na(vals$F1_1, vals$F1_2)/6
 
   moss18a <- wt_max(indicator_data, "F10", "fun")
@@ -59,11 +54,9 @@ sens_fun <- function(site) {
 
   constric18a <- outflow_confinement_2(vals, indicator_data)
 
-  # TODO: check this calculation - specifically reference to D95? this is another question entirely
-  # this does not seem correct
   acid18 <- ifelse(vals$F45_3 == 1,  NA_real_ ,
                ifelse(is.na(vals$F45_1) & vals$F45_2 == 1, 0.7,
-                    ifelse(D95 < 5 | D95 > 9, 1, 0.5)
+                    ifelse(vals$F45_1 < 5 | vals$F45_1 > 9, 1, 0.5)
                              )
   )
 
@@ -88,7 +81,6 @@ sens_fun <- function(site) {
 
 
   # subscores
-  # to do - check this as the text contains an dXXXX not described in calculation
    abiosens <- max_na(outdura18a,
                       mean_na(seaspct18a, elev18, depthdom18a, constric18a),
                       soiltex18a, acid18, conductiv18, tds18a)
