@@ -9,7 +9,8 @@ cs_fun <- function(site) {
 
   ##requires standardized range of measures from region
   # 326 in this case
-  # need to ask paul how these are calculated?
+  # PAUL"S response:
+  # ALL THE DIVISORS IN THE G COLUMN FORMULAS OF OF25 ARE THE RANGE OF KNOWN OF25 VALUES WITHIN THE RESPECTIVE ECOPROVINCE, AS NEEDED TO STANDARDIZE THE INDICATOR VALUES TO 1.0.
 
   wetdef6 <- 1 - local_moisture_deficit(vals)
 
@@ -56,7 +57,6 @@ cs_fun <- function(site) {
 
   ## Overall CS score
 
-  # TODO: Should score be calculated by 10? https://github.com/BCWF-Wetlands/wespr/issues/26
   cs_fun_score <- 10 * (5 * max_na(soiltex6, moss6, acidic6) +
           2 * outdura6 + woodypct6 +
           mean_na(c(treetyp6, fire6, burn6, gcover6, constric6, wetdef6, soildisturb6))) / 9
