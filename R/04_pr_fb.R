@@ -68,17 +68,13 @@ pr_fun <- function(site) {
 
   gradient4 <- internal_gradient(vals, indicator_data)
 
-
-  # TO do ; suspect this function is also not consistent with the ph calculations
-   acid4 <- if(vals$F45_1 > 8) {
+  acid4 <- if(vals$F45_1 > 8) {
      1
    } else {
     NA_real_
    }
 
-
    soildisturb4 <- vals$S5_subscore
-
 
    ## calculate function sub-components
    interceptdry3 <- sum_na(mean_na(gradient4,wetpctrca4),
@@ -90,23 +86,18 @@ pr_fun <- function(site) {
      sum_na(pondpct4, interspers4, thruflo4, widthwet4, flodist4)/5
    }
 
-   # TO do - check average calculations are correct when missing NAs https://github.com/BCWF-Wetlands/wespr/issues/38
-   connec4 <- sum_na(outdura4, constric4)/2
+    connec4 <- sum_na(outdura4, constric4)/2
 
-   # TO do - check average calculations are correct when missing NAs https://github.com/BCWF-Wetlands/wespr/issues/38
-   adsorb3 <- sum_na(soiltex4, acid4)/2
+    adsorb3 <- sum_na(soiltex4, acid4)/2
 
-   # TO do - check average calculations are correct when missing NAs https://github.com/BCWF-Wetlands/wespr/issues/38
-   desorb3 <- sum_na(permw4, depthdom4, fluctu4, eutroph4)/4
+    desorb3 <- sum_na(permw4, depthdom4, fluctu4, eutroph4)/4
 
 
-   # check this score as does not match
    pr_fun_score <- ifelse((vals$NoOutlet + vals$NoOutletX) > 0, 1,
                    ifelse(vals$NeverWater == 1, mean_na(c(interceptdry3, adsorb3), na.rm = TRUE),
                     (3 * adsorb3 + 2 * mean_na(c(connec4, desorb3), na.rm = TRUE) +
                        mean_na(c(interceptwet3, interceptdry3), na.rm = TRUE)) / 6
                                ))
-
 
    pr_fun_score
 }
@@ -142,9 +133,7 @@ pr_ben <- function(site) {
     wt_max(indicator_data, "OF30", "ben")
   }
 
-  ## TOdo - check calculation here as the numbers range from D112 - D180? seems wrong? https://github.com/BCWF-Wetlands/wespr/issues/40
-  ## if this list is the full extent , need to add other questions to "used by Q list"
-  disturb4v <- if(sum_na(intact_vals(vals))==0 ||
+  disturb4v <- if(sum_na(vals$OF41_1, vals$OF41_2,vals$OF41_3,vals$OF41_4,vals$OF41_5) ==0 ||
     vals$NoCA == 1) {
     NA_real_
   } else {
@@ -181,9 +170,6 @@ pr_ben <- function(site) {
   slopebuff4v <- buffer_slope(vals, indicator_data, "ben")
 
   nutrload4v <- vals$S2_subscore
-
-  # check this calculation
-  # no - Karst4v,
 
   pr_ben_score <- 10 * (
     3 * mean_na(c(nutrload4v, conductiv4v, tds4v, sindex4v)) +
