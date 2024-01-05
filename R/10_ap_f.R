@@ -1,29 +1,40 @@
 ap_fun <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "ap")
+  indicator_data <- get_indicator_data(site, "app")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
   elev8 <- 1 - vals$OF5_1
 
+
+
+  # TODO: SOmthing not correct here : might need to addd an ifelse as circular with these two formulars
+  mappedout8 <- if(vals$NoOutlet + vals$NoOutletX == 0){
+    outdur8
+  } else {
+    vals$OF6_1
+  }
+
+  # TO DO : check this formlar makes sense in order with other formulars
   outdur8 <- if(vals$F40_4 + vals$F40_5 > 0) {
     outmap8
   } else {
     wt_max(indicator_data, "F40", "fun")
   }
 
+
   aspect8 <- wt_max(indicator_data, "OF7", "fun")
 
-  wetpctca8 <- wt_max(indicator_data, "OF10", "fun")
+  wetpctca8 <- wt_max(indicator_data, "OF11", "fun")
 
   unvegca8 <- wt_max(indicator_data, "OF12", "fun")
 
 
   karst8 <- if(vals$OF16_1 == 1){
-    1 }else {
+      1
+    } else {
       NA_real_
     }
-
 
   anadf7 <- fish_occurance(vals)
 
@@ -40,8 +51,6 @@ ap_fun <- function(site) {
       wt_max(indicator_data, "OF28", "fun")
     }
 
-  # TO DO - check the range of cell in this calculation
-  #https://github.com/BCWF-Wetlands/wespr/issues/47
 
   decid8 <- if(sum_na(vals$OF38_1,vals$OF38_2,vals$OF38_3,vals$OF38_4,vals$OF38_5) == 0){
     NA_real_
@@ -50,13 +59,13 @@ ap_fun <- function(site) {
   }
 
 
-  disturb8 <- if(sum_na(vals$OF38_1,vals$OF38_2,vals$OF38_3,vals$OF38_4,vals$OF38_5) == 0){
+  disturb8 <- if(sum_na(vals$OF41_1,vals$OF41_2,vals$OF41_3,vals$OF41_4,vals$OF41_5) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF38", "fun")
+    wt_max(indicator_data, "OF41", "fun")
   }
 
-  # To do check the weights imported corectly.
+
   decidtree8 <-(max_na(weights$WF1_2, weights$WF1_4, weights$WF1_6)/30 +
                   (sum_na(vals$F1_2, vals$F1_4, vals$F1_6)/10))/2
 
@@ -64,11 +73,7 @@ ap_fun <- function(site) {
  nfix8 <- wt_max(indicator_data, "OF14", "fun")
 
 
- gcover8 <- if(vals$F15_4 == 1) {
-   NA_real_
- } else {
-   wt_max(indicator_data, "F15", "fun")
- }
+ gcover8 <- ground_cover(vals, indicator_data)
 
  soiltex8 <- wt_max(indicator_data, "F17", "fun")
 
@@ -90,36 +95,26 @@ ap_fun <- function(site) {
 
  color8 <- water_color(vals, indicator_data)
 
-  mappedout8 <- if(vals$NoOutlet + vals$NoOutletX == 0){
-    outdur8
-  } else {
-    vals$OF6_1
-  }
-
   inflow8 <- vals$F42_1
-
-  # TO do this ph calculation needs to be checked
-  # check this calculation : https://github.com/BCWF-Wetlands/wespr/issues/47
 
   pH <- ifelse(is.na(vals$F45_1), NA_real_, vals$F45_1)
   acidic8 <- dplyr::case_when(
     vals$F45_3 == 1 ~ NA,
     vals$F45_2 == 1 ~ 0.2,
     is.na(pH) ~ NA,
-    pH > 5 & pH < 6.5 ~ 0.5,
-    #pH <= 6 ~ 0,
+    pH > 5 & pH < 7.5 ~ 0.5,
     pH >= 7.5 ~ 1,
     .default = 0
   )
 
 
   # check these are NA and not blanks
-  conductiv8 <- ifelse(vals$F46a_1 == NA , NA_real_ ,
+  conductiv8 <- ifelse(is.na(vals$F46a_1), NA_real_ ,
                         ifelse(vals$F46a_1 < 150, 0,
                                ifelse(vals$F46a_1 > 500, 1, 0.5)))
 
   # check these are NA and not blanks
-  tdsapp8 <- ifelse(vals$F46b_1 == NA, NA_real_ ,
+  tdsapp8 <- ifelse(is.na(vals$F46b_1), NA_real_ ,
                   ifelse(vals$F46b_1 < 100, 0,
                          ifelse(vals$F46b_1 > 350, 1, 0.5)))
 
@@ -139,6 +134,7 @@ ap_fun <- function(site) {
   sedrca8 <- 1 - vals$S4_subscore
 
   soildisturb8 <- 1 - vals$S5_subscore
+
 
 
   # calculate the subscores
