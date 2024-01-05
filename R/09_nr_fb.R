@@ -114,9 +114,11 @@ nr_ben <- function(site) {
 
   # TODO - check this works
   # might need to make this more robust
+  #https://github.com/BCWF-Wetlands/wespr/issues/48
   pval5 <- pr_ben_score/10
 
-  nr_ben_score <- 10 * max_na(wells5v, pval5, mean_na(nfix5vm, rddist5))
+  nr_ben_score <- 10 * max_na(wells5v, pval5, mean_na(nfix5v, rddist5))
 
   nr_ben_score
+
 }
