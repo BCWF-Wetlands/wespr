@@ -62,7 +62,6 @@ pr_fun <- function(site) {
     wt_max(indicator_data, "F40", "fun")
   }
 
-  # see issue https://github.com/BCWF-Wetlands/wespr/issues/17
   constric4 <- outflow_confinement_1(vals, indicator_data)
 
   thruflo4 <- throughflow_resistance(vals, indicator_data)
@@ -77,17 +76,15 @@ pr_fun <- function(site) {
     NA_real_
    }
 
-   # S5 - Soil or Sediment Alteration within the assessment area
+
    soildisturb4 <- vals$S5_subscore
 
 
    ## calculate function sub-components
-   # TO DO - check this calculation
    interceptdry3 <- sum_na(mean_na(gradient4,wetpctrca4),
                            mean_na(girreg4 , gcover4, soildisturb4, aspect4, growd4))/2
 
-   # TO DO - check this calculation also as values do not equal all values : might be due to ignoring NAs with average value.
-   interceptwet3 <- if(any(unlist(vals[c("NeverWater", "NoOW")]) == 1)) {
+    interceptwet3 <- if(any(unlist(vals[c("NeverWater", "NoOW")]) == 1)) {
      NA_real_
    } else {
      sum_na(pondpct4, interspers4, thruflo4, widthwet4, flodist4)/5
@@ -105,13 +102,13 @@ pr_fun <- function(site) {
 
    # check this score as does not match
    pr_fun_score <- ifelse((vals$NoOutlet + vals$NoOutletX) > 0, 1,
-                   ifelse(vals$NeverWater == 1, mean(c(interceptdry3, adsorb3), na.rm = TRUE),
-                    (3 * adsorb3 + 2 * mean(c(connec4, desorb3), na.rm = TRUE) +
-                       mean(c(interceptwet3, interceptdry3), na.rm = TRUE)) / 6
+                   ifelse(vals$NeverWater == 1, mean_na(c(interceptdry3, adsorb3), na.rm = TRUE),
+                    (3 * adsorb3 + 2 * mean_na(c(connec4, desorb3), na.rm = TRUE) +
+                       mean_na(c(interceptwet3, interceptdry3), na.rm = TRUE)) / 6
                                ))
 
 
-
+   pr_fun_score
 }
 
 
