@@ -5,32 +5,21 @@ pol_fun <- function(site) {
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
+  imperv16 <- wt_max(indicator_data, "OF12", "fun")
 
-  # confirm what this calculation should be as missing
-  #https://github.com/BCWF-Wetlands/wespr/issues/53
-
-  #imperv16 <-
-
-  # check the range is correct for these calcaultions
-  #https://github.com/BCWF-Wetlands/wespr/issues/53
-  intact16 <- if(sum_na (XXXXXXX) == 0){
+  intact16 <- if(sum_na (vals$OF32_1, vals$OF32_2, vals$OF32_3, vals$OF32_4, vals$OF32_5) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF32", "fun")
   }
 
-  # check the range is correct for these calcaultions
-  #https://github.com/BCWF-Wetlands/wespr/issues/53
-  lcrich16 <- if(sum_na (XXXXXXX) == 0){
+  lcrich16 <- if(sum_na (vals$OF36_1, vals$OF36_2, vals$OF36_3, vals$OF36_4) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF36", "fun")
   }
 
-
-  # check the range is correct for these calcaultions
-  #https://github.com/BCWF-Wetlands/wespr/issues/53
-  lcrich2k16 <- if(sum_na (XXXXXXX) == 0){
+  lcrich2k16 <- if(sum_na (vals$OF37_1, vals$OF37_2, vals$OF37_3, vals$OF37_4, vals$OF37_5) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF37", "fun")
@@ -90,18 +79,17 @@ pol_fun <- function(site) {
 
 
  # to do - get more elequent way to extract the final score
-
- pdscore16 <-
+ pdscore16 <- 1 # adjust this
 
 
   # pol subscores
-  pollen <- max_na(max_na(willow16, flower16, forb16), pdscore16)
+  pollen <- max_na(c(max_na(c(willow16, flower16, forb16)), pdscore16))
 
-  nestsites <- mean_na(permwpct16,
-                       mean_na(snags16, wooddown16, girreg16, distnest16),
-                       outlet16)
+  nestsites <- mean_na(c(permwpct16,
+                       mean_na(c(snags16, wooddown16, girreg16, distnest16)),
+                       outlet16))
 
-  stress16 <- mean_na(toxic16, perimpctper16, imperv16, intact16)
+  stress16 <- mean_na(c(toxic16, perimpctper16, imperv16, intact16))
 
 
   pol_fun_score <- 10 * (ifelse(vals$AllPermW == 1, 0, (3* pollen + 2* nestsites + stress16/6)))
@@ -121,39 +109,29 @@ pol_ben <- function(site){
 
   rareplant16v <- ifelse(vals$OF24_1 == 1, 1, NA_real_)
 
-  # check the range is correct for these calcaultions
-  #https://github.com/BCWF-Wetlands/wespr/issues/53
-  intact16v <- if(sum_na (XXXXXXX) == 0){
+  intact16v <- if(sum_na (vals$OF32_1, vals$OF32_2, vals$OF32_3, vals$OF32_4, vals$OF32_5) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF32", "ben")
   }
 
-  # check the range is correct for these calcaultions
-  #https://github.com/BCWF-Wetlands/wespr/issues/53
-  lcrich16v <- if(sum_na (XXXXXXX) == 0){
+  lcrich16v <- if(sum_na (vals$OF36_1, vals$OF36_2, vals$OF36_3, vals$OF36_4) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF36", "ben")
   }
 
-
-  # check the range is correct for these calcaultions
-  #https://github.com/BCWF-Wetlands/wespr/issues/53
-  lcrich2k16v <- if(sum_na (XXXXXXX) == 0){
+  lcrich2k16v <- if(sum_na (vals$OF37_1, vals$OF37_2, vals$OF37_3, vals$OF37_4, vals$OF37_5) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF37", "ben")
   }
 
-  # check that 49 is included in the values ? not regstering
-  #https://github.com/BCWF-Wetlands/wespr/issues/53
   perimpctper16v <- if(vals$Disturb == 0 ){
     1
   } else {
-    wt_max(indicator_data, "F49", "ben")
+    wt_max(indicator_data, "F50", "ben")
   }
-
 
   pol_ben_score <- 10 * mean_na(perimpctper16v, intact16v, lcrich16v,lcrich2k16v , rareplant16v)
 
