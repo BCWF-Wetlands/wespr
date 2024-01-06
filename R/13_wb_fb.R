@@ -22,19 +22,13 @@ wb_fun <- function(site) {
 
   degreed11 <- degree_days_index(vals)
 
-
-  # TO do - check the range in this calcualtion
-  # https://github.com/BCWF-Wetlands/wespr/issues/52
-  herbscape13 <- if(sum_na (XXXXXXX) == 0){
+  herbscape13 <- if(sum_na (vals$OF40_1, vals$OF40_2, vals$OF40_3, vals$OF40_4, vals$OF40_5) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF43", "fun")
+    wt_max(indicator_data, "OF40", "fun")
   }
 
-
-  # TO do - check the range in this calcualtion
-  # https://github.com/BCWF-Wetlands/wespr/issues/52
-  wetdensWAU13 <-  if(sum_na (XXXXXXX) == 0){
+  wetdensWAU13 <-  if(sum_na (vals$OF43_1, vals$OF43_2, vals$OF43_3, vals$OF43_4, vals$OF43_5) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF43", "fun")
@@ -111,15 +105,15 @@ wb_fun <- function(site) {
 
   beaver13 <- wt_max(indicator_data, "F48", "fun")
 
-  perimcov13 <- vegetation_buffer_along_permin(vals, indicator_data)
+  perimcov13 <- vegetation_buffer_along_permin(vals, indicator_data, "fun")
 
   rarebird11 <- ifelse(vals$F58_9 == 1, 1, NA_real_)
 
   noise11 <- vals$S6_subscore
 
-
   #todo: find better way to select calculations of app.
-  #appscore11 <-
+  appscore11 <- 1 # update this when ready
+
 
   # function subscore
 
@@ -130,14 +124,13 @@ wb_fun <- function(site) {
 
   produc13 <- appscore11
 
-  struc13 <- (mean_na(mudflat13, cttail13, sav13, interspers13) +
-             mean_na(maxpondpct13, fringe13, steepshore13, fetch13, widthdry13, fish11, beaver13, snags13))/2
-
+  struc13 <- (mean_na(c(mudflat13, cttail13, sav13, interspers13)) +
+             mean_na(c(maxpondpct13, fringe13, steepshore13, fetch13, widthdry13, fish11, beaver13, snags13)))/2
 
 
   wb_fun_score <- ifelse(vals$NeverWater == 1, 0,
-                   10 * (3 * max(c(mean(c( pondedpct13, owarea13, maxpondarea13)), wb_rare11, rarebird11) +
-                                   2 * mean(c(hydro13, struc13, produc13, lscape13))) / 5))
+                   10 * (3 * max_na(mean_na(c(pondedpct13, owarea13, maxpondarea13)), wb_rare11, rarebird11) +
+                                   2 * mean_na(c(hydro13, struc13, produc13, lscape13)) / 5))
 
   wb_fun_score
 
@@ -163,10 +156,7 @@ wb_ben <- function(site) {
 
   rarespp11v <- ifelse(vals$OF24_3 == 1, 1, NA_real_)
 
-  # TO do - check the range in this calcualtion
-  # https://github.com/BCWF-Wetlands/wespr/issues/52
-
-  wetdenswau12v <- if(sum_na (XXXXXXX) == 0){
+  wetdenswau12v <- if(sum_na (vals$OF43_1, vals$OF43_2, vals$OF43_3, vals$OF43_4, vals$OF43_5) == 0){
       NA_real_
     } else {
       wt_max(indicator_data, "OF43", "ben")
@@ -178,10 +168,10 @@ wb_ben <- function(site) {
 
   rarebird11v <- ifelse(vals$F58_9 == 1, 1, NA_real_)
 
-
-  wb_ben_score <- 10 * (max_na(mean_na(distpond11v, distlake11v, lakepct11v, wetdenswau12v),
-                               max_na(rarebird11v, rarespp11v),
-                               mean_na(duckhunt13, recrea13v)))
+  # to DO - UPDATE MAX_NA
+  wb_ben_score <- 10 * (max_na(mean_na(c(distpond11v, distlake11v, lakepct11v, wetdenswau12v)),
+                               max_na(c(rarebird11v, rarespp11v)),
+                               mean_na(c(duckhunt13, recrea13v))))
 
 
   wb_ben_score
