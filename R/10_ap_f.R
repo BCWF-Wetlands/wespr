@@ -148,8 +148,6 @@ ap_fun <- function(site) {
                         max_na(mappedout8, outdur8),
                         interspers8, sindex8)
 
-  # todo - check equation and remove one of the wetdef8 as listed twice.
-  #https://github.com/BCWF-Wetlands/wespr/issues/47
   templight8 <- mean_na(aspect8, solar8, wetdef8, degreed8, shade8, decidtree8, gcover8, depthdom8
                         )
 
