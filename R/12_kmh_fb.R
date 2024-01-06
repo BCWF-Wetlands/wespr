@@ -1,4 +1,4 @@
-#kestone mammal habitat.
+#keystone mammal habitat.
 
 kmh_fun <- function(site) {
 
@@ -17,59 +17,44 @@ kmh_fun <- function(site) {
 
   growdays19 <- degree_days_index(vals)
 
-  # check the range for these questions
- # https://github.com/BCWF-Wetlands/wespr/issues/50
-  rddens19 <-  if(sum_na (XXXXXXX) == 0){
+  rddens19 <-  if(sum_na (vals$OF31_1, vals$OF31_2, vals$OF31_3) == 0){
       NA_real_
     } else {
       wt_max(indicator_data, "OF31", "fun")
     }
 
-  # check this calculator with Paul
-  # https://github.com/BCWF-Wetlands/wespr/issues/50
-  intact19 <- if(sum_na (XXXXXXX) == 0){
+  intact19 <- if(sum_na (vals$OF32_1, vals$OF32_2, vals$OF32_3, vals$OF32_4, vals$OF32_5 ) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF32", "fun")
   }
 
 
-  # check this calculator with Paul
-  # https://github.com/BCWF-Wetlands/wespr/issues/50
-  oldgro19 <- if(sum_na (XXXXXXX) == 0){
+  oldgro19 <- if(sum_na (vals$OF33_1, vals$OF33_2, vals$OF33_3, vals$OF33_4, vals$OF33_5) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF33", "fun")
   }
 
-  # check this calculator with Paul
-  # https://github.com/BCWF-Wetlands/wespr/issues/50
-  coverdiv19 <- if(sum_na (XXXXXXX) == 0){
+  coverdiv19 <- if(sum_na (vals$OF36_1, vals$OF36_2, vals$OF36_3, vals$OF36_4) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF36", "fun")
   }
-  # check this calculator with Paul
-  # https://github.com/BCWF-Wetlands/wespr/issues/50
-  covdiv2k19 <- if(sum_na (XXXXXXX) == 0){
+
+  covdiv2k19 <- if(sum_na (vals$OF37_1, vals$OF37_2, vals$OF37_3, vals$OF37_4, vals$OF37_5) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF37", "fun")
   }
 
-  # check this calculator with Paul
-  # https://github.com/BCWF-Wetlands/wespr/issues/50
-
-  decid19 <- if(sum_na (XXXXXXX) == 0){
+  decid19 <- if(sum_na ( vals$OF38_1, vals$OF38_2, vals$OF38_3, vals$OF38_4, vals$OF38_5) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF38", "fun")
   }
 
-  # check this calculator with Paul
-  # https://github.com/BCWF-Wetlands/wespr/issues/50
-
-  conif19 <- if(sum_na (XXXXXXX) == 0){
+  conif19 <- if(sum_na (vals$OF39_1, vals$OF39_2, vals$OF39_3, vals$OF39_4, vals$OF39_5) == 0){
       NA_real_
     } else {
       wt_max(indicator_data, "OF39", "fun")
@@ -85,8 +70,8 @@ kmh_fun <- function(site) {
 
   # to do: this function is flagging an error on data inputs?
   # need to check weights table?
-  woodyhtmix19 <- wt_max(indicator_data, "F2", "fun")
-
+  #woodyhtmix19 <- wt_max(indicator_data, "F2", "fun")
+  woodyhtmix19 <- 1 # NEED TO FIX THIS
 
   willow19 <- if(sum_na(vals$F1_1, vals$F1_2, vals$F1_3, vals$F1_4, vals$F1_5, vals$F1_6) == 0){
     0
@@ -99,7 +84,6 @@ kmh_fun <- function(site) {
   moss19 <-  wt_max(indicator_data, "F10", "fun")
 
   permwat12 <- wt_max(indicator_data, "F21", "fun")
-
 
   # check that the F20 is on the used by list for kmh
   #https://github.com/BCWF-Wetlands/wespr/issues/50
@@ -178,34 +162,29 @@ kmh_fun <- function(site) {
 
   fire19 <- wt_max(indicator_data, "F55", "fun")
 
-  # to do : check if this is being used ?
-  #wildlife19 <- No calculation
-
   disturb19 <- vals$S6_subscore
 
 
   #todo: find better way to select calculations of app.
   #appscore19 <-
-
+  appscore19 <- 1 # needs to be updated
 
   # function subscores
   # Needs attention
   #https://github.com/BCWF-Wetlands/wespr/issues/50
-  # beaver? permwat12?
+  #permwat12?
   beaverhab <- ifelse(vals$F20_2 == 1, 0,
                    max(vals$Beaver , (2 * mean(c(beavers19, decid19, decidon19, permwat12 )) +
                                   mean(c( water2k19, willow19,  aqplants19, denscov19, bufferpct19))) / 3))
 
   # Needs attention
   #https://github.com/BCWF-Wetlands/wespr/issues/50
-  # HiFlucW, permwat12? Muskrat, allsat1
+  # HiFlucW, allsat1
 
   muskrathab <- ifelse(vals$F20_2 == 1, 0,
                    ifelse(vals$HiFlucW == 1, 0,
                           max(vals$Muskrat, (mean(c(permwat12, lake19, depthdom19, deeppond19a, fluc19)) +
                                           herbcov19 + mean(c(aqplants19, emerg19, growdays19, fire19, appscore19))) / 3)))
-
-
 
 
   moosehab <- ifelse(vals$AllPermW == 1, 0,
@@ -215,11 +194,11 @@ kmh_fun <- function(site) {
 
 
   # check the calculation with array works correctly
-  caribouhab <- array(ifelse(vals$AllPermW == 1, 0,
+  caribouhab <- ifelse(vals$AllPermW == 1, 0,
                          ifelse(vals$GDeco == 1, NA_real_,
                                 max(vals$Caribou, (mean(c(willow19, moss19, conifon19, conifon19, oldgro19, woodyhtmix19)) +
                                                 mean(c( distrd19, rddens19, intact19, buffalt19, bufferpct19, disturb19, growdays19))) / 2))
-                  ), dim = c(1, 1))
+                  )
 
 
   bearhab <- ifelse(vals$AllPermW == 1, 0,
@@ -227,8 +206,7 @@ kmh_fun <- function(site) {
                                        mean(c(distrd19, rddens19, disturb19, intact19)) / 3)))
 
 
-
-  kmh_fun_score <- mean_na(beaverhab, muskrathab, moosehab, caribouhab, bearhab)
+  kmh_fun_score <- mean_na(c(beaverhab, muskrathab, moosehab, caribouhab, bearhab))
 
   kmh_fun_score
 
@@ -251,10 +229,8 @@ kmh_ben <- function(site) {
 
   hunt19v <- max_na(vals$F57_4, vals$F57_6)
 
-
   kmh_ben_score <- 10 * mean_na(hunt19v, water2k19v, distpond19v, disttown19v)
 
   kmh_ben_score
-
 
 }
