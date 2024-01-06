@@ -168,10 +168,9 @@ wb_ben <- function(site) {
 
   rarebird11v <- ifelse(vals$F58_9 == 1, 1, NA_real_)
 
-  # to DO - UPDATE MAX_NA
-  wb_ben_score <- 10 * (max_na(mean_na(c(distpond11v, distlake11v, lakepct11v, wetdenswau12v)),
+  wb_ben_score <- 10 * (max_na(c(mean_na(c(distpond11v, distlake11v, lakepct11v, wetdenswau12v)),
                                max_na(c(rarebird11v, rarespp11v)),
-                               mean_na(c(duckhunt13, recrea13v))))
+                               mean_na(c(duckhunt13, recrea13v)))))
 
 
   wb_ben_score
