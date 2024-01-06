@@ -172,7 +172,6 @@ kmh_fun <- function(site) {
   # function subscores
   # Needs attention
   #https://github.com/BCWF-Wetlands/wespr/issues/50
-  #permwat12?
   beaverhab <- ifelse(vals$F20_2 == 1, 0,
                    max(vals$Beaver , (2 * mean(c(beavers19, decid19, decidon19, permwat12 )) +
                                   mean(c( water2k19, willow19,  aqplants19, denscov19, bufferpct19))) / 3))
@@ -180,6 +179,7 @@ kmh_fun <- function(site) {
   # Needs attention
   #https://github.com/BCWF-Wetlands/wespr/issues/50
   # HiFlucW, allsat1
+  # HiFlucW = F
 
   muskrathab <- ifelse(vals$F20_2 == 1, 0,
                    ifelse(vals$HiFlucW == 1, 0,
