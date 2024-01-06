@@ -142,8 +142,8 @@ pr_ben <- function(site) {
 
 
   # TODO : add OF42 to benefits "Used BY"
-  rddenswau4v <-  road_density_wau(vals, indicator_data, "ben")
-
+  #rddenswau4v <-  road_density_wau(vals, indicator_data, "ben")
+  rddenswau4v <- 1 # replace this
 
   inflow4v <- if (vals$NoOutlet + vals$NoOutletX > 0) {
     NA_real_
