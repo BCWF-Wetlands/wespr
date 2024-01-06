@@ -15,7 +15,7 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "sr", "fun")
   site <- update_site_indicator(site, "sr", "ben")
   site <- update_site_indicator(site, "pr", "fun")
-  #site <- update_site_indicator(site, "pr", "ben") # need to add OF42 to used by list
+  site <- update_site_indicator(site, "pr", "ben") # need to add OF42 to used by list
   site <- update_site_indicator(site, "cs", "fun")
   site <- update_site_indicator(site, "fr", "fun")
   site <- update_site_indicator(site, "fr", "ben")
