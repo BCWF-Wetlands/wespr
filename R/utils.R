@@ -12,8 +12,7 @@ check_wesp_site <- function(x) {
   }
 }
 
-max_na <- function(...)  ifelse(!all(is.na(...)), max(x, na.rm=T), NA)
-#max(..., na.rm = TRUE)
+max_na <- function(x) ifelse(all(is.na(x)), NA, max(x, na.rm=T)) #max(..., na.rm = TRUE)
 min_na <- function(...) min(..., na.rm = TRUE)
 mean_na <- function(x, trim = 0, ...) mean(x, trim = trim, na.rm = TRUE, ...)
 sum_na <- function(...) sum(..., na.rm = TRUE)
