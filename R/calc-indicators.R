@@ -25,13 +25,10 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "nr", "ben") # requires minor tweak to input a calculate value
   site <- update_site_indicator(site, "ap", "fun") # required solar_input check : https://github.com/BCWF-Wetlands/wespr/issues/65
   #site <- update_site_indicator(site, "pd", "fun") # requires several fixes still
-
-  # checked up to here
-
-  #site <- update_site_indicator(site, "kmh", "fun") # draft complete - requires ap_fun() * check ref with Paul as unclear
-  #site <- update_site_indicator(site, "kmh", "ben")
-  #site <- update_site_indicator(site, "wb", "fun")  # draft complete requires ap_fun()
-  #site <- update_site_indicator(site, "wb", "ben") # draft complete
+  #site <- update_site_indicator(site, "kmh", "fun") # requires several fixes still
+  site <- update_site_indicator(site, "kmh", "ben")
+  site <- update_site_indicator(site, "wb", "fun")  # requires final score input
+  site <- update_site_indicator(site, "wb", "ben") #
   #site <- update_site_indicator(site, "pol", "fun") # draft complete - requires pd_fun()
   #site <- update_site_indicator(site, "pol", "ben") # draft complete
   #site <- update_site_indicator(site, "rsb", "fun") # draft complete - requires ap_fun(), pd_fun()
