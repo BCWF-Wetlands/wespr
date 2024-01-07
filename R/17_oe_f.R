@@ -9,13 +9,20 @@ oe_fun <- function(site) {
 
   constric7 <- outflow_confinement(vals, indicator_data)
 
-  # TO DO ; check the refernce for this alternate - lists G32 but this refers to F41 not F40?
-  #https://github.com/BCWF-Wetlands/wespr/issues/56
+# TO DO circular refernce here :
   outmap7 <- if (vals$NoOutlet + vals$NoOutletX == 0) {
-    vals$OF6_1
+    outdura7
   } else {
-    constric7
+
+    vals$OF6_1
   }
+
+  outdura7 <- if(vals$F40_4 + vals$F40_5 > 0){
+    outmap7
+  } else {
+    wt_max(indicator_data, "F40", "fun")
+  }
+
 
   flordist7 <- wt_max(indicator_data, "OF10", "fun")
 
@@ -34,11 +41,7 @@ oe_fun <- function(site) {
 
   interspers7 <- interspersion_inundated_veg_1(vals, indicator_data)
 
-  outdura7 <- if(vals$F40_4 + vals$F40_5 > 0){
-    outmap7
-  } else {
-    wt_max(indicator_data, "F40", "fun")
-  }
+
 
   thruflo7 <- throughflow_resistance(vals, indicator_data)
 
@@ -48,11 +51,11 @@ oe_fun <- function(site) {
 
 
   #TODO : add calculated score elequantly
-  #appscore7 <-
+  appscore7 <-1 # update
 
 
   #TODO : add calculated score elequantly
-  #csscore7 <-
+  csscore7 <-1 # update
 
   # subscores
 
@@ -60,11 +63,11 @@ oe_fun <- function(site) {
   productiv7 <- appscore7
 
   exportpot7 <- ifelse((vals$NoOutlet + vals$NoOutletX) > 0, 0,
-                   mean(c(outdura7 ,
-                          mean(c(gdd7, groundw7, elev7, gradient7, wetdef7)),
-                          mean(c(thruflo7, interspers7, fringe7a, constric7, flordist7)))))
+                   mean_na(c(outdura7 ,
+                          mean_na(c(gdd7, groundw7, elev7, gradient7, wetdef7)),
+                          mean_na(c(thruflo7, interspers7, fringe7a, constric7, flordist7)))))
 
-  oe_fun_score <- 10 * ifelse(Outmap7 == 0, 0,
+  oe_fun_score <- 10 * ifelse(outmap7 == 0, 0,
                               (3 * exportpot7 * max(productiv7, histaccum7)) / 3)
 
   oe_fun_score

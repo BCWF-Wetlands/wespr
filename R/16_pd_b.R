@@ -9,24 +9,21 @@ pd_ben <- function(site) {
 
   rarespp15v <- ifelse(vals$OF24_1 == 1, 1, NA_real_)
 
-  # to do : check this is correct
-  #https://github.com/BCWF-Wetlands/wespr/issues/54
-
-  lcovuniq15v <- if(sum_na(intact_vals) == 0){
+  lcovuniq15v <- if(sum_na( vals$OF34_1, vals$OF34_2, vals$OF34_3) == 0){
       NA_real_
     } else {
       wt_max(indicator_data, "OF34", "ben")
     }
 
-  lcmaxdom15v <- ifelse(sum_na(intact_vals)== 0 , NA_real_, 1 - vals$OF35_1)
+  lcmaxdom15v <- ifelse(vals$OF35_1 ==0 , NA_real_, 1 - vals$OF35_1)
 
-  lcovrich15v <- if(sum_na(intact_vals) == 0){
+  lcovrich15v <- if(sum_na(vals$OF36_1, vals$OF36_2, vals$OF36_3, vals$OF36_4) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF36", "ben")
   }
 
-  lcrich2k15v <- if(sum_na(intact_vals) == 0){
+  lcrich2k15v <- if(sum_na( vals$OF37_1, vals$OF37_2, vals$OF37_3, vals$OF37_4, vals$OF37_5) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF37", "ben")
@@ -39,10 +36,10 @@ pd_ben <- function(site) {
   rareplant15v <- ifelse(vals$F58_7 == 1, 1, NA_real_)
 
   ## TODO find way to extract score elequantly
-  pollscore15 <- XXX / 10
+  pollscore15 <- 1 #XXX / 10
 
   ## TODO find way to extract score elequantly
-  sbmscore15v <-  XXX / 10
+  sbmscore15v <-1 #  XXX / 10
 
 
   pd_ben_score <-  10 * ifelse(max( rareplant15v, rarespp15v) == 1, 1,

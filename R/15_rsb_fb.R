@@ -25,17 +25,15 @@ rsb_fun <- function(site) {
 
   lcrich2k14 <- wt_max(indicator_data, "OF37", "fun")
 
-  # to do : check this is correct
-  #https://github.com/BCWF-Wetlands/wespr/issues/54
-  wetdenswau14 <- if(sum_na (XXXXXXX) == 0){
+  wetdenswau14 <- if(sum_na (vals$OF43_1, vals$OF43_2, vals$OF43_3, vals$OF43_4, vals$OF43_5) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF43", "fun")
   }
 
-  woodyrich14 <- max_na(
+  woodyrich14 <- max_na(c(
     sum(vals$F1_1, vals$F1_2, vals$F1_3, vals$F1_4, vals$F1_5, vals$F1_6 > 0) / 6,
-    (vals$F1_2 + vals$F1_4) / 8
+    (vals$F1_2 + vals$F1_4) / 8)
   )
 
   # TO DO - check this is working correctly as appears missing values
@@ -73,8 +71,7 @@ rsb_fun <- function(site) {
 
   permw14 <- wt_max(indicator_data, "F21", "fun")
 
-  # check the weights table as getting an -inf error.
-  # TO check
+  # TOdo : check F19 added to rbs used by (weights table looks correct )
   drypct14 <- wt_max(indicator_data, "F19", "fun")
 
   fetch14 <- distance_across_longest_openwater_1(vals, indicator_data)
@@ -95,22 +92,22 @@ rsb_fun <- function(site) {
   noise14 <- ifelse(is.na(vals$S6_subscore), NA_real_, 1 - vals$S6_subscore)
 
   # TO DO - update the score value
-  #appscore14 <-
+  appscore14 <- 1
 
    # TO DO - update the score value
- # pdscore14 <-
+  pdscore14 <-1
 
 
   # RSB subscores :
-  hydrosize <- mean_na(permw14, drypct14, widthwet14, fetch14)
-  stru14 <- mean_na(woodhtmix14, woodyrich14, shrubrich14, ndiams14)
-  foods14 <- mean_na(max_na(pdscore14, appscore14),
-                     max_na(berries14, willow14, forbcov14, anadfish14, shrubflower14),
-                     mean_na(berries14, willow14, forbcov14, anadfish14, shrubflower14))
+  hydrosize <- mean_na(c(permw14, drypct14, widthwet14, fetch14))
+  stru14 <- mean_na(c(woodhtmix14, woodyrich14, shrubrich14, ndiams14))
+  foods14 <- mean_na(max_na(c(pdscore14, appscore14)),
+                     max_na(c(berries14, willow14, forbcov14, anadfish14, shrubflower14)),
+                     mean_na(c(berries14, willow14, forbcov14, anadfish14, shrubflower14)))
 
-  habs <- mean_na(snags14, beaver14, nestdist14, noise14)
-  lscape14 <- mean_na(wetdenswau14, lakewetpct14, lcrich14, lcrich2k14, maxdomlc14, intact14, preserve14)
-  nopred <- mean_na(disrd14, perimpctper14, protect14)
+  habs <- mean_na(c(snags14, beaver14, nestdist14, noise14))
+  lscape14 <- mean_na(c(wetdenswau14, lakewetpct14, lcrich14, lcrich2k14, maxdomlc14, intact14, preserve14))
+  nopred <- mean_na(c(disrd14, perimpctper14, protect14))
 
   rsb_fun_score <- 10 * ifelse(vals$AllWater == 1, 0,
                         ifelse(max(rarebird14, rarespp14) == 1, 1,
@@ -135,48 +132,40 @@ rsb_ben <- function(site) {
 
   rarespp14v <- ifelse(vals$OF24_1 == 1, 1, NA_real_)
 
-  # to do : check this is correct
-  #https://github.com/BCWF-Wetlands/wespr/issues/54
-  lcovuniq14v <- if(sum_na (XXXXXXX) == 0){
+  lcovuniq14v <- if(sum_na (vals$OF34_1, vals$OF34_2, vals$OF34_3) == 0){
       NA_real_
     } else {
       wt_max(indicator_data, "OF34", "ben")
     }
 
-
-  # to do : check this is correct
-  #https://github.com/BCWF-Wetlands/wespr/issues/54
-  lcrich14v <- if(sum_na (XXXXXXX) == 0){
+  lcrich14v <- if(sum_na (vals$OF36_1, vals$OF36_2, vals$OF36_3, vals$OF36_4) == 0){
       NA_real_
     } else {
       wt_max(indicator_data, "OF36", "ben")
     }
 
-  # to do : check this is correct
-  #https://github.com/BCWF-Wetlands/wespr/issues/54
-  lcrich2k14v <- if(sum_na (XXXXXXX) == 0){
+  lcrich2k14v <- if(sum_na (vals$OF37_1, vals$OF37_2, vals$OF37_3, vals$OF37_4, vals$OF37_5) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF37", "ben")
   }
 
-  # to do : check this is correct
-  ## also the else cell points to D188 which doesnt contain any information?
-  #https://github.com/BCWF-Wetlands/wespr/issues/54
-  wetdenswau14v <- if(sum_na (XXXXXXX) == 0){
+  wetdenswau14v <- if(sum_na (vals$OF43_1, vals$OF43_2, vals$OF43_3, vals$OF43_4, vals$OF43_5) == 0){
     NA_real_
   } else {
-   vals$OF43
+    wt_max(indicator_data, "OF43", "ben")
   }
 
   recrea14v <- sum_na(vals$F56_1, vals$F56_2, vals$F56_3 )/3
 
   rarebird14v <- ifelse(vals$F58_10 == 1, 1, NA_real_)
 
+  rsb_ben_score <- 10 * case_when(
+    rarebird14v == 1 ~ 1,
+    rarespp14v == 1 ~ 1,
+    TRUE ~  mean_na(c(lakewetpct14v, lcovuniq14v, lcrich14v, lcrich2k14, recrea14v))
+  )
 
-  rsb_ben_score <- 10 * ifelse(rarebird14v == 1, 1,
-                        ifelse(rarespp14v == 1, 1,
-                               mean(c(lakewetpct14v, lcovuniq14v, lcrich14v, lcrich2k14, recrea14v))))
 
   rsb_ben_score
 

@@ -55,16 +55,16 @@ pf_fun <- function(site) {
     wt_max(indicator_data, "OF42", "fun")
   }
 
-  woodyformrich15 <- max_na(
+  woodyformrich15 <- max_na(c(
     sum(c(vals$F1_1, vals$F1_2, vals$F1_3, vals$F1_4, vals$F1_5, vals$F1_6) > 0) / 6,
     (vals$F1_2 + vals$F1_4) / 8
-  )
+  ))
 
 
   # missing information on F2
   #https://github.com/BCWF-Wetlands/wespr/issues/49
   # check how F2 is read in
- # woodyhtmix15 <- wt_max(indicator_data, "F2", "fun")
+  woodyhtmix15 <- wt_max(indicator_data, "F2", "fun")
 
 
   shrubrich15 <- if(sum_na(vals$F1_1, vals$F1_2, vals$F1_3, vals$F1_4, vals$F1_5, vals$F1_6) == 0){
@@ -89,6 +89,7 @@ pf_fun <- function(site) {
 
   widthwet15 <- distance_open_water_upland_veg_2(vals, indicator_data)
 
+  # check this
   aqveg15 <-  submerged_floating_aquatics_1(vals)
 
   inflow15 <- if(vals$NoOutlet + vals$NoOutletX > 0){
@@ -130,9 +131,7 @@ pf_fun <- function(site) {
 
    #todo: find a nice way to extract the subscores
    #https://github.com/BCWF-Wetlands/wespr/issues/48
-  # appscore15 <- ind_scores?????
-
-
+   appscore15 <- 1 # update ind_scores?????
 
 
    # function subscores
