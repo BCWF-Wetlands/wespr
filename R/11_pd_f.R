@@ -93,7 +93,7 @@ pf_fun <- function(site) {
   aqveg15 <-  submerged_floating_aquatics_1(vals)
 
   inflow15 <- if(vals$NoOutlet + vals$NoOutletX > 0){
-        max_na(outmap15, vals$F42_1)
+        max_na(c(outmap15, vals$F42_1))
       } else {
         vals$F42_1
      }
@@ -136,18 +136,18 @@ pf_fun <- function(site) {
 
    # function subscores
 
-   spparea <- mean_na(widthwet15, drypct15, seaspct15)
+   spparea <- mean_na(c(widthwet15, drypct15, seaspct15))
 
-   vrichness <- max_na(mean_na(woodyformrich15, woodyhtmix15, shrubrich15, forb15),
+   vrichness <- max_na(c(mean_na(c(woodyformrich15, woodyhtmix15, shrubrich15, forb15)),
                        plantrich15,
-                       max_na(rareplant15, rarespp15))
+                       max_na(c(rareplant15, rarespp15))))
 
-   aqfertilpd <- max_na(appscore15,
-                        mean_na(inflow15, karst15, groundw15, beaver15, girreg15, aqveg15, firehist15))
+   aqfertilpd <- max_na(c(appscore15,
+                        mean_na(c(inflow15, karst15, groundw15, beaver15, girreg15, aqveg15, firehist15))))
 
-   vscape <- mean_na(perimpctper15, intact15, oldgro15, wetvegarea15)
+   vscape <- mean_na(c(perimpctper15, intact15, oldgro15, wetvegarea15))
 
-   stresspd <- ((2 * invas15) + mean_na(distrd15, max_na(protect15, refuge15),
+   stresspd <- ((2 * invas15) + mean_na(c(distrd15, max_na(c(protect15, refuge15))),
                                        alttiming15, sedrca15, soildisturb15a, imperv15, distown15))/3
 
 
@@ -158,9 +158,9 @@ pf_fun <- function(site) {
 
    pd_fun_score <- 10 * if(invashigh == 1){
             0
-          } else { mean_na(spparea, plantrich15, vrichness, vscape,
-                    max_na(rareplant15, rarespp15),
-                    stresspd, aqfertilpd) }
+          } else { mean_na(c(spparea, plantrich15, vrichness, vscape,
+                    max_na(c(rareplant15, rarespp15)),
+                    stresspd, aqfertilpd)) }
 
    pd_fun_score
 

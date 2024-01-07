@@ -28,7 +28,7 @@ sens_fun <- function(site) {
 
   wetdenswau18 <- wt_max(indicator_data, "OF43", "fun")
 
-  woodypct18a <- max_na(vals$F1_1, vals$F1_2)/6
+  woodypct18a <- max_na(c(vals$F1_1, vals$F1_2))/6
 
   moss18a <- wt_max(indicator_data, "F10", "fun")
 
@@ -81,22 +81,22 @@ sens_fun <- function(site) {
 
 
   # subscores
-   abiosens <- max_na(outdura18a,
+   abiosens <- max_na(c(outdura18a,
                       mean_na(seaspct18a, elev18, depthdom18a, constric18a),
-                      soiltex18a, acid18, conductiv18, tds18a)
+                      soiltex18a, acid18, conductiv18, tds18a))
 
 
-   biosens <- max_na(rareonsite18a, rarespp18,
-                     mean_na(invas18a, gcover18a))
+   biosens <- max_na(c(rareonsite18a, rarespp18,
+                     mean_na(invas18a, gcover18a)))
 
 
-   colonizer <- mean_na(widthwet18a, perimpectper18a, distpond18, water2k18, wetdenswau18, intact18)
+   colonizer <- mean_na(c(widthwet18a, perimpectper18a, distpond18, water2k18, wetdenswau18, intact18))
 
-   growrate <- mean_na(moss18a, woodypct18a, beaver18a, gdd18, nfix18a)
+   growrate <- mean_na(c(moss18a, woodypct18a, beaver18a, gdd18, nfix18a))
 
 
    # calculate the final score.
-   sens_score_fun <- 10 * mean_na(abiosens, biosens, colonizer, growrate)
+   sens_score_fun <- 10 * mean_na(c(abiosens, biosens, colonizer, growrate))
 
    sens_score_fun
 

@@ -68,7 +68,7 @@ ap_fun <- function(site) {
   }
 
 
-  decidtree8 <-(max_na(weights$WF1_2, weights$WF1_4, weights$WF1_6)/30 +
+  decidtree8 <-(max_na(c(weights$WF1_2, weights$WF1_4, weights$WF1_6))/30 +
                   (sum_na(vals$F1_2, vals$F1_4, vals$F1_6)/10))/2
 
 
@@ -140,22 +140,20 @@ ap_fun <- function(site) {
 
   # calculate the subscores
 
-  npinput8 <- mean_na(conductiv8, tdsapp8,
+  npinput8 <- mean_na(c(conductiv8, tdsapp8,
                       mean_na(karst8, nutrin8, anadf7, fire8, sindex8, nfix8),
-                      mean_na(inflow8, wetpctca8, groundw8))
+                      mean_na(inflow8, wetpctca8, groundw8)))
 
-  npcycling8 <- mean_na(fluctu8, seaspct8, soiltex8, color8,
+  npcycling8 <- mean_na(c(fluctu8, seaspct8, soiltex8, color8,
                         max_na(mappedout8, outdur8),
-                        interspers8, sindex8)
+                        interspers8, sindex8))
 
-  templight8 <- mean_na(aspect8, solar8, wetdef8, degreed8, shade8, decidtree8, gcover8, depthdom8
-                        )
+  templight8 <- mean_na(c(aspect8, solar8, wetdef8, degreed8, shade8, decidtree8, gcover8, depthdom8
+                        ))
 
-  stressors8<- mean_na(soildisturb8, unvegca8, disturb8, sedrca8, acidic8)
+  stressors8<- mean_na(c(soildisturb8, unvegca8, disturb8, sedrca8, acidic8))
 
-
-  ap_fun_score <- 10 * (drypct8 * mean_na(npinput8, npcycling8, templight8, stressors8))
-
+  ap_fun_score <- 10 * (drypct8 * mean_na(c(npinput8, npcycling8, templight8, stressors8)))
 
   ap_fun_score
 

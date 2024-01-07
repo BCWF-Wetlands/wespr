@@ -58,9 +58,9 @@ str_fun <- function(site) {
 
   wqstress <- mean_na(c(nutrload, contam20, sedload, soildisturb, impervRCA20, imperv20, burned20, fire20))
 
-  connecstress <- mean_na(perimpctper20, distRd20, rddens20, rddenswau20, protected20, intact20, wldisturb)
+  connecstress <- mean_na(c(perimpctper20, distRd20, rddens20, rddenswau20, protected20, intact20, wldisturb))
 
-  str_fun_score <- 10 * max_na(hydrostress, wqstress, connecstress)
+  str_fun_score <- 10 * max_na(c(hydrostress, wqstress, connecstress))
 
   str_fun_score
 

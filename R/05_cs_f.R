@@ -15,11 +15,11 @@ cs_fun <- function(site) {
   wetdef6 <- 1 - local_moisture_deficit(vals)
 
   woodypct6 <- (
-    (max_na(
+    (max_na(c(
       vals$F1_1 * weights$WF1_1,
       vals$F1_3 * weights$WF1_3,
       vals$F1_5 * weights$WF1_5
-    ) / 18) +
+    )) / 18) +
       sum_na(vals$F1_1, vals$F1_3, vals$F1_5) / 10
   ) / 2
 
@@ -57,7 +57,7 @@ cs_fun <- function(site) {
 
   ## Overall CS score
 
-  cs_fun_score <- 10 * (5 * max_na(soiltex6, moss6, acidic6) +
+  cs_fun_score <- 10 * (5 * max_na(c(soiltex6, moss6, acidic6)) +
           2 * outdura6 + woodypct6 +
           mean_na(c(treetyp6, fire6, burn6, gcover6, constric6, wetdef6, soildisturb6))) / 9
 

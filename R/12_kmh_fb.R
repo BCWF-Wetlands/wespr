@@ -173,8 +173,8 @@ kmh_fun <- function(site) {
   # Needs attention
   #https://github.com/BCWF-Wetlands/wespr/issues/50
   beaverhab <- ifelse(vals$F20_2 == 1, 0,
-                   max(vals$Beaver , (2 * mean(c(beavers19, decid19, decidon19, permwat12 )) +
-                                  mean(c( water2k19, willow19,  aqplants19, denscov19, bufferpct19))) / 3))
+                   max_na(c(vals$Beaver , (2 * mean_na(c(beavers19, decid19, decidon19, permwat12 )) +
+                                  mean_NA(c( water2k19, willow19,  aqplants19, denscov19, bufferpct19))) / 3)))
 
   # Needs attention
   #https://github.com/BCWF-Wetlands/wespr/issues/50
@@ -183,27 +183,27 @@ kmh_fun <- function(site) {
 
   muskrathab <- ifelse(vals$F20_2 == 1, 0,
                    ifelse(vals$HiFlucW == 1, 0,
-                          max(vals$Muskrat, (mean(c(permwat12, lake19, depthdom19, deeppond19a, fluc19)) +
-                                          herbcov19 + mean(c(aqplants19, emerg19, growdays19, fire19, appscore19))) / 3)))
+                          max_na(c(vals$Muskrat, (mean_na(c(permwat12, lake19, depthdom19, deeppond19a, fluc19)) +
+                                          herbcov19 + mean_nac(aqplants19, emerg19, growdays19, fire19, appscore19))) / 3)))
 
 
   moosehab <- ifelse(vals$AllPermW == 1, 0,
-                   max(vals$Moose, (2 * mean(c(decid19, decidon19, woodyhtmix19)) +
-                                 mean(c(willow19, aqplants19, water2k19, denscov19,
-                                        distpond19, appscore19, buffalt19, bufferpct19))) / 3))
+                   max_na(c(vals$Moose, (2 * mean_na(c(decid19, decidon19, woodyhtmix19)) +
+                                 mean_na(c(willow19, aqplants19, water2k19, denscov19,
+                                        distpond19, appscore19, buffalt19, bufferpct19))) / 3)))
 
 
   # check the calculation with array works correctly
   caribouhab <- ifelse(vals$AllPermW == 1, 0,
                          ifelse(vals$GDeco == 1, NA_real_,
-                                max(vals$Caribou, (mean(c(willow19, moss19, conifon19, conifon19, oldgro19, woodyhtmix19)) +
-                                                mean(c( distrd19, rddens19, intact19, buffalt19, bufferpct19, disturb19, growdays19))) / 2))
+                                max_na(c(vals$Caribou, (mean_na(c(willow19, moss19, conifon19, conifon19, oldgro19, woodyhtmix19)) +
+                                                mean_na(c( distrd19, rddens19, intact19, buffalt19, bufferpct19, disturb19, growdays19))) / 2)))
                   )
 
 
   bearhab <- ifelse(vals$AllPermW == 1, 0,
-                    max(vals$Bear, (mean(c(berries19, fish19, woodyhtmix19, coverdiv19, covdiv2k19)) +
-                                       mean(c(distrd19, rddens19, disturb19, intact19)) / 3)))
+                    max_na(c(vals$Bear, mean_na(c(berries19, fish19, woodyhtmix19, coverdiv19, covdiv2k19)) +
+                                       mean_na(c(distrd19, rddens19, disturb19, intact19)) / 3)))
 
 
   kmh_fun_score <- mean_na(c(beaverhab, muskrathab, moosehab, caribouhab, bearhab))
@@ -227,9 +227,9 @@ kmh_ben <- function(site) {
 
   water2k19v <- wt_max(indicator_data, "OF19", "ben")
 
-  hunt19v <- max_na(vals$F57_4, vals$F57_6)
+  hunt19v <- max_na(c(vals$F57_4, vals$F57_6))
 
-  kmh_ben_score <- 10 * mean_na(hunt19v, water2k19v, distpond19v, disttown19v)
+  kmh_ben_score <- 10 * mean_na(c(hunt19v, water2k19v, distpond19v, disttown19v))
 
   kmh_ben_score
 

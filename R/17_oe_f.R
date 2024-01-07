@@ -13,7 +13,6 @@ oe_fun <- function(site) {
   outmap7 <- if (vals$NoOutlet + vals$NoOutletX == 0) {
     outdura7
   } else {
-
     vals$OF6_1
   }
 
@@ -40,8 +39,6 @@ oe_fun <- function(site) {
   }
 
   interspers7 <- interspersion_inundated_veg_1(vals, indicator_data)
-
-
 
   thruflo7 <- throughflow_resistance(vals, indicator_data)
 
