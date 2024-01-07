@@ -92,7 +92,7 @@ ws_fun <- function(site) {
    ws_fun_score <- 10 * dplyr::case_when(
     vals$NoOutlet + vals$NoOutletX > 0 ~ 1,
     vals$NeverWater == 1 ~ mean_na(
-      c(max_na(outmap1, outdura1), mean_na(c(friction, subsurf)))
+      c(max_na(c(outmap1, outdura1)), mean_na(c(friction, subsurf)))
     ),
     .default = mean_na(
       c(outdura1, ((4 * livestore + 2 * friction + subsurf) / 7))
