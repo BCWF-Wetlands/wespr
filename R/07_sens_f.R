@@ -101,4 +101,3 @@ sens_fun <- function(site) {
    sens_score_fun
 
 }
-
