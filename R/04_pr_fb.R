@@ -140,10 +140,7 @@ pr_ben <- function(site) {
     wt_max(indicator_data, "OF41", "ben")
   }
 
-
-  # TODO : add OF42 to benefits "Used BY"
-  #rddenswau4v <-  road_density_wau(vals, indicator_data, "ben")
-  rddenswau4v <- 1 # replace this
+  rddenswau4v <-  road_density_wau(vals, indicator_data, "ben")
 
   inflow4v <- if (vals$NoOutlet + vals$NoOutletX > 0) {
     NA_real_
