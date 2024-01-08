@@ -7,11 +7,6 @@ cs_fun <- function(site) {
 
   burn6 = 1 - vals$OF15_1
 
-  ##requires standardized range of measures from region
-  # 326 in this case
-  # PAUL"S response:
-  # ALL THE DIVISORS IN THE G COLUMN FORMULAS OF OF25 ARE THE RANGE OF KNOWN OF25 VALUES WITHIN THE RESPECTIVE ECOPROVINCE, AS NEEDED TO STANDARDIZE THE INDICATOR VALUES TO 1.0.
-
   wetdef6 <- 1 - local_moisture_deficit(vals)
 
   woodypct6 <- (
