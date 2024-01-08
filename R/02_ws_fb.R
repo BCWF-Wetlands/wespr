@@ -16,15 +16,6 @@ ws_fun <- function(site) {
 
   wetpctrca1 <- wt_max(indicator_data, "OF11", "fun")
 
-  #To calculate the indicator score, data were is standardized to range of measured values for wetlands in this region.
-  # Assuming D16, GDeco, CMeco, SIMeco, BPeco, and TPeco are vectors or variables in your R environment
-
-  #GDeco = OF44_1 # georgia depression
-  #CMeco = OF44_2 # coast and mountain (CM)
-  #SIMeco = OF44_3 # southern interior Mts
-  #BPeco = OF44_4 # Boreal Plains
-  #TPeco = OF44_5 # Taiga Plains
-
   growdays1 <- degree_days_index(vals)
 
   gcover1 <- ground_cover(vals, indicator_data)
