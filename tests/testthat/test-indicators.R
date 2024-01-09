@@ -8,7 +8,7 @@ test_that("indicator calculations work (site 1)", {
   expect_equal(round(ws_ben(site), 2), 5.89)
   expect_equal(round(sr_fun(site), 2), 4.12)
   expect_equal(round(sr_ben(site), 2), 3.67)
-  expect_equal(round(cs_fun(site), 2), 8.72)
+  expect_equal(round(cp_fun(site), 2), 8.72)
 })
 
 
@@ -18,7 +18,7 @@ test_that("indicator calculations work (site 2)", {
   expect_equal(round(ws_ben(site), 2), 10)
   expect_equal(round(sr_fun(site), 2), 10)
   expect_equal(round(sr_ben(site), 2), 3.71)
-  expect_equal(round(cs_fun(site), 2), 6.77)
+  expect_equal(round(cp_fun(site), 2), 6.77)
 })
 
 test_that("indicator calculations work (site 3)", {
@@ -27,7 +27,7 @@ test_that("indicator calculations work (site 3)", {
   expect_equal(round(ws_ben(site), 2), 4.56)
   expect_equal(round(sr_fun(site), 2), 3.95)
   expect_equal(round(sr_ben(site), 2), 3.62)
-  expect_equal(round(cs_fun(site), 2), 9.09)
+  expect_equal(round(cp_fun(site), 2), 9.09)
 })
 
 test_that("updating a site with indicator value works", {
@@ -42,7 +42,7 @@ test_that("update_site_indicator errors correctly", {
   site <- make_test_site()
   expect_snapshot(update_site_indicator(list(), "ws"), error = TRUE)
   expect_snapshot(update_site_indicator(site, "PEANUT BUTTER COW"), error = TRUE)
-  expect_snapshot(update_site_indicator(site, "cs", "ben"), error = TRUE)
+  expect_snapshot(update_site_indicator(site, "cp", "ben"), error = TRUE)
 })
 
 test_that("update_site_indicator warns when exisiting value", {
@@ -62,5 +62,5 @@ test_that("calc_indicators calculates all indicators", {
   expect_type(site$indicators$ws$ben, "double")
   expect_type(site$indicators$sr$fun, "double")
   expect_type(site$indicators$sr$ben, "double")
-  expect_type(site$indicators$cs$fun, "double")
+  expect_type(site$indicators$cp$fun, "double")
 })

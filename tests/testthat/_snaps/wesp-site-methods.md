@@ -119,7 +119,7 @@
         * PR:  
           - fun:  
           - ben:  
-        * CS:  
+        * CP:  
           - fun: 8.72 
         * FR:  
           - fun:  

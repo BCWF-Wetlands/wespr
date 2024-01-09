@@ -17,8 +17,8 @@
 ---
 
     Code
-      update_site_indicator(site, "cs", "ben")
+      update_site_indicator(site, "cp", "ben")
     Condition
       Error:
-      ! 'ben' is not a valid type for indicator 'cs'
+      ! 'ben' is not a valid type for indicator 'cp'
 
