@@ -111,7 +111,7 @@ indicators <- function() {
     ws = list(fun = NULL, ben = NULL),
     sr = list(fun = NULL, ben = NULL),
     pr = list(fun = NULL, ben = NULL),
-    cs = list(fun = NULL),
+    cp = list(fun = NULL),
     fr = list(fun = NULL, ben = NULL),
     sens = list(fun = NULL),
     str = list(fun = NULL),

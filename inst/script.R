@@ -14,7 +14,7 @@ site <- as.wesp_site(data)
 
 site <- calc_indicators(site)
 
-# cs_f(site)
+# cp_f(site)
 # ws_f(site)
 # ws_b(site)
 
