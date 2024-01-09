@@ -17,28 +17,28 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "pr", "fun")
   site <- update_site_indicator(site, "pr", "ben")
   site <- update_site_indicator(site, "cs", "fun")
-  site <- update_site_indicator(site, "fr", "fun") # add allsat1 val once confirmed
+  site <- update_site_indicator(site, "fr", "fun") # add allsat1 val once confirmed with Paul
   site <- update_site_indicator(site, "fr", "ben")
   site <- update_site_indicator(site, "sens", "fun")
   site <- update_site_indicator(site, "str", "fun")
   site <- update_site_indicator(site, "nr", "fun")
   site <- update_site_indicator(site, "nr", "ben")
   site <- update_site_indicator(site, "app", "fun")
-  #site <- update_site_indicator(site, "pd", "fun") # requires several fixes still
-  #site <- update_site_indicator(site, "kmh", "fun") # requires several fixes still
-  #site <- update_site_indicator(site, "kmh", "ben")
-  #site <- update_site_indicator(site, "wb", "fun")  # requires final score input
-  #site <- update_site_indicator(site, "wb", "ben") #
-  #site <- update_site_indicator(site, "pol", "fun") # draft complete - requires pd_fun()
-  #site <- update_site_indicator(site, "pol", "ben") # draft complete
-  #site <- update_site_indicator(site, "rsb", "fun") # draft complete - requires ap_fun(), pd_fun()
-  #site <- update_site_indicator(site, "rsb", "ben")
-  #site <- update_site_indicator(site, "pd", "ben") # requires pol_fun(), rsb_fun()
-  #site <- update_site_indicator(site, "oe", "fun") # edits needed
-  #site <- update_site_indicator(site, "am", "fun") # requires ap_fun() ,
-  #site <- update_site_indicator(site, "am", "ben") # requires wb_fun()
-  #site <- update_site_indicator(site, "fh", "fun") # draft complete - requires ap_fun(),
-  #site <- update_site_indicator(site, "fh", "ben") # requires wb_fun()
+  site <- update_site_indicator(site, "pd", "fun") # add invashigh once confirmed with Paul
+  #site <- update_site_indicator(site, "kmh", "fun") # add allsat1 val, and check calculations
+  site <- update_site_indicator(site, "kmh", "ben")
+  site <- update_site_indicator(site, "wb", "fun")
+  site <- update_site_indicator(site, "wb", "ben")
+  #site <- update_site_indicator(site, "pol", "fun") # fix circular arguments
+  site <- update_site_indicator(site, "pol", "ben")
+  #site <- update_site_indicator(site, "rsb", "fun") # F2 weighting issues remains
+  site <- update_site_indicator(site, "rsb", "ben")
+  site <- update_site_indicator(site, "pd", "ben")
+  site <- update_site_indicator(site, "oe", "fun")
+  #site <- update_site_indicator(site, "am", "fun") # requires more checks
+  site <- update_site_indicator(site, "am", "ben") # check calculation
+  #site <- update_site_indicator(site, "fh", "fun") # requires more checks
+  site <- update_site_indicator(site, "fh", "ben")
   #site <- update_site_indicator(site, "sfts", "fun")
   #site <- update_site_indicator(site, "sfts", "ben") # requires fh_fun()
   #site <- update_site_indicator(site, "ap", "ben") # draft started- neeeds work - requires fh_fun() , ah_fun(), wb_fun(), rsb_fun()
