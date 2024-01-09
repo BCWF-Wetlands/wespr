@@ -60,12 +60,7 @@ pf_fun <- function(site) {
     (vals$F1_2 + vals$F1_4) / 8
   ))
 
-
-  # missing information on F2
-  #https://github.com/BCWF-Wetlands/wespr/issues/49
-  # check how F2 is read in
   woodyhtmix15 <- wt_max(indicator_data, "F2", "fun")
-
 
   shrubrich15 <- if(sum_na(vals$F1_1, vals$F1_2, vals$F1_3, vals$F1_4, vals$F1_5, vals$F1_6) == 0){
     NA_real_
@@ -129,10 +124,7 @@ pf_fun <- function(site) {
 
    soildisturb15a <- vals$S5_subscore
 
-   #todo: find a nice way to extract the subscores
-   #https://github.com/BCWF-Wetlands/wespr/issues/48
-   appscore15 <- 1 # update ind_scores?????
-
+   appscore15 <- site$indicators$app$fun
 
    # function subscores
 
@@ -155,6 +147,7 @@ pf_fun <- function(site) {
    # TO do: reference to invashigh? not sure where this is ?
    ## needs more clarification on this.
    #https://github.com/BCWF-Wetlands/wespr/issues/48
+   invashigh <- 0 # Place holder til invase high is ascertained (delete once this is clarified)
 
    pd_fun_score <- 10 * if(invashigh == 1){
             0
