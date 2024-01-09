@@ -36,7 +36,7 @@ rsb_fun <- function(site) {
     (vals$F1_2 + vals$F1_4) / 8)
   )
 
-  # TO DO - check this is working correctly as appears missing values
+  # TO DO check this one - still not working
   woodhtmix14 <- wt_max(indicator_data, "F2", "fun")
 
   ndiams14 <- sum(vals$F3_1, vals$F3_2,vals$F3_3, vals$F3_4, vals$F3_5, vals$F3_6,vals$F3_7, vals$F3_8)/8
@@ -71,7 +71,6 @@ rsb_fun <- function(site) {
 
   permw14 <- wt_max(indicator_data, "F21", "fun")
 
-  # TOdo : check F19 added to rbs used by (weights table looks correct )
   drypct14 <- wt_max(indicator_data, "F19", "fun")
 
   fetch14 <- distance_across_longest_openwater_1(vals, indicator_data)
@@ -88,14 +87,11 @@ rsb_fun <- function(site) {
 
   rarespp14 <- ifelse(vals$F58_9 == 1, 1, NA_real_)
 
-  # check this as to if the raw value input is always zero or if it is NA?
   noise14 <- ifelse(is.na(vals$S6_subscore), NA_real_, 1 - vals$S6_subscore)
 
-  # TO DO - update the score value
-  appscore14 <- 1
+  appscore14 <- site$indicators$app$fun
 
-   # TO DO - update the score value
-  pdscore14 <-1
+  pdscore14 <-site$indicators$pd$fun
 
 
   # RSB subscores :
@@ -163,9 +159,8 @@ rsb_ben <- function(site) {
   rsb_ben_score <- 10 * case_when(
     rarebird14v == 1 ~ 1,
     rarespp14v == 1 ~ 1,
-    TRUE ~  mean_na(c(lakewetpct14v, lcovuniq14v, lcrich14v, lcrich2k14, recrea14v))
+    TRUE ~  mean_na(c(lakewetpct14v, lcovuniq14v, lcrich14v, lcrich2k14v, recrea14v))
   )
-
 
   rsb_ben_score
 
