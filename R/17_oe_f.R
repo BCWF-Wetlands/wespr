@@ -46,13 +46,10 @@ oe_fun <- function(site) {
 
   groundw7 <-  wt_max(indicator_data, "F47", "fun")
 
+  appscore7 <- site$indicators$app$fun
 
-  #TODO : add calculated score elequantly
-  appscore7 <-1 # update
+  csscore7 <- site$indicators$cs$fun
 
-
-  #TODO : add calculated score elequantly
-  csscore7 <-1 # update
 
   # subscores
 
