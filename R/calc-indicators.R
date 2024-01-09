@@ -15,20 +15,20 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "sr", "fun")
   site <- update_site_indicator(site, "sr", "ben")
   site <- update_site_indicator(site, "pr", "fun")
-  site <- update_site_indicator(site, "pr", "ben") # need to add OF42 to used by list
+  site <- update_site_indicator(site, "pr", "ben")
   site <- update_site_indicator(site, "cs", "fun")
-  site <- update_site_indicator(site, "fr", "fun")
+  site <- update_site_indicator(site, "fr", "fun") # add allsat1 val once confirmed
   site <- update_site_indicator(site, "fr", "ben")
   site <- update_site_indicator(site, "sens", "fun")
-  site <- update_site_indicator(site, "str", "fun") # need to update weights table inport
+  site <- update_site_indicator(site, "str", "fun")
   site <- update_site_indicator(site, "nr", "fun")
-  site <- update_site_indicator(site, "nr", "ben") # requires minor tweak to input a calculate value
-  site <- update_site_indicator(site, "ap", "fun") # required solar_input check : https://github.com/BCWF-Wetlands/wespr/issues/65
+  site <- update_site_indicator(site, "nr", "ben")
+  site <- update_site_indicator(site, "app", "fun")
   #site <- update_site_indicator(site, "pd", "fun") # requires several fixes still
   #site <- update_site_indicator(site, "kmh", "fun") # requires several fixes still
-  site <- update_site_indicator(site, "kmh", "ben")
-  site <- update_site_indicator(site, "wb", "fun")  # requires final score input
-  site <- update_site_indicator(site, "wb", "ben") #
+  #site <- update_site_indicator(site, "kmh", "ben")
+  #site <- update_site_indicator(site, "wb", "fun")  # requires final score input
+  #site <- update_site_indicator(site, "wb", "ben") #
   #site <- update_site_indicator(site, "pol", "fun") # draft complete - requires pd_fun()
   #site <- update_site_indicator(site, "pol", "ben") # draft complete
   #site <- update_site_indicator(site, "rsb", "fun") # draft complete - requires ap_fun(), pd_fun()
