@@ -1,5 +1,5 @@
 
-pf_fun <- function(site) {
+pd_fun <- function(site){
 
   indicator_data <- get_indicator_data(site, "pd")
   vals <- get_vals(indicator_data)
@@ -157,10 +157,4 @@ pf_fun <- function(site) {
 
    pd_fun_score
 
-  }
-
-
-
-
-
-
+}
