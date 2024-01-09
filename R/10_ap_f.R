@@ -1,12 +1,10 @@
-ap_fun <- function(site) {
+app_fun <- function(site) {
 
   indicator_data <- get_indicator_data(site, "app")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
   elev8 <- 1 - vals$OF5_1
-
-
 
   # TODO: SOmthing not correct here : might need to addd an ifelse as circular with these two formulars
   mappedout8 <- if(vals$NoOutlet + vals$NoOutletX == 0){
@@ -42,10 +40,7 @@ ap_fun <- function(site) {
 
   degreed8 <- degree_days_index(vals)
 
-  # to do : check this is working corectly after app values added
-  #https://github.com/BCWF-Wetlands/wespr/issues/65
-  solar8 <- 1 #local_solar_input(vals) # replace with function
-
+  solar8 <- local_solar_input(vals)
 
   sindex8 <- if(sum_na(vals$OF28_1,vals$OF28_2,vals$OF28_3,vals$OF28_4,vals$OF28_5) == 0){
      NA_real_
@@ -145,7 +140,7 @@ ap_fun <- function(site) {
                       mean_na(inflow8, wetpctca8, groundw8)))
 
   npcycling8 <- mean_na(c(fluctu8, seaspct8, soiltex8, color8,
-                        max_na(mappedout8, outdur8),
+                        max_na(c(mappedout8, outdur8)),
                         interspers8, sindex8))
 
   templight8 <- mean_na(c(aspect8, solar8, wetdef8, degreed8, shade8, decidtree8, gcover8, depthdom8
