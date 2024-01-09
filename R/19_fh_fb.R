@@ -10,23 +10,20 @@ fh_fun <- function(site) {
 
   fishpres10 <- ifelse(vals$OF20_5 == 1, 0, (3 * (max(vals$OF20_1, vals$OF20_2, vals$OF20_3 ) / 3) + vals$OF20_4) / 4)
 
-
-  # check this range and that the questions are needed for the indicator
-  rddens10 <- if(sum_na(intact_vals) == 0){
+  rddens10 <- if(sum_na(vals$OF30_1, vals$OF30_2, vals$OF30_3) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF30", "fun")
   }
 
-  # check this range and that the questions are needed for the indicator
-  disturbca9 <- if(sum_na(intact_vals) == 0){
+  disturbca9 <- if(sum_na(vals$OF41_1, vals$OF41_2, vals$OF41_3, vals$OF41_4, vals$OF41_5s) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF41", "fun")
   }
 
-  # check this range is correct
-  rddenswau10 <- if(sum_na(intact_vals) == 0 ||
+
+  rddenswau10 <- if(sum_na(vals$OF42_1, vals$OF42_2, vals$OF42_3) == 0 ||
     vals$NoCA == 1) {
     NA_real_
   } else {
@@ -101,8 +98,7 @@ fh_fun <- function(site) {
   contam10 <- vals$S3_subscore
   sedrca10 <- vals$S4_subscore
 
-  # TO DO find elegant way to extract the scores.
-  appscore9 <- 1 # NOTE THIS NEEDS TO BE RELPLACED
+  appscore9 <- site$indicators$app$fun
 
     # function subscores
   hydro10 <- mean_na(drypct9, permwpct10, depthdom10, lake9, pondsize9, openw9)
@@ -165,10 +161,7 @@ fh_ben <- function(site) {
 
   fishing10v <- vals$F56_5
 
-
-  # to do : update this with correct extraction scors
-  fscorewbf10v <-
-
+  fscorewbf10v <- site$indicators$wb$fun
 
   # benefit subscore:
 
