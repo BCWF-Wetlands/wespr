@@ -144,25 +144,23 @@ sfts_ben<- function(site) {
 
   solar2v <- local_solar_input(vals)
 
-
-  # check range of values is correct
-  rddens2v <- if((sum_na(intact_vals) == 0) ||
+  rddens2v <- if((sum_na(vals$OF30_1, vals$OF30_2, vals$OF30_3) == 0) ||
                   vals$NoCA == 1){
     NA_real_
   } else {
     wt_max(indicator_data, "OF30", "ben")
   }
 
-  # check range of values is correct
-  disturb2v <- if((sum_na(intact_vals) == 0) ||
+
+  disturb2v <- if((sum_na(vals$OF41_1, vals$OF41_2, vals$OF41_3, vals$OF41_4, vals$OF41_5) == 0) ||
                   vals$NoCA == 1){
     NA_real_
   } else {
     wt_max(indicator_data, "OF41", "ben")
   }
 
-  # check range of values is correct
-  rddenswau2v <- if((sum_na(intact_vals) == 0) ||
+
+  rddenswau2v <- if((sum_na(vals$OF42_1, vals$OF42_2, vals$OF42_3) == 0) ||
                     vals$NoCA == 1){
     NA_real_
   } else {
@@ -173,15 +171,16 @@ sfts_ben<- function(site) {
 
   flowalt2 <- vals$S1_subscore
 
-  # add fish score value
-  fishscore2v <- 1 # Needs to be updated.
+
+  fishscore2v <- site$indicators$fh$fun
 
 
-  sfts_ben_score <- 10 * (max_na(outmap2, outdura) *
+  # TO DO = check the outpmap in this calculation
+  sfts_ben_score <- 10 * (max_na(c(outmap2, outdura)) *
                             3 * fishscore2v +
-                            mean_na(elev2v, wetpctrca2v) +
-                            mean_na(wetdef2, gdd2v, solar2v, glacier2v, aspect2v) +
-                            mean_na(perminpctper2v, impervrca2v, rddens2v, rddenswau2v, flowalt2, disturb2v))/6
+                            mean_na(c(elev2v, wetpctrca2v)) +
+                            mean_na(c(wetdef2, gdd2v, solar2v, glacier2v, aspect2v)) +
+                            mean_na(c(perminpctper2v, impervrca2v, rddens2v, rddenswau2v, flowalt2, disturb2v)))/6
 
   sfts_ben_score
 
