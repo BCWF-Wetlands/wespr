@@ -103,6 +103,9 @@ fish_occurance <- function(vals){
 
 
 #OF25
+# Todo : this will need to be generalised to create for future averages
+# https://github.com/BCWF-Wetlands/wespr/issues/70
+
 local_moisture_deficit <- function(vals) {
   #GDeco = OF44_1 # georgia depression
   #CMeco = OF44_2 # coast and mountain (CM)
@@ -124,6 +127,10 @@ local_moisture_deficit <- function(vals) {
 
 
 # OF26
+
+# Todo : this will need to be generalised to create for future averages
+# https://github.com/BCWF-Wetlands/wespr/issues/70
+
 degree_days_index <- function(vals) {
   dplyr::case_when(
     vals$OF26_1 == 0 ~ NA_real_,
@@ -137,8 +144,11 @@ degree_days_index <- function(vals) {
 }
 
 #OF 27
+# Todo : this will need to be generalised to create for future averages
+# https://github.com/BCWF-Wetlands/wespr/issues/70
+
 local_solar_input <- function(vals){
-  ifelse(vals$OF27_1 == 0 ~ NA_real_,
+  ifelse(vals$OF27_1 == 0, NA_real_,
   dplyr::case_when(
     vals$GDeco == 1 ~ (vals$OF27_1 - 28.7) / 14.4,
     vals$CMeco == 1 ~ (vals$OF27_1 - 26.3) / 11,
