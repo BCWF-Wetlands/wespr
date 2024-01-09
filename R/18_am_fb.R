@@ -21,56 +21,44 @@ am_fun <- function(site) {
 
   ddays11 <- degree_days_index(vals)
 
-  # check the range is correct
-  #https://github.com/BCWF-Wetlands/wespr/issues/57
-  rddens11 <- if(sum_na(intact_vals) == 0){
+  rddens11 <- if(sum_na(vals$OF30_1, vals$OF30_2, vals$OF30_3) == 0){
       NA_real_
     } else {
       wt_max(indicator_data, "OF30", "fun")
     }
 
-  # check the range is correct
-  #https://github.com/BCWF-Wetlands/wespr/issues/57
-  rddenswau11 <- if(sum_na(intact_vals) == 0){
+  rddenswau11 <- if(sum_na(vals$OF31_1, vals$OF31_2, vals$OF31_3) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF31", "fun")
   }
 
-  # check the range is correct
-  #https://github.com/BCWF-Wetlands/wespr/issues/57
-  intact11 <-  if(sum_na(intact_vals) == 0){
+  intact11 <-  if(sum_na(vals$OF32_1, vals$OF32_2, vals$OF32_3, vals$OF32_4, vals$OF32_5) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF32", "fun")
   }
 
-  # check the range is correct
-  #https://github.com/BCWF-Wetlands/wespr/issues/57
-  oldgro11 <- if(sum_na(intact_vals) == 0){
+  oldgro11 <- if(sum_na(vals$OF33_1, vals$OF33_2, vals$OF33_3, vals$OF33_4, vals$OF33_5) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF33", "fun")
   }
 
-  # check the range is correct
-  #https://github.com/BCWF-Wetlands/wespr/issues/57
-  typerich11 <- if(sum_na(intact_vals) == 0){
+  typerich11 <- if(sum_na(vals$OF36_1, vals$OF36_2, vals$OF36_3, vals$OF36_4) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF36", "fun")
   }
 
-  # check the range is correct
-  #https://github.com/BCWF-Wetlands/wespr/issues/57
-  wetdenswau11 <- if(sum_na(intact_vals) == 0){
+
+  wetdenswau11 <- if(sum_na(vals$OF43_1, vals$OF43_2, vals$OF43_3, vals$OF43_4, vals$OF43_5) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF43", "fun")
   }
 
-  # check this is correct ?
- #https://github.com/BCWF-Wetlands/wespr/issues/57
+
   wooddown11 <- if(sum(vals$F1_1, vals$F1_2, vals$F1_3, vals$F1_4, vals$F1_5, vals$F1_6)==0){
     NA_real_
   } else {
@@ -130,30 +118,26 @@ am_fun <- function(site) {
 
   sedca11 <- vals$S4_subscore
 
-  ## TO DO - check how to add a final score
-
-  appscore10 <-
-
+  appscore10 <- site$indicators$app$fun
 
   # function subscores
 
-  waterscape11 <- mean_na(wetpct2k, distpond11,  wetdenswau11)
+  waterscape11 <- mean_na(c(wetpct2k, distpond11,  wetdenswau11))
 
-  hydro11 <- (mean_na(lentic11, gradient11, appscore10) +
-              mean_na(deepspot11, beaver11, permwpct11))/2
+  hydro11 <- (mean_na(c(lentic11, gradient11, appscore10)) +
+              mean_na(c(deepspot11, beaver11, permwpct11)))/2
 
   aqstruc11 <- if(vals$NeverWater == 1){
     NA_real_
   } else {
-    mean_na(widthwet11, max_na(empct11, sav11, woodover11), interspers11)
+    mean_na(c(widthwet11, max_na(c(empct11, sav11, woodover11)), interspers11))
   }
 
-  terrstruc11 <- mean_na(aspect11, gcover11, girreg11, wooddown11, perimpctper11, intact11, oldgro11, typerich11)
+  terrstruc11 <- mean_na(c(aspect11, gcover11, girreg11, wooddown11, perimpctper11, intact11, oldgro11, typerich11))
 
-  biostress11 <- mean_na(fishacc11, sedca11, distrd11, fluctu11, rddens11, rddenswau11, imperv11, ddays11, acidic11)
+  biostress11 <- mean_na(c(fishacc11, sedca11, distrd11, fluctu11, rddens11, rddenswau11, imperv11, ddays11, acidic11))
 
-
-  am_fun_score <- 10 * mean_na(waterscape11, raream11, amrare11, mean_na(hydro11, biostress11, aqstruc11, terrstruc11))
+  am_fun_score <- 10 * mean_na(c(waterscape11, raream11, amrare11, mean_na(hydro11, biostress11, aqstruc11, terrstruc11)))
 
   am_fun_score
 
@@ -174,10 +158,7 @@ am_ben <- function(site) {
 
   raream11v <- ifelse(vals$F24_2 == 1, 1, NA_real_)
 
-  # check the range is correct
-  #https://github.com/BCWF-Wetlands/wespr/issues/57
-
-  wetdenswau11v <- if(sum_na(intact_vals) == 0){
+  wetdenswau11v <- if(sum_na(vals$OF43_1, vals$OF43_2, vals$OF43_3, vals$OF43_4, vals$OF43_5) == 0){
       NA_real_
     } else {
       wt_max(indicator_data, "OF43", "fun")
@@ -185,11 +166,10 @@ am_ben <- function(site) {
 
   amphrare11 <- ifelse(vals$F58_8 == 1, 1, NA_real_)
 
-  # find way to extract the correct fomat for fun result
- # fscorewbf11v <-
+  fscorewbf11v <- site$indicators$wb$fun
 
-  am_ben_score <- 10 * (max_na(amphrare11, raream11v, fscorewbf11v,
-                               mean( distpond9v, water2k11v, wetdenswau11)))
+  am_ben_score <- 10 * (max_na(c(amphrare11, raream11v, fscorewbf11v,
+                               mean_na(c(distpond9v, water2k11v, wetdenswau11)))))
 
   am_ben_score
 }
