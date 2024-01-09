@@ -77,9 +77,7 @@ pol_fun <- function(site) {
 
  toxic16 <- vals$S3_subscore
 
-
- # to do - get more elequent way to extract the final score
- pdscore16 <- 1 # adjust this
+ pdscore16 <- site$indicators$pd$fun
 
 
   # pol subscores
@@ -133,7 +131,7 @@ pol_ben <- function(site){
     wt_max(indicator_data, "F50", "ben")
   }
 
-  pol_ben_score <- 10 * mean_na(perimpctper16v, intact16v, lcrich16v,lcrich2k16v , rareplant16v)
+  pol_ben_score <- 10 * mean_na(c(perimpctper16v, intact16v, lcrich16v,lcrich2k16v , rareplant16v))
 
-   pol_ben_score
+  pol_ben_score
 }
