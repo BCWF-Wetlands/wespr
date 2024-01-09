@@ -67,9 +67,6 @@ kmh_fun <- function(site) {
   herb <- 1 - sum_na(vals$F1_1, vals$F1_2, vals$F1_3, vals$F1_4, vals$F1_5, vals$F1_6)/14
   herbcov19 <- if_else(herb < 0, 0 , herb)
 
-
-  # to do: this function is flagging an error on data inputs?
-  # need to check weights table?
   woodyhtmix19 <- wt_max(indicator_data, "F2", "fun")
 
   willow19 <- if(sum_na(vals$F1_1, vals$F1_2, vals$F1_3, vals$F1_4, vals$F1_5, vals$F1_6) == 0){
@@ -175,7 +172,6 @@ kmh_fun <- function(site) {
   # Needs attention
   #https://github.com/BCWF-Wetlands/wespr/issues/50
   # HiFlucW, allsat1
-  # HiFlucW = F
 
   muskrathab <- ifelse(vals$F20_2 == 1, 0,
                    ifelse(vals$HiFlucW == 1, 0,
