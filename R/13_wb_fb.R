@@ -111,9 +111,7 @@ wb_fun <- function(site) {
 
   noise11 <- vals$S6_subscore
 
-  #todo: find better way to select calculations of app.
-  appscore11 <- 1 # update this when ready
-
+  appscore11 <- site$indicators$app$fun
 
   # function subscore
 
@@ -129,7 +127,7 @@ wb_fun <- function(site) {
 
 
   wb_fun_score <- ifelse(vals$NeverWater == 1, 0,
-                   10 * (3 * max_na(mean_na(c(pondedpct13, owarea13, maxpondarea13)), wb_rare11, rarebird11) +
+                   10 * (3 * max_na(c(mean_na(c(pondedpct13, owarea13, maxpondarea13)), wb_rare11, rarebird11)) +
                                    2 * mean_na(c(hydro13, struc13, produc13, lscape13)) / 5))
 
   wb_fun_score
