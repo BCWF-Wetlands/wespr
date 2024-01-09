@@ -25,17 +25,13 @@ cri_ben <- function(site) {
 
   protect17 <- wt_max(indicator_data, "OF23", "ben")
 
-  # check the range is correct
-  #https://github.com/BCWF-Wetlands/wespr/issues/57
-  rddens17 <-  if(sum_na(intact_vals) == 0){
+  rddens17 <-  if(sum_na(vals$OF30_1, vals$OF30_2, vals$OF30_3) == 0){
       NA_real_
     } else {
       wt_max(indicator_data, "OF30", "ben")
     }
 
-  # check the range is correct
-  #https://github.com/BCWF-Wetlands/wespr/issues/57
-  rddens2k17 <- if(sum_na(intact_vals) == 0){
+  rddens2k17 <- if(sum_na(vals$OF31_1, vals$OF31_2, vals$OF31_3) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF31", "ben")
@@ -69,16 +65,12 @@ cri_ben <- function(site) {
 
   recpoten17v <- sum_na(vals$F56_1, vals$F56_2, vals$F56_3 )/3
 
-  consumpu10 <- (max_na(vals$F57_1, vals$F57_2,vals$F57_3,vals$F57_4,vals$F57_5,vals$F57_6) +
+  consumpu10 <- (max_na(c(vals$F57_1, vals$F57_2,vals$F57_3,vals$F57_4,vals$F57_5,vals$F57_6)) +
     (sum(vals$F57_1, vals$F57_2,vals$F57_3,vals$F57_4,vals$F57_5,vals$F57_6)/6))/2
 
-  # TODO: add scores for FH and WB
-  fhscore17 <- 1 # need to update this filler
+  fhscore17 <- site$indicators$fh$fun
 
-  # TODO:
-  # add scores for FH and WB
-  wbscore17 <-  1 # need to update this filler
-
+  wbscore17 <-  site$indicators$wb$fun
 
 
   cri_ben_score <- 10 * (2 * max_na(c(fish10, consumpu10, algae17, wells17v)) +
