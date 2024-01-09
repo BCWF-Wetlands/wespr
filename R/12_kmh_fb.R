@@ -70,8 +70,7 @@ kmh_fun <- function(site) {
 
   # to do: this function is flagging an error on data inputs?
   # need to check weights table?
-  #woodyhtmix19 <- wt_max(indicator_data, "F2", "fun")
-  woodyhtmix19 <- 1 # NEED TO FIX THIS
+  woodyhtmix19 <- wt_max(indicator_data, "F2", "fun")
 
   willow19 <- if(sum_na(vals$F1_1, vals$F1_2, vals$F1_3, vals$F1_4, vals$F1_5, vals$F1_6) == 0){
     0
@@ -164,10 +163,7 @@ kmh_fun <- function(site) {
 
   disturb19 <- vals$S6_subscore
 
-
-  #todo: find better way to select calculations of app.
-  #appscore19 <-
-  appscore19 <- 1 # needs to be updated
+  appscore19 <- site$indicators$app$fun
 
   # function subscores
   # Needs attention
@@ -219,7 +215,6 @@ kmh_ben <- function(site) {
   indicator_data <- get_indicator_data(site, "kmh")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
-
 
   disttown19v <- wt_max(indicator_data, "OF1", "ben")
 
