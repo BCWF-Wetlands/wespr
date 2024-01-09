@@ -60,16 +60,16 @@ kmh_fun <- function(site) {
       wt_max(indicator_data, "OF39", "fun")
     }
 
-  decidon19 <- if_else((sum_na(vals$F1_2, vals$F1_4, vals$F1_6)/8)>1, 1, (sum_na(vals$F1_2, vals$F1_4, vals$F1_6)/8))
+  decidon19 <- ifelse((sum_na(vals$F1_2, vals$F1_4, vals$F1_6)/8)>1, 1, (sum_na(vals$F1_2, vals$F1_4, vals$F1_6)/8))
 
-  conifon19 <- if_else((sum(vals$F1_1, vals$F1_3)/8)>1, 1, (sum(vals$F1_1, vals$F1_3)/8))
+  conifon19 <- ifelse((sum(vals$F1_1, vals$F1_3)/8)>1, 1, (sum(vals$F1_1, vals$F1_3)/8))
 
   herb <- 1 - sum_na(vals$F1_1, vals$F1_2, vals$F1_3, vals$F1_4, vals$F1_5, vals$F1_6)/14
-  herbcov19 <- if_else(herb < 0, 0 , herb)
+  herbcov19 <- ifelse(herb < 0, 0 , herb)
 
   woodyhtmix19 <- wt_max(indicator_data, "F2", "fun")
 
-  willow19 <- if(sum_na(vals$F1_1, vals$F1_2, vals$F1_3, vals$F1_4, vals$F1_5, vals$F1_6) == 0){
+  willow19 <- if (sum_na(vals$F1_1, vals$F1_2, vals$F1_3, vals$F1_4, vals$F1_5, vals$F1_6) == 0){
     0
   } else {
     wt_max(indicator_data, "F5", "fun")
