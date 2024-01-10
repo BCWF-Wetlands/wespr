@@ -1,7 +1,10 @@
-get_indicator_data <- function(site, ind) {
+get_indicator_data <- function(site, ind, type) {
   check_wesp_site(site)
+
+  type <- substr(type, 1, 1)
+
   qs <- Filter(
-    \(x) ind %in% names(x$used_by),
+    \(x) ind %in% names(x$used_by) & any(grepl(type, x$used_by)),
     site$questions
     )
   qs <- lapply(qs, \(x) x[c("no", "question", "response_no", "value")])
