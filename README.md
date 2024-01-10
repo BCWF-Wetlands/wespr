@@ -232,49 +232,49 @@ site
 #> 
 #> Indicators:
 #>   * WS:  
-#>     - fun: 7.02 
+#>     - fun: 10 
 #>     - ben: 5.89 
 #>   * SR:  
 #>     - fun: 4.12 
-#>     - ben: 3.67 
+#>     - ben: 4.14 
 #>   * PR:  
-#>     - fun:  
-#>     - ben:  
+#>     - fun: 1 
+#>     - ben: 14.24 
 #>   * CS:  
 #>     - fun: 8.72 
 #>   * FR:  
-#>     - fun:  
-#>     - ben:  
+#>     - fun: 2.23 
+#>     - ben: 8.06 
 #>   * SENS:  
-#>     - fun:  
+#>     - fun: 7.3 
 #>   * STR:  
-#>     - fun:  
+#>     - fun: 7.96 
 #>   * NR:  
-#>     - fun:  
-#>     - ben:  
-#>   * AP:  
-#>     - fun:  
+#>     - fun: 5.38 
+#>     - ben: 14.24 
+#>   * APP:  
+#>     - fun: 2.61 
 #>     - ben:  
 #>   * PD:  
-#>     - fun:  
-#>     - ben:  
+#>     - fun: 10.44 
+#>     - ben: NA 
 #>   * KMH:  
 #>     - fun:  
-#>     - ben:  
+#>     - ben: 7.8 
 #>   * WB:  
-#>     - fun:  
-#>     - ben:  
+#>     - fun: 25.66 
+#>     - ben: 5.62 
 #>   * POL:  
 #>     - fun:  
-#>     - ben:  
+#>     - ben: 3.5 
 #>   * RSB:  
 #>     - fun:  
-#>     - ben:  
+#>     - ben: 4.03 
 #>   * OE:  
-#>     - fun:  
+#>     - fun: 0 
 #>   * AM:  
 #>     - fun:  
-#>     - ben:  
+#>     - ben: 256.64 
 #>   * FH:  
 #>     - fun:  
 #>     - ben:  
@@ -295,12 +295,25 @@ can do that with `get_indicator_scores()`, which gives them to us as a
 ind_scores <- get_indicator_scores(site)
 
 ind_scores
-#> # A tibble: 3 × 4
-#>   site   indicator   fun   ben
-#>   <chr>  <chr>     <dbl> <dbl>
-#> 1 site_1 WS         7.02  5.89
-#> 2 site_1 SR         4.12  3.67
-#> 3 site_1 CS         8.72 NA
+#> # A tibble: 16 × 4
+#>    site   indicator   fun    ben
+#>    <chr>  <chr>     <dbl>  <dbl>
+#>  1 site_1 WS        10      5.89
+#>  2 site_1 SR         4.12   4.14
+#>  3 site_1 PR         1     14.2 
+#>  4 site_1 CS         8.72  NA   
+#>  5 site_1 FR         2.23   8.06
+#>  6 site_1 SENS       7.30  NA   
+#>  7 site_1 STR        7.96  NA   
+#>  8 site_1 NR         5.38  14.2 
+#>  9 site_1 APP        2.61  NA   
+#> 10 site_1 PD        10.4   NA   
+#> 11 site_1 KMH       NA      7.80
+#> 12 site_1 WB        25.7    5.62
+#> 13 site_1 POL       NA      3.5 
+#> 14 site_1 RSB       NA      4.03
+#> 15 site_1 OE         0     NA   
+#> 16 site_1 AM        NA    257.
 ```
 
 Similarly, we can extract the original responses with `get_responses()`:
@@ -402,7 +415,7 @@ site$derived_values
 site$indicators
 #> $ws
 #> $ws$fun
-#> [1] 7.019431
+#> [1] 10
 #> 
 #> $ws$ben
 #> [1] 5.891013
@@ -413,15 +426,15 @@ site$indicators
 #> [1] 4.11715
 #> 
 #> $sr$ben
-#> [1] 3.672966
+#> [1] 4.139236
 #> 
 #> 
 #> $pr
 #> $pr$fun
-#> NULL
+#> [1] 1
 #> 
 #> $pr$ben
-#> NULL
+#> [1] 14.24296
 #> 
 #> 
 #> $cs
@@ -431,44 +444,44 @@ site$indicators
 #> 
 #> $fr
 #> $fr$fun
-#> NULL
+#> [1] 2.226852
 #> 
 #> $fr$ben
-#> NULL
+#> [1] 8.062372
 #> 
 #> 
 #> $sens
 #> $sens$fun
-#> NULL
+#> [1] 7.300439
 #> 
 #> 
 #> $str
 #> $str$fun
-#> NULL
+#> [1] 7.959184
 #> 
 #> 
 #> $nr
 #> $nr$fun
-#> NULL
+#> [1] 5.384203
 #> 
 #> $nr$ben
-#> NULL
+#> [1] 14.24296
 #> 
 #> 
-#> $ap
-#> $ap$fun
-#> NULL
+#> $app
+#> $app$fun
+#> [1] 2.606893
 #> 
-#> $ap$ben
+#> $app$ben
 #> NULL
 #> 
 #> 
 #> $pd
 #> $pd$fun
-#> NULL
+#> [1] 10.4376
 #> 
 #> $pd$ben
-#> NULL
+#> [1] NA
 #> 
 #> 
 #> $kmh
@@ -476,15 +489,15 @@ site$indicators
 #> NULL
 #> 
 #> $kmh$ben
-#> NULL
+#> [1] 7.797619
 #> 
 #> 
 #> $wb
 #> $wb$fun
-#> NULL
+#> [1] 25.66432
 #> 
 #> $wb$ben
-#> NULL
+#> [1] 5.625
 #> 
 #> 
 #> $pol
@@ -492,7 +505,7 @@ site$indicators
 #> NULL
 #> 
 #> $pol$ben
-#> NULL
+#> [1] 3.5
 #> 
 #> 
 #> $rsb
@@ -500,12 +513,12 @@ site$indicators
 #> NULL
 #> 
 #> $rsb$ben
-#> NULL
+#> [1] 4.033333
 #> 
 #> 
 #> $oe
 #> $oe$fun
-#> NULL
+#> [1] 0
 #> 
 #> 
 #> $am
@@ -513,7 +526,7 @@ site$indicators
 #> NULL
 #> 
 #> $am$ben
-#> NULL
+#> [1] 256.6432
 #> 
 #> 
 #> $fh
@@ -521,7 +534,7 @@ site$indicators
 #> NULL
 #> 
 #> $fh$ben
-#> NULL
+#> numeric(0)
 #> 
 #> 
 #> $sfts
