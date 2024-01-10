@@ -1,13 +1,17 @@
-get_indicator_data <- function(site, ind, type) {
+get_indicator_data <- function(site, ind, type = c("fun", "ben")) {
   check_wesp_site(site)
 
-  type <- substr(type, 1, 1)
+  type <- match.arg(type)
+
+  type_pre <- substr(type, 1, 1)
 
   qs <- Filter(
-    \(x) ind %in% names(x$used_by) & any(grepl(type, x$used_by)),
+    \(x) grepl(type_pre, x$used_by[ind]),
     site$questions
-    )
+  )
+
   qs <- lapply(qs, \(x) x[c("no", "question", "response_no", "value")])
+
   derived_values <- list(
     no = "derived",
     response_no = names(site$derived_values),
