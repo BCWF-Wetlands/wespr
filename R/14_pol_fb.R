@@ -1,64 +1,64 @@
 
 pol_fun <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "pol")
+  indicator_data <- get_indicator_data(site, "pol", "fun")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-  imperv16 <- wt_max(indicator_data, "OF12", "fun")
+  imperv16 <- wt_max(indicator_data, "OF12")
 
   intact16 <- if(sum_na (vals$OF32_1, vals$OF32_2, vals$OF32_3, vals$OF32_4, vals$OF32_5) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF32", "fun")
+    wt_max(indicator_data, "OF32")
   }
 
   lcrich16 <- if(sum_na (vals$OF36_1, vals$OF36_2, vals$OF36_3, vals$OF36_4) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF36", "fun")
+    wt_max(indicator_data, "OF36")
   }
 
   lcrich2k16 <- if(sum_na (vals$OF37_1, vals$OF37_2, vals$OF37_3, vals$OF37_4, vals$OF37_5) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF37", "fun")
+    wt_max(indicator_data, "OF37")
   }
 
-  willow16 <- wt_max(indicator_data, "F5", "fun")
+  willow16 <- wt_max(indicator_data, "F5")
 
-  flower16 <- wt_max(indicator_data, "F6", "fun")
+  flower16 <- wt_max(indicator_data, "F6")
 
   snags16 <- if(sum(vals$F1_1, vals$F1_2, vals$F1_3, vals$F1_4, vals$F1_5, vals$F1_6)==0){
       NA_real_
     } else {
-      wt_max(indicator_data, "F8", "fun")
+      wt_max(indicator_data, "F8")
     }
 
   wooddown16 <- if(sum(vals$F1_1, vals$F1_2, vals$F1_3, vals$F1_4, vals$F1_5, vals$F1_6)==0){
     NA_real_
   } else {
-    wt_max(indicator_data, "F9", "fun")
+    wt_max(indicator_data, "F9")
   }
 
-  forb16 <- wt_max(indicator_data, "F11", "fun")
+  forb16 <- wt_max(indicator_data, "F11")
 
   gcover16 <- if(vals$F15_4 == 1){
       NA_real_
     } else {
-      wt_max(indicator_data, "F15", "fun")
+      wt_max(indicator_data, "F15")
 }
 
-  girreg16 <- wt_max(indicator_data, "F18", "fun")
+  girreg16 <- wt_max(indicator_data, "F18")
 
-  permwpct16 <- wt_max(indicator_data, "F21", "fun")
+  permwpct16 <- wt_max(indicator_data, "F21")
 
    # TO DO - note these two values outlet16 and outmap16 rely on each other - might need to add another if
   # else statement to try and prevent circular refernce.
 
   outlet16 <- if(vals$F40_4 + vals$F40_5 > 0) {
     outmap16
-      }else { wt_max(indicator_data, "F40", "fun")
+      }else { wt_max(indicator_data, "F40")
     }
 
   outmap16 <- if (vals$NoOutlet + vals$NoOutletX == 0) {
@@ -70,10 +70,10 @@ pol_fun <- function(site) {
  perimpctper16 <- if(vals$Disturb == 0 ){
    1
  } else {
-   wt_max(indicator_data, "F50", "fun")
+   wt_max(indicator_data, "F50")
  }
 
- distnest16 <- wt_max(indicator_data, "F53", "fun")
+ distnest16 <- wt_max(indicator_data, "F53")
 
  toxic16 <- vals$S3_subscore
 
@@ -101,7 +101,7 @@ pol_fun <- function(site) {
 
 pol_ben <- function(site){
 
-  indicator_data <- get_indicator_data(site, "pol")
+  indicator_data <- get_indicator_data(site, "pol", "ben")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
@@ -110,25 +110,25 @@ pol_ben <- function(site){
   intact16v <- if(sum_na (vals$OF32_1, vals$OF32_2, vals$OF32_3, vals$OF32_4, vals$OF32_5) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF32", "ben")
+    wt_max(indicator_data, "OF32")
   }
 
   lcrich16v <- if(sum_na (vals$OF36_1, vals$OF36_2, vals$OF36_3, vals$OF36_4) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF36", "ben")
+    wt_max(indicator_data, "OF36")
   }
 
   lcrich2k16v <- if(sum_na (vals$OF37_1, vals$OF37_2, vals$OF37_3, vals$OF37_4, vals$OF37_5) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF37", "ben")
+    wt_max(indicator_data, "OF37")
   }
 
   perimpctper16v <- if(vals$Disturb == 0 ){
     1
   } else {
-    wt_max(indicator_data, "F50", "ben")
+    wt_max(indicator_data, "F50")
   }
 
   pol_ben_score <- 10 * mean_na(c(perimpctper16v, intact16v, lcrich16v,lcrich2k16v , rareplant16v))

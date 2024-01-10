@@ -1,6 +1,6 @@
 cp_fun <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "cp")
+  indicator_data <- get_indicator_data(site, "cp", "fun")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
@@ -17,18 +17,18 @@ cp_fun <- function(site) {
       sum_na(vals$F1_1, vals$F1_3, vals$F1_5) / 10
   ) / 2
 
-  treetyp6 <- wt_max(indicator_data, "F3", "fun")
+  treetyp6 <- wt_max(indicator_data, "F3")
 
-  moss6 <- wt_max(indicator_data, "F10", "fun")
+  moss6 <- wt_max(indicator_data, "F10")
 
-  gcover6 <- wt_max(indicator_data, "F15", "fun")
+  gcover6 <- wt_max(indicator_data, "F15")
 
-  soiltex6 <- wt_max(indicator_data, "F17", "fun")
+  soiltex6 <- wt_max(indicator_data, "F17")
 
   outdura6 <- if ((vals$F40_4 + vals$F40_5) > 0) {
     1
   } else {
-    wt_max(indicator_data, "F40", "fun")
+    wt_max(indicator_data, "F40")
   }
 
   constric6 <- outflow_confinement(vals, indicator_data)
@@ -45,7 +45,7 @@ cp_fun <- function(site) {
     .default = 0.2
   )
 
-  fire6 <- wt_max(indicator_data, "F55", "fun")
+  fire6 <- wt_max(indicator_data, "F55")
 
   soildisturb6 <- vals$S5_subscore
 

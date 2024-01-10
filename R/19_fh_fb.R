@@ -1,25 +1,25 @@
 fh_fun <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "fh")
+  indicator_data <- get_indicator_data(site, "fh", "fun")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
   elev10 <- 1 - vals$OF5_1
 
-  unvegca10 <- wt_max(indicator_data, "OF12", "fun")
+  unvegca10 <- wt_max(indicator_data, "OF12")
 
   fishpres10 <- ifelse(vals$OF20_5 == 1, 0, (3 * (max(vals$OF20_1, vals$OF20_2, vals$OF20_3 ) / 3) + vals$OF20_4) / 4)
 
   rddens10 <- if(sum_na(vals$OF30_1, vals$OF30_2, vals$OF30_3) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF30", "fun")
+    wt_max(indicator_data, "OF30")
   }
 
   disturbca9 <- if(sum_na(vals$OF41_1, vals$OF41_2, vals$OF41_3, vals$OF41_4, vals$OF41_5s) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF41", "fun")
+    wt_max(indicator_data, "OF41")
   }
 
 
@@ -27,10 +27,10 @@ fh_fun <- function(site) {
     vals$NoCA == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "OF42", "fun")
+    wt_max(indicator_data, "OF42")
   }
 
-  drypct9 <- wt_max(indicator_data, "F19", "fun")
+  drypct9 <- wt_max(indicator_data, "F19")
 
   permwpct10 <- persist_water(vals, indicator_data)
 
@@ -47,7 +47,7 @@ fh_fun <- function(site) {
                     vals$NoPersis == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F26", "fun")
+    wt_max(indicator_data, "F26")
   }
 
   woodover10 <- non_veg_aquatic_cover_1(vals, indicator_data)
@@ -72,9 +72,9 @@ fh_fun <- function(site) {
 
 
 
-  groundw10 <- wt_max(indicator_data, "F47", "fun")
+  groundw10 <- wt_max(indicator_data, "F47")
 
-  bufferpct10 <- vegetation_buffer_along_permin(vals, indicator_data, "fun")
+  bufferpct10 <- vegetation_buffer_along_permin(vals, indicator_data)
 
 
   # TO DO ; check the refernce for this alternate - lists G32 but this refers to F41 not F40?
@@ -89,7 +89,7 @@ fh_fun <- function(site) {
   outdura10 <- if ((vals$F40_4 + vals$F40_5) > 0) {
     outmap9
   } else {
-    wt_max(indicator_data, "F40", "fun")
+    wt_max(indicator_data, "F40")
   }
 
 
@@ -139,7 +139,7 @@ fh_fun <- function(site) {
 
 fh_ben <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "fh")
+  indicator_data <- get_indicator_data(site, "fh", "ben")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
@@ -147,14 +147,14 @@ fh_ben <- function(site) {
                  (vals$NoOutlet + vals$NoOutletX) > 0) {
     NA_real_
   } else {
-    wt_max(indicator_data, "OF1", "ben")
+    wt_max(indicator_data, "OF1")
   }
 
   rddist10v <- if(vals$Inflow == 0 ||
                   (vals$NoOutlet + vals$NoOutletX) > 0) {
     NA_real_
   } else {
-    wt_max(indicator_data, "OF2", "ben")
+    wt_max(indicator_data, "OF2")
   }
 
   boats10v <- vals$F56_2

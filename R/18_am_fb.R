@@ -1,19 +1,19 @@
 
 am_fun <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "am")
+  indicator_data <- get_indicator_data(site, "am", "fun")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-  distrd11 <- wt_max(indicator_data, "OF2", "fun")
+  distrd11 <- wt_max(indicator_data, "OF2")
 
-  distpond11 <- wt_max(indicator_data, "OF3", "fun")
+  distpond11 <- wt_max(indicator_data, "OF3")
 
-  aspect11 <- wt_max(indicator_data, "OF7", "fun")
+  aspect11 <- wt_max(indicator_data, "OF7")
 
-  imperv11 <- wt_max(indicator_data, "OF12", "fun")
+  imperv11 <- wt_max(indicator_data, "OF12")
 
-  wetpct2k <- wt_max(indicator_data, "OF19", "fun")
+  wetpct2k <- wt_max(indicator_data, "OF19")
 
   fishacc11 <- ifelse(vals$OF20_5 == 1, 1, NA_real_)
 
@@ -24,59 +24,59 @@ am_fun <- function(site) {
   rddens11 <- if(sum_na(vals$OF30_1, vals$OF30_2, vals$OF30_3) == 0){
       NA_real_
     } else {
-      wt_max(indicator_data, "OF30", "fun")
+      wt_max(indicator_data, "OF30")
     }
 
   rddenswau11 <- if(sum_na(vals$OF31_1, vals$OF31_2, vals$OF31_3) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF31", "fun")
+    wt_max(indicator_data, "OF31")
   }
 
   intact11 <-  if(sum_na(vals$OF32_1, vals$OF32_2, vals$OF32_3, vals$OF32_4, vals$OF32_5) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF32", "fun")
+    wt_max(indicator_data, "OF32")
   }
 
   oldgro11 <- if(sum_na(vals$OF33_1, vals$OF33_2, vals$OF33_3, vals$OF33_4, vals$OF33_5) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF33", "fun")
+    wt_max(indicator_data, "OF33")
   }
 
   typerich11 <- if(sum_na(vals$OF36_1, vals$OF36_2, vals$OF36_3, vals$OF36_4) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF36", "fun")
+    wt_max(indicator_data, "OF36")
   }
 
 
   wetdenswau11 <- if(sum_na(vals$OF43_1, vals$OF43_2, vals$OF43_3, vals$OF43_4, vals$OF43_5) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF43", "fun")
+    wt_max(indicator_data, "OF43")
   }
 
 
   wooddown11 <- if(sum(vals$F1_1, vals$F1_2, vals$F1_3, vals$F1_4, vals$F1_5, vals$F1_6)==0){
     NA_real_
   } else {
-    wt_max(indicator_data, "F9", "fun")
+    wt_max(indicator_data, "F9")
   }
 
   gcover11 <- if(vals$F15_4 == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F15", "fun")
+    wt_max(indicator_data, "F15")
   }
 
-  girreg11 <- wt_max(indicator_data, "F18", "fun")
+  girreg11 <- wt_max(indicator_data, "F18")
 
   permwpct11 <- if (vals$NeverWater + vals$TempWet > 0) {
       NA_real_
     } else {
-      wt_max(indicator_data, "F21", "fun")
+      wt_max(indicator_data, "F21")
     }
 
   fluctu11 <- surface_water_fluctuation(vals, indicator_data)
@@ -110,9 +110,9 @@ am_fun <- function(site) {
                                         ifelse(pH  > 5 & pH  < 6.5, 0.5, 0)))))
 
 
-  beaver11 <- wt_max(indicator_data, "F48", "fun")
+  beaver11 <- wt_max(indicator_data, "F48")
 
-  perimpctper11 <- vegetation_buffer_along_permin(vals, indicator_data, "fun")
+  perimpctper11 <- vegetation_buffer_along_permin(vals, indicator_data)
 
   amrare11 <- ifelse(vals$F58_8 == 1, 1, NA_real_)
 
@@ -148,20 +148,20 @@ am_fun <- function(site) {
 
 am_ben <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "am")
+  indicator_data <- get_indicator_data(site, "am", "ben")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-  distpond9v <- wt_max(indicator_data, "OF3", "ben")
+  distpond9v <- wt_max(indicator_data, "OF3")
 
-  water2k11v <- wt_max(indicator_data, "OF19", "ben")
+  water2k11v <- wt_max(indicator_data, "OF19")
 
   raream11v <- ifelse(vals$F24_2 == 1, 1, NA_real_)
 
   wetdenswau11v <- if(sum_na(vals$OF43_1, vals$OF43_2, vals$OF43_3, vals$OF43_4, vals$OF43_5) == 0){
       NA_real_
     } else {
-      wt_max(indicator_data, "OF43", "fun")
+      wt_max(indicator_data, "OF43")
     }
 
   amphrare11 <- ifelse(vals$F58_8 == 1, 1, NA_real_)

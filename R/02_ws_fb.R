@@ -1,6 +1,6 @@
 ws_fun <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "ws")
+  indicator_data <- get_indicator_data(site, "ws", "fun")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
@@ -12,28 +12,28 @@ ws_fun <- function(site) {
     vals$OF6_1
   }
 
-  flodist1 <- wt_max(indicator_data, "OF10", "fun")
+  flodist1 <- wt_max(indicator_data, "OF10")
 
-  wetpctrca1 <- wt_max(indicator_data, "OF11", "fun")
+  wetpctrca1 <- wt_max(indicator_data, "OF11")
 
   growdays1 <- degree_days_index(vals)
 
   gcover1 <- ground_cover(vals, indicator_data)
 
-  soiltex1 <- wt_max(indicator_data, "F17", "fun")
+  soiltex1 <- wt_max(indicator_data, "F17")
 
-  girreg1 <- wt_max(indicator_data, "F18", "fun")
+  girreg1 <- wt_max(indicator_data, "F18")
 
   seaspct1 <- if (vals$NeverWater == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F20", "fun")
+    wt_max(indicator_data, "F20")
   }
 
   permwpct1 <- if (vals$NeverWater == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F21", "fun")
+    wt_max(indicator_data, "F21")
   }
 
   fluctu1 <- surface_water_fluctuation(vals, indicator_data)
@@ -43,13 +43,13 @@ ws_fun <- function(site) {
   owareawet1 <- if (any(unlist(vals[c("NeverWater", "NoPersis", "NoPond")]) == 1)) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F29", "fun")
+    wt_max(indicator_data, "F29")
   }
 
   outdura1 <- if (vals$F40_4 + vals$F40_5 > 0) {
     outmap1
   } else {
-    wt_max(indicator_data, "F40", "fun")
+    wt_max(indicator_data, "F40")
   }
 
   constric1 <- outflow_confinement_1(vals, indicator_data)
@@ -58,7 +58,7 @@ ws_fun <- function(site) {
 
   gradient1 <- internal_gradient(vals, indicator_data)
 
-  groundw1 <- wt_max(indicator_data, "F47", "fun")
+  groundw1 <- wt_max(indicator_data, "F47")
 
   #######################################################
   ## Overall WS Function  score
@@ -99,36 +99,36 @@ ws_fun <- function(site) {
 
 ws_ben <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "ws")
+  indicator_data <- get_indicator_data(site, "ws", "ben")
   vals <- get_vals(indicator_data)
 
 
   elev1v <- vals$OF5_1
 
-  aspect1 <- wt_max(indicator_data, "OF7", "ben")
+  aspect1 <- wt_max(indicator_data, "OF7")
 
   floodprop1v <- if ((vals$NoOutlet + vals$NoOutletX) > 0) {
     NA_real_
   } else {
-    wt_max(indicator_data, "OF9", "ben")
+    wt_max(indicator_data, "OF9")
   }
 
-  impervca1 <- unveg_surface(vals, indicator_data, "ben")
+  impervca1 <- unveg_surface(vals, indicator_data)
 
   dryness1 <- local_moisture_deficit(vals)
 
-  rddens1 <- wt_max(indicator_data, "OF30", "ben")
+  rddens1 <- wt_max(indicator_data, "OF30")
 
   disturb1 <- if (vals$NoCA == 1) {
    NA_real_
   } else {
-    wt_max(indicator_data, "OF41", "ben")
+    wt_max(indicator_data, "OF41")
   }
 
   rddenswau1 <- if (vals$NoCA == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "OF42", "ben")
+    wt_max(indicator_data, "OF42")
   }
 
   #######################################################

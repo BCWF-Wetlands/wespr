@@ -1,6 +1,6 @@
 sr_fun <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "sr")
+  indicator_data <- get_indicator_data(site, "sr", "fun")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
@@ -10,17 +10,17 @@ sr_fun <- function(site) {
     vals$OF6_1
   }
 
-  wetpctrca3 <- wt_max(indicator_data, "OF11", "fun")
+  wetpctrca3 <- wt_max(indicator_data, "OF11")
 
   flodist3 <- internal_flow_distance(vals, indicator_data)
 
   degreed3 <- degree_days_index(vals)
 
-  sedge3 <- wt_max(indicator_data, "F12", "fun")
+  sedge3 <- wt_max(indicator_data, "F12")
 
   gcover3 <- ground_cover(vals, indicator_data)
 
-  girreg3 <- wt_max(indicator_data, "F18", "fun")
+  girreg3 <- wt_max(indicator_data, "F18")
 
   seaspct3 <- percent_flooded_only_seasonally(vals, indicator_data)
 
@@ -29,7 +29,7 @@ sr_fun <- function(site) {
   depthdom3 <- if (vals$NeverWater == 1 || vals$NoPersis == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F26", "fun")
+    wt_max(indicator_data, "F26")
   }
 
   ponded3 <- ponded_water(vals, indicator_data)
@@ -40,7 +40,7 @@ sr_fun <- function(site) {
                    vals$NoOW == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F33", "fun")
+    wt_max(indicator_data, "F33")
   }
 
   interspers3 <- if (vals$NeverWater == 1 ||
@@ -49,7 +49,7 @@ sr_fun <- function(site) {
                      vals$NoOW == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F35", "fun")
+    wt_max(indicator_data, "F35")
   }
 
   emarea3 <- inundated_erect_veg(vals, indicator_data)
@@ -57,7 +57,7 @@ sr_fun <- function(site) {
   outdura3 <- if (vals$F40_4 + vals$F40_5 > 0) {
     outmap3
   } else {
-    wt_max(indicator_data, "F40", "fun")
+    wt_max(indicator_data, "F40")
   }
 
   constric3 <- outflow_confinement(vals, indicator_data)
@@ -114,17 +114,17 @@ sr_fun <- function(site) {
 
 sr_ben <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "sr")
+  indicator_data <- get_indicator_data(site, "sr", "ben")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
   elev3v <- vals$OF5_1
 
-  glacier3v <- wt_max(indicator_data, "OF8", "ben")
+  glacier3v <- wt_max(indicator_data, "OF8")
 
-  wetpctrca3v <- wt_max(indicator_data, "OF11", "ben")
+  wetpctrca3v <- wt_max(indicator_data, "OF11")
 
-  impervrca3v <- unveg_surface(vals, indicator_data, "ben")
+  impervrca3v <- unveg_surface(vals, indicator_data)
 
   burn3v <- vals$OF15_1
 
@@ -132,21 +132,21 @@ sr_ben <- function(site) {
 
   topopos3v <- vals$OF29_1 / 5
 
-  rddens3v <- wt_max(indicator_data, "OF30", "ben")
+  rddens3v <- wt_max(indicator_data, "OF30")
 
   disturb3v <- if (vals$NoCA == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "OF41", "ben")
+    wt_max(indicator_data, "OF41")
   }
 
   rddenswau3v <- if (vals$NoCA == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "OF42", "ben")
+    wt_max(indicator_data, "OF42")
   }
 
-  alldry3 <- wt_max(indicator_data, "F19", "ben")
+  alldry3 <- wt_max(indicator_data, "F19")
 
   colour3 <- if (vals$F39_3 == 1) {
     1
@@ -160,13 +160,13 @@ sr_ben <- function(site) {
     vals$F42_1
   }
 
-  perimpctper3v <- vegetation_buffer_along_permin(vals, indicator_data, "ben")
+  perimpctper3v <- vegetation_buffer_along_permin(vals, indicator_data)
 
-  buffcovtyp3v <- type_of_cover_buff(vals, indicator_data, "ben")
+  buffcovtyp3v <- type_of_cover_buff(vals, indicator_data)
 
-  buffslope3v <- buffer_slope(vals, indicator_data, "ben")
+  buffslope3v <- buffer_slope(vals, indicator_data)
 
-  fire3 <- wt_max(indicator_data, "F55", "ben")
+  fire3 <- wt_max(indicator_data, "F55")
 
   sedin2 <- vals$S4_subscore
 

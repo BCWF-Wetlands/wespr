@@ -1,6 +1,6 @@
 sfts_fun <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "sfts")
+  indicator_data <- get_indicator_data(site, "sfts", "fun")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
@@ -16,7 +16,7 @@ sfts_fun <- function(site) {
   outdura2 <- if ((vals$F40_4 + vals$F40_5) > 0) {
     outmap2
   } else {
-    wt_max(indicator_data, "F40", "fun")
+    wt_max(indicator_data, "F40")
   }
 
 
@@ -36,38 +36,38 @@ sfts_fun <- function(site) {
       vals$OF39_1
     }
 
-  woodypct2 <- wt_max(indicator_data, "F1", "fun")
+  woodypct2 <- wt_max(indicator_data, "F1")
 
-  moss2 <- wt_max(indicator_data, "F10", "fun")
+  moss2 <- wt_max(indicator_data, "F10")
 
   gcover2 <- if(vals$F15_4 == 1){
     NA_real_
   } else {
-    wt_max(indicator_data, "F15", "fun")
+    wt_max(indicator_data, "F15")
   }
 
-  soiltex2 <- wt_max(indicator_data, "F17", "fun")
+  soiltex2 <- wt_max(indicator_data, "F17")
 
-  alldry2 <- wt_max(indicator_data, "F19", "fun")
+  alldry2 <- wt_max(indicator_data, "F19")
 
 
   # missing F23 values in STFR
   woodydryshade2 <- if(vals$NeverWater == 1 || vals$NoPersis == 1) {
       NA_real_
     } else {
-      wt_max(indicator_data, "F23", "fun")
+      wt_max(indicator_data, "F23")
     }
 
   depthdom2 <- if(vals$NeverWater == 1 || vals$NoPersis == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F26", "fun")
+    wt_max(indicator_data, "F26")
   }
 
   ponded2 <- if(vals$NeverWater == 1 || vals$NoPersis == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F27", "fun")
+    wt_max(indicator_data, "F27")
   }
 
   openw2 <- open_water_extent(vals, indicator_data)
@@ -77,7 +77,7 @@ sfts_fun <- function(site) {
                 vals$NoPersis == 1 ) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F33", "fun")
+    wt_max(indicator_data, "F33")
   }
 
   # check these are NA and not blanks
@@ -92,7 +92,7 @@ sfts_fun <- function(site) {
 
 
 
-  groundw2 <- wt_max(indicator_data, "F47", "fun")
+  groundw2 <- wt_max(indicator_data, "F47")
 
 
   # subscore calcs for fun
@@ -120,22 +120,22 @@ sfts_fun <- function(site) {
 
 sfts_ben<- function(site) {
 
-  indicator_data <- get_indicator_data(site, "sfts")
+  indicator_data <- get_indicator_data(site, "sfts", "ben")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
   elev2v <- vals$OF5_1
 
-  aspect2v <- wt_max(indicator_data, "OF7", "ben")
+  aspect2v <- wt_max(indicator_data, "OF7")
 
-  glacier2v <- wt_max(indicator_data, "OF8", "ben")
+  glacier2v <- wt_max(indicator_data, "OF8")
 
-  wetpctrca2v <- wt_max(indicator_data, "OF11", "ben")
+  wetpctrca2v <- wt_max(indicator_data, "OF11")
 
   impervrca2v <- if(vals$NoCA == 1){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF11", "ben")
+    wt_max(indicator_data, "OF11")
     }
 
   wetdef2 <- local_moisture_deficit(vals)
@@ -148,7 +148,7 @@ sfts_ben<- function(site) {
                   vals$NoCA == 1){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF30", "ben")
+    wt_max(indicator_data, "OF30")
   }
 
 
@@ -156,7 +156,7 @@ sfts_ben<- function(site) {
                   vals$NoCA == 1){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF41", "ben")
+    wt_max(indicator_data, "OF41")
   }
 
 
@@ -164,10 +164,10 @@ sfts_ben<- function(site) {
                     vals$NoCA == 1){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF42", "ben")
+    wt_max(indicator_data, "OF42")
   }
 
-  perminpctper2v <- vegetation_buffer_along_permin(vals, indicator_data, "ben")
+  perminpctper2v <- vegetation_buffer_along_permin(vals, indicator_data)
 
   flowalt2 <- vals$S1_subscore
 
