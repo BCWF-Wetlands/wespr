@@ -1,9 +1,8 @@
-cs_fun <- function(site) {
+cp_fun <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "cs")
+  indicator_data <- get_indicator_data(site, "cp")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
-
 
   burn6 = 1 - vals$OF15_1
 
@@ -50,11 +49,11 @@ cs_fun <- function(site) {
 
   soildisturb6 <- vals$S5_subscore
 
-  ## Overall CS score
+  ## Overall CP score
 
-  cs_fun_score <- 10 * (5 * max_na(c(soiltex6, moss6, acidic6)) +
+  cp_fun_score <- 10 * (5 * max_na(c(soiltex6, moss6, acidic6)) +
           2 * outdura6 + woodypct6 +
           mean_na(c(treetyp6, fire6, burn6, gcover6, constric6, wetdef6, soildisturb6))) / 9
 
-  cs_fun_score
+  cp_fun_score
 }

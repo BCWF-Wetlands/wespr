@@ -240,7 +240,7 @@ site
 #>   * PR:  
 #>     - fun: 1 
 #>     - ben: 14.24 
-#>   * CS:  
+#>   * CP:  
 #>     - fun: 8.72 
 #>   * FR:  
 #>     - fun: 2.23 
@@ -301,7 +301,7 @@ ind_scores
 #>  1 site_1 WS        10      5.89
 #>  2 site_1 SR         4.12   4.14
 #>  3 site_1 PR         1     14.2 
-#>  4 site_1 CS         8.72  NA   
+#>  4 site_1 CP         8.72  NA   
 #>  5 site_1 FR         2.23   8.06
 #>  6 site_1 SENS       7.30  NA   
 #>  7 site_1 STR        7.96  NA   
@@ -437,8 +437,8 @@ site$indicators
 #> [1] 14.24296
 #> 
 #> 
-#> $cs
-#> $cs$fun
+#> $cp
+#> $cp$fun
 #> [1] 8.715292
 #> 
 #> 

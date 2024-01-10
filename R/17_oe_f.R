@@ -48,12 +48,12 @@ oe_fun <- function(site) {
 
   appscore7 <- site$indicators$app$fun
 
-  csscore7 <- site$indicators$cs$fun
+  cpscore7 <- site$indicators$cp$fun
 
 
   # subscores
 
-  histaccum7 <- csscore7
+  histaccum7 <- cpscore7
   productiv7 <- appscore7
 
   exportpot7 <- ifelse((vals$NoOutlet + vals$NoOutletX) > 0, 0,
