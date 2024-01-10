@@ -199,9 +199,9 @@ ground_cover <- function(vals, indicator_data) {
 #F20
 percent_flooded_only_seasonally <- function(vals, indicator_data) {
   if (vals$NeverWater == 1) {
-  NA_real_
-} else {
-  wt_max(indicator_data, "F20", "fun")
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F20", "fun")
   }
 }
 

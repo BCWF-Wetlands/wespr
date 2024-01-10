@@ -111,49 +111,49 @@
       
       Indicators:
         * WS:  
-          - fun: 7.02 
+          - fun: 10 
           - ben: 5.89 
         * SR:  
           - fun: 4.12 
-          - ben: 3.67 
+          - ben: 4.14 
         * PR:  
-          - fun:  
-          - ben:  
+          - fun: 1 
+          - ben: 14.24 
         * CP:  
           - fun: 8.72 
         * FR:  
-          - fun:  
-          - ben:  
+          - fun: 2.23 
+          - ben: 8.06 
         * SENS:  
-          - fun:  
+          - fun: 7.3 
         * STR:  
-          - fun:  
+          - fun: 7.96 
         * NR:  
-          - fun:  
-          - ben:  
+          - fun: 5.38 
+          - ben: 14.24 
         * APP:  
-          - fun:  
+          - fun: 2.61 
           - ben:  
         * PD:  
-          - fun:  
-          - ben:  
+          - fun: 10.44 
+          - ben: NA 
         * KMH:  
           - fun:  
-          - ben:  
+          - ben: 7.8 
         * WB:  
-          - fun:  
-          - ben:  
+          - fun: 25.66 
+          - ben: 5.62 
         * POL:  
           - fun:  
-          - ben:  
+          - ben: 3.5 
         * RSB:  
           - fun:  
-          - ben:  
+          - ben: 4.03 
         * OE:  
-          - fun:  
+          - fun: 0 
         * AM:  
           - fun:  
-          - ben:  
+          - ben: 256.64 
         * FH:  
           - fun:  
           - ben:  

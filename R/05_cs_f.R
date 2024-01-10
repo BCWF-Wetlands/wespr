@@ -4,7 +4,6 @@ cp_fun <- function(site) {
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-
   burn6 = 1 - vals$OF15_1
 
   wetdef6 <- 1 - local_moisture_deficit(vals)

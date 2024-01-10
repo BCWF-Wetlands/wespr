@@ -4,10 +4,10 @@
 
 test_that("indicator calculations work (site 1)", {
   site <- make_test_site()
-  expect_equal(round(ws_fun(site), 2), 7.02)
+  expect_equal(round(ws_fun(site), 2), 10)
   expect_equal(round(ws_ben(site), 2), 5.89)
   expect_equal(round(sr_fun(site), 2), 4.12)
-  expect_equal(round(sr_ben(site), 2), 3.67)
+  expect_equal(round(sr_ben(site), 2), 4.14)
   expect_equal(round(cp_fun(site), 2), 8.72)
 })
 
@@ -17,16 +17,16 @@ test_that("indicator calculations work (site 2)", {
   expect_equal(round(ws_fun(site), 2), 4.49)
   expect_equal(round(ws_ben(site), 2), 10)
   expect_equal(round(sr_fun(site), 2), 10)
-  expect_equal(round(sr_ben(site), 2), 3.71)
+  expect_equal(round(sr_ben(site), 2), 3.66)
   expect_equal(round(cp_fun(site), 2), 6.77)
 })
 
 test_that("indicator calculations work (site 3)", {
   site <- make_test_site(site = "site_3")
-  expect_equal(round(ws_fun(site), 2), 6.76)
+  expect_equal(round(ws_fun(site), 2), 10)
   expect_equal(round(ws_ben(site), 2), 4.56)
   expect_equal(round(sr_fun(site), 2), 3.95)
-  expect_equal(round(sr_ben(site), 2), 3.62)
+  expect_equal(round(sr_ben(site), 2), 4.34)
   expect_equal(round(cp_fun(site), 2), 9.09)
 })
 

@@ -169,7 +169,7 @@ am_ben <- function(site) {
   fscorewbf11v <- site$indicators$wb$fun
 
   am_ben_score <- 10 * (max_na(c(amphrare11, raream11v, fscorewbf11v,
-                               mean_na(c(distpond9v, water2k11v, wetdenswau11)))))
+                               mean_na(c(distpond9v, water2k11v, wetdenswau11v)))))
 
   am_ben_score
 }

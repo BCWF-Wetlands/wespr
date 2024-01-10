@@ -156,7 +156,7 @@ rsb_ben <- function(site) {
 
   rarebird14v <- ifelse(vals$F58_10 == 1, 1, NA_real_)
 
-  rsb_ben_score <- 10 * case_when(
+  rsb_ben_score <- 10 * dplyr::case_when(
     rarebird14v == 1 ~ 1,
     rarespp14v == 1 ~ 1,
     TRUE ~  mean_na(c(lakewetpct14v, lcovuniq14v, lcrich14v, lcrich2k14v, recrea14v))

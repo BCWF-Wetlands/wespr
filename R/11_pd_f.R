@@ -110,7 +110,7 @@ pd_fun <- function(site){
 
   firehist15 <- wt_max(indicator_data, "F55", "fun")
 
-  rareplant15 <- if_else(vals$F58_7 == 1, 1, NA_real_)
+  rareplant15 <- ifelse(vals$F58_7 == 1, 1, NA_real_)
 
    plantrich15 <- if(sum(vals$F59_1, vals$F59_2, vals$F59_3, vals$F59_4, vals$F59_5)  == 0){
     NA_real_

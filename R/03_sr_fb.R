@@ -134,7 +134,7 @@ sr_ben <- function(site) {
 
   rddens3v <- wt_max(indicator_data, "OF30", "ben")
 
-  disturb3v <- if(vals$NoCA == 1) {
+  disturb3v <- if (vals$NoCA == 1) {
     NA_real_
   } else {
     wt_max(indicator_data, "OF41", "ben")
