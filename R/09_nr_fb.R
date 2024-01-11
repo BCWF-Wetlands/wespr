@@ -87,7 +87,7 @@ nr_fun <- function(site) {
   redox <- mean_na(seaspct5, acid5, mean_na(fluctu5, permw5, drypct5))
 
   nr_subscore_fun <- 10 * (ifelse(outmap5 == 0, 1,
-                                  ifelse(vals$NeverWater == 1, mean_na(warmth4, organic3),
+                                  ifelse(vals$NeverWater == 1, mean_na(warmth4, organic4),
                  (3 * redox + 2 * connec5 + warmth4 + organic4 + intercept4) / 8)
                                          ))
 

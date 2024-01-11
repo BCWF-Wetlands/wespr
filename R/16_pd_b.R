@@ -42,7 +42,7 @@ pd_ben <- function(site) {
 
   pd_ben_score <-  10 * ifelse(max_na(c(rareplant15v, rarespp15v)) == 1, 1,
                         (mean_na(c(berry15v, plantcollect15)) +
-                           mean_na(c(sbmscore15vm, pollscore15)) +
+                           mean_na(c(sbmscore15v, pollscore15)) +
                            mean_na(c(lcovuniq15v, lcovrich15v, lcrich2k15v, pctprotected15v)))/3)
 
 

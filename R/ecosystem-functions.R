@@ -24,7 +24,7 @@ get_indicator_data <- function(site, ind, type = c("fun", "ben")) {
 
   weights <- dplyr::filter(
     indicator_weightings,
-    type_f_b == type,
+    .data$type_f_b == type,
     tolower(.data$indicator) == tolower({{ind}})
   )
 

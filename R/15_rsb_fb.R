@@ -96,7 +96,7 @@ rsb_fun <- function(site) {
 
   # RSB subscores :
   hydrosize <- mean_na(c(permw14, drypct14, widthwet14, fetch14))
-  stru14 <- mean_na(c(woodhtmix14, woodyrich14, shrubrich14, ndiams14))
+  struc14 <- mean_na(c(woodhtmix14, woodyrich14, shrubrich14, ndiams14))
   foods14 <- mean_na(max_na(c(pdscore14, appscore14)),
                      max_na(c(berries14, willow14, forbcov14, anadfish14, shrubflower14)),
                      mean_na(c(berries14, willow14, forbcov14, anadfish14, shrubflower14)))

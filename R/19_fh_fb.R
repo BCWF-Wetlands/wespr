@@ -66,7 +66,7 @@ fh_fun <- function(site) {
 
   acid10 <- ifelse(is.na(pH)  & vals$F45_2 == 1, 0.3,
                    ifelse(is.na(pH)  & vals$F45_3 == 1, 0.7,
-                          ifelse(is.na(pH) , NA_real,
+                          ifelse(is.na(pH) , NA_real_,
                                  ifelse(pH >= 7.5 & pH <= 9, 1,
                                         ifelse(pH < 5 | pH > 9, 0, 0.5)))))
 
@@ -117,7 +117,7 @@ fh_fun <- function(site) {
     mean_na(outmap9, pondsize9)
   }
 
-  nostress10 <- mean_na(alttiming10, contam10, sedrca10, acid10, rdens10, rdenswau11, bufferpct10)
+  nostress10 <- mean_na(alttiming10, contam10, sedrca10, acid10, rddens10, rddenswau10, bufferpct10)
 
 
   # function score

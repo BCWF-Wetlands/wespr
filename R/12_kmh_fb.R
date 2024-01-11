@@ -167,7 +167,7 @@ kmh_fun <- function(site) {
   #https://github.com/BCWF-Wetlands/wespr/issues/50
   beaverhab <- ifelse(vals$F20_2 == 1, 0,
                    max_na(c(vals$Beaver , (2 * mean_na(c(beavers19, decid19, decidon19, permwat12 )) +
-                                  mean_NA(c( water2k19, willow19,  aqplants19, denscov19, bufferpct19))) / 3)))
+                                  mean_na(c( water2k19, willow19,  aqplants19, denscov19, bufferpct19))) / 3)))
 
   # Needs attention
   #https://github.com/BCWF-Wetlands/wespr/issues/50
@@ -176,7 +176,7 @@ kmh_fun <- function(site) {
   muskrathab <- ifelse(vals$F20_2 == 1, 0,
                    ifelse(vals$HiFlucW == 1, 0,
                           max_na(c(vals$Muskrat, (mean_na(c(permwat12, lake19, depthdom19, deeppond19a, fluc19)) +
-                                          herbcov19 + mean_nac(aqplants19, emerg19, growdays19, fire19, appscore19))) / 3)))
+                                          herbcov19 + mean_na(aqplants19, emerg19, growdays19, fire19, appscore19))) / 3)))
 
 
   moosehab <- ifelse(vals$AllPermW == 1, 0,
