@@ -4,21 +4,12 @@ sfts_fun <- function(site) {
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-
-  # TO DO : these two functions rely on each other, needs a if else statement to check one before the othe is run
-  outmap2 <- if (vals$NoOutlet + vals$NoOutletX == 0) {
-      vals$OF6_1
-    } else {
-      outdura2
-    }
-
-  # TO DO : these two functions rely on each other, needs a if else statement to check one before the othe is run
-  outdura2 <- if ((vals$F40_4 + vals$F40_5) > 0) {
-    outmap2
+  # Similar to FH and POL, somewhat circular reference.
+  if (vals$NoOutlet + vals$NoOutletX == 0) {
+    outmap2 <- outdura2 <- wt_max(indicator_data, "F40")
   } else {
-    wt_max(indicator_data, "F40")
+    outdura2 <- outmap2 <- vals$OF6_1
   }
-
 
   faults2 <- ifelse(vals$OF17_1 == 0 , NA_real_, 1)
 
@@ -174,9 +165,15 @@ sfts_ben<- function(site) {
 
   fishscore2v <- site$indicators$fh$fun
 
+  # Similar to FH and POL, somewhat circular reference
+  if (vals$NoOutlet + vals$NoOutletX == 0) {
+    outmap2 <- outdura2 <- wt_max(indicator_data, "F40")
+  } else {
+    outdura2 <- outmap2 <- vals$OF6_1
+  }
 
-  # TO DO = check the outpmap in this calculation
-  sfts_ben_score <- 10 * (max_na(c(outmap2, outdura)) *
+  # TODO = check the outpmap in this calculation
+  sfts_ben_score <- 10 * (max_na(c(outmap2, outdura2)) *
                             3 * fishscore2v +
                             mean_na(c(elev2v, wetpctrca2v)) +
                             mean_na(c(wetdef2, gdd2v, solar2v, glacier2v, aspect2v)) +
