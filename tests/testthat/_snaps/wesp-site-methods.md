@@ -144,7 +144,7 @@
           - fun: 25.66 
           - ben: 5 
         * POL:  
-          - fun:  
+          - fun: 54.2 
           - ben: 3.5 
         * RSB:  
           - fun:  

@@ -84,8 +84,8 @@ pol_fun <- function(site) {
 
   stress16 <- mean_na(c(toxic16, perimpctper16, imperv16, intact16))
 
-
-  pol_fun_score <- 10 * (ifelse(vals$AllPermW == 1, 0, (3* pollen + 2* nestsites + stress16/6)))
+  # TODO: verify score formula: https://github.com/BCWF-Wetlands/wespr/issues/76
+  pol_fun_score <- 10 * (ifelse(vals$AllPermW == 1, 0, (3* pollen + 2* nestsites + stress16)/6))
 
 
   pol_fun_score

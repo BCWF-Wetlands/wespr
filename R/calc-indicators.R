@@ -29,7 +29,7 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "kmh", "ben")
   site <- update_site_indicator(site, "wb", "fun")
   site <- update_site_indicator(site, "wb", "ben")
-  #site <- update_site_indicator(site, "pol", "fun") # fix circular arguments
+  site <- update_site_indicator(site, "pol", "fun")
   site <- update_site_indicator(site, "pol", "ben")
   #site <- update_site_indicator(site, "rsb", "fun") # F2 weighting issues remains
   site <- update_site_indicator(site, "rsb", "ben")
