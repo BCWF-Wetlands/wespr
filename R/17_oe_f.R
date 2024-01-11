@@ -46,9 +46,9 @@ oe_fun <- function(site) {
 
   groundw7 <-  wt_max(indicator_data, "F47", "fun")
 
-  appscore7 <- site$indicators$app$fun
+  appscore7 <- get_indicator_score(site, "app", "fun")
 
-  cpscore7 <- site$indicators$cp$fun
+  cpscore7 <- get_indicator_score(site, "cp", "fun")
 
 
   # subscores

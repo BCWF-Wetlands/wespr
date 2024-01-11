@@ -98,7 +98,7 @@ fh_fun <- function(site) {
   contam10 <- vals$S3_subscore
   sedrca10 <- vals$S4_subscore
 
-  appscore9 <- site$indicators$app$fun
+  appscore9 <- get_indicator_score(site, "app", "fun")
 
     # function subscores
   hydro10 <- mean_na(drypct9, permwpct10, depthdom10, lake9, pondsize9, openw9)
@@ -161,7 +161,7 @@ fh_ben <- function(site) {
 
   fishing10v <- vals$F56_5
 
-  fscorewbf10v <- site$indicators$wb$fun
+  fscorewbf10v <- get_indicator_score(site, "wb", "fun")
 
   # benefit subscore:
 

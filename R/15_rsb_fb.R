@@ -89,9 +89,9 @@ rsb_fun <- function(site) {
 
   noise14 <- ifelse(is.na(vals$S6_subscore), NA_real_, 1 - vals$S6_subscore)
 
-  appscore14 <- site$indicators$app$fun
+  appscore14 <- get_indicator_score(site, "app", "fun")
 
-  pdscore14 <-site$indicators$pd$fun
+  pdscore14 <-get_indicator_score(site, "pd", "fun")
 
 
   # RSB subscores :

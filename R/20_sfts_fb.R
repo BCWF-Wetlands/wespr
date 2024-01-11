@@ -172,7 +172,7 @@ sfts_ben<- function(site) {
   flowalt2 <- vals$S1_subscore
 
 
-  fishscore2v <- site$indicators$fh$fun
+  fishscore2v <- get_indicator_score(site, "fh", "fun")
 
 
   # TO DO = check the outpmap in this calculation

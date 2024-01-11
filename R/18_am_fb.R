@@ -118,7 +118,7 @@ am_fun <- function(site) {
 
   sedca11 <- vals$S4_subscore
 
-  appscore10 <- site$indicators$app$fun
+  appscore10 <- get_indicator_score(site, "app", "fun")
 
   # function subscores
 
@@ -166,7 +166,7 @@ am_ben <- function(site) {
 
   amphrare11 <- ifelse(vals$F58_8 == 1, 1, NA_real_)
 
-  fscorewbf11v <- site$indicators$wb$fun
+  fscorewbf11v <- get_indicator_score(site, "wb", "fun")
 
   am_ben_score <- 10 * (max_na(c(amphrare11, raream11v, fscorewbf11v,
                                mean_na(c(distpond9v, water2k11v, wetdenswau11v)))))

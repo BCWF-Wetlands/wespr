@@ -77,7 +77,7 @@ pol_fun <- function(site) {
 
  toxic16 <- vals$S3_subscore
 
- pdscore16 <- site$indicators$pd$fun
+ pdscore16 <- get_indicator_score(site, "pd", "fun")
 
 
   # pol subscores

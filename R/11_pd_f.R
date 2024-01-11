@@ -124,7 +124,7 @@ pd_fun <- function(site){
 
    soildisturb15a <- vals$S5_subscore
 
-   appscore15 <- site$indicators$app$fun
+   appscore15 <- get_indicator_score(site, "app", "fun")
 
    # function subscores
 

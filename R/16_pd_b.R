@@ -36,9 +36,9 @@ pd_ben <- function(site) {
   rareplant15v <- ifelse(vals$F58_7 == 1, 1, NA_real_)
 
 
-  pollscore15 <- site$indicators$pol$fun / 10
+  pollscore15 <- get_indicator_score(site, "pol", "fun") / 10
 
-  sbmscore15v <- site$indicators$rsb$fun / 10
+  sbmscore15v <- get_indicator_score(site, "rsb", "fun") / 10
 
   pd_ben_score <-  10 * ifelse(max_na(c(rareplant15v, rarespp15v)) == 1, 1,
                         (mean_na(c(berry15v, plantcollect15)) +
