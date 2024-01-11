@@ -142,7 +142,7 @@
           - ben: 7.8 
         * WB:  
           - fun: 25.66 
-          - ben: 5.62 
+          - ben: 5 
         * POL:  
           - fun:  
           - ben: 3.5 
