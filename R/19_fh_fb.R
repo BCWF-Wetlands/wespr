@@ -76,23 +76,15 @@ fh_fun <- function(site) {
 
   bufferpct10 <- vegetation_buffer_along_permin(vals, indicator_data)
 
-
-  # TO DO ; check the refernce for this alternate - lists G32 but this refers to F41 not F40?
-  # TO DO : these two functions rely on each other, needs a if else statement to check one before the othe is run
-  outmap9 <- if (vals$NoOutlet + vals$NoOutletX == 0) {
-    vals$OF6_1
+  # It took a bit to figure out the circular logic here, but it turns out
+  # outmap9 and outdura10 will always get the same value, based on whether
+  # or not the sum of NoOutlet + NoOutletX (which are also the values of
+  # F40_5 and F40_4) is greater than zero
+  if (vals$NoOutlet + vals$NoOutletX == 0) {
+    outmap9 <- outdura10 <- wt_max(indicator_data, "F40")
   } else {
-    outdura10
+    outdura10 <- outmap9 <- vals$OF6_1
   }
-
-  # TO DO : these two functions rely on each other, needs a if else statement to check one before the othe is run
-  outdura10 <- if ((vals$F40_4 + vals$F40_5) > 0) {
-    outmap9
-  } else {
-    wt_max(indicator_data, "F40")
-  }
-
-
 
   alttiming10 <- vals$S1_subscore
   contam10 <- vals$S3_subscore
