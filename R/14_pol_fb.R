@@ -44,27 +44,22 @@ pol_fun <- function(site) {
   forb16 <- wt_max(indicator_data, "F11")
 
   gcover16 <- if(vals$F15_4 == 1){
-      NA_real_
-    } else {
-      wt_max(indicator_data, "F15")
-}
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F15")
+  }
 
   girreg16 <- wt_max(indicator_data, "F18")
 
   permwpct16 <- wt_max(indicator_data, "F21")
 
-   # TO DO - note these two values outlet16 and outmap16 rely on each other - might need to add another if
-  # else statement to try and prevent circular refernce.
-
-  outlet16 <- if(vals$F40_4 + vals$F40_5 > 0) {
-    outmap16
-      }else { wt_max(indicator_data, "F40")
-    }
-
-  outmap16 <- if (vals$NoOutlet + vals$NoOutletX == 0) {
-    vals$OF6_1
+  # This appears to be the same logic as in FH. This fixes #53,
+  # as fixed for FH in
+  # https://github.com/BCWF-Wetlands/wespr/commit/16dcc6e4c27342d925c1134c4c34f794e81b2feb
+  if (vals$NoOutlet + vals$NoOutletX == 0) {
+    outmap16 <- outlet16 <- wt_max(indicator_data, "F40")
   } else {
-    outlet16
+    outlet16 <- outmap16 <- vals$OF6_1
   }
 
  perimpctper16 <- if(vals$Disturb == 0 ){
