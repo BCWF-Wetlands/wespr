@@ -137,7 +137,7 @@ am_fun <- function(site) {
 
   biostress11 <- mean_na(c(fishacc11, sedca11, distrd11, fluctu11, rddens11, rddenswau11, imperv11, ddays11, acidic11))
 
-  am_fun_score <- 10 * mean_na(c(waterscape11, raream11, amrare11, mean_na(hydro11, biostress11, aqstruc11, terrstruc11)))
+  am_fun_score <- 10 * mean_na(c(waterscape11, max_na(c(raream11, amrare11)), mean_na(hydro11, biostress11, aqstruc11, terrstruc11)))
 
   am_fun_score
 
