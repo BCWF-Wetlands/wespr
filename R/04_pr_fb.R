@@ -2,7 +2,7 @@
 # function
 pr_fun <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "pr")
+  indicator_data <- get_indicator_data(site, "pr", "fun")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
@@ -12,9 +12,9 @@ pr_fun <- function(site) {
     vals$OF6_1
   }
 
-  aspect4 <- wt_max(indicator_data, "OF7", "fun")
+  aspect4 <- wt_max(indicator_data, "OF7")
 
-  wetpctrca4 <- wt_max(indicator_data, "OF11", "fun")
+  wetpctrca4 <- wt_max(indicator_data, "OF11")
 
   flodist4 <- internal_flow_distance(vals, indicator_data)
 
@@ -25,10 +25,10 @@ pr_fun <- function(site) {
   soiltex4 <- if(vals$F15_4 > 1) {
       NA_real_
     } else {
-      wt_max(indicator_data, "F15", "fun")
+      wt_max(indicator_data, "F15")
     }
 
-  girreg4 <- wt_max(indicator_data, "F18", "fun")
+  girreg4 <- wt_max(indicator_data, "F18")
 
   permw4 <- persist_water(vals,indicator_data)
 
@@ -41,13 +41,13 @@ pr_fun <- function(site) {
   widthwet4 <- if(any(unlist(vals[c("NeverWater", "NoPersis", "NoDeepPond", "NoOW")]) == 1)) {
       NA_real_
     } else {
-      wt_max(indicator_data, "F33", "fun")
+      wt_max(indicator_data, "F33")
     }
 
   interspers4 <- if(any(unlist(vals[c("NeverWater", "NoPersis", "NoDeepPond", "NoOW")]) == 1)) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F35", "fun")
+    wt_max(indicator_data, "F35")
   }
 
   eutroph4 <- if(vals$F38_2 + vals$F38_3 > 0){
@@ -59,7 +59,7 @@ pr_fun <- function(site) {
   outdura4 <- if(vals$F40_4 + vals$F40_5 > 0) {
     outmap4
   } else {
-    wt_max(indicator_data, "F40", "fun")
+    wt_max(indicator_data, "F40")
   }
 
   constric4 <- outflow_confinement_1(vals, indicator_data)
@@ -107,22 +107,22 @@ pr_fun <- function(site) {
 
 pr_ben <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "pr")
+  indicator_data <- get_indicator_data(site, "pr", "ben")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
   elev4v <- 1 - vals$OF5_1
 
-  wetpctca4v <- wt_max(indicator_data, "OF11", "ben")
+  wetpctca4v <- wt_max(indicator_data, "OF11")
 
-  impervsca4v <- unveg_surface(vals, indicator_data, "ben")
+  impervsca4v <- unveg_surface(vals, indicator_data)
 
   dryness4v <- local_moisture_deficit(vals)
 
   sindex4v <- if(sum_na(vals$OF28_1, vals$OF28_2,vals$OF28_3,vals$OF28_4,vals$OF28_5)==0){
      NA_real_
     } else {
-      wt_max(indicator_data, "OF28", "ben")
+      wt_max(indicator_data, "OF28")
   }
 
   topopos4v <- vals$OF29_1 / 5
@@ -130,17 +130,17 @@ pr_ben <- function(site) {
   rddens4v <-if(sum_na(vals$OF30_1, vals$OF30_2,vals$OF30_3)==0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF30", "ben")
+    wt_max(indicator_data, "OF30")
   }
 
   disturb4v <- if(sum_na(vals$OF41_1, vals$OF41_2,vals$OF41_3,vals$OF41_4,vals$OF41_5) ==0 ||
     vals$NoCA == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "OF41", "ben")
+    wt_max(indicator_data, "OF41")
   }
 
-  rddenswau4v <-  road_density_wau(vals, indicator_data, "ben")
+  rddenswau4v <-  road_density_wau(vals, indicator_data)
 
   inflow4v <- if (vals$NoOutlet + vals$NoOutletX > 0) {
     NA_real_
@@ -159,12 +159,12 @@ pr_ben <- function(site) {
                          ifelse(vals$F46b_1 > 350, 1, 0.5)))
 
 
-  perminpectper4v <- vegetation_buffer_along_permin(vals, indicator_data, "ben")
+  perminpectper4v <- vegetation_buffer_along_permin(vals, indicator_data)
 
 
-  imperv4v <- type_of_cover_buff(vals, indicator_data, "ben")
+  imperv4v <- type_of_cover_buff(vals, indicator_data)
 
-  slopebuff4v <- buffer_slope(vals, indicator_data, "ben")
+  slopebuff4v <- buffer_slope(vals, indicator_data)
 
   nutrload4v <- vals$S2_subscore
 

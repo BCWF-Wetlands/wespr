@@ -1,14 +1,14 @@
 
 cri_ben <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "cri")
+  indicator_data <- get_indicator_data(site, "cri", "ben")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
   ind_scores <- get_indicator_scores(site)
 
-  disttown17v <- wt_max(indicator_data, "OF1", "ben")
+  disttown17v <- wt_max(indicator_data, "OF1")
 
-  distrd17v <- wt_max(indicator_data, "OF2", "ben")
+  distrd17v <- wt_max(indicator_data, "OF2")
 
   consinvest17 <- vals$OF13_1
 
@@ -23,18 +23,18 @@ cri_ben <- function(site) {
 
   refuges <- vals$OF21_1
 
-  protect17 <- wt_max(indicator_data, "OF23", "ben")
+  protect17 <- wt_max(indicator_data, "OF23")
 
   rddens17 <-  if(sum_na(vals$OF30_1, vals$OF30_2, vals$OF30_3) == 0){
       NA_real_
     } else {
-      wt_max(indicator_data, "OF30", "ben")
+      wt_max(indicator_data, "OF30")
     }
 
   rddens2k17 <- if(sum_na(vals$OF31_1, vals$OF31_2, vals$OF31_3) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF31", "ben")
+    wt_max(indicator_data, "OF31")
   }
 
   fringe10 <- if(vals$NeverWater == 1 ||
@@ -56,12 +56,12 @@ cri_ben <- function(site) {
                 vals$NoPersis == 1){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF31", "ben")
+    wt_max(indicator_data, "OF31")
   }
 
   algae17 <- ifelse(vals$F56_1 == 0 , 0, NA_real_)
 
-  wells17v <- wt_max(indicator_data, "F54", "ben")
+  wells17v <- wt_max(indicator_data, "F54")
 
   recpoten17v <- sum_na(vals$F56_1, vals$F56_2, vals$F56_3 )/3
 

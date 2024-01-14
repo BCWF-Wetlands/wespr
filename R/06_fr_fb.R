@@ -1,19 +1,19 @@
 #
 fr_fun <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "fr")
+  indicator_data <- get_indicator_data(site, "fr", "fun")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
 
-  aspect7 <- wt_max(indicator_data, "OF7", "fun")
+  aspect7 <- wt_max(indicator_data, "OF7")
 
   burned7 <- vals$OF15_1
 
   conif7 <- if(sum(vals$OF39_1 , vals$OF39_2, vals$OF39_3 ,vals$OF39_4 , vals$OF39_5)== 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF39", "fun")
+    wt_max(indicator_data, "OF39")
   }
 
   woodycov7 <- ifelse(sum(vals$F1_1, vals$F1_2, vals$F1_3, vals$F1_4, vals$F1_5) < 2, 1,
@@ -30,12 +30,12 @@ fr_fun <- function(site) {
   gcov8 <- if(vals$F15_5 == 1){
       NA_real_
     } else {
-      wt_max(indicator_data, "F15", "fun")
+      wt_max(indicator_data, "F15")
     }
 
-  satpct7 <- wt_max(indicator_data, "F19", "fun")
+  satpct7 <- wt_max(indicator_data, "F19")
 
-  persispct7 <- wt_max(indicator_data, "F21", "fun")
+  persispct7 <- wt_max(indicator_data, "F21")
 
 
   # TO DO - reference to ALLSAT but not found in batch?
@@ -63,7 +63,7 @@ fr_fun <- function(site) {
                vals$NoDeepPonded == 0 ){
     NA_real_
   } else {
-    wt_max(indicator_data, "F31", "fun")
+    wt_max(indicator_data, "F31")
   }
 
 
@@ -73,10 +73,10 @@ fr_fun <- function(site) {
                 vals$NoOW == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F32", "fun")
+    wt_max(indicator_data, "F32")
   }
 
-  fire7 <-  wt_max(indicator_data, "F55", "fun")
+  fire7 <-  wt_max(indicator_data, "F55")
 
 
   fr_fun_score <- 10 * ((3 * mean_na(c(fringe7, lake7, persispct7, openw7, fetch7, satpct7)) +
@@ -90,11 +90,11 @@ fr_fun <- function(site) {
 
 fr_ben <- function(site){
 
-  indicator_data <- get_indicator_data(site, "fr")
+  indicator_data <- get_indicator_data(site, "fr", "ben")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-  disttown7v <-  wt_max(indicator_data, "OF1", "ben")
+  disttown7v <-  wt_max(indicator_data, "OF1")
 
   dryness7v <- local_moisture_deficit(vals)
 

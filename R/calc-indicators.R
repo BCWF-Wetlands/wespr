@@ -29,7 +29,7 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "kmh", "ben")
   site <- update_site_indicator(site, "wb", "fun")
   site <- update_site_indicator(site, "wb", "ben")
-  #site <- update_site_indicator(site, "pol", "fun") # fix circular arguments
+  site <- update_site_indicator(site, "pol", "fun")
   site <- update_site_indicator(site, "pol", "ben")
   #site <- update_site_indicator(site, "rsb", "fun") # F2 weighting issues remains
   site <- update_site_indicator(site, "rsb", "ben")
@@ -39,6 +39,7 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "am", "ben") # check calculation
   #site <- update_site_indicator(site, "fh", "fun") # requires more checks
   site <- update_site_indicator(site, "fh", "ben")
+  # site <- update_site_indicator(site, "app", "ben")
   #site <- update_site_indicator(site, "sfts", "fun")
   #site <- update_site_indicator(site, "sfts", "ben") # requires fh_fun()
   #site <- update_site_indicator(site, "ap", "ben") # draft started- neeeds work - requires fh_fun() , ah_fun(), wb_fun(), rsb_fun()

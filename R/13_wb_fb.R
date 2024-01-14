@@ -1,20 +1,20 @@
 
 wb_fun <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "wb")
+  indicator_data <- get_indicator_data(site, "wb", "fun")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
 
   distpond13 <- dist_to_ponded_water(vals, indicator_data)
 
-  distlake11 <- wt_max(indicator_data, "OF4", "fun")
+  distlake11 <- wt_max(indicator_data, "OF4")
 
   elev11 <- 1 - vals$OF5_1
 
-  pctlakes11 <- wt_max(indicator_data, "OF18", "fun")
+  pctlakes11 <- wt_max(indicator_data, "OF18")
 
-  lakewet11 <- wt_max(indicator_data, "OF19", "fun")
+  lakewet11 <- wt_max(indicator_data, "OF19")
 
   fish11 <- ifelse(vals$OF20_5 == 1, 0 , NA_real_)
 
@@ -25,18 +25,18 @@ wb_fun <- function(site) {
   herbscape13 <- if(sum_na (vals$OF40_1, vals$OF40_2, vals$OF40_3, vals$OF40_4, vals$OF40_5) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF40", "fun")
+    wt_max(indicator_data, "OF40")
   }
 
   wetdensWAU13 <-  if(sum_na (vals$OF43_1, vals$OF43_2, vals$OF43_3, vals$OF43_4, vals$OF43_5) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF43", "fun")
+    wt_max(indicator_data, "OF43")
   }
 
-  snags13 <- wt_max(indicator_data, "F8", "fun")
+  snags13 <- wt_max(indicator_data, "F8")
 
-  mudflat13 <- wt_max(indicator_data, "F16", "fun")
+  mudflat13 <- wt_max(indicator_data, "F16")
 
   permwpct13 <- persist_water(vals, indicator_data)
 
@@ -59,7 +59,7 @@ wb_fun <- function(site) {
   pondedpct13 <- if (vals$NeverWater == 1){
     NA_real_
   } else {
-    wt_max(indicator_data, "F27", "fun")
+    wt_max(indicator_data, "F27")
   }
 
   maxpondarea13 <- if((vals$NeverWater == 1) ||
@@ -67,7 +67,7 @@ wb_fun <- function(site) {
        vals$NoPersis == 1 ) {
       NA_real_
     } else {
-      wt_max(indicator_data, "F29", "fun")
+      wt_max(indicator_data, "F29")
     }
 
 
@@ -76,7 +76,7 @@ wb_fun <- function(site) {
                      vals$NoPersis == 1 ) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F30", "fun")
+    wt_max(indicator_data, "F30")
   }
 
 
@@ -94,7 +94,7 @@ wb_fun <- function(site) {
                      vals$NoPersis == 1 ) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F36", "fun")
+    wt_max(indicator_data, "F36")
   }
 
   cttail13 <- inundated_erect_veg(vals, indicator_data)
@@ -103,9 +103,9 @@ wb_fun <- function(site) {
 
   gradient13 <- internal_gradient(vals, indicator_data)
 
-  beaver13 <- wt_max(indicator_data, "F48", "fun")
+  beaver13 <- wt_max(indicator_data, "F48")
 
-  perimcov13 <- vegetation_buffer_along_permin(vals, indicator_data, "fun")
+  perimcov13 <- vegetation_buffer_along_permin(vals, indicator_data)
 
   rarebird11 <- ifelse(vals$F58_9 == 1, 1, NA_real_)
 
@@ -140,24 +140,26 @@ wb_fun <- function(site) {
 
 wb_ben <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "wb")
+  indicator_data <- get_indicator_data(site, "wb", "ben")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-  distpond11v <- wt_max(indicator_data, "OF3", "fun")
+  # TODO: Verify weighting of OF3_6 for WB. Currently just skipped
+  # https://github.com/BCWF-Wetlands/wespr/issues/74
+  distpond11v <- wt_max(indicator_data, "OF3")
 
-  distlake11v <- wt_max(indicator_data, "OF4", "fun")
+  distlake11v <- wt_max(indicator_data, "OF4")
 
-  lakepct11v <- wt_max(indicator_data, "OF18", "fun")
+  lakepct11v <- wt_max(indicator_data, "OF18")
 
-  lakewetpct11v <- wt_max(indicator_data, "OF19", "fun")
+  lakewetpct11v <- wt_max(indicator_data, "OF19")
 
   rarespp11v <- ifelse(vals$OF24_3 == 1, 1, NA_real_)
 
   wetdenswau12v <- if(sum_na (vals$OF43_1, vals$OF43_2, vals$OF43_3, vals$OF43_4, vals$OF43_5) == 0){
       NA_real_
     } else {
-      wt_max(indicator_data, "OF43", "ben")
+      wt_max(indicator_data, "OF43")
     }
 
   recrea13v <- sum_na(vals$F56_1, vals$F56_2, vals$F56_3 )/3

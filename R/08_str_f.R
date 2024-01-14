@@ -1,10 +1,10 @@
 str_fun <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "str")
+  indicator_data <- get_indicator_data(site, "str", "fun")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-  distRd20 <- wt_max(indicator_data, "OF2", "fun")
+  distRd20 <- wt_max(indicator_data, "OF2")
 
   impervRCA20 <- unveg_surface_1(vals, indicator_data)
 
@@ -12,32 +12,32 @@ str_fun <- function(site) {
 
   protected20 <- 1 - vals$OF22_1
 
-  rddens20 <- wt_max(indicator_data, "OF30", "fun")
+  rddens20 <- wt_max(indicator_data, "OF30")
 
-  rddens2k20 <-  wt_max(indicator_data, "OF31", "fun")
+  rddens2k20 <-  wt_max(indicator_data, "OF31")
 
-  intact20 <- 1 - (wt_max(indicator_data, "OF32", "fun"))
+  intact20 <- 1 - (wt_max(indicator_data, "OF32"))
 
   disturb20 <- if(vals$NoCA == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "OF41", "fun")
+    wt_max(indicator_data, "OF41")
   }
 
 
   rddenswau20 <- if(vals$NoCA == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "OF42", "fun")
+    wt_max(indicator_data, "OF42")
   }
 
   constric20 <- outflow_confinement(vals, indicator_data)
 
-  perimpctper20 <- vegetation_buffer_along_permin(vals, indicator_data, "fun")
+  perimpctper20 <- vegetation_buffer_along_permin(vals, indicator_data)
 
-  imperv20 <- type_of_cover_buff(vals, indicator_data, "fun")
+  imperv20 <- type_of_cover_buff(vals, indicator_data)
 
-  fire20 <- wt_max(indicator_data, "F55", "fun")
+  fire20 <- wt_max(indicator_data, "F55")
 
   alttiming <- vals$S1_subscore
 

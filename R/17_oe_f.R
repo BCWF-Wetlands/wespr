@@ -1,7 +1,7 @@
 
 oe_fun <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "oe")
+  indicator_data <- get_indicator_data(site, "oe", "fun")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
@@ -19,17 +19,17 @@ oe_fun <- function(site) {
   outdura7 <- if(vals$F40_4 + vals$F40_5 > 0){
     outmap7
   } else {
-    wt_max(indicator_data, "F40", "fun")
+    wt_max(indicator_data, "F40")
   }
 
 
-  flordist7 <- wt_max(indicator_data, "OF10", "fun")
+  flordist7 <- wt_max(indicator_data, "OF10")
 
   wetdef7 <- local_moisture_deficit(vals)
 
   gdd7 <- degree_days_index(vals)
 
-  soiltex7 <- wt_max(indicator_data, "F17", "fun")
+  soiltex7 <- wt_max(indicator_data, "F17")
 
   fringe7a <- if(vals$NeverWater == 1 ||
                  vals$NoPersis ==1 ){
@@ -44,7 +44,7 @@ oe_fun <- function(site) {
 
   gradient7 <- internal_gradient(vals, indicator_data)
 
-  groundw7 <-  wt_max(indicator_data, "F47", "fun")
+  groundw7 <-  wt_max(indicator_data, "F47")
 
   appscore7 <- site$indicators$app$fun
 

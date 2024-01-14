@@ -1,25 +1,25 @@
 fh_fun <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "fh")
+  indicator_data <- get_indicator_data(site, "fh", "fun")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
   elev10 <- 1 - vals$OF5_1
 
-  unvegca10 <- wt_max(indicator_data, "OF12", "fun")
+  unvegca10 <- wt_max(indicator_data, "OF12")
 
   fishpres10 <- ifelse(vals$OF20_5 == 1, 0, (3 * (max(vals$OF20_1, vals$OF20_2, vals$OF20_3 ) / 3) + vals$OF20_4) / 4)
 
   rddens10 <- if(sum_na(vals$OF30_1, vals$OF30_2, vals$OF30_3) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF30", "fun")
+    wt_max(indicator_data, "OF30")
   }
 
   disturbca9 <- if(sum_na(vals$OF41_1, vals$OF41_2, vals$OF41_3, vals$OF41_4, vals$OF41_5s) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF41", "fun")
+    wt_max(indicator_data, "OF41")
   }
 
 
@@ -27,10 +27,10 @@ fh_fun <- function(site) {
     vals$NoCA == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "OF42", "fun")
+    wt_max(indicator_data, "OF42")
   }
 
-  drypct9 <- wt_max(indicator_data, "F19", "fun")
+  drypct9 <- wt_max(indicator_data, "F19")
 
   permwpct10 <- persist_water(vals, indicator_data)
 
@@ -47,7 +47,7 @@ fh_fun <- function(site) {
                     vals$NoPersis == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F26", "fun")
+    wt_max(indicator_data, "F26")
   }
 
   woodover10 <- non_veg_aquatic_cover_1(vals, indicator_data)
@@ -66,33 +66,25 @@ fh_fun <- function(site) {
 
   acid10 <- ifelse(is.na(pH)  & vals$F45_2 == 1, 0.3,
                    ifelse(is.na(pH)  & vals$F45_3 == 1, 0.7,
-                          ifelse(is.na(pH) , NA_real,
+                          ifelse(is.na(pH) , NA_real_,
                                  ifelse(pH >= 7.5 & pH <= 9, 1,
                                         ifelse(pH < 5 | pH > 9, 0, 0.5)))))
 
 
 
-  groundw10 <- wt_max(indicator_data, "F47", "fun")
+  groundw10 <- wt_max(indicator_data, "F47")
 
-  bufferpct10 <- vegetation_buffer_along_permin(vals, indicator_data, "fun")
+  bufferpct10 <- vegetation_buffer_along_permin(vals, indicator_data)
 
-
-  # TO DO ; check the refernce for this alternate - lists G32 but this refers to F41 not F40?
-  # TO DO : these two functions rely on each other, needs a if else statement to check one before the othe is run
-  outmap9 <- if (vals$NoOutlet + vals$NoOutletX == 0) {
-    vals$OF6_1
+  # It took a bit to figure out the circular logic here, but it turns out
+  # outmap9 and outdura10 will always get the same value, based on whether
+  # or not the sum of NoOutlet + NoOutletX (which are also the values of
+  # F40_5 and F40_4) is greater than zero
+  if (vals$NoOutlet + vals$NoOutletX == 0) {
+    outmap9 <- outdura10 <- wt_max(indicator_data, "F40")
   } else {
-    outdura10
+    outdura10 <- outmap9 <- vals$OF6_1
   }
-
-  # TO DO : these two functions rely on each other, needs a if else statement to check one before the othe is run
-  outdura10 <- if ((vals$F40_4 + vals$F40_5) > 0) {
-    outmap9
-  } else {
-    wt_max(indicator_data, "F40", "fun")
-  }
-
-
 
   alttiming10 <- vals$S1_subscore
   contam10 <- vals$S3_subscore
@@ -117,7 +109,7 @@ fh_fun <- function(site) {
     mean_na(outmap9, pondsize9)
   }
 
-  nostress10 <- mean_na(alttiming10, contam10, sedrca10, acid10, rdens10, rdenswau11, bufferpct10)
+  nostress10 <- mean_na(alttiming10, contam10, sedrca10, acid10, rddens10, rddenswau10, bufferpct10)
 
 
   # function score
@@ -139,7 +131,7 @@ fh_fun <- function(site) {
 
 fh_ben <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "fh")
+  indicator_data <- get_indicator_data(site, "fh", "ben")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
@@ -147,14 +139,14 @@ fh_ben <- function(site) {
                  (vals$NoOutlet + vals$NoOutletX) > 0) {
     NA_real_
   } else {
-    wt_max(indicator_data, "OF1", "ben")
+    wt_max(indicator_data, "OF1")
   }
 
   rddist10v <- if(vals$Inflow == 0 ||
                   (vals$NoOutlet + vals$NoOutletX) > 0) {
     NA_real_
   } else {
-    wt_max(indicator_data, "OF2", "ben")
+    wt_max(indicator_data, "OF2")
   }
 
   boats10v <- vals$F56_2
