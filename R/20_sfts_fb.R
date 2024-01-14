@@ -16,11 +16,9 @@ sfts_fun <- function(site) {
   # to do : check this is correct
   topopos2 <- topo_position()
 
-  # check the range is correct 1) and secondly this references the raw file in
   # OF153 - not the range classed, chcek this is correct
   # check OF39 is included in this indicator
-
-  conif2 <- if((sum_na(intact_vals) == 0) ||
+  conif2 <- if((sum_na(vals$OF39_1, vals$OF39_2, vals$OF39_3, vals$OF39_4, vals$OF39_5) == 0) ||
                is.na(vals$OF39_0)){
       NA_real_
     } else {
@@ -42,11 +40,10 @@ sfts_fun <- function(site) {
   alldry2 <- wt_max(indicator_data, "F19")
 
 
-  # missing F23 values in STFR
   woodydryshade2 <- if(vals$NeverWater == 1 || vals$NoPersis == 1) {
       NA_real_
     } else {
-      wt_max(indicator_data, "F23")
+      wt_max(indicator_data, "F24")
     }
 
   depthdom2 <- if(vals$NeverWater == 1 || vals$NoPersis == 1) {
