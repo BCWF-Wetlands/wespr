@@ -14,10 +14,7 @@ cri_ben <- function(site) {
 
   sciuse17 <- vals$OF14_1
 
-  # check this value as reference 0F18_0 and not value (
-  #https://github.com/BCWF-Wetlands/wespr/issues/61
-
-  bylakes17 <- 1 - vals$OF18_1 # check val?
+  bylakes17 <- vals$OF18_1
 
   fish10 <- fish_occurance(vals)
 
