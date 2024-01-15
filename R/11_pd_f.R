@@ -118,13 +118,13 @@ pd_fun <- function(site){
      wt_max(indicator_data, "F59")
    }
 
-   alttiming15 <- vals$S1_subscore
+   alttiming15 <- 1-vals$S1_subscore
 
-   sedrca15 <- vals$S4_subscore
+   sedrca15 <- 1-vals$S4_subscore
 
-   soildisturb15a <- vals$S5_subscore
+   soildisturb15a <- 1-vals$S5_subscore
 
-   appscore15 <- site$indicators$app$fun
+   appscore15 <- site$indicators$app$fun/10
 
    # function subscores
 
