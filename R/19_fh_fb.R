@@ -86,30 +86,29 @@ fh_fun <- function(site) {
     outdura10 <- outmap9 <- vals$OF6_1
   }
 
-  alttiming10 <- vals$S1_subscore
-  contam10 <- vals$S3_subscore
-  sedrca10 <- vals$S4_subscore
+  alttiming10 <- 1-vals$S1_subscore
+  contam10 <- 1-vals$S3_subscore
+  sedrca10 <- 1 - vals$S4_subscore
 
-  appscore9 <- site$indicators$app$fun
+  appscore9 <- site$indicators$app$fun/10
 
     # function subscores
-  hydro10 <- mean_na(drypct9, permwpct10, depthdom10, lake9, pondsize9, openw9)
+  hydro10 <- mean_na(c(drypct9, permwpct10, depthdom10, lake9, pondsize9, openw9))
 
   struc10 <- if(vals$NeverWater + vals$TempWet > 0){
     NA_real_
   } else {
-    mean_na(groundw10, thurflo10 , sav10, shade9, woodover10
-            )
+    mean_na(c(groundw10, thurflo10 , sav10, shade9, woodover10))
   }
 
   nooxyrisk <- if(vals$NeverWater == 1 ||
                   vals$NoPersis == 1){
     NA_real_
   } else {
-    mean_na(outmap9, pondsize9)
+    mean_na(c(outmap9, pondsize9))
   }
 
-  nostress10 <- mean_na(alttiming10, contam10, sedrca10, acid10, rddens10, rddenswau10, bufferpct10)
+  nostress10 <- mean_na(c(alttiming10, contam10, sedrca10, acid10, rddens10, rddenswau10, bufferpct10))
 
 
   # function score
@@ -151,13 +150,13 @@ fh_ben <- function(site) {
 
   boats10v <- vals$F56_2
 
-  fishing10v <- vals$F56_5
+  fishing10v <- vals$F57_5
 
-  fscorewbf10v <- site$indicators$wb$fun
+  fscorewbf10v <- site$indicators$wb$fun/10
 
   # benefit subscore:
 
-  fh_ben_score <- 10 * (fscorewbf10v + fishing10v + mean_na(popdist10, rddist10v, boats10v))/3
+  fh_ben_score <- 10 * (fscorewbf10v + fishing10v + mean_na(c(popdist10, rddist10v, boats10v)))/3
 
   fh_ben_score
 
