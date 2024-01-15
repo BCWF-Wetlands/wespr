@@ -5,7 +5,6 @@ ws_fun <- function(site) {
   weights <- get_weights(indicator_data)
 
   # Function
-
   outmap1 <- if ((vals$NoOutlet + vals$NoOutletX) > 0) {
     1
   } else {
