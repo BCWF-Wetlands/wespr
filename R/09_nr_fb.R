@@ -70,7 +70,7 @@ nr_fun <- function(site) {
 
   groundw5 <- wt_max(indicator_data, "F47")
 
-  soildisturb5 <- vals$S5_subscore
+  soildisturb5 <- 1-vals$S5_subscore
 
   # function subscores
 
@@ -114,7 +114,7 @@ nr_ben <- function(site) {
 
   pval5 <- site$indicators$pr$ben/10
 
-  nr_ben_score <- 10 * max_na(c(wells5v, pval5, mean_na(nfix5v, rddist5)))
+  nr_ben_score <- 10 * max_na(c(wells5v, pval5, mean_na(c(nfix5v, rddist5))))
 
   nr_ben_score
 
