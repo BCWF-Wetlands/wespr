@@ -47,7 +47,7 @@ cp_fun <- function(site) {
 
   fire6 <- wt_max(indicator_data, "F55")
 
-  soildisturb6 <- vals$S5_subscore
+  soildisturb6 <- 1-vals$S5_subscore
 
   ## Overall CP score
 
