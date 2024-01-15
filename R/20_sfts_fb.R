@@ -173,7 +173,7 @@ sfts_ben<- function(site) {
                             3 * fishscore2v +
                             mean_na(c(elev2v, wetpctrca2v)) +
                             mean_na(c(wetdef2, gdd2v, solar2v, glacier2v, aspect2v)) +
-                            mean_na(c(perminpctper2v, impervrca2v, rddens2v, rddenswau2v, flowalt2, disturb2v)))/6
+                            mean_na(c(perminpctper2v, impervrca2v, rddens2v, rddenswau2v, flowalt2, disturb2v))/6)
 
   sfts_ben_score
 
