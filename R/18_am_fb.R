@@ -85,8 +85,6 @@ am_fun <- function(site) {
 
   woodover11 <- non_veg_aquatic_cover(vals, indicator_data)
 
-
-  # TO DO : Check value exists in weights table
   deepspot11 <- largest_deep_pond(vals, indicator_data)
 
   widthwet11 <- distance_open_water_upland_veg_4(vals, indicator_data)
@@ -116,9 +114,9 @@ am_fun <- function(site) {
 
   amrare11 <- ifelse(vals$F58_8 == 1, 1, NA_real_)
 
-  sedca11 <- vals$S4_subscore
+  sedca11 <- 1 - vals$S4_subscore
 
-  appscore10 <- site$indicators$app$fun
+  appscore10 <- site$indicators$app$fun /10
 
   # function subscores
 
@@ -166,7 +164,7 @@ am_ben <- function(site) {
 
   amphrare11 <- ifelse(vals$F58_8 == 1, 1, NA_real_)
 
-  fscorewbf11v <- site$indicators$wb$fun
+  fscorewbf11v <- site$indicators$wb$fun /10
 
   am_ben_score <- 10 * (max_na(c(amphrare11, raream11v, fscorewbf11v,
                                mean_na(c(distpond9v, water2k11v, wetdenswau11v)))))
