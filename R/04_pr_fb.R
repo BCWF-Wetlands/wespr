@@ -77,8 +77,8 @@ pr_fun <- function(site) {
    soildisturb4 <- vals$S5_subscore
 
    ## calculate function sub-components
-   interceptdry3 <- sum_na(mean_na(gradient4,wetpctrca4),
-                           mean_na(girreg4 , gcover4, soildisturb4, aspect4, growd4))/2
+   interceptdry3 <- sum_na(mean_na(c(gradient4,wetpctrca4)),
+                           mean_na(c(girreg4 , gcover4, soildisturb4, aspect4, growd4)))/2
 
     interceptwet3 <- if(any(unlist(vals[c("NeverWater", "NoOW")]) == 1)) {
      NA_real_
@@ -93,13 +93,14 @@ pr_fun <- function(site) {
     desorb3 <- sum_na(permw4, depthdom4, fluctu4, eutroph4)/4
 
 
-   pr_fun_score <- ifelse((vals$NoOutlet + vals$NoOutletX) > 0, 1,
+   pr_fun_score <- 10* (ifelse(outmap4 == 0, 1,
                    ifelse(vals$NeverWater == 1, mean_na(c(interceptdry3, adsorb3), na.rm = TRUE),
                     (3 * adsorb3 + 2 * mean_na(c(connec4, desorb3), na.rm = TRUE) +
                        mean_na(c(interceptwet3, interceptdry3), na.rm = TRUE)) / 6
-                               ))
+                               )))
 
    pr_fun_score
+
 }
 
 
@@ -177,3 +178,4 @@ pr_ben <- function(site) {
   pr_ben_score
 
 }
+
