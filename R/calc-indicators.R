@@ -40,9 +40,9 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "fh", "fun") # requires more checks
   site <- update_site_indicator(site, "fh", "ben")
   site <- update_site_indicator(site, "app", "ben")
-  #site <- update_site_indicator(site, "sfts", "fun")  # requires checks
+  #site <- update_site_indicator(site, "sfts", "fun")  # requires more checks
   #site <- update_site_indicator(site, "sfts", "ben") # requires fh_fun()
-  #site <- update_site_indicator(site, "ap", "ben") # draft started- neeeds work - requires fh_fun() , ah_fun(), wb_fun(), rsb_fun()
-  #site <- update_site_indicator(site, "cri", "ben") # requires wb_fun(), fh_fun()
+  site <- update_site_indicator(site, "ap", "ben")
+  site <- update_site_indicator(site, "cri", "ben")
   site
 }
