@@ -160,7 +160,7 @@ kmh_fun <- function(site) {
 
   disturb19 <- vals$S6_subscore
 
-  appscore19 <- site$indicators$app$fun
+  appscore19 <- site$indicators$app$fun/10
 
   # function subscores
   # Needs attention

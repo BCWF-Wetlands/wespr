@@ -11,7 +11,7 @@
 #' @export
 calc_indicators <- function(site) {
   site <- update_site_indicator(site, "ws", "fun")
-  site <- update_site_indicator(site, "ws", "ben")
+  site <- update_site_indicator(site, "ws", "ben") # requires checks
   site <- update_site_indicator(site, "sr", "fun")
   site <- update_site_indicator(site, "sr", "ben")
   site <- update_site_indicator(site, "pr", "fun")
@@ -31,16 +31,16 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "wb", "ben")
   site <- update_site_indicator(site, "pol", "fun")
   site <- update_site_indicator(site, "pol", "ben")
-  #site <- update_site_indicator(site, "rsb", "fun") # F2 weighting issues remains
+  site <- update_site_indicator(site, "rsb", "fun")
   site <- update_site_indicator(site, "rsb", "ben")
   site <- update_site_indicator(site, "pd", "ben")
   site <- update_site_indicator(site, "oe", "fun")
-  #site <- update_site_indicator(site, "am", "fun") # requires more checks
+  site <- update_site_indicator(site, "am", "fun") # requires more checks
   site <- update_site_indicator(site, "am", "ben") # check calculation
-  #site <- update_site_indicator(site, "fh", "fun") # requires more checks
+  site <- update_site_indicator(site, "fh", "fun") # requires more checks
   site <- update_site_indicator(site, "fh", "ben")
-  # site <- update_site_indicator(site, "app", "ben")
-  #site <- update_site_indicator(site, "sfts", "fun")
+  site <- update_site_indicator(site, "app", "ben")
+  #site <- update_site_indicator(site, "sfts", "fun")  # requires checks
   #site <- update_site_indicator(site, "sfts", "ben") # requires fh_fun()
   #site <- update_site_indicator(site, "ap", "ben") # draft started- neeeds work - requires fh_fun() , ah_fun(), wb_fun(), rsb_fun()
   #site <- update_site_indicator(site, "cri", "ben") # requires wb_fun(), fh_fun()

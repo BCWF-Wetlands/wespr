@@ -36,7 +36,6 @@ rsb_fun <- function(site) {
     (vals$F1_2 + vals$F1_4) / 8)
   )
 
-  # TO DO check this one - still not working
   woodhtmix14 <- wt_max(indicator_data, "F2")
 
   ndiams14 <- sum(vals$F3_1, vals$F3_2,vals$F3_3, vals$F3_4, vals$F3_5, vals$F3_6,vals$F3_7, vals$F3_8)/8
