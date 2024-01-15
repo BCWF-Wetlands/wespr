@@ -1,6 +1,6 @@
 app_fun <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "app")
+  indicator_data <- get_indicator_data(site, "app", "fun")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
@@ -17,15 +17,15 @@ app_fun <- function(site) {
   outdur8 <- if(vals$F40_4 + vals$F40_5 > 0) {
     mappedout8
   } else {
-    wt_max(indicator_data, "F40", "fun")
+    wt_max(indicator_data, "F40")
   }
 
 
-  aspect8 <- wt_max(indicator_data, "OF7", "fun")
+  aspect8 <- wt_max(indicator_data, "OF7")
 
-  wetpctca8 <- wt_max(indicator_data, "OF11", "fun")
+  wetpctca8 <- wt_max(indicator_data, "OF11")
 
-  unvegca8 <- wt_max(indicator_data, "OF12", "fun")
+  unvegca8 <- wt_max(indicator_data, "OF12")
 
 
   karst8 <- if(vals$OF16_1 == 1){
@@ -45,21 +45,21 @@ app_fun <- function(site) {
   sindex8 <- if(sum_na(vals$OF28_1,vals$OF28_2,vals$OF28_3,vals$OF28_4,vals$OF28_5) == 0){
      NA_real_
     } else {
-      wt_max(indicator_data, "OF28", "fun")
+      wt_max(indicator_data, "OF28")
     }
 
 
   decid8 <- if(sum_na(vals$OF38_1,vals$OF38_2,vals$OF38_3,vals$OF38_4,vals$OF38_5) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF38", "fun")
+    wt_max(indicator_data, "OF38")
   }
 
 
   disturb8 <- if(sum_na(vals$OF41_1,vals$OF41_2,vals$OF41_3,vals$OF41_4,vals$OF41_5) == 0){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF41", "fun")
+    wt_max(indicator_data, "OF41")
   }
 
 
@@ -67,13 +67,13 @@ app_fun <- function(site) {
                   (sum_na(vals$F1_2, vals$F1_4, vals$F1_6)/10))/2
 
 
- nfix8 <- wt_max(indicator_data, "F14", "fun")
+ nfix8 <- wt_max(indicator_data, "F14")
 
  gcover8 <- ground_cover(vals, indicator_data)
 
- soiltex8 <- wt_max(indicator_data, "F17", "fun")
+ soiltex8 <- wt_max(indicator_data, "F17")
 
- drypct8 <- wt_max(indicator_data, "F19", "fun")
+ drypct8 <- wt_max(indicator_data, "F19")
 
  seaspct8 <- percent_flooded_only_seasonally(vals, indicator_data)
 
@@ -115,14 +115,14 @@ app_fun <- function(site) {
                          ifelse(vals$F46b_1 > 350, 1, 0.5)))
 
 
-  groundw8 <- wt_max(indicator_data, "F47", "fun")
+  groundw8 <- wt_max(indicator_data, "F47")
 
-  beaver8 <- wt_max(indicator_data, "F48", "fun")
+  beaver8 <- wt_max(indicator_data, "F48")
 
   fire8 <- if(vals$F55_7 == 1) {
     NA_real_
   } else {
-    wt_max(indicator_data, "F55", "fun")
+    wt_max(indicator_data, "F55")
   }
 
   nutrin8 <- vals$S3_subscore

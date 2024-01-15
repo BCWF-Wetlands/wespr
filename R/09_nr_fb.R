@@ -1,6 +1,6 @@
 nr_fun <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "nr")
+  indicator_data <- get_indicator_data(site, "nr", "fun")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
@@ -8,9 +8,9 @@ nr_fun <- function(site) {
 
   outmap5 <- stream_intersect(vals)
 
-  aspect5 <- wt_max(indicator_data, "OF7", "fun")
+  aspect5 <- wt_max(indicator_data, "OF7")
 
-  wetpctca5 <- wt_max(indicator_data, "OF11", "fun")
+  wetpctca5 <- wt_max(indicator_data, "OF11")
 
   gdd5 <- degree_days_index(vals)
 
@@ -18,18 +18,18 @@ nr_fun <- function(site) {
 
   gcover5 <- ground_cover(vals, indicator_data)
 
-  soiltex5 <- wt_max(indicator_data, "F17", "fun")
+  soiltex5 <- wt_max(indicator_data, "F17")
 
-  girreg5 <- wt_max(indicator_data, "F18", "fun")
+  girreg5 <- wt_max(indicator_data, "F18")
 
-  drypct5 <- wt_max(indicator_data, "F19", "fun")
+  drypct5 <- wt_max(indicator_data, "F19")
 
   seaspct5 <- percent_flooded_only_seasonally(vals, indicator_data)
 
   permw5 <- if(vals$NeverWater + vals$TempWet > 0 ) {
       NA_real_
     } else {
-      wt_max(indicator_data, "F21", "fun")
+      wt_max(indicator_data, "F21")
     }
 
   fluctu5 <- surface_water_fluctuation(vals, indicator_data)
@@ -37,7 +37,7 @@ nr_fun <- function(site) {
   ponded5 <- if(vals$NeverWater + vals$TempWet > 0){
     NA_real_
     } else {
-    wt_max(indicator_data, "F27", "fun")
+    wt_max(indicator_data, "F27")
     }
 
   widthwet5 <- distance_open_water_upland_veg_1(vals, indicator_data)
@@ -47,7 +47,7 @@ nr_fun <- function(site) {
   outdura5 <- if ((vals$F40_4 + vals$F40_5) > 0) {
       outmap5
     } else {
-      wt_max(indicator_data, "F40", "fun")
+      wt_max(indicator_data, "F40")
     }
 
   constric5 <- outflow_confinement(vals, indicator_data)
@@ -68,9 +68,9 @@ nr_fun <- function(site) {
     .default = 0.5
   )
 
-  groundw5 <- wt_max(indicator_data, "F47", "fun")
+  groundw5 <- wt_max(indicator_data, "F47")
 
-  soildisturb5 <- vals$S5_subscore
+  soildisturb5 <- 1-vals$S5_subscore
 
   # function subscores
 
@@ -87,7 +87,7 @@ nr_fun <- function(site) {
   redox <- mean_na(seaspct5, acid5, mean_na(fluctu5, permw5, drypct5))
 
   nr_subscore_fun <- 10 * (ifelse(outmap5 == 0, 1,
-                                  ifelse(vals$NeverWater == 1, mean_na(warmth4, organic3),
+                                  ifelse(vals$NeverWater == 1, mean_na(warmth4, organic4),
                  (3 * redox + 2 * connec5 + warmth4 + organic4 + intercept4) / 8)
                                          ))
 
@@ -102,19 +102,19 @@ nr_fun <- function(site) {
 
 nr_ben <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "nr")
+  indicator_data <- get_indicator_data(site, "nr", "ben")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-  rddist5 <- wt_max(indicator_data, "OF2", "ben")
+  rddist5 <- wt_max(indicator_data, "OF2")
 
-  nfix5v <- wt_max(indicator_data, "F14", "ben")
+  nfix5v <- wt_max(indicator_data, "F14")
 
-  wells5v <- wt_max(indicator_data, "F54", "ben")
+  wells5v <- wt_max(indicator_data, "F54")
 
   pval5 <- get_indicator_score(site, "pr", "ben") / 10
 
-  nr_ben_score <- 10 * max_na(c(wells5v, pval5, mean_na(nfix5v, rddist5)))
+  nr_ben_score <- 10 * max_na(c(wells5v, pval5, mean_na(c(nfix5v, rddist5))))
 
   nr_ben_score
 

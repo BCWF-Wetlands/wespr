@@ -1,11 +1,11 @@
 #
 sens_fun <- function(site) {
 
-  indicator_data <- get_indicator_data(site, "sens")
+  indicator_data <- get_indicator_data(site, "sens", "fun")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-  distpond18 <- wt_max(indicator_data, "OF3", "fun")
+  distpond18 <- wt_max(indicator_data, "OF3")
 
   elev18 <- vals$OF5_1
 
@@ -15,30 +15,30 @@ sens_fun <- function(site) {
     vals$OF6_1
   }
 
-  water2k18 <- wt_max(indicator_data, "OF19", "fun")
+  water2k18 <- wt_max(indicator_data, "OF19")
 
   rarespp18 <-((max_na(c(vals$OF24_1, vals$OF24_2, vals$OF24_3, vals$OF24_4)) +
     mean_na(c(vals$OF24_1, vals$OF24_2, vals$OF24_3, vals$OF24_4)))/2)
 
   gdd18 <- degree_days_index(vals)
 
-  intact18 <- wt_max(indicator_data, "OF32", "fun")
+  intact18 <- wt_max(indicator_data, "OF32")
 
-  disturb18 <- wt_max(indicator_data, "OF41", "fun")
+  disturb18 <- wt_max(indicator_data, "OF41")
 
-  wetdenswau18 <- wt_max(indicator_data, "OF43", "fun")
+  wetdenswau18 <- wt_max(indicator_data, "OF43")
 
   woodypct18a <- max_na(c(vals$F1_1, vals$F1_2))/6
 
-  moss18a <- wt_max(indicator_data, "F10", "fun")
+  moss18a <- wt_max(indicator_data, "F10")
 
-  invas18a <-  wt_max(indicator_data, "F13", "fun")
+  invas18a <-  wt_max(indicator_data, "F13")
 
-  nfix18a<-  wt_max(indicator_data, "F14", "fun")
+  nfix18a <-  wt_max(indicator_data, "F14")
 
   gcover18a <- ground_cover(vals, indicator_data)
 
-  soiltex18a <-   wt_max(indicator_data, "F17", "fun")
+  soiltex18a <-   wt_max(indicator_data, "F17")
 
   seaspct18a <- percent_flooded_only_seasonally(vals, indicator_data)
 
@@ -49,7 +49,7 @@ sens_fun <- function(site) {
   outdura18a <- if (vals$F40_4 + vals$F40_5 > 0) {
     outmap18
   } else {
-    wt_max(indicator_data, "F40", "fun")
+    wt_max(indicator_data, "F40")
   }
 
   constric18a <- outflow_confinement_2(vals, indicator_data)
@@ -71,9 +71,9 @@ sens_fun <- function(site) {
                          ifelse(vals$F46b_1 > 350, 1, 0.5)))
 
 
-  beaver18a <- wt_max(indicator_data, "F48", "fun")
+  beaver18a <- wt_max(indicator_data, "F48")
 
-  perimpectper18a <- vegetation_buffer_along_permin(vals, indicator_data, "fun")
+  perimpectper18a <- vegetation_buffer_along_permin(vals, indicator_data)
 
 
   rareonsite18a <- sum(c(vals$F58_6, vals$F58_7, vals$F58_8,  vals$F58_9))/4 +
