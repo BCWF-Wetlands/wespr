@@ -13,8 +13,7 @@ sfts_fun <- function(site) {
 
   faults2 <- ifelse(vals$OF17_1 == 0 , NA_real_, 1)
 
-  # to do : check this is correct
-  topopos2 <- topo_position()
+  topopos2 <- vals$OF29_1 / 5
 
   # OF153 - not the range classed, chcek this is correct
   # check OF39 is included in this indicator
@@ -160,7 +159,7 @@ sfts_ben<- function(site) {
   flowalt2 <- vals$S1_subscore
 
 
-  fishscore2v <- site$indicators$fh$fun
+  fishscore2v <- site$indicators$fh$fun/10
 
   # Similar to FH and POL, somewhat circular reference
   if (vals$NoOutlet + vals$NoOutletX == 0) {
