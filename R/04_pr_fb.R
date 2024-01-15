@@ -172,7 +172,7 @@ pr_ben <- function(site) {
     3 * mean_na(c(nutrload4v, conductiv4v, tds4v, sindex4v)) +
       mean_na(c(rddenswau4v, rddens4v, disturb4v, imperv4v, slopebuff4v, perminpectper4v))+
       mean_na(c(inflow4v, dryness4v))+
-      mean_na(c(wetpctca4v, elev4v, topopos4v))/6 )
+      mean_na(c(wetpctca4v, elev4v, topopos4v)))/6
 
   pr_ben_score
 
