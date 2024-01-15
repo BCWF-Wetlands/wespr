@@ -111,14 +111,14 @@ wb_fun <- function(site) {
 
   noise11 <- vals$S6_subscore
 
-  appscore11 <- site$indicators$app$fun
+  appscore11 <- site$indicators$app$fun/10
 
   # function subscore
 
-  lscape13 <- mean_na(perimcov13,
-                      mean_na(distpond13, distlake11, lakewet11, pctlakes11, wetdensWAU13),
-                      elev11, noise11, herbscape13)
-  hydro13 <- mean_na(gradient13, pondedpct13, permwpct13, lake13, degreed11)
+  lscape13 <- mean_na(c(perimcov13,
+                      mean_na(c(distpond13, distlake11, lakewet11, pctlakes11, wetdensWAU13)),
+                      elev11, noise11, herbscape13))
+  hydro13 <- mean_na(c(gradient13, pondedpct13, permwpct13, lake13, degreed11))
 
   produc13 <- appscore11
 
@@ -128,7 +128,7 @@ wb_fun <- function(site) {
 
   wb_fun_score <- ifelse(vals$NeverWater == 1, 0,
                    10 * (3 * max_na(c(mean_na(c(pondedpct13, owarea13, maxpondarea13)), wb_rare11, rarebird11)) +
-                                   2 * mean_na(c(hydro13, struc13, produc13, lscape13)) / 5))
+                                   2 * mean_na(c(hydro13, struc13, produc13, lscape13))) / 5)
 
   wb_fun_score
 
