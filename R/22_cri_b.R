@@ -65,9 +65,9 @@ cri_ben <- function(site) {
   consumpu10 <- (max_na(c(vals$F57_1, vals$F57_2,vals$F57_3,vals$F57_4,vals$F57_5,vals$F57_6)) +
     (sum(vals$F57_1, vals$F57_2,vals$F57_3,vals$F57_4,vals$F57_5,vals$F57_6)/6))/2
 
-  fhscore17 <- site$indicators$fh$fun
+  fhscore17 <- site$indicators$fh$fun/10
 
-  wbscore17 <-  site$indicators$wb$fun
+  wbscore17 <-  site$indicators$wb$fun/10
 
 
   cri_ben_score <- 10 * (2 * max_na(c(fish10, consumpu10, algae17, wells17v)) +
