@@ -3,9 +3,6 @@ app_ben <- function(site) {
 
   indicator_data <- get_indicator_data(site, "ap", "ben")
   vals <- get_vals(indicator_data)
-  #weights <- get_weights(indicator_data)
-  #ind_scores <- get_indicator_scores(site)
-
 
   elev8v <- if(vals$NoOutlet == 1) {
       NA_real_
