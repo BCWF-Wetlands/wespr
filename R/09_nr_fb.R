@@ -79,7 +79,6 @@ nr_fun <- function(site) {
   intercept4 <- (2 * mean_na(c(ponded5, gradient5, wetpctca5))+
                    mean_na(c(widthwet5, gcover5, watermixwet5, thruflo5, girreg5)))/3
 
-  ## TO do : fix this function so doesnt throw error where only single value
   connec5 <- mean_na(c(outdura5, constric5))
 
   organic4 <- mean_na(soiltex5, soildisturb5)
