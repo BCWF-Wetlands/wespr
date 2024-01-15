@@ -84,7 +84,6 @@ pd_fun <- function(site){
 
   widthwet15 <- distance_open_water_upland_veg_2(vals, indicator_data)
 
-  # check this
   aqveg15 <-  submerged_floating_aquatics_1(vals)
 
   inflow15 <- if(vals$NoOutlet + vals$NoOutletX > 0){
@@ -142,12 +141,7 @@ pd_fun <- function(site){
    stresspd <- ((2 * invas15) + mean_na(c(distrd15, max_na(c(protect15, refuge15))),
                                        alttiming15, sedrca15, soildisturb15a, imperv15, distown15))/3
 
-
-
-   # TO do: reference to invashigh? not sure where this is ?
-   ## needs more clarification on this.
-   #https://github.com/BCWF-Wetlands/wespr/issues/48
-   invashigh <- 0 # Place holder til invase high is ascertained (delete once this is clarified)
+   invashigh <- vals$F13_5
 
    pd_fun_score <- 10 * if(invashigh == 1){
             0
