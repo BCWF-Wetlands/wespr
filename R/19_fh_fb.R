@@ -86,8 +86,8 @@ fh_fun <- function(site) {
     outdura10 <- outmap9 <- vals$OF6_1
   }
 
-  alttiming10 <- 1-vals$S1_subscore
-  contam10 <- 1-vals$S3_subscore
+  alttiming10 <- 1- vals$S1_subscore
+  contam10 <- 1- vals$S3_subscore
   sedrca10 <- 1 - vals$S4_subscore
 
   appscore9 <- site$indicators$app$fun/10
