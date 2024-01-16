@@ -25,7 +25,7 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "nr", "ben")
   site <- update_site_indicator(site, "app", "fun")
   site <- update_site_indicator(site, "pd", "fun")
-  site <- update_site_indicator(site, "kmh", "fun") # add allsat1 val, and check calculations
+  site <- update_site_indicator(site, "kmh", "fun") # add allsat1 vals
   site <- update_site_indicator(site, "kmh", "ben")
   site <- update_site_indicator(site, "wb", "fun")
   site <- update_site_indicator(site, "wb", "ben")
@@ -35,13 +35,13 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "rsb", "ben")
   site <- update_site_indicator(site, "pd", "ben")
   site <- update_site_indicator(site, "oe", "fun")
-  site <- update_site_indicator(site, "am", "fun") # requires more checks
-  site <- update_site_indicator(site, "am", "ben") # check calculation
-  site <- update_site_indicator(site, "fh", "fun") # requires more checks
+  site <- update_site_indicator(site, "am", "fun")
+  site <- update_site_indicator(site, "am", "ben")
+  site <- update_site_indicator(site, "fh", "fun")
   site <- update_site_indicator(site, "fh", "ben")
   site <- update_site_indicator(site, "app", "ben")
-  #site <- update_site_indicator(site, "sfts", "fun")  # requires more checks
-  #site <- update_site_indicator(site, "sfts", "ben") # requires more checks
+  site <- update_site_indicator(site, "sfts", "fun")  # waiting on check conifer values
+  site <- update_site_indicator(site, "sfts", "ben")
   site <- update_site_indicator(site, "cri", "ben")
   site
 }
