@@ -111,7 +111,7 @@ wb_fun <- function(site) {
 
   noise11 <- vals$S6_subscore
 
-  appscore11 <- site$indicators$app$fun/10
+  appscore11 <- get_indicator_score(site, "app", "fun") / 10
 
   # function subscore
 

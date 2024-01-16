@@ -118,7 +118,7 @@
           - ben: 4.14 
         * PR:  
           - fun: 1 
-          - ben: 14.24 
+          - ben: 3.75 
         * CP:  
           - fun: 8.72 
         * FR:  
@@ -129,39 +129,39 @@
         * STR:  
           - fun: 7.96 
         * NR:  
-          - fun: 5.38 
-          - ben: 14.24 
+          - fun: 6.01 
+          - ben: 5 
         * APP:  
           - fun: 2.61 
-          - ben:  
+          - ben: 4.99 
         * PD:  
-          - fun: 10.44 
+          - fun: 6.12 
           - ben: NA 
         * KMH:  
           - fun:  
           - ben: 7.8 
         * WB:  
-          - fun: 25.66 
+          - fun: 6.43 
           - ben: 5 
         * POL:  
-          - fun: 54.2 
+          - fun: 5.07 
           - ben: 3.5 
         * RSB:  
-          - fun:  
+          - fun: NA 
           - ben: 4.03 
         * OE:  
           - fun: 0 
         * AM:  
-          - fun:  
-          - ben: 256.64 
+          - fun: 5.62 
+          - ben: 10 
         * FH:  
-          - fun:  
-          - ben:  
+          - fun: 2.92 
+          - ben: 2.14 
         * SFTS:  
           - fun:  
           - ben:  
         * CRI:  
-          - ben:  
+          - ben: 5.4 
       
       * Retrieve indicator scores with `get_indicator_scores()`
 

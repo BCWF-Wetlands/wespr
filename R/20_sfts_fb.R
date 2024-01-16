@@ -164,8 +164,7 @@ sfts_ben<- function(site) {
 
   flowalt2 <- vals$S1_subscore
 
-
-  fishscore2v <- site$indicators$fh$fun/10
+  fishscore2v <- get_indicator_score(site, "fh", "fun") / 10
 
 
   sfts_ben_score <- 10 * (max_na(c(outmap2, outdura2)) *

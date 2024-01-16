@@ -72,8 +72,7 @@ pol_fun <- function(site) {
 
  toxic16 <- vals$S3_subscore
 
- pdscore16 <- site$indicators$pd$fun /10
-
+ pdscore16 <- get_indicator_score(site, "pd", "fun") / 10
 
   # pol subscores
   pollen <- max_na(c(max_na(c(willow16, flower16, forb16)), pdscore16))

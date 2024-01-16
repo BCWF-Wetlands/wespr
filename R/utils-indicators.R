@@ -640,4 +640,19 @@ buffer_slope <- function(vals, indicator_data){
   }
 }
 
+get_indicator_score <- function(site, indicator, type) {
+  check_wesp_site(site)
 
+  match.arg(type, c("fun", "ben"))
+
+  if (!indicator %in% names(site$indicators)) {
+    stop(indicator, " is not a valid indicator")
+  }
+  score <- site$indicators[[indicator]][[type]]
+
+  if (is.null(score)) {
+    stop(indicator, " has not been calculated yet")
+  }
+
+  score
+}
