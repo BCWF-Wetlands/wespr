@@ -81,27 +81,20 @@ kmh_fun <- function(site) {
 
   permwat12 <- wt_max(indicator_data, "F21")
 
-  # check that the F20 is on the used by list for kmh
-  #https://github.com/BCWF-Wetlands/wespr/issues/50
   lake19 <- ifelse(vals$F20_2 == 1, NA_real_, ifelse(vals$F23_1 == 1, 1, NA_real_ ))
 
-  # check that the F20 is on the used by list for kmh
-  #https://github.com/BCWF-Wetlands/wespr/issues/50
   fluc19 <- if(vals$F20_2 == 1){
       NA_real_
   } else {
       wt_max(indicator_data, "F25") }
 
-  # check that the F20 is on the used by list for kmh
-  #https://github.com/BCWF-Wetlands/wespr/issues/50
   depthdom19 <- if(vals$F20_2 == 1){
     NA_real_
   } else {
     wt_max(indicator_data, "F26")
     }
 
-  # check that the F20 is on the used by list for kmh
-  #https://github.com/BCWF-Wetlands/wespr/issues/50
+
   deeppond19a <- if(vals$F20_2 == 1 ||
                     vals$NoPond == 1){
     NA_real_
@@ -109,8 +102,7 @@ kmh_fun <- function(site) {
     wt_max(indicator_data, "F29")
   }
 
-  # check that the F20 is on the used by list for kmh
-  #https://github.com/BCWF-Wetlands/wespr/issues/50
+
   vwidth19 <- if(vals$F20_2 == 1 ||
                 vals$NoOW == 1){
     NA_real_
@@ -118,8 +110,7 @@ kmh_fun <- function(site) {
     wt_max(indicator_data, "F33")
   }
 
-  # check that the F20 is on the used by list for kmh
-  #https://github.com/BCWF-Wetlands/wespr/issues/50
+
 
   denscov19 <- if(vals$F20_2 == 1 ||
                   vals$NoOW == 1){
@@ -128,17 +119,13 @@ kmh_fun <- function(site) {
     wt_max(indicator_data, "F33")
   }
 
-  # check that the F20 is on the used by list for kmh
-  #https://github.com/BCWF-Wetlands/wespr/issues/50
+
   emerg19 <- if(vals$F20_2 == 1){
     NA_real_
   } else {
     wt_max(indicator_data, "F37")
   }
 
-
-  # check that the F20 is on the used by list for kmh
-  #https://github.com/BCWF-Wetlands/wespr/issues/50
 
   aqplants19 <- if(vals$F20_2 == 1){
     NA_real_
@@ -171,7 +158,7 @@ kmh_fun <- function(site) {
 
   # Needs attention
   #https://github.com/BCWF-Wetlands/wespr/issues/50
-  # HiFlucW, allsat1
+  # allsat1
 
   muskrathab <- ifelse(vals$F20_2 == 1, 0,
                    ifelse(vals$HiFlucW == 1, 0,
@@ -198,7 +185,7 @@ kmh_fun <- function(site) {
                                        mean_na(c(distrd19, rddens19, disturb19, intact19)) / 3)))
 
 
-  kmh_fun_score <- mean_na(c(beaverhab, muskrathab, moosehab, caribouhab, bearhab))
+  kmh_fun_score <- 10 * (mean_na(c(beaverhab, muskrathab, moosehab, caribouhab, bearhab)))
 
   kmh_fun_score
 
@@ -220,7 +207,7 @@ kmh_ben <- function(site) {
 
   hunt19v <- max_na(c(vals$F57_4, vals$F57_6))
 
-  kmh_ben_score <- 10 * mean_na(c(hunt19v, water2k19v, distpond19v, disttown19v))
+  kmh_ben_score <- 10 * (mean_na(c(hunt19v, water2k19v, distpond19v, disttown19v)))
 
   kmh_ben_score
 
