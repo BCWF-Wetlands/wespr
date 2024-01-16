@@ -144,8 +144,6 @@ wb_ben <- function(site) {
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-  # TODO: Verify weighting of OF3_6 for WB. Currently just skipped
-  # https://github.com/BCWF-Wetlands/wespr/issues/74
   distpond11v <- wt_max(indicator_data, "OF3")
 
   distlake11v <- wt_max(indicator_data, "OF4")
