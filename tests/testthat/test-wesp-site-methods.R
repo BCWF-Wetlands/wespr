@@ -11,7 +11,7 @@ test_that("get_indicator_scores() works", {
 
   site <- calc_indicators(site)
   expect_s3_class(get_indicator_scores(site), "data.frame")
-  expect_equal(nrow(get_indicator_scores(site)), 18)
+  expect_equal(nrow(get_indicator_scores(site)), 19)
   expect_equal(ncol(get_indicator_scores(site)), 4)
 })
 

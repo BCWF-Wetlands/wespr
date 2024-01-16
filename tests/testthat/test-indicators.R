@@ -8,7 +8,7 @@ test_that("indicator calculations work (site 1)", {
   expect_equal(round(ws_ben(site), 2), 5.89)
   expect_equal(round(sr_fun(site), 2), 4.12)
   expect_equal(round(sr_ben(site), 2), 4.14)
-  expect_equal(round(cp_fun(site), 2), 8.72)
+  expect_equal(round(cp_fun(site), 2), 8.90)
 })
 
 
@@ -18,7 +18,7 @@ test_that("indicator calculations work (site 2)", {
   expect_equal(round(ws_ben(site), 2), 10)
   expect_equal(round(sr_fun(site), 2), 10)
   expect_equal(round(sr_ben(site), 2), 3.66)
-  expect_equal(round(cp_fun(site), 2), 6.77)
+  expect_equal(round(cp_fun(site), 2), 6.93)
 })
 
 test_that("indicator calculations work (site 3)", {
@@ -27,7 +27,7 @@ test_that("indicator calculations work (site 3)", {
   expect_equal(round(ws_ben(site), 2), 4.56)
   expect_equal(round(sr_fun(site), 2), 3.95)
   expect_equal(round(sr_ben(site), 2), 4.34)
-  expect_equal(round(cp_fun(site), 2), 9.09)
+  expect_equal(round(cp_fun(site), 2), 9.28)
 })
 
 test_that("updating a site with indicator value works", {

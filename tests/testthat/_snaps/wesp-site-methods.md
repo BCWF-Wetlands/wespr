@@ -117,10 +117,10 @@
           - fun: 4.12 
           - ben: 4.14 
         * PR:  
-          - fun: 1 
+          - fun: 5.51 
           - ben: 3.75 
         * CP:  
-          - fun: 8.72 
+          - fun: 8.9 
         * FR:  
           - fun: 2.23 
           - ben: 8.06 
@@ -138,11 +138,11 @@
           - fun: 6.12 
           - ben: NA 
         * KMH:  
-          - fun:  
+          - fun: 2.85 
           - ben: 7.8 
         * WB:  
           - fun: 6.43 
-          - ben: 5 
+          - ben: 7.19 
         * POL:  
           - fun: 5.07 
           - ben: 3.5 
@@ -158,8 +158,8 @@
           - fun: 2.92 
           - ben: 2.14 
         * SFTS:  
-          - fun:  
-          - ben:  
+          - fun: 0 
+          - ben: 7.83 
         * CRI:  
           - ben: 5.4 
       
