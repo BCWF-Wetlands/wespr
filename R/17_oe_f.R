@@ -9,17 +9,13 @@ oe_fun <- function(site) {
 
   constric7 <- outflow_confinement(vals, indicator_data)
 
-# TO DO circular refernce here :
-  outmap7 <- if (vals$NoOutlet + vals$NoOutletX == 0) {
-    outdura7
-  } else {
-    vals$OF6_1
-  }
+  # as fixed for FH in
+  # https://github.com/BCWF-Wetlands/wespr/commit/16dcc6e4c27342d925c1134c4c34f794e81b2feb
 
-  outdura7 <- if(vals$F40_4 + vals$F40_5 > 0){
-    outmap7
+  if (vals$NoOutlet + vals$NoOutletX == 0) {
+    outmap7 <- outdura7<- wt_max(indicator_data, "F40")
   } else {
-    wt_max(indicator_data, "F40")
+    outdura7 <-  outmap7 <- vals$OF6_1
   }
 
 
