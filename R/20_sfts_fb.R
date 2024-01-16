@@ -4,9 +4,8 @@ sfts_fun <- function(site) {
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-  # Similar to FH and POL, somewhat circular reference.
   if (vals$NoOutlet + vals$NoOutletX == 0) {
-    outmap2 <- outdura2 <- wt_max(indicator_data, "F40")
+    outmap2 <- outdura2 <- ifelse(vals$F40_4 + vals$F40_5 > 0, outmap2 , wt_max(indicator_data, "F40"))
   } else {
     outdura2 <- outmap2 <- vals$OF6_1
   }
@@ -17,8 +16,8 @@ sfts_fun <- function(site) {
 
   # OF153 - not the range classed, chcek this is correct
   # check OF39 is included in this indicator
-  conif2 <- if((sum_na(vals$OF39_1, vals$OF39_2, vals$OF39_3, vals$OF39_4, vals$OF39_5) == 0) ||
-               is.na(vals$OF39_0)){
+  conif2 <- if(sum_na(vals$OF39_1, vals$OF39_2, vals$OF39_3, vals$OF39_4, vals$OF39_5) == 0){ #||
+              # is.na(vals$OF39_0))
       NA_real_
     } else {
       vals$OF39_1
@@ -96,7 +95,7 @@ sfts_fun <- function(site) {
 
 
 
-  sfts_fun_score <- 10 * (outmap2 * mean_na(shadedsurf, groundwater, surfacestorage))
+  sfts_fun_score <- 10 * (outmap2 * mean_na(c(shadedsurf, groundwater, surfacestorage)))
 
 
   sfts_fun_score
@@ -112,6 +111,13 @@ sfts_ben<- function(site) {
   weights <- get_weights(indicator_data)
 
   elev2v <- vals$OF5_1
+
+  # add outmpa and outdura
+  if (vals$NoOutlet + vals$NoOutletX == 0) {
+    outmap2 <- outdura2 <- ifelse(vals$F40_4 + vals$F40_5 > 0, outmap2 , wt_max(indicator_data, "F40"))
+  } else {
+    outdura2 <- outmap2 <- vals$OF6_1
+  }
 
   aspect2v <- wt_max(indicator_data, "OF7")
 
@@ -161,14 +167,7 @@ sfts_ben<- function(site) {
 
   fishscore2v <- site$indicators$fh$fun/10
 
-  # Similar to FH and POL, somewhat circular reference
-  if (vals$NoOutlet + vals$NoOutletX == 0) {
-    outmap2 <- outdura2 <- wt_max(indicator_data, "F40")
-  } else {
-    outdura2 <- outmap2 <- vals$OF6_1
-  }
 
-  # TODO = check the outpmap in this calculation
   sfts_ben_score <- 10 * (max_na(c(outmap2, outdura2)) *
                             3 * fishscore2v +
                             mean_na(c(elev2v, wetpctrca2v)) +
