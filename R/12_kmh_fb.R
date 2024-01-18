@@ -81,21 +81,21 @@ kmh_fun <- function(site) {
 
   permwat12 <- wt_max(indicator_data, "F21")
 
-  lake19 <- ifelse(vals$F20_2 == 1, NA_real_, ifelse(vals$F23_1 == 1, 1, NA_real_ ))
+  lake19 <- ifelse(vals$NeverWater == 1, NA_real_, ifelse(vals$F23_1 == 1, 1, NA_real_ ))
 
-  fluc19 <- if(vals$F20_2 == 1){
+  fluc19 <- if(vals$NeverWater == 1){
       NA_real_
   } else {
       wt_max(indicator_data, "F25") }
 
-  depthdom19 <- if(vals$F20_2 == 1){
+  depthdom19 <- if(vals$NeverWater == 1){
     NA_real_
   } else {
     wt_max(indicator_data, "F26")
     }
 
 
-  deeppond19a <- if(vals$F20_2 == 1 ||
+  deeppond19a <- if(vals$NeverWater == 1 ||
                     vals$NoPond == 1){
     NA_real_
   } else {
@@ -103,7 +103,7 @@ kmh_fun <- function(site) {
   }
 
 
-  vwidth19 <- if(vals$F20_2 == 1 ||
+  vwidth19 <- if(vals$NeverWater == 1 ||
                 vals$NoOW == 1){
     NA_real_
   } else {
@@ -112,7 +112,7 @@ kmh_fun <- function(site) {
 
 
 
-  denscov19 <- if(vals$F20_2 == 1 ||
+  denscov19 <- if(vals$NeverWater == 1 ||
                   vals$NoOW == 1){
     NA_real_
   } else {
@@ -120,14 +120,14 @@ kmh_fun <- function(site) {
   }
 
 
-  emerg19 <- if(vals$F20_2 == 1){
+  emerg19 <- if(vals$NeverWater == 1){
     NA_real_
   } else {
     wt_max(indicator_data, "F37")
   }
 
 
-  aqplants19 <- if(vals$F20_2 == 1){
+  aqplants19 <- if(vals$NeverWater == 1){
     NA_real_
   } else {
     wt_max(indicator_data, "F38")
@@ -150,17 +150,11 @@ kmh_fun <- function(site) {
   appscore19 <- get_indicator_score(site, "app", "fun") / 10
 
   # function subscores
-  # Needs attention
-  #https://github.com/BCWF-Wetlands/wespr/issues/50
-  beaverhab <- ifelse(vals$F20_2 == 1, 0,
+  beaverhab <- ifelse(vals$NeverWater == 1, 0,
                    max_na(c(vals$Beaver , (2 * mean_na(c(beavers19, decid19, decidon19, permwat12 )) +
                                   mean_na(c( water2k19, willow19,  aqplants19, denscov19, bufferpct19))) / 3)))
 
-  # Needs attention
-  #https://github.com/BCWF-Wetlands/wespr/issues/50
-  # allsat1
-
-  muskrathab <- ifelse(vals$F20_2 == 1, 0,
+  muskrathab <- ifelse(vals$NeverWater == 1, 0,
                    ifelse(vals$HiFlucW == 1, 0,
                           max_na(c(vals$Muskrat, (mean_na(c(permwat12, lake19, depthdom19, deeppond19a, fluc19)) +
                                           herbcov19 + mean_na(aqplants19, emerg19, growdays19, fire19, appscore19))) / 3)))
