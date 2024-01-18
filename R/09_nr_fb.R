@@ -62,10 +62,8 @@ nr_fun <- function(site) {
   acid5 <- dplyr::case_when(
     vals$F45_3 == 1 ~ NA,
     is.na(pH) ~ NA,
-    pH > 6 & pH < 8.5 ~ 1,
-    pH <= 6 ~ 0,
-    pH >= 8.5 ~ 0,
-    .default = 0.5
+    pH >= 6 & pH <= 8.5 ~ 1,
+    TRUE ~ ifelse(pH < 6 | pH > 8.5,  0, 0.5)
   )
 
   groundw5 <- wt_max(indicator_data, "F47")
