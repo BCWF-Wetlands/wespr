@@ -37,10 +37,7 @@ fr_fun <- function(site) {
 
   persispct7 <- wt_max(indicator_data, "F21")
 
-
-  # TO DO - reference to ALLSAT but not found in batch?
-  #https://github.com/BCWF-Wetlands/wespr/issues/41
-  fringe7 <- if (vals$AllSat1 >0 ||
+  fringe7 <- if (vals$NeverWater >0 ||
                  vals$NoPersis == 1||
                  vals$F22_1 == 0 ){
       NA_real_
@@ -48,9 +45,7 @@ fr_fun <- function(site) {
      1
     }
 
-  # TO DO - reference to ALLSAT but not found in batch?
-  #https://github.com/BCWF-Wetlands/wespr/issues/41
-  lake7 <- if (vals$AllSat1 >0 ||
+  lake7 <- if (vals$NeverWater >0 ||
                vals$NoPersis == 1||
                vals$F23_1 == 0 ){
        NA_real_
