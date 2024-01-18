@@ -17,7 +17,7 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "pr", "fun")
   site <- update_site_indicator(site, "pr", "ben")
   site <- update_site_indicator(site, "cp", "fun")
-  site <- update_site_indicator(site, "fr", "fun") # add allsat1 val once confirmed with Paul
+  site <- update_site_indicator(site, "fr", "fun")
   site <- update_site_indicator(site, "fr", "ben")
   site <- update_site_indicator(site, "sens", "fun")
   site <- update_site_indicator(site, "str", "fun")
