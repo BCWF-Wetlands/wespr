@@ -138,7 +138,7 @@
           - fun: 6.12 
           - ben: NA 
         * KMH:  
-          - fun: 2.85 
+          - fun: 5.78 
           - ben: 7.8 
         * WB:  
           - fun: 6.43 
