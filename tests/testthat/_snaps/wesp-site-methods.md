@@ -8,6 +8,7 @@
       Site:  site_1 
       
       Incomplete Questions:  F25, F41, F43, F44, F59, OF28 
+        * Please ensure that it is valid to leave these questions unanswered.
       
       Derived values:
         *  AllWater = 0
@@ -65,6 +66,7 @@
       Site:  site_1 
       
       Incomplete Questions:  F25, F41, F43, F44, F59, OF28 
+        * Please ensure that it is valid to leave these questions unanswered.
       
       Derived values:
         *  AllWater = 0

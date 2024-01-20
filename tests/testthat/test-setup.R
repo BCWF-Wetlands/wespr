@@ -14,13 +14,13 @@ test_that("site setup works", {
   data <- load_wesp_data(test_path("test-wetflat.csv"))
   expect_s3_class(data, "data.frame")
 
-  suppressWarnings(
+  suppressMessages(
     site2 <- as.wesp_site(data, site = "site_2")
   )
   expect_s3_class(site2, "wesp_site")
   expect_equal(site2$site_name, "site_2")
 
-  suppressWarnings(
+  suppressMessages(
     site3 <- as.wesp_site(data, site = 3)
   )
   expect_s3_class(site3, "wesp_site")
