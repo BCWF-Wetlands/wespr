@@ -148,6 +148,6 @@ ws_ben <- function(site) {
       mean_na(c(floodprop1v, impervca1, elev1v, aspect1, disturb1, rddenswau1, rddens1, dryness1))
     }
 
-  ws_ben_score
+  as.indicator_score(ws_ben_score)
 }
 
