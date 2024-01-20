@@ -71,9 +71,14 @@ get_indicator_scores.default <- function(site, ...) {
 
 #' @export
 get_indicator_scores.wesp_site <- function(site, ...) {
+  # TODO: in each indicator there is a list of two - need to get both fun and ben
+  # score_values, trying to reconstruct a list of two-element vectors like the
+  # old one was
+  indicator_scores <- vapply(site$indicators, get_score_value, FUN.VALUE = numeric(1))
+
   dplyr::bind_cols(
     site = site$site_name,
-    dplyr::bind_rows(site$indicators, .id = "indicator")
+    dplyr::bind_rows(indicator_scores, .id = "indicator")
   ) %>%
     dplyr::mutate(indicator = toupper(.data$indicator))
 }
