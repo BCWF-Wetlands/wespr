@@ -150,7 +150,7 @@ update_site_indicator <- function(site, indicator, type = c("fun", "ben")) {
   indicator_fun <- paste(indicator, type, sep = "_")
   indicator_score <- do.call(indicator_fun, list(site = site))
 
-  existing_value <- site$indicators[[indicator]][[type]]
+  existing_value <- get_score_value(site$indicators[[indicator]][[type]])
 
   if (!is.null(existing_value)) {
     warning("'", indicator, ":", type, "' has exisiting value: ", existing_value, ". ",
