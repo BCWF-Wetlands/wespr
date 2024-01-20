@@ -148,16 +148,26 @@ update_site_indicator <- function(site, indicator, type = c("fun", "ben")) {
   # This is a bit fragile - make the name of the function from indicator and type
   # args, and call it with do.call:
   indicator_fun <- paste(indicator, type, sep = "_")
-  value <- do.call(indicator_fun, list(site = site))
+  indicator_score <- do.call(indicator_fun, list(site = site))
 
   existing_value <- site$indicators[[indicator]][[type]]
 
   if (!is.null(existing_value)) {
     warning("'", indicator, ":", type, "' has exisiting value: ", existing_value, ". ",
-            "Replacing it with ", round(value, 2))
+            "Replacing it with ", round(indicator_score, 2))
   }
 
-  site$indicators[[indicator]][[type]] <- value
+  site$indicators[[indicator]][[type]] <- indicator_score
 
   site
+}
+
+as.indicator_score <- function(x) {
+  class <- "indicator_score"
+  if (is.list(x)) {
+    stopifnot(names(x) == c("score", "subscores"))
+    class <- c("with_subscores", class)
+  }
+  class(x) <- class
+  x
 }
