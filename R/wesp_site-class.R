@@ -161,13 +161,3 @@ update_site_indicator <- function(site, indicator, type = c("fun", "ben")) {
 
   site
 }
-
-as.indicator_score <- function(x) {
-  class <- "indicator_score"
-  if (is.list(x)) {
-    stopifnot(names(x) == c("score", "subscores"))
-    class <- c("with_subscores", class)
-  }
-  class(x) <- class
-  x
-}

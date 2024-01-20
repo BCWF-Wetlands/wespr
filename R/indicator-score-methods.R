@@ -1,3 +1,16 @@
+as.indicator_score <- function(x) {
+  class <- "indicator_score"
+  if (is.list(x)) {
+    stopifnot(names(x) == c("score", "subscores"))
+    class <- c("with_subscores", class)
+  }
+  class(x) <- class
+  x
+}
+
+# TODO: Shouldn't need to export these to work internally, but for interactive
+# testing they're helpful
+
 #' @export
 round.with_subscores <- function(x, ...) {
   round(x$score, ...)
