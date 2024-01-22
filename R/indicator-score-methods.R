@@ -8,15 +8,16 @@ as.indicator_score <- function(x) {
   x
 }
 
-# TODO: Shouldn't need to export these to work internally, but for interactive
-# testing they're helpful
-
 #' @export
 round.with_subscores <- function(x, ...) {
   round(x$score, ...)
 }
 
 #' @export
+round.indicator_score <- function(x, ...) {
+  unclass(NextMethod())
+}
+
 get_score_value <- function(x, ...) {
   if (is.null(x)) return(x)
   UseMethod("get_score_value")
