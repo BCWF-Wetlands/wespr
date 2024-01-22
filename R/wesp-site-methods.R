@@ -23,7 +23,8 @@ print_incomplete_questions_helper <- function(x) {
 
   if (any(incomplete_q)) {
     incomplete <- names(x)[incomplete_q]
-    cat("Incomplete Questions: ", paste(incomplete, collapse = ", "), "\n\n")
+    cat("Incomplete Questions: ", paste(incomplete, collapse = ", "), "\n")
+    cat("  * Please ensure that it is valid to leave these questions unanswered.\n\n")
   }
 }
 
