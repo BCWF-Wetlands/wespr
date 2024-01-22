@@ -41,7 +41,6 @@ get_score_value.indicator_score <- function(x, ...) {
 
 #' @export
 print.indicator_score <- function(x, ...) {
-  cat("Function:\n")
   cat("Score:", round(unclass(x), 2))
 }
 
