@@ -24,7 +24,6 @@ get_score_value <- function(x, ...) {
 
 #' @export
 get_score_value.with_subscores <- function(x, ...) {
-  NextMethod("get_score_value")
   x$score
 }
 
