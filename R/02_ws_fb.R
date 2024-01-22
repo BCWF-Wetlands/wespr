@@ -90,12 +90,11 @@ ws_fun <- function(site) {
   )
 
    as.indicator_score(
-     list(score = ws_fun_score,
-          subscores = c(
-            subsurf = subsurf,
-            livestore = livestore,
-            friction = friction
-          )
+     score = ws_fun_score,
+     subscores = c(
+       subsurf = subsurf,
+       livestore = livestore,
+       friction = friction
      )
    )
 }

@@ -181,7 +181,16 @@ kmh_fun <- function(site) {
 
   kmh_fun_score <- 10 * (mean_na(c(beaverhab, muskrathab, moosehab, caribouhab, bearhab)))
 
-  kmh_fun_score
+  as.indicator_score(
+    kmh_fun_score,
+    subscores = c(
+      beaverhab = beaverhab,
+      muskrathab = muskrathab,
+      moosehab = moosehab,
+      caribouhab = caribouhab,
+      bearhab = bearhab
+    )
+  )
 
 }
 
@@ -203,6 +212,6 @@ kmh_ben <- function(site) {
 
   kmh_ben_score <- 10 * (mean_na(c(hunt19v, water2k19v, distpond19v, disttown19v)))
 
-  kmh_ben_score
+  as.indicator_score(kmh_ben_score)
 
 }

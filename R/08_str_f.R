@@ -62,6 +62,14 @@ str_fun <- function(site) {
 
   str_fun_score <- 10 * max_na(c(hydrostress, wqstress, connecstress))
 
-  str_fun_score
+  as.indicator_score(
+    str_fun_score,
+    subscores = c(
+      hydrostress = hydrostress,
+      wqstress = wqstress,
+      connecstress = connecstress
+    )
+
+  )
 
 }

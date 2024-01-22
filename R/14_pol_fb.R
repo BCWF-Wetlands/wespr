@@ -85,9 +85,14 @@ pol_fun <- function(site) {
 
   pol_fun_score <- 10 * (ifelse(vals$AllPermW == 1, 0, (3* pollen + 2* nestsites + stress16)/6))
 
-
-  pol_fun_score
-
+  as.indicator_score(
+    pol_fun_score,
+    subscores = c(
+      pollen = pollen,
+      nestsites = nestsites,
+      stress = stress16
+    )
+  )
 }
 
 # calculate benefits
@@ -126,5 +131,5 @@ pol_ben <- function(site){
 
   pol_ben_score <- 10 * mean_na(c(perimpctper16v, intact16v, lcrich16v,lcrich2k16v , rareplant16v))
 
-  pol_ben_score
+  as.indicator_score(pol_ben_score)
 }

@@ -95,8 +95,6 @@ sr_fun <- function(site) {
             depthdom3, ponded3, constric3))
   }
 
-  connectiv3 <- outdura3
-
   ## Final:
   sr_fun_score <- if (vals$NeverWater == 1) {
     dryintercept
@@ -106,7 +104,16 @@ sr_fun <- function(site) {
     10 * outdura3 * mean_na(c(livestore3, dryintercept, wetintercept))
   }
 
-  sr_fun_score
+  as.indicator_score(
+    sr_fun_score,
+    subscores = c(
+      livestore = livestore3,
+      dryintercept = dryintercept,
+      wetintercept = wetintercept,
+      connectiv = outdura3
+    )
+  )
+
 }
 
 
@@ -177,5 +184,5 @@ sr_ben <- function(site) {
       mean_na(c(elev3v, wetpctrca3v, topopos3v, inflow3v, alldry3, dryness3v))
     ) / 4
 
-  sr_ben_score
+  as.indicator_score(sr_ben_score)
 }

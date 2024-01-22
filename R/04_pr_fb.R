@@ -23,10 +23,10 @@ pr_fun <- function(site) {
   gcover4 <- ground_cover(vals, indicator_data)
 
   soiltex4 <- if(vals$F15_4 > 1) {
-      NA_real_
-    } else {
-      wt_max(indicator_data, "F15")
-    }
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F15")
+  }
 
   girreg4 <- wt_max(indicator_data, "F18")
 
@@ -39,10 +39,10 @@ pr_fun <- function(site) {
   pondpct4 <- ponded_water(vals, indicator_data)
 
   widthwet4 <- if(any(unlist(vals[c("NeverWater", "NoPersis", "NoDeepPond", "NoOW")]) == 1)) {
-      NA_real_
-    } else {
-      wt_max(indicator_data, "F33")
-    }
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F33")
+  }
 
   interspers4 <- if(any(unlist(vals[c("NeverWater", "NoPersis", "NoDeepPond", "NoOW")]) == 1)) {
     NA_real_
@@ -69,38 +69,46 @@ pr_fun <- function(site) {
   gradient4 <- internal_gradient(vals, indicator_data)
 
   acid4 <- if(vals$F45_1 > 8) {
-     1
-   } else {
+    1
+  } else {
     NA_real_
-   }
+  }
 
-   soildisturb4 <- vals$S5_subscore
+  soildisturb4 <- vals$S5_subscore
 
-   ## calculate function sub-components
-   interceptdry3 <- sum_na(mean_na(c(gradient4,wetpctrca4)),
-                           mean_na(c(girreg4 , gcover4, soildisturb4, aspect4, growd4)))/2
+  ## calculate function sub-components
+  interceptdry3 <- sum_na(mean_na(c(gradient4,wetpctrca4)),
+                          mean_na(c(girreg4 , gcover4, soildisturb4, aspect4, growd4)))/2
 
-    interceptwet3 <- if(any(unlist(vals[c("NeverWater", "NoOW")]) == 1)) {
-     NA_real_
-   } else {
-     sum_na(pondpct4, interspers4, thruflo4, widthwet4, flodist4)/5
-   }
+  interceptwet3 <- if(any(unlist(vals[c("NeverWater", "NoOW")]) == 1)) {
+    NA_real_
+  } else {
+    sum_na(pondpct4, interspers4, thruflo4, widthwet4, flodist4)/5
+  }
 
-    connec4 <- sum_na(outdura4, constric4)/2
+  connec4 <- sum_na(outdura4, constric4)/2
 
-    adsorb3 <- sum_na(soiltex4, acid4)/2
+  adsorb3 <- sum_na(soiltex4, acid4)/2
 
-    desorb3 <- sum_na(permw4, depthdom4, fluctu4, eutroph4)/4
+  desorb3 <- sum_na(permw4, depthdom4, fluctu4, eutroph4)/4
 
 
-   pr_fun_score <- 10* (ifelse(outmap4 == 0, 1,
-                   ifelse(vals$NeverWater == 1, mean_na(c(interceptdry3, adsorb3), na.rm = TRUE),
-                    (3 * adsorb3 + 2 * mean_na(c(connec4, desorb3), na.rm = TRUE) +
-                       mean_na(c(interceptwet3, interceptdry3), na.rm = TRUE)) / 6
-                               )))
+  pr_fun_score <- 10* (ifelse(outmap4 == 0, 1,
+                              ifelse(vals$NeverWater == 1, mean_na(c(interceptdry3, adsorb3), na.rm = TRUE),
+                                     (3 * adsorb3 + 2 * mean_na(c(connec4, desorb3), na.rm = TRUE) +
+                                        mean_na(c(interceptwet3, interceptdry3), na.rm = TRUE)) / 6
+                              )))
 
-   pr_fun_score
-
+  as.indicator_score(
+    pr_fun_score,
+    subscores = c(
+      interceptdry = interceptdry3,
+      interceptwet = interceptwet3,
+      connec = connec4,
+      adsorb = adsorb3,
+      desorb = desorb3
+    )
+  )
 }
 
 
@@ -121,9 +129,9 @@ pr_ben <- function(site) {
   dryness4v <- local_moisture_deficit(vals)
 
   sindex4v <- if(sum_na(vals$OF28_1, vals$OF28_2,vals$OF28_3,vals$OF28_4,vals$OF28_5)==0){
-     NA_real_
-    } else {
-      wt_max(indicator_data, "OF28")
+    NA_real_
+  } else {
+    wt_max(indicator_data, "OF28")
   }
 
   topopos4v <- vals$OF29_1 / 5
@@ -135,7 +143,7 @@ pr_ben <- function(site) {
   }
 
   disturb4v <- if(sum_na(vals$OF41_1, vals$OF41_2,vals$OF41_3,vals$OF41_4,vals$OF41_5) ==0 ||
-    vals$NoCA == 1) {
+                  vals$NoCA == 1) {
     NA_real_
   } else {
     wt_max(indicator_data, "OF41")
@@ -175,7 +183,7 @@ pr_ben <- function(site) {
       mean_na(c(inflow4v, dryness4v))+
       mean_na(c(wetpctca4v, elev4v, topopos4v)))/6
 
-  pr_ben_score
+  as.indicator_score(pr_ben_score)
 
 }
 

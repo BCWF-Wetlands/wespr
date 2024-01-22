@@ -130,9 +130,15 @@ wb_fun <- function(site) {
                    10 * (3 * max_na(c(mean_na(c(pondedpct13, owarea13, maxpondarea13)), wb_rare11, rarebird11)) +
                                    2 * mean_na(c(hydro13, struc13, produc13, lscape13))) / 5)
 
-  wb_fun_score
-
-
+  as.indicator_score(
+    wb_fun_score,
+    subscores = c(
+      lscape = lscape13,
+      hydro = hydro13,
+      produc = produc13,
+      struc = struc13
+    )
+  )
 }
 
 
@@ -170,8 +176,6 @@ wb_ben <- function(site) {
                                max_na(c(rarebird11v, rarespp11v)),
                                mean_na(c(duckhunt13, recrea13v)))))
 
-
-  wb_ben_score
-
+  as.indicator_score(wb_ben_score)
 }
 

@@ -22,7 +22,7 @@ app_ben <- function(site) {
   ap_ben_score <- 10 * (mean_na(c(elev8v,
                                  mean_na(c(fscorefh8v, fscoream8v, fscorewb8v, fscoreSBM8v)))))
 
-  ap_ben_score
+  as.indicator_score(ap_ben_score)
 
 }
 

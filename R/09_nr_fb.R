@@ -88,8 +88,17 @@ nr_fun <- function(site) {
                  (3 * redox + 2 * connec5 + warmth4 + organic4 + intercept4) / 8)
                                          ))
 
+as.indicator_score(
+  nr_subscore_fun,
+  subscores = c(
+    warmth = warmth4,
+    intercept = intercept4,
+    connecc = connec5,
+    organic = organic4,
+    redox = redox
+  )
 
-  nr_subscore_fun
+)
 
 
 }
@@ -113,6 +122,6 @@ nr_ben <- function(site) {
 
   nr_ben_score <- 10 * max_na(c(wells5v, pval5, mean_na(c(nfix5v, rddist5))))
 
-  nr_ben_score
+  as.indicator_score(nr_ben_score)
 
 }

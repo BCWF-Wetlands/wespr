@@ -146,10 +146,17 @@ app_fun <- function(site) {
   templight8 <- mean_na(c(aspect8, solar8, wetdef8, degreed8, shade8, decidtree8, gcover8, depthdom8
                         ))
 
-  stressors8<- mean_na(c(soildisturb8, unvegca8, disturb8, sedrca8, acidic8))
+  stressors8 <- mean_na(c(soildisturb8, unvegca8, disturb8, sedrca8, acidic8))
 
   ap_fun_score <- 10 * (drypct8 * mean_na(c(npinput8, npcycling8, templight8, stressors8)))
 
-  ap_fun_score
-
+  as.indicator_score(
+    ap_fun_score,
+    subscores = c(
+      npinput = npinput8,
+      npcycling = npcycling8,
+      templight = templight8,
+      stressors = stressors8
+    )
+  )
 }
