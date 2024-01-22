@@ -63,7 +63,7 @@ record_values <- function(data, site) {
 
 validate <- function(question, values) {
   question$value <- question$validator(values)
-  question <- signal_incomplete(question)
+  question <- check_incomplete(question)
   if (question$no == "OF29") {
     # Convert topo position character to numeric
     question$value <- topo_position(question$value)
@@ -72,11 +72,9 @@ validate <- function(question, values) {
   question
 }
 
-signal_incomplete <- function(q) {
+check_incomplete <- function(q) {
   if (isTRUE(attr(q$value, "incomplete"))) {
     q$incomplete <- TRUE
-    warning("Question ", q$no, " does not appear to have been filled out.",
-            call. = FALSE)
   }
   q
 }

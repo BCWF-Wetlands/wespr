@@ -35,6 +35,13 @@ as.wesp_site <- function(data, site = NULL) {
     derived_values = derived_values,
     indicators = indicators()
   )
+
+  incomplete_questions <- Filter(\(x) isTRUE(x$incomplete), site$questions)
+  if (length(incomplete_questions) > 0) {
+    message("Questions ", paste(names(incomplete_questions), collapse = ", "),
+            " do not appear to have been filled out.\n Please ensure this is valid.")
+  }
+
   class(site) <- "wesp_site"
   site
 }
