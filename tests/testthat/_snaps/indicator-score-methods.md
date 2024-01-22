@@ -12,7 +12,6 @@
           - friction: 0.75
       
       $ws$ben
-      Function:
       Score: 5.89
       
       $sr
@@ -25,7 +24,6 @@
           - connectiv: 1
       
       $sr$ben
-      Function:
       Score: 4.14
       
       $pr
@@ -39,20 +37,16 @@
           - desorb: 0.22
       
       $pr$ben
-      Function:
       Score: 3.75
       
       $cp
       $cp$fun
-      Function:
       Score: 8.9
       
       $fr
       $fr$fun
-      Function:
       Score: 2.23
       $fr$ben
-      Function:
       Score: 8.06
       
       $sens
@@ -85,7 +79,6 @@
           - redox: 0.25
       
       $nr$ben
-      Function:
       Score: 5
       
       $app
@@ -98,7 +91,6 @@
           - stressors: 0.67
       
       $app$ben
-      Function:
       Score: 4.99
       
       $pd
@@ -112,7 +104,6 @@
           - stresspd: 0.79
       
       $pd$ben
-      Function:
       Score: NA
       
       $kmh
@@ -126,7 +117,6 @@
           - bearhab: 0.65
       
       $kmh$ben
-      Function:
       Score: 7.8
       
       $wb
@@ -139,7 +129,6 @@
           - struc: 0.52
       
       $wb$ben
-      Function:
       Score: 7.19
       
       $pol
@@ -151,7 +140,6 @@
           - stress: 0.54
       
       $pol$ben
-      Function:
       Score: 3.5
       
       $rsb
@@ -166,7 +154,6 @@
           - nopred: 0.33
       
       $rsb$ben
-      Function:
       Score: 4.03
       
       $oe
@@ -189,7 +176,6 @@
           - biostress: 0.24
       
       $am$ben
-      Function:
       Score: 10
       
       $fh
@@ -202,7 +188,6 @@
           - nostress: 0.56
       
       $fh$ben
-      Function:
       Score: 2.14
       
       $sfts
@@ -214,12 +199,10 @@
           - groundwater: 0.67
       
       $sfts$ben
-      Function:
       Score: 7.83
       
       $cri
       $cri$ben
-      Function:
       Score: 5.4
       
 
