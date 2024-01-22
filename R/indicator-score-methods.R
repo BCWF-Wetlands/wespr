@@ -1,7 +1,7 @@
 as.indicator_score <- function(score = NULL, subscores = NULL) {
 
   stopifnot(is.numeric(score))
-  class <- ""
+  class <- character()
 
   if (!is.null(subscores)) {
     stopifnot(is.numeric(subscores), !is.null(names(subscores)))
@@ -37,4 +37,18 @@ get_score_value.with_subscores <- function(x, ...) {
 #' @export
 get_score_value.indicator_score <- function(x, ...) {
   unclass(x)
+}
+
+#' @export
+print.indicator_score <- function(x, ...) {
+  cat("Function:\n")
+  cat("Score:", round(unclass(x), 2))
+}
+
+#' @export
+print.with_subscores <- function(x, ...) {
+  cat("Score:", x$score, "\n")
+  cat("  Subscores: \n")
+  sscore_names <- names(x$subscores)
+  cat(paste0("    - ", sscore_names, ": ", round(x$subscores, 2)), sep = "\n")
 }

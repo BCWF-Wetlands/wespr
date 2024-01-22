@@ -14,3 +14,9 @@ test_that("as.indicator_score fails correctly", {
   expect_error(as.indicator_score(score = 5, subscores = 1:2))
   expect_error(as.indicator_score(score = "hi"))
 })
+
+test_that("print method works", {
+  site <- make_test_site()
+  site <- calc_indicators(site)
+  expect_snapshot(site$indicators)
+})
