@@ -1,11 +1,17 @@
-as.indicator_score <- function(x) {
-  class <- "indicator_score"
-  if (is.list(x)) {
-    stopifnot(names(x) == c("score", "subscores"))
-    class <- c("with_subscores", class)
+as.indicator_score <- function(score = NULL, subscores = NULL) {
+
+  stopifnot(is.numeric(score))
+  class <- ""
+
+  if (!is.null(subscores)) {
+    stopifnot(is.numeric(subscores), !is.null(names(subscores)))
+    class <- "with_subscores"
+    score <- list(score = score, subscores = subscores)
   }
-  class(x) <- class
-  x
+  structure(
+    score,
+    class = c(class, "indicator_score")
+  )
 }
 
 #' @export
