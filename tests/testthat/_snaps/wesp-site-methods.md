@@ -8,6 +8,7 @@
       Site:  site_1 
       
       Incomplete Questions:  F25, F41, F43, F44, F59, OF28 
+        * Please ensure that it is valid to leave these questions unanswered.
       
       Derived values:
         *  AllWater = 0
@@ -65,6 +66,7 @@
       Site:  site_1 
       
       Incomplete Questions:  F25, F41, F43, F44, F59, OF28 
+        * Please ensure that it is valid to leave these questions unanswered.
       
       Derived values:
         *  AllWater = 0
@@ -138,7 +140,7 @@
           - fun: 6.12 
           - ben: NA 
         * KMH:  
-          - fun: 2.85 
+          - fun: 5.78 
           - ben: 7.8 
         * WB:  
           - fun: 6.43 
