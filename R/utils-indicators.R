@@ -510,7 +510,7 @@ submerged_floating_aquatics_1 <- function(vals){
   if (vals$NeverWater == 1 ||
       vals$NoPersis == 1 ||
       vals$NoDeepPonded == 1 ||
-      vals$Nopond == 1||
+      vals$NoPond == 1||
       vals$F38_2 != 1) {
     NA_real_
   } else {
