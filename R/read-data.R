@@ -21,9 +21,8 @@ load_wesp_data <- function(path) {
     name_repair = "universal"
   ) |>
     dplyr::rename_with(
-      \(x) gsub("...", "site_", x),
-      dplyr::starts_with("...")
-    ) |>
+      \(x) gsub("[.]{3}", "site_", x)
+    )
     dplyr::rename(
       response_no = "Question",
     ) |>
