@@ -16,12 +16,12 @@ sfts_fun <- function(site) {
 
   # OF153 - not the range classed, chcek this is correct
   # check OF39 is included in this indicator
-  conif2 <- if(sum_na(vals$OF39_1, vals$OF39_2, vals$OF39_3, vals$OF39_4, vals$OF39_5) == 0){ #||
-              # is.na(vals$OF39_0))
-      NA_real_
-    } else {
-      vals$OF39_1
-    }
+  conif2 <- if(sum_na(vals$OF39_1, vals$OF39_2, vals$OF39_3, vals$OF39_4, vals$OF39_5) == 0) {
+    # is.na(vals$OF39_0))
+    NA_real_
+  } else {
+    vals$OF39_1
+  }
 
   woodypct2 <- wt_max(indicator_data, "F1")
 
@@ -39,10 +39,10 @@ sfts_fun <- function(site) {
 
 
   woodydryshade2 <- if(vals$NeverWater == 1 || vals$NoPersis == 1) {
-      NA_real_
-    } else {
-      wt_max(indicator_data, "F24")
-    }
+    NA_real_
+  } else {
+    wt_max(indicator_data, "F24")
+  }
 
   depthdom2 <- if(vals$NeverWater == 1 || vals$NoPersis == 1) {
     NA_real_
@@ -68,13 +68,13 @@ sfts_fun <- function(site) {
 
   # check these are NA and not blanks
   conduc2 <- ifelse(is.na(vals$F46a_1) , NA_real_ ,
-                          ifelse(vals$F46a_1 < 150, 0,
-                                 ifelse(vals$F46a_1 > 500, 1, 0.5)))
+                    ifelse(vals$F46a_1 < 150, 0,
+                           ifelse(vals$F46a_1 > 500, 1, 0.5)))
 
   # check these are NA and not blanks
   tds2 <- ifelse(is.na(vals$F46b_1), NA_real_ ,
-                  ifelse(vals$F46b_1 < 100, 0,
-                         ifelse(vals$F46b_1 > 350, 1, 0.5)))
+                 ifelse(vals$F46b_1 < 100, 0,
+                        ifelse(vals$F46b_1 > 350, 1, 0.5)))
 
 
 
@@ -85,11 +85,11 @@ sfts_fun <- function(site) {
 
   shadedsurf <- mean_na(woodydryshade2, woodypct2, conif2, gcover2, alldry2, soiltex2, vwidth2)
   surfacestorage <- if(vals$NeverWater == 1 ||
-                         vals$NoPersis ==1 ){
-      NA_real_
-    } else {
-      mean_na(ponded2, openw2, depthdom2, moss2)
-    }
+                       vals$NoPersis ==1 ){
+    NA_real_
+  } else {
+    mean_na(ponded2, openw2, depthdom2, moss2)
+  }
 
   groundwater <- mean_na(groundw2, faults2, topopos2, max_na(conduc2, tds2))
 
@@ -97,9 +97,14 @@ sfts_fun <- function(site) {
 
   sfts_fun_score <- 10 * (outmap2 * mean_na(c(shadedsurf, groundwater, surfacestorage)))
 
-
-  sfts_fun_score
-
+  as.indicator_score(
+    score = sfts_fun_score,
+    subscores = c(
+      shadedsurf = shadedsurf,
+      surfacestorage = surfacestorage,
+      groundwater = groundwater
+    )
+  )
 }
 
 # benefits score
@@ -129,7 +134,7 @@ sfts_ben<- function(site) {
     NA_real_
   } else {
     wt_max(indicator_data, "OF11")
-    }
+  }
 
   wetdef2 <- local_moisture_deficit(vals)
 
@@ -138,7 +143,7 @@ sfts_ben<- function(site) {
   solar2v <- local_solar_input(vals)
 
   rddens2v <- if((sum_na(vals$OF30_1, vals$OF30_2, vals$OF30_3) == 0) ||
-                  vals$NoCA == 1){
+                 vals$NoCA == 1){
     NA_real_
   } else {
     wt_max(indicator_data, "OF30")
@@ -173,8 +178,7 @@ sfts_ben<- function(site) {
                             mean_na(c(wetdef2, gdd2v, solar2v, glacier2v, aspect2v)) +
                             mean_na(c(perminpctper2v, impervrca2v, rddens2v, rddenswau2v, flowalt2, disturb2v))/6)
 
-  sfts_ben_score
-
+  as.indicator_score(sfts_ben_score)
 }
 
 

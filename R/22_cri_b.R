@@ -75,7 +75,5 @@ cri_ben <- function(site) {
                            mean_na(c(refuges, protect17, wbscore17, consinvest17, sciuse17)) +
                            mean_na(c(recpoten17v, fhscore17))) / 6
 
-
-  cri_ben_score
-
+  as.indicator_score(cri_ben_score)
 }

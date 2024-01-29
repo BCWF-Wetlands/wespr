@@ -98,6 +98,13 @@ sens_fun <- function(site) {
    # calculate the final score.
    sens_score_fun <- 10 * mean_na(c(abiosens, biosens, colonizer, growrate))
 
-   sens_score_fun
-
+   as.indicator_score(
+     sens_score_fun,
+     subscores = c(
+       abiosens = abiosens,
+       biosens = biosens,
+       colonizer = colonizer,
+       growrate = growrate
+     )
+   )
 }

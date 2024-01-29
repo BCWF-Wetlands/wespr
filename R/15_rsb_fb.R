@@ -108,7 +108,17 @@ rsb_fun <- function(site) {
                         ifelse(max(rarebird14, rarespp14) == 1, 1,
                                (2 * hydrosize  + mean(c(struc14, foods14, habs, lscape14, nopred))) / 3))
 
-  rsb_fun_score
+  as.indicator_score(
+    rsb_fun_score,
+    subscores = c(
+      hydrosize = hydrosize,
+      struc = struc14,
+      foods = foods14,
+      habs = habs,
+      lscape = lscape14,
+      nopred = nopred
+    )
+  )
 }
 
 
@@ -161,6 +171,5 @@ rsb_ben <- function(site) {
     TRUE ~  mean_na(c(lakewetpct14v, lcovuniq14v, lcrich14v, lcrich2k14v, recrea14v))
   )
 
-  rsb_ben_score
-
+  as.indicator_score(rsb_ben_score)
 }

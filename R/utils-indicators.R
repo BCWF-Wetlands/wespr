@@ -633,7 +633,7 @@ type_of_cover_buff <- function(vals, indicator_data){
 
 # F52
 buffer_slope <- function(vals, indicator_data){
-  if(vals$Disturb == 0) {
+  if (vals$Disturb == 0) {
     NA_real_
   } else {
     wt_max(indicator_data, "F52")
@@ -648,7 +648,7 @@ get_indicator_score <- function(site, indicator, type) {
   if (!indicator %in% names(site$indicators)) {
     stop(indicator, " is not a valid indicator")
   }
-  score <- site$indicators[[indicator]][[type]]
+  score <- get_score_value(site$indicators[[indicator]][[type]])
 
   if (is.null(score)) {
     stop(indicator, " has not been calculated yet")

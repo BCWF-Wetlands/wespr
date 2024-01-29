@@ -45,8 +45,5 @@ pd_ben <- function(site) {
                            mean_na(c(sbmscore15v, pollscore15)) +
                            mean_na(c(lcovuniq15v, lcovrich15v, lcrich2k15v, pctprotected15v)))/3)
 
-
- pd_ben_score
-
-
+ as.indicator_score(pd_ben_score)
 }
