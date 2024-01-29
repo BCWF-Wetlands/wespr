@@ -18,7 +18,7 @@ validators <- list(
           attr(x, "incomplete") <- TRUE
         } else {
           stop("Question ", q_no,
-               ": Value must be length ", n, " and be all 0s and one 1", call. = FALSE)
+               ": Value must be length ", n, " and be all 0s and at most one 1", call. = FALSE)
         }
       }
       x
