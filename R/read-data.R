@@ -22,7 +22,7 @@ load_wesp_data <- function(path) {
   ) |>
     dplyr::rename_with(
       \(x) gsub("[.]{3}", "site_", x)
-    )
+    ) |>
     dplyr::rename(
       response_no = "Question",
     ) |>
