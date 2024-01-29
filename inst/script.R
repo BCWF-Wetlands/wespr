@@ -10,10 +10,23 @@ library(dplyr)
 # read in data and filter to questions we have implemented, and just one site:
 data <- load_wesp_data(system.file("input_data/wetFlat.csv", package = "wespr"))
 
-site <- as.wesp_site(data)
+# sitelist <- seq(1,5, 1)
+#
+# for(i in sitelist){
+#   print(i)
+#   site <- as.wesp_site(data, i)
+#   site <- calc_indicators(site)
+#   #aa = get_derived_values(site)
+#   aa = get_indicator_scores(site)
+#   print(aa)
+# }
+#
+
+site <- as.wesp_site(data, 9)
 
 site <- calc_indicators(site)
 
+#site <- calc_indicators(site)
 # cp_f(site)
 # ws_f(site)
 # ws_b(site)

@@ -6,19 +6,28 @@ app_fun <- function(site) {
 
   elev8 <- 1 - vals$OF5_1
 
-  # TODO: SOmthing not correct here : might need to addd an ifelse as circular with these two formulars
-  mappedout8 <- if(vals$NoOutlet + vals$NoOutletX == 0){
-    outdur8
-  } else {
-    vals$OF6_1
-  }
 
-  # TO DO : check this formlar makes sense in order with other formulars
-  outdur8 <- if(vals$F40_4 + vals$F40_5 > 0) {
-    mappedout8
+  if (vals$NoOutlet + vals$NoOutletX == 0) {
+    mappedout8  <- outdur8 <- wt_max(indicator_data, "F40")
   } else {
     wt_max(indicator_data, "F40")
+    mappedout8  <- outdur8 <- vals$OF6_1
   }
+
+#
+#   # TODO: SOmthing not correct here : might need to addd an ifelse as circular with these two formulars
+#   mappedout8 <- if(vals$NoOutlet + vals$NoOutletX == 0){
+#     outdur8
+#   } else {
+#     vals$OF6_1
+#   }
+#
+#   # TO DO : check this formlar makes sense in order with other formulars
+#   outdur8 <- if(vals$F40_4 + vals$F40_5 > 0) {
+#     mappedout8
+#   } else {
+#     wt_max(indicator_data, "F40")
+#   }
 
 
   aspect8 <- wt_max(indicator_data, "OF7")

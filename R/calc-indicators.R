@@ -25,7 +25,7 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "nr", "ben")
   site <- update_site_indicator(site, "app", "fun")
   site <- update_site_indicator(site, "pd", "fun")
-  site <- update_site_indicator(site, "kmh", "fun") # add allsat1 vals
+  site <- update_site_indicator(site, "kmh", "fun")
   site <- update_site_indicator(site, "kmh", "ben")
   site <- update_site_indicator(site, "wb", "fun")
   site <- update_site_indicator(site, "wb", "ben")
