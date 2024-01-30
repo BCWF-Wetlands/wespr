@@ -149,6 +149,15 @@ pd_fun <- function(site){
                     max_na(c(rareplant15, rarespp15)),
                     stresspd, aqfertilpd)) }
 
-   pd_fun_score
+   as.indicator_score(
+     pd_fun_score,
+     subscores = c(
+       spparea = spparea,
+       vrichness = vrichness,
+       aqfertilpd = aqfertilpd,
+       vscape = vscape,
+       stresspd = stresspd
+     )
+   )
 
 }

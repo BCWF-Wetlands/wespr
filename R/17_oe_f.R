@@ -59,5 +59,12 @@ oe_fun <- function(site) {
   oe_fun_score <- 10 * ifelse(outmap7 == 0, 0,
                               (3 * exportpot7 * max(productiv7, histaccum7)) / 3)
 
-  oe_fun_score
+  as.indicator_score(
+    oe_fun_score,
+    subscores = c(
+      histaccum = histaccum7,
+      productiv = productiv7,
+      exportpot = exportpot7
+    )
+  )
 }

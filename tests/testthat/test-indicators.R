@@ -47,7 +47,7 @@ test_that("update_site_indicator errors correctly", {
 
 test_that("update_site_indicator warns when exisiting value", {
   site <- make_test_site()
-  site$indicators$ws$ben <- 1.0
+  site$indicators$ws$ben <- as.indicator_score(1.0)
   expect_warning(
     update_site_indicator(site, "ws", "ben"),
     "has exisiting value"
@@ -56,11 +56,10 @@ test_that("update_site_indicator warns when exisiting value", {
 
 test_that("calc_indicators calculates all indicators", {
   site <- make_test_site()
-  # expect_snapshot_value(calc_indicators(site)$indicators, style = "json2")
   site <- calc_indicators(site)
-  expect_type(site$indicators$ws$fun, "double")
-  expect_type(site$indicators$ws$ben, "double")
-  expect_type(site$indicators$sr$fun, "double")
-  expect_type(site$indicators$sr$ben, "double")
-  expect_type(site$indicators$cp$fun, "double")
+  expect_s3_class(site$indicators$ws$fun, c("with_subscores", "indicator_score"))
+  expect_s3_class(site$indicators$ws$ben, "indicator_score")
+  expect_s3_class(site$indicators$sr$fun, c("with_subscores", "indicator_score"))
+  expect_s3_class(site$indicators$sr$ben, "indicator_score")
+  expect_s3_class(site$indicators$cp$fun, "indicator_score")
 })

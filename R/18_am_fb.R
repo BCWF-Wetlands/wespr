@@ -137,7 +137,16 @@ am_fun <- function(site) {
 
   am_fun_score <- 10 * mean_na(c(waterscape11, max_na(c(raream11, amrare11)), mean_na(hydro11, biostress11, aqstruc11, terrstruc11)))
 
-  am_fun_score
+  as.indicator_score(
+    am_fun_score,
+    subscores = c(
+      waterscape = waterscape11,
+      hydro = hydro11,
+      aqstruc = aqstruc11,
+      terrstruc = terrstruc11,
+      biostress = biostress11
+    )
+  )
 
 }
 
@@ -169,5 +178,5 @@ am_ben <- function(site) {
   am_ben_score <- 10 * (max_na(c(amphrare11, raream11v, fscorewbf11v,
                                mean_na(c(distpond9v, water2k11v, wetdenswau11v)))))
 
-  am_ben_score
+  as.indicator_score(am_ben_score)
 }

@@ -78,7 +78,7 @@ fr_fun <- function(site) {
                         2 * woodycov7 +
                        mean_na(c(aspect7, gcov8, fire7))) / 6)
 
-  fr_fun_score
+  as.indicator_score(fr_fun_score)
 }
 
 # Benefit
@@ -105,6 +105,6 @@ fr_ben <- function(site){
 
   fr_ben_score <- 10* ((4*disttown7v + conif7v + dryness7v)/6)
 
-  fr_ben_score
+  as.indicator_score(fr_ben_score)
 
   }

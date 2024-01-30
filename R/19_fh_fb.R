@@ -119,10 +119,15 @@ fh_fun <- function(site) {
                                       (3 * fishpres10 +
                                        2 * mean(c(appscore9, hydro10, struc10 )) + nostress10) / 6, 0)))
 
-
-  fh_fun_score
-
-
+  as.indicator_score(
+    fh_fun_score,
+    subscores = c(
+      hydro = hydro10,
+      struc = struc10,
+      nooxyrisk = nooxyrisk,
+      nostress = nostress10
+    )
+  )
 }
 
 
@@ -158,8 +163,7 @@ fh_ben <- function(site) {
 
   fh_ben_score <- 10 * (fscorewbf10v + fishing10v + mean_na(c(popdist10, rddist10v, boats10v)))/3
 
-  fh_ben_score
-
+  as.indicator_score(fh_ben_score)
 }
 
 

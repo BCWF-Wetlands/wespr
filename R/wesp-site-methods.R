@@ -72,9 +72,17 @@ get_indicator_scores.default <- function(site, ...) {
 
 #' @export
 get_indicator_scores.wesp_site <- function(site, ...) {
+
+  indicator_scores <- lapply(site$indicators, function(x) {
+    list(
+      fun = get_score_value(x$fun),
+      ben = get_score_value(x$ben)
+    )
+  })
+
   dplyr::bind_cols(
     site = site$site_name,
-    dplyr::bind_rows(site$indicators, .id = "indicator")
+    dplyr::bind_rows(indicator_scores, .id = "indicator")
   ) %>%
     dplyr::mutate(indicator = toupper(.data$indicator))
 }

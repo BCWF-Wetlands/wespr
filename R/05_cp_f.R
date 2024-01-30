@@ -55,5 +55,5 @@ cp_fun <- function(site) {
           2 * outdura6 + woodypct6 +
           mean_na(c(treetyp6, fire6, burn6, gcover6, constric6, wetdef6, soildisturb6))) / 9
 
-  cp_fun_score
+  as.indicator_score(cp_fun_score)
 }
