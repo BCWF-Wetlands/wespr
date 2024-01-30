@@ -23,7 +23,7 @@ sfts_fun <- function(site) {
     vals$OF39_1
   }
 
-  woodypct2 <- wt_max(indicator_data, "F1")
+  woodypct2 <- veg_height_weight(indicator_data, "F1")
 
   moss2 <- wt_max(indicator_data, "F10")
 
@@ -77,7 +77,7 @@ sfts_fun <- function(site) {
                         ifelse(vals$F46b_1 > 350, 1, 0.5)))
 
 
-
+  # updated weights table.
   groundw2 <- wt_max(indicator_data, "F47")
 
 
