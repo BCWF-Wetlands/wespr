@@ -14,6 +14,11 @@ wt_max <- function(indicator_data, question) {
   max_na(data$value * data$q_weighting) / max_na(data$q_weighting)
 }
 
+
+
+
+
+
 # Placeholder for confirmation
 # intact_vals <- function(vals) {
 #   intact_vals <- c(vals$OF30_1, vals$OF30_2, vals$OF30_3,
@@ -182,6 +187,23 @@ road_density_wau <- function(vals, indicator_data) {
 ##################################################
 # Standard functions for FIELD QUESTIONS
 ###################################################
+
+veg_height_weight <- function(indicator_data, question) {
+
+  data <- dplyr::filter(
+    indicator_data,
+    .data$no == {{question}},
+    !is.na(.data$q_weighting),
+    !is.na(.data$value)
+  )
+
+  # values are stored as a list because they can be different types. For this
+  # function they must be numeric.
+  data$value <- as.numeric(unlist(data$value))
+
+  max_na(data$value * data$q_weighting) / 36
+}
+
 
 #F15
 ground_cover <- function(vals, indicator_data) {
