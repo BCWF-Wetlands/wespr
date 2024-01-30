@@ -22,11 +22,7 @@ pr_fun <- function(site) {
 
   gcover4 <- ground_cover(vals, indicator_data)
 
-  soiltex4 <- if(vals$F15_4 > 1) {
-    NA_real_
-  } else {
-    wt_max(indicator_data, "F15")
-  }
+  soiltex4 <- wt_max(indicator_data, "F17")
 
   girreg4 <- wt_max(indicator_data, "F18")
 
@@ -74,7 +70,9 @@ pr_fun <- function(site) {
     NA_real_
   }
 
-  soildisturb4 <- vals$S5_subscore
+  # TODO - check this one : on questions list
+
+  soildisturb4 <- 1 - vals$S5_subscore
 
   ## calculate function sub-components
   interceptdry3 <- sum_na(mean_na(c(gradient4,wetpctrca4)),
