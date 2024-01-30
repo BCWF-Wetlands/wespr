@@ -24,7 +24,7 @@ sr_fun <- function(site) {
 
   seaspct3 <- percent_flooded_only_seasonally(vals, indicator_data)
 
-  fluc2 <- surface_water_fluctuation(vals, indicator_data)
+  fluc3 <- surface_water_fluctuation(vals, indicator_data)
 
   depthdom3 <- if (vals$NeverWater == 1 || vals$NoPersis == 1) {
     NA_real_
@@ -77,7 +77,7 @@ sr_fun <- function(site) {
   livestore3 <- if (vals$NeverWater == 1) {
     NA_real_
   } else {
-    mean_na(c(fluc2, seaspct3))
+    mean_na(c(fluc3, seaspct3))
   }
 
   dryintercept <- mean_na(
