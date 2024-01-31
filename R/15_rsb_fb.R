@@ -80,7 +80,7 @@ rsb_fun <- function(site) {
 
   beaver14 <- wt_max(indicator_data, "F48")
 
-  perimpctper14 <- vegetation_buffer_along_permin(vals, indicator_data)
+  perimpctper14 <- vegetation_buffer_along_permin1(vals, indicator_data)
 
   nestdist14 <- wt_max(indicator_data, "F53")
 
@@ -88,9 +88,9 @@ rsb_fun <- function(site) {
 
   noise14 <- ifelse(is.na(vals$S6_subscore), NA_real_, 1 - vals$S6_subscore)
 
-  appscore14 <- get_indicator_score(site, "app", "fun")
+  appscore14 <- get_indicator_score(site, "app", "fun") /10
 
-  pdscore14 <-get_indicator_score(site, "pd", "fun")
+  pdscore14 <-get_indicator_score(site, "pd", "fun")/10
 
 
   # RSB subscores :
@@ -104,9 +104,12 @@ rsb_fun <- function(site) {
   lscape14 <- mean_na(c(wetdenswau14, lakewetpct14, lcrich14, lcrich2k14, maxdomlc14, intact14, preserve14))
   nopred <- mean_na(c(disrd14, perimpctper14, protect14))
 
-  rsb_fun_score <- 10 * ifelse(vals$AllWater == 1, 0,
-                        ifelse(max(rarebird14, rarespp14) == 1, 1,
-                               (2 * hydrosize  + mean(c(struc14, foods14, habs, lscape14, nopred))) / 3))
+  rsb_fun_score <- 10 * (case_when(
+              vals$AllWater == 1 ~ 0,
+              max_na(rarebird14, rarespp14) == 1 ~ 1,
+              TRUE ~  (2 * hydrosize  + mean_na(c(struc14, foods14, habs, lscape14, nopred))) / 3))
+
+
 
   as.indicator_score(
     rsb_fun_score,
