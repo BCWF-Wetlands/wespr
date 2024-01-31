@@ -638,7 +638,7 @@ internal_gradient <- function(vals, indicator_data) {
 # F50
 vegetation_buffer_along_permin <- function(vals, indicator_data){
   if(vals$Disturb == 0) {
-  NA_real_
+  0
 } else {
   wt_max(indicator_data, "F50")
   }
