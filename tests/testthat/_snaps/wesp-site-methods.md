@@ -7,7 +7,7 @@
       
       Site:  site_1 
       
-      Incomplete Questions:  F25, F41, F43, F44, F59, OF28 
+      Incomplete Questions:  F43, F44, F50, OF28 
         * Please ensure that it is valid to leave these questions unanswered.
       
       Derived values:
@@ -23,12 +23,12 @@
         *  NoDeepPonded = 0
         *  NoOW = 0
         *  NoOutletX = 0
-        *  NoOutlet = 1
+        *  NoOutlet = 0
         *  Inflow = 0
-        *  Disturb = 1
+        *  Disturb = 0
         *  FishFound = 0
         *  Moose = 0
-        *  Beaver = 1
+        *  Beaver = 0
         *  Muskrat = 0
         *  Bear = 0
         *  Caribou = 0
@@ -65,7 +65,7 @@
       
       Site:  site_1 
       
-      Incomplete Questions:  F25, F41, F43, F44, F59, OF28 
+      Incomplete Questions:  F43, F44, F50, OF28 
         * Please ensure that it is valid to leave these questions unanswered.
       
       Derived values:
@@ -81,12 +81,12 @@
         *  NoDeepPonded = 0
         *  NoOW = 0
         *  NoOutletX = 0
-        *  NoOutlet = 1
+        *  NoOutlet = 0
         *  Inflow = 0
-        *  Disturb = 1
+        *  Disturb = 0
         *  FishFound = 0
         *  Moose = 0
-        *  Beaver = 1
+        *  Beaver = 0
         *  Muskrat = 0
         *  Bear = 0
         *  Caribou = 0
@@ -113,57 +113,57 @@
       
       Indicators:
         * WS:  
-          - fun: 10 
-          - ben: 5.89 
+          - fun: 4.61 
+          - ben: 10 
         * SR:  
-          - fun: 4.12 
-          - ben: 4.14 
+          - fun: 10 
+          - ben: 3.68 
         * PR:  
-          - fun: 5.51 
-          - ben: 3.75 
+          - fun: 10 
+          - ben: 3.46 
         * CP:  
-          - fun: 8.9 
+          - fun: 6.86 
         * FR:  
-          - fun: 2.23 
+          - fun: 2.73 
           - ben: 8.06 
         * SENS:  
-          - fun: 7.3 
+          - fun: 6.46 
         * STR:  
-          - fun: 7.96 
+          - fun: 7.62 
         * NR:  
-          - fun: 6.01 
+          - fun: 10 
           - ben: 5 
         * APP:  
-          - fun: 2.61 
-          - ben: 4.99 
+          - fun: 4.81 
+          - ben: 3.82 
         * PD:  
-          - fun: 6.12 
+          - fun: 5.25 
           - ben: NA 
         * KMH:  
-          - fun: 5.78 
-          - ben: 7.8 
+          - fun: 5.38 
+          - ben: 5.3 
         * WB:  
-          - fun: 6.43 
+          - fun: 5.04 
           - ben: 7.19 
         * POL:  
-          - fun: 5.07 
-          - ben: 3.5 
+          - fun: 5.64 
+          - ben: 6 
         * RSB:  
           - fun: NA 
-          - ben: 4.03 
+          - ben: 4.7 
         * OE:  
-          - fun: 0 
+          - fun: 3.4 
         * AM:  
-          - fun: 5.62 
-          - ben: 10 
+          - fun: 3.06 
+          - ben: 6.03 
         * FH:  
-          - fun: 2.92 
-          - ben: 2.14 
+          - fun: 3.34 
+          - ben: 5.01 
         * SFTS:  
-          - fun: 0 
-          - ben: 7.83 
+          - fun: 2.76 
+          - ben: 13.93 
         * CRI:  
-          - ben: 5.4 
+          - ben: 5.39 
       
       * Retrieve indicator scores with `get_indicator_scores()`
 
