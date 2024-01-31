@@ -644,6 +644,16 @@ vegetation_buffer_along_permin <- function(vals, indicator_data){
   }
 }
 
+# F50 _ RSB version
+vegetation_buffer_along_permin1 <- function(vals, indicator_data){
+  if(vals$Disturb == 0) {
+    1
+  } else {
+    wt_max(indicator_data, "F50")
+  }
+}
+
+
 # F51
 type_of_cover_buff <- function(vals, indicator_data){
   if(vals$Disturb == 0) {
