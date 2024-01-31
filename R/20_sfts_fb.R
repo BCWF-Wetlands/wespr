@@ -180,6 +180,19 @@ sfts_ben<- function(site) {
                             mean_na(c(wetdef2, gdd2v, solar2v, glacier2v, aspect2v)) +
                             mean_na(c(perminpctper2v, impervrca2v, rddens2v, rddenswau2v, flowalt2, disturb2v)))/6)
 
+  library(dplyr)
+
+  sfts_ben_score <- 10 * max_na(outmap2, outdura2)  *
+    (3 * fishscore2v +
+      mean_na(elev2v, wetpctrca2v) +
+      mean_na(c(wetdef2, gdd2v, solar2v, glacier2v, aspect2v)) +
+      mean_na(c(perminpctper2v, impervrca2v, rddens2v, rddenswau2v, flowalt2, disturb2v))
+  ) / 6
+
+
+
+
+
 
   as.indicator_score(sfts_ben_score)
 }
