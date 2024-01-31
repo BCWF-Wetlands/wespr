@@ -65,7 +65,6 @@ nr_fun <- function(site) {
     TRUE ~ ifelse(pH < 6 | pH > 8.5,  0, 0.5)
   )
 
-
   groundw5 <- wt_max(indicator_data, "F47")
 
   soildisturb5 <- 1-vals$S5_subscore
