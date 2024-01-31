@@ -35,7 +35,10 @@ load_wesp_data <- function(path) {
       q_no = stringr::str_split_i(.data$response_no, "_", 1),
       response_no = stringr::str_split_i(.data$response_no, "_", 2)
     ) |>
-    dplyr::select("q_no", "response_no", dplyr::everything())
+    dplyr::select("q_no", "response_no", dplyr::everything()) |>
+    # Temporary hack to remove new ghost rows for F2
+    # https://github.com/BCWF-Wetlands/wespr/issues/90
+    dplyr::filter(!.data$response_no %in% c("A0", "B0"))
 }
 
 #' Validate and record responses into a standard object
