@@ -8,7 +8,7 @@ library(dplyr)
 # library(wespr)
 
 # read in data and filter to questions we have implemented, and just one site:
-data <- load_wesp_data(system.file("input_data/wetFlat_20240129.csv", package = "wespr"))
+data <- load_wesp_data(system.file("input_data/wetFlat_20240130.csv", package = "wespr"))
 #data1 <- load_wesp_data(system.file("input_data/wetFlat.csv", package = "wespr"))
 
 # sitelist <- seq(1,5, 1)
@@ -26,6 +26,8 @@ data <- load_wesp_data(system.file("input_data/wetFlat_20240129.csv", package = 
 site <- as.wesp_site(data, 1)
 
 site <- calc_indicators(site)
+
+site
 
 #site <- calc_indicators(site)
 # cp_f(site)
