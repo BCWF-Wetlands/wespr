@@ -125,7 +125,7 @@ sr_ben <- function(site) {
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-  elev3v <- vals$OF5_1
+  elev3v <- 1 - vals$OF5_1
 
   glacier3v <- wt_max(indicator_data, "OF8")
 
