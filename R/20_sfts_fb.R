@@ -35,6 +35,7 @@ sfts_fun <- function(site) {
 
   soiltex2 <- wt_max(indicator_data, "F17")
 
+  # calculator is incorrect here
   alldry2 <- wt_max(indicator_data, "F19")
 
 
@@ -133,7 +134,7 @@ sfts_ben<- function(site) {
   impervrca2v <- if(vals$NoCA == 1){
     NA_real_
   } else {
-    wt_max(indicator_data, "OF11")
+    wt_max(indicator_data, "OF12")
   }
 
   wetdef2 <- local_moisture_deficit(vals)
