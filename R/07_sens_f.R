@@ -55,7 +55,7 @@ sens_fun <- function(site) {
   constric18a <- outflow_confinement_2(vals, indicator_data)
 
   acid18 <- ifelse(vals$F45_3 == 1,  NA_real_ ,
-               ifelse(is.na(vals$F45_1) & vals$F45_2 == 1, 0.7,
+               ifelse(is.na(vals$F45_1)|| vals$F45_1 == 0 & vals$F45_2 == 1, 0.7,
                     ifelse(vals$F45_1 < 5 | vals$F45_1 > 9, 1, 0.5)
                              )
   )
