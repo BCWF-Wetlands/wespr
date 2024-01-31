@@ -1,4 +1,3 @@
-library(googledrive)
 library(googlesheets4)
 library(dplyr)
 library(readr)
@@ -17,28 +16,21 @@ library(janitor)
 # If this is different from your normal google auth email you can add this to a
 # project-specific .Rprofile file to cache
 
-xl <- drive_get(id = "1l2h7Z65H5z0cKv_gvorxkT6k9LC7ZKLS")
+gs_id <- "1kk_RT7_cz6yT6hBYx6Es5ZIie3V9IU85ZkraJBDHTj8"
 
-# Since it's an excel file, make a temporary copy as a google sheet so we can
-# use `read_sheet()`
-tmp_xl_gs <- drive_cp(xl, name = "tmp-wsp-calcs", mime_type = drive_mime_type("spreadsheet"))
-
-question_metadata <- read_sheet(tmp_xl_gs, sheet = "all_indicators", col_types = "c",
+question_metadata <- read_sheet(gs_id, sheet = "all_indicators", col_types = "c",
                              .name_repair = make_clean_names) |>
   filter(!is.na(no), no != "score") |>
   mutate(n_responses = as.integer(n_responses)) |>
   select(-starts_with("x"), -no_indicators)
 
 indicator_weightings <- read_sheet(
-  tmp_xl_gs,
+  gs_id,
   sheet = "weightings",
   .name_repair = make_clean_names,
   col_types = "_ccccncccncc__"
 ) |>
   mutate(type_f_b = tolower(substr(type_f_b, 1, 3)))
-
-# Discard the temporary google sheet
-drive_rm(tmp_xl_gs)
 
 # write_csv(all_indicators, "inst/input_data/all_indicators.csv")
 # write_csv(weightings, "inst/input_data/weightings.csv")
