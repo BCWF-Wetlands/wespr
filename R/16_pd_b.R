@@ -40,10 +40,13 @@ pd_ben <- function(site) {
 
   sbmscore15v <- get_indicator_score(site, "rsb", "fun") / 10
 
-  pd_ben_score <-  10 * ifelse(max_na(c(rareplant15v, rarespp15v)) == 1, 1,
-                        (mean_na(c(berry15v, plantcollect15)) +
-                           mean_na(c(sbmscore15v, pollscore15)) +
-                           mean_na(c(lcovuniq15v, lcovrich15v, lcrich2k15v, pctprotected15v)))/3)
+  pd_ben_score <- 10 * case_when(
+    max_na(c(rareplant15v, rarespp15v)) == 1 ~ 1,
+    TRUE ~ (mean_na(c(berry15v, plantcollect15))  +
+              mean_na(c(sbmscore15v, pollscore15)) +
+              mean_na(c(lcovuniq15v, lcovrich15v, lcrich2k15v, pctprotected15v))) / 3
+  )
+
 
  as.indicator_score(pd_ben_score)
 }
