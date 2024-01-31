@@ -117,6 +117,7 @@ pd_fun <- function(site){
      wt_max(indicator_data, "F59")
    }
 
+
    alttiming15 <- 1-vals$S1_subscore
 
    sedrca15 <- 1-vals$S4_subscore
