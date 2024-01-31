@@ -64,9 +64,9 @@ fh_fun <- function(site) {
 
   pH <- ifelse(is.na(vals$F45_1), NA_real_, vals$F45_1)
 
-  acid10 <- ifelse(is.na(pH)  & vals$F45_2 == 1, 0.3,
-                   ifelse(is.na(pH)  & vals$F45_3 == 1, 0.7,
-                          ifelse(is.na(pH) , NA_real_,
+  acid10 <- ifelse(is.na(pH)||pH ==0  & vals$F45_2 == 1, 0.3,
+                   ifelse(is.na(pH)||pH ==0   & vals$F45_3 == 1, 0.7,
+                          ifelse(is.na(pH)||pH ==0  , NA_real_,
                                  ifelse(pH >= 7.5 & pH <= 9, 1,
                                         ifelse(pH < 5 | pH > 9, 0, 0.5)))))
 
@@ -86,9 +86,9 @@ fh_fun <- function(site) {
     outdura10 <- outmap9 <- vals$OF6_1
   }
 
-  alttiming10 <- 1- vals$S1_subscore
-  contam10 <- 1- vals$S3_subscore
-  sedrca10 <- 1 - vals$S4_subscore
+  alttiming10 <- vals$S1_subscore
+  contam10 <- vals$S3_subscore
+  sedrca10 <- vals$S4_subscore
 
   appscore9 <- get_indicator_score(site, "app", "fun") / 10
 
@@ -108,16 +108,18 @@ fh_fun <- function(site) {
     mean_na(c(outmap9, pondsize9))
   }
 
-  nostress10 <- mean_na(c(alttiming10, contam10, sedrca10, acid10, rddens10, rddenswau10, bufferpct10))
+  nostress10 <- mean_na(c(alttiming10, contam10, sedrca10, acid10, rddens10, rddenswau10, bufferpct10, disturbca9,unvegca10))
 
 
   # function score
 
-  fh_fun_score <-  10 * ifelse(vals$Fishless == 1, 0,
-                        ifelse(vals$NeverWater == 1, 0,
-                               ifelse((vals$TooShallow + vals$NoSeasonal) == 0,
-                                      (3 * fishpres10 +
-                                       2 * mean(c(appscore9, hydro10, struc10 )) + nostress10) / 6, 0)))
+  fh_fun_score<- 10 * case_when(
+    vals$Fishless == 1 ~ 0,
+    vals$NeverWater == 1 ~ 0,
+    vals$TooShallow + vals$NoSeasonal == 0 ~ (3 * fishpres10  + 2 * mean_na(c(appscore9, hydro10, struc10 )) + nostress10) / 6,
+    TRUE ~ NA_real_
+  )
+
 
   as.indicator_score(
     fh_fun_score,

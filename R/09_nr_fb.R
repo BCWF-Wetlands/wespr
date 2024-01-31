@@ -56,15 +56,15 @@ nr_fun <- function(site) {
 
   gradient5 <- internal_gradient(vals, indicator_data)
 
-
   pH <- ifelse(is.na(vals$F45_1), NA_real_, vals$F45_1)
 
   acid5 <- dplyr::case_when(
     vals$F45_3 == 1 ~ NA,
-    is.na(pH) ~ NA,
+    is.na(pH)|| pH ==0~ NA,
     pH >= 6 & pH <= 8.5 ~ 1,
     TRUE ~ ifelse(pH < 6 | pH > 8.5,  0, 0.5)
   )
+
 
   groundw5 <- wt_max(indicator_data, "F47")
 

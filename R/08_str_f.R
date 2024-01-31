@@ -33,7 +33,7 @@ str_fun <- function(site) {
 
   constric20 <- outflow_confinement(vals, indicator_data)
 
-  perimpctper20 <- vegetation_buffer_along_permin(vals, indicator_data)
+  perimpctper20 <- vegetation_buffer_along_perminNA(vals, indicator_data)
 
   imperv20 <- type_of_cover_buff(vals, indicator_data)
 
@@ -58,7 +58,7 @@ str_fun <- function(site) {
 
   wqstress <- mean_na(c(nutrload, contam20, sedload, soildisturb, impervRCA20, imperv20, burned20, fire20))
 
-  connecstress <- mean_na(c(perimpctper20, distRd20, rddens20, rddenswau20, protected20, intact20, wldisturb))
+  connecstress <- mean_na(c(perimpctper20, distRd20, rddens20, rddens2k20, rddenswau20, protected20, intact20, wldisturb))
 
   str_fun_score <- 10 * max_na(c(hydrostress, wqstress, connecstress))
 

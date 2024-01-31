@@ -39,7 +39,7 @@ cp_fun <- function(site) {
   acidic6  <- dplyr::case_when(
     vals$F45_3 == 1 ~ NA,
     vals$F45_2 == 1 ~ 0.6,
-    is.na(pH) ~ NA,
+    is.na(pH) || pH  ==0 ~ NA,
     pH > 0 & pH < 5 ~ 1,
     pH > 7.5 ~ 0,
     .default = 0.2

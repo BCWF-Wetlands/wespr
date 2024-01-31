@@ -110,7 +110,7 @@ am_fun <- function(site) {
 
   beaver11 <- wt_max(indicator_data, "F48")
 
-  perimpctper11 <- vegetation_buffer_along_permin(vals, indicator_data)
+  perimpctper11 <- vegetation_buffer_along_permin1(vals, indicator_data)
 
   amrare11 <- ifelse(vals$F58_8 == 1, 1, NA_real_)
 
@@ -126,7 +126,7 @@ am_fun <- function(site) {
               mean_na(c(deepspot11, beaver11, permwpct11)))/2
 
   aqstruc11 <- if(vals$NeverWater == 1){
-    NA_real_
+    0
   } else {
     mean_na(c(widthwet11, max_na(c(empct11, sav11, woodover11)), interspers11))
   }
