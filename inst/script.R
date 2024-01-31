@@ -23,7 +23,8 @@ data <- load_wesp_data(system.file("input_data/wetFlat_20240130.csv", package = 
 # }
 #
 
-site <- as.wesp_site(data, 1)
+site <- as.wesp_site(data, 2
+                     )
 
 site <- calc_indicators(site)
 
@@ -50,3 +51,4 @@ get_q(site, "NeverWater")
 ind_scores <- get_indicator_scores(site)
 get_responses(site)
 get_derived_values(site)
+
