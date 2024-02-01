@@ -8,18 +8,18 @@
 [![R-CMD-check](https://github.com/BCWF-Wetlands/wespr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/BCWF-Wetlands/wespr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The B.C. Wildlife Federation’s Wetlands Workforce project is a
-collaboration with conservation organizations and First Nations working
-to maintain and monitor wetlands across British Columbia.
-<https://bcwf.bc.ca/initiatives/wetlands-workforce/>.
+The Wetland Ecosystem Services Protocol (WESP) model is a standardized method for rapidly assessing the function and
+value of the services provided by wetlands. 
 
-The [Wetland Ecosystem Services
-Protocol](https://wetlandsworkforce.ca/portfolio/wetlands-ecosystem-services-protocol/)
-(WESP) model is a standardized method for assessing the function and
-value of the services provided by wetlands.
+Within British Columbia, each wetland function and benefit can be assessed by answering a series of office and field based questions. Values are then calculated using rule based logic models with final values compared to a ecoprovince calibrated dataset to provide a relative score. 
+WESP scores were previously calculated using a macro driven excel workbook, managed by Paul Adamus. 
 
 wespr is an R package to help automate the validation of WESP data and
-to calculate WESP indicators in a reproducible manner.
+to calculate WESP indicators in a reproducible manner. 
+
+This version is currently in draft format and future changes are likley. 
+
+This project was funded by the British Columbia Wildlife Federation. 
 
 ## Installation
 
