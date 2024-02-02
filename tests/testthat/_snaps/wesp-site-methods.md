@@ -117,53 +117,53 @@
           - ben: 10 
         * SR:  
           - fun: 10 
-          - ben: 3.68 
+          - ben: 4.06 
         * PR:  
           - fun: 10 
-          - ben: 3.46 
+          - ben: 3.18 
         * CP:  
           - fun: 6.86 
         * FR:  
           - fun: 2.73 
           - ben: 8.06 
         * SENS:  
-          - fun: 6.46 
+          - fun: 6.24 
         * STR:  
-          - fun: 7.62 
+          - fun: 7.96 
         * NR:  
           - fun: 10 
           - ben: 5 
         * APP:  
           - fun: 4.81 
-          - ben: 3.82 
+          - ben: 4 
         * PD:  
-          - fun: 5.25 
-          - ben: NA 
+          - fun: 5.59 
+          - ben: 5.45 
         * KMH:  
           - fun: 5.38 
           - ben: 5.3 
         * WB:  
-          - fun: 5.04 
+          - fun: 4.95 
           - ben: 7.19 
         * POL:  
-          - fun: 5.64 
+          - fun: 5.81 
           - ben: 6 
         * RSB:  
-          - fun: NA 
+          - fun: 4.96 
           - ben: 4.7 
         * OE:  
           - fun: 3.4 
         * AM:  
-          - fun: 3.06 
+          - fun: 3.17 
           - ben: 6.03 
         * FH:  
-          - fun: 3.34 
-          - ben: 5.01 
+          - fun: 2.92 
+          - ben: 4.98 
         * SFTS:  
-          - fun: 2.76 
-          - ben: 13.93 
+          - fun: 1.81 
+          - ben: 2.07 
         * CRI:  
-          - ben: 5.39 
+          - ben: 5.35 
       
       * Retrieve indicator scores with `get_indicator_scores()`
 

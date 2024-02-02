@@ -24,7 +24,7 @@
           - connectiv: 0.2
       
       $sr$ben
-      Score: 3.68
+      Score: 4.06
       
       $pr
       $pr$fun
@@ -37,7 +37,7 @@
           - desorb: 0.49
       
       $pr$ben
-      Score: 3.46
+      Score: 3.18
       
       $cp
       $cp$fun
@@ -51,21 +51,21 @@
       
       $sens
       $sens$fun
-      Score: 6.462145 
+      Score: 6.237939 
         Subscores: 
           - abiosens: 1
           - biosens: 0.62
-          - colonizer: 0.54
+          - colonizer: 0.45
           - growrate: 0.42
       
       
       $str
       $str$fun
-      Score: 7.619048 
+      Score: 7.959184 
         Subscores: 
           - hydrostress: 0.17
           - wqstress: 0.13
-          - connecstress: 0.76
+          - connecstress: 0.8
       
       
       $nr
@@ -91,20 +91,20 @@
           - stressors: 0.77
       
       $app$ben
-      Score: 3.82
+      Score: 4
       
       $pd
       $pd$fun
-      Score: 5.248048 
+      Score: 5.592124 
         Subscores: 
           - spparea: 0.56
-          - vrichness: 0.47
+          - vrichness: 0.6
           - aqfertilpd: 0.48
           - vscape: 0.58
           - stresspd: 0.54
       
       $pd$ben
-      Score: NA
+      Score: 5.45
       
       $kmh
       $kmh$fun
@@ -121,9 +121,9 @@
       
       $wb
       $wb$fun
-      Score: 5.041362 
+      Score: 4.952343 
         Subscores: 
-          - lscape: 0.45
+          - lscape: 0.36
           - hydro: 0.55
           - produc: 0.48
           - struc: 0.45
@@ -133,9 +133,9 @@
       
       $pol
       $pol$fun
-      Score: 5.637913 
+      Score: 5.809951 
         Subscores: 
-          - pollen: 0.52
+          - pollen: 0.56
           - nestsites: 0.63
           - stress: 0.54
       
@@ -144,14 +144,14 @@
       
       $rsb
       $rsb$fun
-      Score: NA 
+      Score: 4.956015 
         Subscores: 
           - hydrosize: 0.52
           - struc: 0.65
-          - foods: 2.05
+          - foods: 0.49
           - habs: 0.5
           - lscape: 0.28
-          - nopred: 0
+          - nopred: 0.33
       
       $rsb$ben
       Score: 4.7
@@ -167,12 +167,12 @@
       
       $am
       $am$fun
-      Score: 3.064645 
+      Score: 3.165836 
         Subscores: 
           - waterscape: 0.11
           - hydro: 0.54
           - aqstruc: 0.71
-          - terrstruc: 0.35
+          - terrstruc: 0.43
           - biostress: 0.41
       
       $am$ben
@@ -180,29 +180,29 @@
       
       $fh
       $fh$fun
-      Score: 3.344705 
+      Score: 2.920322 
         Subscores: 
           - hydro: 0.47
           - struc: 0.08
           - nooxyrisk: 0.5
-          - nostress: 0.57
+          - nostress: 0.31
       
       $fh$ben
-      Score: 5.01
+      Score: 4.98
       
       $sfts
       $sfts$fun
-      Score: 2.760629 
+      Score: 1.808248 
         Subscores: 
-          - shadedsurf: 0.58
+          - shadedsurf: 0.44
           - surfacestorage: 0.14
-          - groundwater: 0.67
+          - groundwater: 0.33
       
       $sfts$ben
-      Score: 13.93
+      Score: 2.07
       
       $cri
       $cri$ben
-      Score: 5.39
+      Score: 5.35
       
 
