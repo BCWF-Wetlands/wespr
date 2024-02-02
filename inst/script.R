@@ -23,7 +23,7 @@ data <- load_wesp_data(system.file("input_data/wetFlat_20240130.csv", package = 
 # }
 #
 
-site <- as.wesp_site(data, 4)
+site <- as.wesp_site(data, 1)
 
 site <- calc_indicators(site)
 
