@@ -113,7 +113,7 @@ fh_fun <- function(site) {
 
   # function score
 
-  fh_fun_score<- 10 * case_when(
+  fh_fun_score<- 10 * dplyr::case_when(
     vals$Fishless == 1 ~ 0,
     vals$NeverWater == 1 ~ 0,
     vals$TooShallow + vals$NoSeasonal == 0 ~ (3 * fishpres10  + 2 * mean_na(c(appscore9, hydro10, struc10 )) + nostress10) / 6,

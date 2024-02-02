@@ -40,7 +40,7 @@ pd_ben <- function(site) {
 
   sbmscore15v <- get_indicator_score(site, "rsb", "fun") / 10
 
-  pd_ben_score <- 10 * case_when(
+  pd_ben_score <- 10 * dplyr::case_when(
     max_na(c(rareplant15v, rarespp15v)) == 1 ~ 1,
     TRUE ~ (mean_na(c(berry15v, plantcollect15))  +
               mean_na(c(sbmscore15v, pollscore15)) +
