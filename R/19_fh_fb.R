@@ -108,7 +108,7 @@ fh_fun <- function(site) {
     mean_na(c(outmap9, pondsize9))
   }
 
-  nostress10 <- mean_na(c(alttiming10, contam10, sedrca10, acid10, rddens10, rddenswau10, bufferpct10, disturbca9,unvegca10))
+  nostress10 <- mean_na(c(alttiming10, contam10, sedrca10, acid10, rddens10, rddenswau10, bufferpct10, disturbca9, unvegca10))
 
 
   # function score
