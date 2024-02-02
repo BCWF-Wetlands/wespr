@@ -14,13 +14,10 @@ sfts_fun <- function(site) {
 
   topopos2 <- vals$OF29_1 / 5
 
-  # OF153 - not the range classed, chcek this is correct
-  # check OF39 is included in this indicator
   conif2 <- if(sum_na(vals$OF39_1, vals$OF39_2, vals$OF39_3, vals$OF39_4, vals$OF39_5) == 0) {
-    # is.na(vals$OF39_0))
     NA_real_
   } else {
-    vals$OF39_1
+    wt_max(indicator_data, "OF39")
   }
 
   woodypct2 <- veg_height_weight(indicator_data, "F1")
