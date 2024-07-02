@@ -19,11 +19,34 @@ validators <- list(
         } else {
           stop("Question ", q_no,
                ": Value must be length ", n, " and be all 0s and at most one 1", call. = FALSE)
-        }
+        }# this is the matching bracket to renove sum(x) == 0
       }
       x
     }
   },
+
+  # this is a special multi-choice that allows for all zeros values. Checked Kayla the defaults
+  # default include - OF28, F2, F4, F17_0, F51)
+#
+#   multi_choice_flexible = function(q_no, n) {
+#     function(x) {
+#       x <- as.numeric(x)
+#       valid <- all(!is.na(x)) &&
+#         all(x %in% 0:1) &&
+#         sum(x) == 1 &&
+#         length(x) == n
+#       if (!valid) {
+#        # if (sum(x) == 0) {
+#         #  attr(x, "incomplete") <- TRUE
+#         #} else {
+#           stop("Question ", q_no,
+#                ": Value must be length ", n, " and be all 0s and at most one 1", call. = FALSE)
+#         }# this is the matching bracket to renove sum(x) == 0
+#       #}
+#       x
+#     }
+#   },
+#
 
   multiresponse_binary = function(q_no, n) {
     function(x) {
