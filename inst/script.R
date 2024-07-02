@@ -9,6 +9,12 @@ library(dplyr)
 
 # read in data and filter to questions we have implemented, and just one site:
 data <- load_wesp_data(system.file("input_data/wetFlat_20240130.csv", package = "wespr"))
+
+# gen's input line
+data_test <- file.path("C:/Users/genev/OneDrive/Documents/02.Contracts/2023_BCWF_wetlands/04.Data/testing_don/wesp.csv")
+
+data <- load_wesp_data(data_test)
+
 #data1 <- load_wesp_data(system.file("input_data/wetFlat.csv", package = "wespr"))
 
 # sitelist <- seq(1,5, 1)
@@ -24,6 +30,10 @@ data <- load_wesp_data(system.file("input_data/wetFlat_20240130.csv", package = 
 #
 
 site <- as.wesp_site(data, 1)
+data
+site = 1
+
+sites <- as.wesp_site(data)
 
 site <- calc_indicators(site)
 
