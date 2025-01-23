@@ -4,11 +4,7 @@ sr_fun <- function(site) {
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-  outmap3 <- if (vals$NoOutlet + vals$NoOutletX > 0) {
-    1
-  } else {
-    vals$OF6_1
-  }
+  outmap3 <- ifelse(((vals$NoOutlet + vals$NoOutletX >0) & vals$OF6_1 == 0), 1, 0)
 
   wetpctrca3 <- wt_max(indicator_data, "OF11")
 
@@ -54,11 +50,7 @@ sr_fun <- function(site) {
 
   emarea3 <- inundated_erect_veg(vals, indicator_data)
 
-  outdura3 <- if (vals$F40_4 + vals$F40_5 > 0) {
-    outmap3
-  } else {
-    wt_max(indicator_data, "F40")
-  }
+  outdura3 <- wt_max(indicator_data, "F40")
 
   constric3 <- outflow_confinement(vals, indicator_data)
 

@@ -6,11 +6,7 @@ pr_fun <- function(site) {
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-  outmap4 <- if ((vals$NoOutlet + vals$NoOutletX) > 0) {
-    1
-  } else {
-    vals$OF6_1
-  }
+  outmap4 <- ifelse(((vals$NoOutlet + vals$NoOutletX >0) & vals$OF6_1 == 0), 1, 0)
 
   aspect4 <- wt_max(indicator_data, "OF7")
 

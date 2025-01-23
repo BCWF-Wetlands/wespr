@@ -51,6 +51,7 @@ load_wesp_data <- function(path) {
 #' @noRd
 record_values <- function(data, site) {
   questions <- make_core_questions()
+  #question <- questions[[81]]
   lapply(questions, function(question) {
     values <- data[[site]][data$q_no == question$no]
     question <- validate(question, values)

@@ -9,15 +9,9 @@ oe_fun <- function(site) {
 
   constric7 <- outflow_confinement(vals, indicator_data)
 
-  # as fixed for FH in
-  # https://github.com/BCWF-Wetlands/wespr/commit/16dcc6e4c27342d925c1134c4c34f794e81b2feb
+  outmap7 <- ifelse(((vals$NoOutlet + vals$NoOutletX >0) & vals$OF6_1 == 0), 1, 0)
 
-  if (vals$NoOutlet + vals$NoOutletX == 0) {
-    outmap7 <- outdura7<- wt_max(indicator_data, "F40")
-  } else {
-    outdura7 <-  outmap7 <- vals$OF6_1
-  }
-
+  outdura7 <- wt_max(indicator_data, "F40")
 
   flordist7 <- wt_max(indicator_data, "OF10")
 

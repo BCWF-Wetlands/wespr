@@ -7,7 +7,7 @@
       
       Site:  site_1 
       
-      Incomplete Questions:  F43, F44, F50, OF28 
+      Incomplete Questions:  F43, F44, F50 
         * Please ensure that it is valid to leave these questions unanswered.
       
       Derived values:
@@ -65,7 +65,7 @@
       
       Site:  site_1 
       
-      Incomplete Questions:  F43, F44, F50, OF28 
+      Incomplete Questions:  F43, F44, F50 
         * Please ensure that it is valid to leave these questions unanswered.
       
       Derived values:
@@ -124,7 +124,7 @@
         * CP:  
           - fun: 6.86 
         * FR:  
-          - fun: 2.73 
+          - fun: 4.39 
           - ben: 8.06 
         * SENS:  
           - fun: 6.24 
@@ -150,9 +150,9 @@
           - ben: 6 
         * RSB:  
           - fun: 4.96 
-          - ben: 4.7 
+          - ben: 5.58 
         * OE:  
-          - fun: 3.4 
+          - fun: 0 
         * AM:  
           - fun: 3.17 
           - ben: 6.03 

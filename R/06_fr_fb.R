@@ -75,7 +75,7 @@ fr_fun <- function(site) {
 
 
   fr_fun_score <- 10 * ((3 * mean_na(c(fringe7, lake7, persispct7, openw7, fetch7, satpct7)) +
-                        2 * woodycov7 +
+                        2 * mean_na(c(conif7 , woodycov7)) +
                        mean_na(c(aspect7, gcov8, fire7))) / 6)
 
   as.indicator_score(fr_fun_score)

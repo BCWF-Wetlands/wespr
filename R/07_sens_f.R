@@ -28,6 +28,7 @@ sens_fun <- function(site) {
 
   wetdenswau18 <- wt_max(indicator_data, "OF43")
 
+  # flag this formular as needing confirmation.
   woodypct18a <- max_na(c(vals$F1_1, vals$F1_2))/6
 
   moss18a <- wt_max(indicator_data, "F10")

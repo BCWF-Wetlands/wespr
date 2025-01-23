@@ -5,11 +5,8 @@ ws_fun <- function(site) {
   weights <- get_weights(indicator_data)
 
   # Function
-  outmap1 <- if ((vals$NoOutlet + vals$NoOutletX) > 0) {
-    1
-  } else {
-    vals$OF6_1
-  }
+
+  outmap1 <-ifelse(((vals$NoOutlet + vals$NoOutletX >0) & vals$OF6_1 == 0), 1, 0)
 
   flodist1 <- wt_max(indicator_data, "OF10")
 
@@ -45,11 +42,7 @@ ws_fun <- function(site) {
     wt_max(indicator_data, "F29")
   }
 
-  outdura1 <- if (vals$F40_4 + vals$F40_5 > 0) {
-    outmap1
-  } else {
-    wt_max(indicator_data, "F40")
-  }
+  outdura1 <- wt_max(indicator_data, "F40")
 
   constric1 <- outflow_confinement_1(vals, indicator_data)
 

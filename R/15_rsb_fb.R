@@ -170,7 +170,7 @@ rsb_ben <- function(site) {
   rsb_ben_score <- 10 * dplyr::case_when(
     rarebird14v == 1 ~ 1,
     rarespp14v == 1 ~ 1,
-    TRUE ~  mean_na(c(lakewetpct14v, lcovuniq14v, lcrich14v, lcrich2k14v, recrea14v))
+    TRUE ~  mean_na(c(lakewetpct14v, lcovuniq14v, lcrich14v, lcrich2k14v, wetdenswau14v, recrea14v))
   )
 
   as.indicator_score(rsb_ben_score)

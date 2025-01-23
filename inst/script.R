@@ -15,6 +15,9 @@ data_test <- file.path("C:/Users/genev/OneDrive/Documents/02.Contracts/2023_BCWF
 
 data <- load_wesp_data(data_test)
 
+
+path <- data_test
+
 #data1 <- load_wesp_data(system.file("input_data/wetFlat.csv", package = "wespr"))
 
 # sitelist <- seq(1,5, 1)
@@ -29,11 +32,11 @@ data <- load_wesp_data(data_test)
 # }
 #
 
-site <- as.wesp_site(data, 1)
-data
-site = 1
+site <- as.wesp_site(data, 9)
+#data
+#site = 1
 
-sites <- as.wesp_site(data)
+site <- as.wesp_site(data)
 
 site <- calc_indicators(site)
 
@@ -60,6 +63,6 @@ get_q(site, "NeverWater")
 
 
 ind_scores <- get_indicator_scores(site)
-get_responses(site)
+resp <- get_responses(site)
 get_derived_values(site)
 

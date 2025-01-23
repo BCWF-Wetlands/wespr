@@ -45,7 +45,7 @@
       
       $fr
       $fr$fun
-      Score: 2.73
+      Score: 4.39
       $fr$ben
       Score: 8.06
       
@@ -154,11 +154,11 @@
           - nopred: 0.33
       
       $rsb$ben
-      Score: 4.7
+      Score: 5.58
       
       $oe
       $oe$fun
-      Score: 3.400641 
+      Score: 0 
         Subscores: 
           - histaccum: 0.69
           - productiv: 0.48
