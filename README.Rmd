@@ -131,6 +131,27 @@ calculated from the responses, and used as inputs into many indicators.
 get_derived_values(site)
 ```
 
+## Calculating multiple site scores
+
+In most cases we wish to calculate indicator scores for multiple site. This can 
+be done with the `calculate_multi_site()` function. Which requires the data to 
+firstly be loaded using the `load_wesp_data()` function. We can then iterate 
+through all sites.
+
+
+```{r}
+calculate_multi_site(wesp_data)
+
+```
+
+
+
+## Calculating Jenks scores
+
+
+
+
+
 
 ## Anatomy of the `wesp_site` object
 
