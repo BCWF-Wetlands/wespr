@@ -34,7 +34,7 @@ sitelist <- seq(1, 4, 1)
  }
 
 
-site <- as.wesp_site(data, 9)
+site <- as.wesp_site(data, 16)
 #data
 #site = 1
 
