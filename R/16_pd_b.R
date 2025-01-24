@@ -9,7 +9,7 @@ pd_ben <- function(site) {
 
   rarespp15v <- ifelse(vals$OF24_1 == 1, 1, NA_real_)
 
-  lcovuniq15v <- if(sum_na( vals$OF34_1, vals$OF34_2, vals$OF34_3) == 0){
+  lcovuniq15v <- if(sum_na(vals$OF34_1, vals$OF34_2, vals$OF34_3) == 0){
       NA_real_
     } else {
       wt_max(indicator_data, "OF34")
