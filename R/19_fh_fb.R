@@ -16,7 +16,7 @@ fh_fun <- function(site) {
     wt_max(indicator_data, "OF30")
   }
 
-  disturbca9 <- if(sum_na(vals$OF41_1, vals$OF41_2, vals$OF41_3, vals$OF41_4, vals$OF41_5s) == 0){
+  disturbca9 <- if(sum_na(vals$OF41_1, vals$OF41_2, vals$OF41_3, vals$OF41_4, vals$OF41_5) == 0){
     NA_real_
   } else {
     wt_max(indicator_data, "OF41")
@@ -80,11 +80,15 @@ fh_fun <- function(site) {
   # outmap9 and outdura10 will always get the same value, based on whether
   # or not the sum of NoOutlet + NoOutletX (which are also the values of
   # F40_5 and F40_4) is greater than zero
-  if (vals$NoOutlet + vals$NoOutletX == 0) {
-    outmap9 <- outdura10 <- wt_max(indicator_data, "F40")
-  } else {
-    outdura10 <- outmap9 <- vals$OF6_1
-  }
+  # if (vals$NoOutlet + vals$NoOutletX == 0) {
+  #   outmap9 <- outdura10 <- wt_max(indicator_data, "F40")
+  # } else {
+  #   outdura10 <- outmap9 <- vals$OF6_1
+  # }
+
+  # check this is the correct way (1 and 0 )
+  outmap9 <- ifelse(((vals$NoOutlet + vals$NoOutletX >0) & vals$OF6_1 == 0), 1, 0)
+  outdura10 <- wt_max(indicator_data, "F40")
 
   alttiming10 <- vals$S1_subscore
   contam10 <- vals$S3_subscore
@@ -98,7 +102,7 @@ fh_fun <- function(site) {
   struc10 <- if(vals$NeverWater + vals$TempWet > 0){
     NA_real_
   } else {
-    mean_na(c(groundw10, thurflo10 , sav10, shade9, woodover10))
+    mean_na(c(groundw10, thurflo10 , sav10,interspers9, shade9, woodover10))
   }
 
   nooxyrisk <- if(vals$NeverWater == 1 ||
@@ -113,13 +117,16 @@ fh_fun <- function(site) {
 
   # function score
 
-  fh_fun_score<- 10 * dplyr::case_when(
-    vals$Fishless == 1 ~ 0,
-    vals$NeverWater == 1 ~ 0,
-    vals$TooShallow + vals$NoSeasonal == 0 ~ (3 * fishpres10  + 2 * mean_na(c(appscore9, hydro10, struc10 )) + nostress10) / 6,
-    TRUE ~ NA_real_
+  fh_fun_score = 10 * ifelse(
+    vals$Fishless == 1, 0,
+    ifelse(
+      vals$NeverWater == 1, 0,
+      ifelse(
+        vals$TooShallow + vals$NoSeasonal > 1, 0,
+        (3 * fishpres10 + 2 * mean_na(c(appscore9, hydro10, struc10 )) + nostress10) / 6
+      )
+    )
   )
-
 
   as.indicator_score(
     fh_fun_score,
