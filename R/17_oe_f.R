@@ -45,12 +45,15 @@ oe_fun <- function(site) {
   histaccum7 <- cpscore7
   productiv7 <- appscore7
 
-  exportpot7 <- ifelse((vals$NoOutlet + vals$NoOutletX) > 0, 0,
+
+ # ifelse(((vals$NoOutlet + vals$NoOutletX >0) & vals$OF6_1 == 0), 1, 0)
+
+  exportpot7 <- ifelse((vals$NoOutlet + vals$NoOutletX >0) & vals$OF6_1 == 0, 0,
                    mean_na(c(outdura7 ,
                           mean_na(c(gdd7, groundw7, elev7, gradient7, wetdef7)),
                           mean_na(c(thruflo7, interspers7, fringe7a, constric7, flordist7)))))
 
-  oe_fun_score <- 10 * ifelse(outmap7 == 0, 0,
+  oe_fun_score <- 10 * ifelse(((vals$NoOutlet + vals$NoOutletX >0) & vals$OF6_1 == 0), 0,
                               (3 * exportpot7 * max(productiv7, histaccum7)) / 3)
 
   as.indicator_score(
