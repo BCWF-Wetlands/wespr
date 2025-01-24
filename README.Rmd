@@ -63,7 +63,7 @@ F2_B2,1,0,1,1,1,0
 We have included an example file in the package, which we can use for demonstration purposes:
 
 ```{r}
-wesp_file <- system.file("input_data/wetFlat.csv", package = "wespr")
+wesp_file <- system.file("input_data/wetFlat_20240130.csv", package = "wespr")
 wesp_data <- load_wesp_data(wesp_file)
 
 head(wesp_data)
@@ -139,14 +139,23 @@ firstly be loaded using the `load_wesp_data()` function. We can then iterate
 through all sites.
 
 
-```{r}
+```{r, eval = FALSE}
 calculate_multi_site(wesp_data)
-
 ```
 
 
 
 ## Calculating Jenks scores
+
+Once all the indicator scores have been calculated, we can calculate the Jenks breaks and assign high, medium and low categories. This process firstly normalizes the data, then calculates the Jenks breaks and assigns the catergories. The process will also flag unusual results, such as all values being the same across all sites. 
+
+```{r,eval = FALSE}
+calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores.csv")
+```
+
+
+This is currently in development and requires finer regional assessment to be incorporated.
+
 
 
 

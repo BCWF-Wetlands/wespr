@@ -8,18 +8,18 @@
 [![R-CMD-check](https://github.com/BCWF-Wetlands/wespr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/BCWF-Wetlands/wespr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The Wetland Ecosystem Services Protocol (WESP) model is a standardized method for rapidly assessing the function and
-value of the services provided by wetlands. 
+The B.C. Wildlife Federation’s Wetlands Workforce project is a
+collaboration with conservation organizations and First Nations working
+to maintain and monitor wetlands across British Columbia.
+<https://bcwf.bc.ca/initiatives/wetlands-workforce/>.
 
-Within British Columbia, each wetland function and benefit can be assessed by answering a series of office and field based questions. Values are then calculated using rule based logic models with final values compared to a ecoprovince calibrated dataset to provide a relative score. 
-WESP scores were previously calculated using a macro driven excel workbook, managed by Paul Adamus. 
+The [Wetland Ecosystem Services
+Protocol](https://wetlandsworkforce.ca/portfolio/wetlands-ecosystem-services-protocol/)
+(WESP) model is a standardized method for assessing the function and
+value of the services provided by wetlands.
 
 wespr is an R package to help automate the validation of WESP data and
-to calculate WESP indicators in a reproducible manner. 
-
-This version is currently in draft format and future changes are likley. 
-
-This project was funded by the British Columbia Wildlife Federation. 
+to calculate WESP indicators in a reproducible manner.
 
 ## Installation
 
@@ -60,19 +60,19 @@ We have included an example file in the package, which we can use for
 demonstration purposes:
 
 ``` r
-wesp_file <- system.file("input_data/wetFlat.csv", package = "wespr")
+wesp_file <- system.file("input_data/wetFlat_20240130.csv", package = "wespr")
 wesp_data <- load_wesp_data(wesp_file)
 
 head(wesp_data)
 #> # A tibble: 6 × 102
 #>   q_no  response_no site_1 site_2 site_3 site_4 site_5 site_6 site_7 site_8
 #>   <chr> <chr>       <chr>   <dbl> <chr>  <chr>  <chr>  <chr>  <chr>  <chr> 
-#> 1 F1    1           1           0 1      1      1      2      1      4     
-#> 2 F1    2           0           3 3      2      0      2      0      0     
-#> 3 F1    3           1           0 3      1      1      1      1      3     
-#> 4 F1    4           1           4 1      1      1      3      1      0     
-#> 5 F1    5           1           0 1      1      1      0      1      1     
-#> 6 F1    6           1           1 1      1      1      4      3      0     
+#> 1 F1    1           0           1 1      1      2      1      4      1     
+#> 2 F1    2           3           3 2      0      2      0      0      0     
+#> 3 F1    3           0           3 1      1      1      1      3      1     
+#> 4 F1    4           4           1 1      1      3      1      0      0     
+#> 5 F1    5           0           1 1      1      0      1      1      0     
+#> 6 F1    6           1           1 1      1      4      3      0      0     
 #> # ℹ 92 more variables: site_9 <chr>, site_10 <chr>, site_11 <chr>,
 #> #   site_12 <chr>, site_13 <chr>, site_14 <chr>, site_15 <chr>, site_16 <chr>,
 #> #   site_17 <chr>, site_18 <chr>, site_19 <chr>, site_20 <chr>, site_21 <chr>,
@@ -94,12 +94,8 @@ choosing the first site in the file.
 
 ``` r
 site <- as.wesp_site(wesp_data, site = 1)
-#> Warning: Question F25 does not appear to have been filled out.
-#> Warning: Question F41 does not appear to have been filled out.
-#> Warning: Question F43 does not appear to have been filled out.
-#> Warning: Question F44 does not appear to have been filled out.
-#> Warning: Question F59 does not appear to have been filled out.
-#> Warning: Question OF28 does not appear to have been filled out.
+#> Questions F43, F44, F50 do not appear to have been filled out.
+#>  Please ensure this is valid.
 ```
 
 You should not normally need to work with the internals of the
@@ -112,7 +108,8 @@ site
 #> 
 #> Site:  site_1 
 #> 
-#> Incomplete Questions:  F25, F41, F43, F44, F59, OF28 
+#> Incomplete Questions:  F43, F44, F50 
+#>   * Please ensure that it is valid to leave these questions unanswered.
 #> 
 #> Derived values:
 #>   *  AllWater = 0
@@ -127,12 +124,12 @@ site
 #>   *  NoDeepPonded = 0
 #>   *  NoOW = 0
 #>   *  NoOutletX = 0
-#>   *  NoOutlet = 1
+#>   *  NoOutlet = 0
 #>   *  Inflow = 0
-#>   *  Disturb = 1
+#>   *  Disturb = 0
 #>   *  FishFound = 0
 #>   *  Moose = 0
-#>   *  Beaver = 1
+#>   *  Beaver = 0
 #>   *  Muskrat = 0
 #>   *  Bear = 0
 #>   *  Caribou = 0
@@ -185,7 +182,8 @@ site
 #> 
 #> Site:  site_1 
 #> 
-#> Incomplete Questions:  F25, F41, F43, F44, F59, OF28 
+#> Incomplete Questions:  F43, F44, F50 
+#>   * Please ensure that it is valid to leave these questions unanswered.
 #> 
 #> Derived values:
 #>   *  AllWater = 0
@@ -200,12 +198,12 @@ site
 #>   *  NoDeepPonded = 0
 #>   *  NoOW = 0
 #>   *  NoOutletX = 0
-#>   *  NoOutlet = 1
+#>   *  NoOutlet = 0
 #>   *  Inflow = 0
-#>   *  Disturb = 1
+#>   *  Disturb = 0
 #>   *  FishFound = 0
 #>   *  Moose = 0
-#>   *  Beaver = 1
+#>   *  Beaver = 0
 #>   *  Muskrat = 0
 #>   *  Bear = 0
 #>   *  Caribou = 0
@@ -232,57 +230,57 @@ site
 #> 
 #> Indicators:
 #>   * WS:  
-#>     - fun: 10 
-#>     - ben: 5.89 
+#>     - fun: 4.61 
+#>     - ben: 10 
 #>   * SR:  
-#>     - fun: 4.12 
-#>     - ben: 4.14 
+#>     - fun: 10 
+#>     - ben: 4.06 
 #>   * PR:  
-#>     - fun: 1 
-#>     - ben: 14.24 
+#>     - fun: 10 
+#>     - ben: 3.18 
 #>   * CP:  
-#>     - fun: 8.72 
+#>     - fun: 6.86 
 #>   * FR:  
-#>     - fun: 2.23 
+#>     - fun: 4.39 
 #>     - ben: 8.06 
 #>   * SENS:  
-#>     - fun: 7.3 
+#>     - fun: 6.24 
 #>   * STR:  
 #>     - fun: 7.96 
 #>   * NR:  
-#>     - fun: 5.38 
-#>     - ben: 14.24 
+#>     - fun: 10 
+#>     - ben: 5 
 #>   * APP:  
-#>     - fun: 2.61 
-#>     - ben:  
+#>     - fun: 4.81 
+#>     - ben: 4 
 #>   * PD:  
-#>     - fun: 10.44 
-#>     - ben: NA 
+#>     - fun: 5.59 
+#>     - ben: 5.45 
 #>   * KMH:  
-#>     - fun:  
-#>     - ben: 7.8 
+#>     - fun: 5.38 
+#>     - ben: 5.3 
 #>   * WB:  
-#>     - fun: 25.66 
-#>     - ben: 5.62 
+#>     - fun: 4.95 
+#>     - ben: 7.19 
 #>   * POL:  
-#>     - fun:  
-#>     - ben: 3.5 
+#>     - fun: 5.81 
+#>     - ben: 6 
 #>   * RSB:  
-#>     - fun:  
-#>     - ben: 4.03 
+#>     - fun: 4.96 
+#>     - ben: 5.58 
 #>   * OE:  
 #>     - fun: 0 
 #>   * AM:  
-#>     - fun:  
-#>     - ben: 256.64 
+#>     - fun: 3.17 
+#>     - ben: 6.03 
 #>   * FH:  
-#>     - fun:  
-#>     - ben:  
+#>     - fun: 2.92 
+#>     - ben: 4.98 
 #>   * SFTS:  
-#>     - fun:  
-#>     - ben:  
+#>     - fun: 1.81 
+#>     - ben: 2.07 
 #>   * CRI:  
-#>     - ben:  
+#>     - ben: 5.35 
 #> 
 #> * Retrieve indicator scores with `get_indicator_scores()`
 ```
@@ -295,45 +293,48 @@ can do that with `get_indicator_scores()`, which gives them to us as a
 ind_scores <- get_indicator_scores(site)
 
 ind_scores
-#> # A tibble: 16 × 4
-#>    site   indicator   fun    ben
-#>    <chr>  <chr>     <dbl>  <dbl>
-#>  1 site_1 WS        10      5.89
-#>  2 site_1 SR         4.12   4.14
-#>  3 site_1 PR         1     14.2 
-#>  4 site_1 CP         8.72  NA   
-#>  5 site_1 FR         2.23   8.06
-#>  6 site_1 SENS       7.30  NA   
-#>  7 site_1 STR        7.96  NA   
-#>  8 site_1 NR         5.38  14.2 
-#>  9 site_1 APP        2.61  NA   
-#> 10 site_1 PD        10.4   NA   
-#> 11 site_1 KMH       NA      7.80
-#> 12 site_1 WB        25.7    5.62
-#> 13 site_1 POL       NA      3.5 
-#> 14 site_1 RSB       NA      4.03
-#> 15 site_1 OE         0     NA   
-#> 16 site_1 AM        NA    257.
+#> # A tibble: 19 × 4
+#>    site   indicator   fun   ben
+#>    <chr>  <chr>     <dbl> <dbl>
+#>  1 site_1 WS         4.61 10   
+#>  2 site_1 SR        10     4.06
+#>  3 site_1 PR        10     3.18
+#>  4 site_1 CP         6.86 NA   
+#>  5 site_1 FR         4.39  8.06
+#>  6 site_1 SENS       6.24 NA   
+#>  7 site_1 STR        7.96 NA   
+#>  8 site_1 NR        10     5   
+#>  9 site_1 APP        4.81  4.00
+#> 10 site_1 PD         5.59  5.45
+#> 11 site_1 KMH        5.38  5.30
+#> 12 site_1 WB         4.95  7.19
+#> 13 site_1 POL        5.81  6   
+#> 14 site_1 RSB        4.96  5.58
+#> 15 site_1 OE         0    NA   
+#> 16 site_1 AM         3.17  6.03
+#> 17 site_1 FH         2.92  4.98
+#> 18 site_1 SFTS       1.81  2.07
+#> 19 site_1 CRI       NA     5.35
 ```
 
 Similarly, we can extract the original responses with `get_responses()`:
 
 ``` r
 get_responses(site)
-#> # A tibble: 488 × 4
+#> # A tibble: 498 × 4
 #>    no    question                           response_no value
 #>    <chr> <chr>                              <chr>       <dbl>
-#>  1 F1    Vegetation Height & Form Diversity F1_1            1
-#>  2 F1    Vegetation Height & Form Diversity F1_2            0
-#>  3 F1    Vegetation Height & Form Diversity F1_3            1
-#>  4 F1    Vegetation Height & Form Diversity F1_4            1
-#>  5 F1    Vegetation Height & Form Diversity F1_5            1
+#>  1 F1    Vegetation Height & Form Diversity F1_1            0
+#>  2 F1    Vegetation Height & Form Diversity F1_2            3
+#>  3 F1    Vegetation Height & Form Diversity F1_3            0
+#>  4 F1    Vegetation Height & Form Diversity F1_4            4
+#>  5 F1    Vegetation Height & Form Diversity F1_5            0
 #>  6 F1    Vegetation Height & Form Diversity F1_6            1
-#>  7 F10   Dense Moss Extent                  F10_1           0
+#>  7 F10   Dense Moss Extent                  F10_1           1
 #>  8 F10   Dense Moss Extent                  F10_2           0
 #>  9 F10   Dense Moss Extent                  F10_3           0
 #> 10 F10   Dense Moss Extent                  F10_4           0
-#> # ℹ 478 more rows
+#> # ℹ 488 more rows
 ```
 
 We can also get out a data.frame of derived values, those values which
@@ -357,6 +358,20 @@ get_derived_values(site)
 #> 10 NoDeepPonded     0
 #> # ℹ 31 more rows
 ```
+
+## Calculating multiple site scores
+
+In most cases we wish to calculate indicator scores for multiple site.
+This can be done with the `calculate_multi_site()` function. Which
+requires the data to firstly be loaded using the `load_wesp_data()`
+function. We can then iterate through all sites.
+
+``` r
+
+calculate_multi_site(wesp_data)
+```
+
+## Calculating Jenks scores
 
 ## Anatomy of the `wesp_site` object
 
@@ -402,7 +417,7 @@ site$derived_values
 #>      HiFlucW   TooShallow       NoPond NoDeepPonded         NoOW    NoOutletX 
 #>    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000 
 #>     NoOutlet       Inflow      Disturb    FishFound        Moose       Beaver 
-#>    1.0000000    0.0000000    1.0000000    0.0000000    0.0000000    1.0000000 
+#>    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000 
 #>      Muskrat         Bear      Caribou         NoCA     Fishless        GDeco 
 #>    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000 
 #>        CMeco       SIMeco        BPeco        TPeco       OutMap       S1_sum 
@@ -415,139 +430,205 @@ site$derived_values
 site$indicators
 #> $ws
 #> $ws$fun
-#> [1] 10
+#> Score: 4.605741 
+#>   Subscores: 
+#>     - subsurf: 0.46
+#>     - livestore: 0.6
+#>     - friction: 0.62
 #> 
 #> $ws$ben
-#> [1] 5.891013
-#> 
+#> Score: 10
 #> 
 #> $sr
 #> $sr$fun
-#> [1] 4.11715
+#> Score: 10 
+#>   Subscores: 
+#>     - livestore: 0.62
+#>     - dryintercept: 0.17
+#>     - wetintercept: 0.65
+#>     - connectiv: 0.2
 #> 
 #> $sr$ben
-#> [1] 4.139236
-#> 
+#> Score: 4.06
 #> 
 #> $pr
 #> $pr$fun
-#> [1] 1
+#> Score: 10 
+#>   Subscores: 
+#>     - interceptdry: 0.31
+#>     - interceptwet: 0.46
+#>     - connec: 0.67
+#>     - adsorb: 0.7
+#>     - desorb: 0.49
 #> 
 #> $pr$ben
-#> [1] 14.24296
-#> 
+#> Score: 3.18
 #> 
 #> $cp
 #> $cp$fun
-#> [1] 8.715292
-#> 
+#> Score: 6.86
 #> 
 #> $fr
 #> $fr$fun
-#> [1] 2.226852
-#> 
+#> Score: 4.39
 #> $fr$ben
-#> [1] 8.062372
-#> 
+#> Score: 8.06
 #> 
 #> $sens
 #> $sens$fun
-#> [1] 7.300439
+#> Score: 6.237939 
+#>   Subscores: 
+#>     - abiosens: 1
+#>     - biosens: 0.62
+#>     - colonizer: 0.45
+#>     - growrate: 0.42
 #> 
 #> 
 #> $str
 #> $str$fun
-#> [1] 7.959184
+#> Score: 7.959184 
+#>   Subscores: 
+#>     - hydrostress: 0.17
+#>     - wqstress: 0.13
+#>     - connecstress: 0.8
 #> 
 #> 
 #> $nr
 #> $nr$fun
-#> [1] 5.384203
+#> Score: 10 
+#>   Subscores: 
+#>     - warmth: 0.51
+#>     - intercept: 0.37
+#>     - connecc: 0.67
+#>     - organic: 0.7
+#>     - redox: 0.9
 #> 
 #> $nr$ben
-#> [1] 14.24296
-#> 
+#> Score: 5
 #> 
 #> $app
 #> $app$fun
-#> [1] 2.606893
+#> Score: 4.810678 
+#>   Subscores: 
+#>     - npinput: 0.12
+#>     - npcycling: 0.74
+#>     - templight: 0.68
+#>     - stressors: 0.77
 #> 
 #> $app$ben
-#> NULL
-#> 
+#> Score: 4
 #> 
 #> $pd
 #> $pd$fun
-#> [1] 10.4376
+#> Score: 5.592124 
+#>   Subscores: 
+#>     - spparea: 0.56
+#>     - vrichness: 0.6
+#>     - aqfertilpd: 0.48
+#>     - vscape: 0.58
+#>     - stresspd: 0.54
 #> 
 #> $pd$ben
-#> [1] NA
-#> 
+#> Score: 5.45
 #> 
 #> $kmh
 #> $kmh$fun
-#> NULL
+#> Score: 5.384443 
+#>   Subscores: 
+#>     - beaverhab: 0.45
+#>     - muskrathab: 0.44
+#>     - moosehab: 0.75
+#>     - caribouhab: 0.35
+#>     - bearhab: 0.7
 #> 
 #> $kmh$ben
-#> [1] 7.797619
-#> 
+#> Score: 5.3
 #> 
 #> $wb
 #> $wb$fun
-#> [1] 25.66432
+#> Score: 4.952343 
+#>   Subscores: 
+#>     - lscape: 0.36
+#>     - hydro: 0.55
+#>     - produc: 0.48
+#>     - struc: 0.45
 #> 
 #> $wb$ben
-#> [1] 5.625
-#> 
+#> Score: 7.19
 #> 
 #> $pol
 #> $pol$fun
-#> NULL
+#> Score: 5.809951 
+#>   Subscores: 
+#>     - pollen: 0.56
+#>     - nestsites: 0.63
+#>     - stress: 0.54
 #> 
 #> $pol$ben
-#> [1] 3.5
-#> 
+#> Score: 6
 #> 
 #> $rsb
 #> $rsb$fun
-#> NULL
+#> Score: 4.956015 
+#>   Subscores: 
+#>     - hydrosize: 0.52
+#>     - struc: 0.65
+#>     - foods: 0.49
+#>     - habs: 0.5
+#>     - lscape: 0.28
+#>     - nopred: 0.33
 #> 
 #> $rsb$ben
-#> [1] 4.033333
-#> 
+#> Score: 5.58
 #> 
 #> $oe
 #> $oe$fun
-#> [1] 0
+#> Score: 0 
+#>   Subscores: 
+#>     - histaccum: 0.69
+#>     - productiv: 0.48
+#>     - exportpot: 0.5
 #> 
 #> 
 #> $am
 #> $am$fun
-#> NULL
+#> Score: 3.165836 
+#>   Subscores: 
+#>     - waterscape: 0.11
+#>     - hydro: 0.54
+#>     - aqstruc: 0.71
+#>     - terrstruc: 0.43
+#>     - biostress: 0.41
 #> 
 #> $am$ben
-#> [1] 256.6432
-#> 
+#> Score: 6.03
 #> 
 #> $fh
 #> $fh$fun
-#> NULL
+#> Score: 2.920322 
+#>   Subscores: 
+#>     - hydro: 0.47
+#>     - struc: 0.08
+#>     - nooxyrisk: 0.5
+#>     - nostress: 0.31
 #> 
 #> $fh$ben
-#> numeric(0)
-#> 
+#> Score: 4.98
 #> 
 #> $sfts
 #> $sfts$fun
-#> NULL
+#> Score: 1.808248 
+#>   Subscores: 
+#>     - shadedsurf: 0.44
+#>     - surfacestorage: 0.14
+#>     - groundwater: 0.33
 #> 
 #> $sfts$ben
-#> NULL
-#> 
+#> Score: 2.07
 #> 
 #> $cri
 #> $cri$ben
-#> NULL
+#> Score: 5.35
 ```
 
 ## Development
