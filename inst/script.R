@@ -16,21 +16,23 @@ data_test <- file.path("C:/Users/genev/OneDrive/Documents/02.Contracts/2023_BCWF
 data <- load_wesp_data(data_test)
 
 
-path <- data_test
+#path <- data_test
 
 #data1 <- load_wesp_data(system.file("input_data/wetFlat.csv", package = "wespr"))
+sites <- unique(names(data)[grepl("site", names(data))])
 
-# sitelist <- seq(1,5, 1)
-#
-# for(i in sitelist){
-#   print(i)
-#   site <- as.wesp_site(data, i)
-#   site <- calc_indicators(site)
-#   #aa = get_derived_values(site)
-#   aa = get_indicator_scores(site)
-#   print(aa)
-# }
-#
+sitelist <- seq(1,length(sites), 1)
+sitelist <- seq(1, 4, 1)
+
+ for(i in sitelist){
+   print(i)
+   site <- as.wesp_site(data, i)
+   site <- calc_indicators(site)
+   #aa = get_derived_values(site)
+   aa = get_indicator_scores(site)
+   print(aa)
+ }
+
 
 site <- as.wesp_site(data, 9)
 #data
