@@ -21,12 +21,10 @@
 calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "wesp_scores.csv") {
 
   #testing lines
-  wespdata <- wesp_data
-  sites = NULL
-  out_dir = "temp"
-  out_name = "wesp_scores_test1.csv"
-
-
+ # wespdata <- wesp_data
+#  sites = NULL
+##  out_dir = "temp"
+#  out_name = "wesp_scores_test1.csv"
 
   # run multi-site analysis
   wespRaw <- calculate_multi_site(wespdata, sites = sites)
