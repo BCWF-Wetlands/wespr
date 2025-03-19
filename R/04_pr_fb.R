@@ -6,7 +6,9 @@ pr_fun <- function(site) {
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
+  #keeping this in fro the minute but updated to remove from final model.
   outmap4 <- ifelse(((vals$NoOutlet + vals$NoOutletX >0) & vals$OF6_1 == 0), 1, 0)
+
 
   aspect4 <- wt_max(indicator_data, "OF7")
 
@@ -87,7 +89,7 @@ pr_fun <- function(site) {
   desorb3 <- sum_na(permw4, depthdom4, fluctu4, eutroph4)/4
 
 
-  pr_fun_score <- 10* (ifelse(outmap4 == 0, 1,
+  pr_fun_score <- 10* (ifelse(vals$NoOutlet || vals$NoOutletX == 1, 1,
                               ifelse(vals$NeverWater == 1, mean_na(c(interceptdry3, adsorb3), na.rm = TRUE),
                                      (3 * adsorb3 + 2 * mean_na(c(connec4, desorb3), na.rm = TRUE) +
                                         mean_na(c(interceptwet3, interceptdry3), na.rm = TRUE)) / 6
