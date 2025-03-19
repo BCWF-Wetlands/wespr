@@ -20,7 +20,14 @@
 #'}
 calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "wesp_scores.csv") {
 
-  #wespdata <- wesp_data
+  #testing lines
+  wespdata <- wesp_data
+  sites = NULL
+  out_dir = "temp"
+  out_name = "wesp_scores_test1.csv"
+
+
+
   # run multi-site analysis
   wespRaw <- calculate_multi_site(wespdata, sites = sites)
 
@@ -41,6 +48,27 @@ calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "w
   wespNorm <- as.data.frame(lapply(wespRaw[, -1], min_max_norm)) %>%
     dplyr::mutate(site = as.numeric(rownames(.)), .before = 1)
   wespNorm <- dplyr::rename_with(wespNorm, ~ gsub("_raw", "_norm", .x, fixed = TRUE))
+
+
+  # #format to long form
+  #
+  # norm_long <- pivot_longer(wespNorm, -site, names_to = "metric", values_to = "value") |>
+  #   mutate(type = "normalised") |>
+  #   mutate(name = gsub( "_norm", "", metric))
+  #
+  # norm_raw <- pivot_longer( wespRaw, -site, names_to = "metric", values_to = "value") |>
+  #   mutate(type = "raw")|>
+  #   mutate(name = gsub( "_raw", "", metric))
+  #
+  # all <- rbind(norm_long, norm_raw)
+  #
+  # ggplot( norm_raw, aes(value, fill = type)) +
+  #    geom_density(alpha = 0.2) +
+  #    facet_wrap(~name, scales = "free") +
+  #    theme_bw()
+  #
+
+
 
   # 2) Calculate Jenks brakes
   wesp_breaks_raw <- purrr::map(names(wespNorm)[-1], function(x) {
@@ -77,6 +105,16 @@ calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "w
     dplyr::select(site, sort(names(.)))
 
   # wespEcoS <-data.frame(Wetland_Co=wetLUT,wespEcoS.1)
+
+  # #   # generate a histograph per metrics
+  #    library(ggplot2)
+  #    library(tidyr)
+  #    ggplot(gather(wespEcoS), aes(value)) +
+  #     geom_histogram(bins = 10) +
+  #      facet_wrap(~key, scales = 'free_x')
+  #
+  #    #wespNorm %>% gather() %>% head()
+
 
   # Write out the data frame
   utils::write.csv(wespEcoS, fs::path(out_dir, out_name), row.names = FALSE)
