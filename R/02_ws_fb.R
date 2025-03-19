@@ -6,7 +6,7 @@ ws_fun <- function(site) {
 
   # Function
 
-  outmap1 <-ifelse(((vals$NoOutlet + vals$NoOutletX >0) & vals$OF6_1 == 0), 1, 0)
+  outmap1 <- ifelse(((vals$NoOutlet + vals$NoOutletX >0) & vals$OF6_1 == 0), 1, 0)
 
   flodist1 <- wt_max(indicator_data, "OF10")
 

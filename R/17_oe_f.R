@@ -51,7 +51,6 @@ oe_fun <- function(site) {
                           mean_na(c(gdd7, groundw7, elev7, gradient7, wetdef7)),
                           mean_na(c(thruflo7, interspers7, fringe7a, constric7, flordist7)))))
 
-  # updated the score to PR
   oe_fun_score <- 10 * ifelse(vals$NoOutlet || vals$NoOutletX == 1, 0,
                               (3 * exportpot7 * max(productiv7, histaccum7)) / 3)
 

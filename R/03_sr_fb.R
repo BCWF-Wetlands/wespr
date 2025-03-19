@@ -87,10 +87,11 @@ sr_fun <- function(site) {
             depthdom3, ponded3, constric3))
   }
 
+
   ## Final:
   sr_fun_score <- if (vals$NeverWater == 1) {
     dryintercept
-  } else if (outmap3 == 0) {
+  } else if (vals$NoOutlet || vals$NoOutletX == 1) {
     10
   } else {
     10 * outdura3 * mean_na(c(livestore3, dryintercept, wetintercept))
