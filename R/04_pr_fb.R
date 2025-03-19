@@ -9,7 +9,6 @@ pr_fun <- function(site) {
   #keeping this in fro the minute but updated to remove from final model.
   outmap4 <- ifelse(((vals$NoOutlet + vals$NoOutletX >0) & vals$OF6_1 == 0), 1, 0)
 
-
   aspect4 <- wt_max(indicator_data, "OF7")
 
   wetpctrca4 <- wt_max(indicator_data, "OF11")

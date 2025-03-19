@@ -46,14 +46,13 @@ oe_fun <- function(site) {
   productiv7 <- appscore7
 
 
- # ifelse(((vals$NoOutlet + vals$NoOutletX >0) & vals$OF6_1 == 0), 1, 0)
-
   exportpot7 <- ifelse((vals$NoOutlet + vals$NoOutletX >0) & vals$OF6_1 == 0, 0,
                    mean_na(c(outdura7 ,
                           mean_na(c(gdd7, groundw7, elev7, gradient7, wetdef7)),
                           mean_na(c(thruflo7, interspers7, fringe7a, constric7, flordist7)))))
 
-  oe_fun_score <- 10 * ifelse(((vals$NoOutlet + vals$NoOutletX >0) & vals$OF6_1 == 0), 0,
+  # updated the score to PR
+  oe_fun_score <- 10 * ifelse(vals$NoOutlet || vals$NoOutletX == 1, 0,
                               (3 * exportpot7 * max(productiv7, histaccum7)) / 3)
 
   as.indicator_score(
