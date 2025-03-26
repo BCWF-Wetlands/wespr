@@ -116,10 +116,10 @@
           - fun: 4.61 
           - ben: 10 
         * SR:  
-          - fun: 10 
+          - fun: 0.96 
           - ben: 4.06 
         * PR:  
-          - fun: 10 
+          - fun: 6.88 
           - ben: 3.18 
         * CP:  
           - fun: 6.86 
@@ -131,7 +131,7 @@
         * STR:  
           - fun: 7.96 
         * NR:  
-          - fun: 10 
+          - fun: 7 
           - ben: 5 
         * APP:  
           - fun: 4.81 
@@ -152,7 +152,7 @@
           - fun: 4.96 
           - ben: 5.58 
         * OE:  
-          - fun: 0 
+          - fun: 3.4 
         * AM:  
           - fun: 3.17 
           - ben: 6.03 

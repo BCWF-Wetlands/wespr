@@ -1,0 +1,122 @@
+---
+title: "Prepare data for Wespr calculations"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Prepare data for Wespr calculations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(wespr)
+```
+
+# Raw data imports 
+
+The first step in calculating wespr scores is to standarddise and Quality check the input data. 
+
+As of March 2025, data collection is comprised of there parts: 
+- field data - collected using survey123 form
+- office questions - collected using a survey123 form
+- office questions - scripted using the [WESP_OF](https://github.com/BCWF-Wetlands/WESP_OF) github repo. 
+
+
+## Field data
+
+Field data is collected on site using the survey123 form. This is intended to control data inputs and standardize the data collection process. These comprise all the *field* and *stressor* based questions. 
+
+The data is exported from survey123 as a csv file. An example data file is included within this package for testing. Note some minor manual edits were required to make the data file compatible to read in, i.e. format datatime column. These should be minimal in future as the processes is continually improved. 
+
+```{r}
+
+field <- system.file("extdata/field_survey123_edited.xls", package = "wespr")
+
+#head(field)
+
+```
+
+
+## Office data
+
+Office data is collected in two part (by users either post or pre fieldwork, and compiled as part of the [BCWF-Wetlands/WESP_OF](https://github.com/BCWF-Wetlands/WESP_OF). These are merged into a single file and exported as a .xls file. An example data file is included within this package for testing.
+
+```{r}
+office <- system.file("extdata/scripted_office.xlsx", package = "wespr")
+
+#head(office)
+```
+
+
+
+# Compiling and formatting data 
+
+
+The data is compiled and formatted using the `combine_rawdata` function. This function takes the field and office data as inputs, and outputs a single data frame with the data formatted for use in the wespr calculations. 
+
+Users need to define the file path to the field and office data files, the ecoregion to be reviewed. In this example we define the EcoP as "GD" for Georgia Depression. 
+
+Users can then define if they want to review the formatted subfiles (i.e. office and field data), and if they want to save the final data file and if the file should be overwritten  
+
+
+```{r, eval=FALSE}
+#Preparing the raw data
+
+ww <- combine_rawdata(
+    field_data <- system.file("extdata/field_survey123_edited.xls", package = "wespr"),
+    office_data <- system.file("extdata/scripted_office.xlsx", package = "wespr"),
+    EcoP = "GD",
+    write_subfiles = FALSE,
+    out_dir = "input_data",
+    overwrite = TRUE
+)
+
+write.csv(ww, fs::path("input_data/wetFlat_20250325.csv"), row.names=FALSE)
+
+```
+
+
+If we choose to review the subfiles, these will be written to the out_dir directory. 
+
+
+
+# Quality checking the data
+
+We can then check QA the data using the `check_indata` function. This function checks the data for missing values, and ensures the data is in the correct format. 
+
+```{r, eval=FALSE}
+indata <- system.file("input_data/wetFlat_20250325.csv", package = "wespr")
+
+check_indata(indata)
+
+```
+
+
+
+# The final output 
+
+An example of the final compiled data is shown, with the first 10 questions (rows) and 6 sites (columns) shown:
+
+```
+Question,1,2,3,4,5,6
+F1_1,1,0,1,1,1,2
+F1_2,0,3,3,2,0,2
+F1_3,1,0,3,1,1,1
+F1_4,1,4,1,1,1,3
+F1_5,1,0,1,1,1,0
+F1_6,1,1,1,1,1,4
+F2_A1,0,0,0,0,0,1
+F2_A2,0,0,0,0,0,0
+F2_B1,0,1,0,0,0,0
+F2_B2,1,0,1,1,1,0
+```
+
+The prepared dataset is then ready for use in the wespr calculations. Detailed steps for running the 
+
+

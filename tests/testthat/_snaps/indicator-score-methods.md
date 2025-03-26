@@ -16,7 +16,7 @@
       
       $sr
       $sr$fun
-      Score: 10 
+      Score: 0.9584726 
         Subscores: 
           - livestore: 0.62
           - dryintercept: 0.17
@@ -28,7 +28,7 @@
       
       $pr
       $pr$fun
-      Score: 10 
+      Score: 6.878929 
         Subscores: 
           - interceptdry: 0.31
           - interceptwet: 0.46
@@ -70,7 +70,7 @@
       
       $nr
       $nr$fun
-      Score: 10 
+      Score: 7.002259 
         Subscores: 
           - warmth: 0.51
           - intercept: 0.37
@@ -158,7 +158,7 @@
       
       $oe
       $oe$fun
-      Score: 0 
+      Score: 3.400641 
         Subscores: 
           - histaccum: 0.69
           - productiv: 0.48
@@ -184,7 +184,7 @@
         Subscores: 
           - hydro: 0.47
           - struc: 0.08
-          - nooxyrisk: 0.5
+          - nooxyrisk: 0
           - nostress: 0.31
       
       $fh$ben
