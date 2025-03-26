@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, eval = FALSE}
 library(wespr)
 ```
 
@@ -26,7 +26,7 @@ Once the wespr package has been installed, and the raw data processed using the 
 
 We have included an example file in the package, which we can use for demonstration purposes:
 
-```{r}
+```{r, eval = FALSE}
 wesp_file <- system.file("input_data/wetFlat_20240130.csv", package = "wespr")
 wesp_data <- load_wesp_data(wesp_file)
 
@@ -42,7 +42,7 @@ If there is more than one site in the input data, you can select which site you
 would like to use --- if no site is selected it will default to choosing the first 
 site in the file.
 
-```{r}
+```{r, eval = FALSE}
 site <- as.wesp_site(wesp_data, site = 1)
 ```
 
@@ -50,7 +50,7 @@ You should not normally need to work with the internals of the `wesp_site` objec
 as it is quite complex, however we can get an overview of what is in it by just 
 typing the name of the object:
 
-```{r}
+```{r, eval = FALSE}
 site
 ```
 
@@ -63,20 +63,20 @@ Now, we can calculate the indicator scores with the `calc_indicators()` function
 You must assign the output of this function back to the original `wesp_site` 
 object, as it updates the `indicators` with the calculated values:
 
-```{r}
+```{r, eval = FALSE}
 site <- calc_indicators(site)
 ```
 
 If we view the site object again, we can see the calculated indicator scores.
 
-```{r}
+```{r, eval = FALSE}
 site
 ```
 
 We probably want to get the indicator scores out as a usable object. We can do 
 that with `get_indicator_scores()`, which gives them to us as a `data.frame`:
 
-```{r}
+```{r, eval = FALSE}
 ind_scores <- get_indicator_scores(site)
 
 ind_scores
@@ -84,14 +84,14 @@ ind_scores
 
 Similarly, we can extract the original responses with `get_responses()`:
 
-```{r}
+```{r,eval = FALSE}
 get_responses(site)
 ```
 
 We can also get out a data.frame of derived values, those values which are 
 calculated from the responses, and used as inputs into many indicators.
 
-```{r}
+```{r,eval = FALSE}
 get_derived_values(site)
 ```
 
@@ -144,7 +144,7 @@ there is functionality that is missing please
 
 It has four elements:
 
-```{r}
+```{r,eval = FALSE}
 length(site)
 names(site)
 ```
@@ -152,7 +152,7 @@ names(site)
 The first three (`site_name`, `questions`, and `derived_values`) are populated when 
 the `wesp_site` object is created, but the `indicators` element is just a placeholder, until `calc_indicators()` has been run:
 
-```{r}
+```{r,eval = FALSE}
 site$site_name
 
 # The questions element is large and complex, so we will just show the names:
