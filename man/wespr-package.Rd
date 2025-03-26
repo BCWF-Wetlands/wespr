@@ -8,6 +8,13 @@
 \description{
 Takes responses from a predetermined set of office and field-based questions, validates the responses, and calculates indicator scores for various aspects of wetland functions and benefits.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://bcwf-wetlands.github.io/wespr/}
+}
+
+}
 \author{
 \strong{Maintainer}: Genevieve Perkins \email{gperkins@ninoxconsulting.ca}
 
