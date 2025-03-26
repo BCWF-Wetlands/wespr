@@ -31,7 +31,10 @@ Imports:
 Suggests: 
     testthat (>= 3.0.0),
     cli,
-    fs
+    fs,
+    knitr,
+    rmarkdown
 Config/testthat/edition: 3
 Depends: 
     R (>= 3.5)
+VignetteBuilder: knitr

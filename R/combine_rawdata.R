@@ -57,8 +57,8 @@ combine_rawdata <- function(field_data,
     dplyr::filter(.data$region == EcoP) %>%
     dplyr::mutate(date = format(as.POSIXct(.data$datetime, format = "%m/%d/%Y %H:%M:%S"), format = "%m/%d/%Y")) %>%
     dplyr::rename("Wetland_Co" = .data$Wetland_ID) %>%
-    dplyr::mutate(dplyr::across(dplyr::where(is.character), ~ stringr::str_trim(.data))) %>%
-    dplyr::mutate(dplyr::across(dplyr::where(is.character), ~ dplyr::na_if(.data, "")))
+    dplyr::mutate(dplyr::across(dplyr::where(is.character), ~ stringr::str_trim(.))) %>%
+    dplyr::mutate(dplyr::across(dplyr::where(is.character), ~ dplyr::na_if(., "")))
 
   # check for duplicate id numbers
   ids <- indata |>

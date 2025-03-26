@@ -108,7 +108,6 @@ check_indata <- function(indata){
     cli::cli_alert_success("Office data does not contain negative values")
   }
 
-
   # detailed site check
 
   cli::cli_alert_info("completing detailed site check ")

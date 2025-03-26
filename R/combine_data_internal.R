@@ -52,39 +52,29 @@ processing_fielddata <- function(indata = indata) {
   # Number of sub-categories for each variable
   NparseVars <- c(8, 3, 7, 10)
 
-
   # Function to split a Form variable that has multiple entries into separate variables
   SplitFn1 <- function(i, df) {
-    df2 <- lapply(1:NparseVars[i], function(j) {
+    purrr::map_dfc(1:NparseVars[i], function(j) {
       FormVName <- sub("_0", paste0("_", j), ParseVars[i])
-      df |>
-        dplyr::mutate(!!FormVName := dplyr::case_when(
-          is.element(j, VpartsN) ~ 1,
-          TRUE ~ 0
-        )) |>
-        dplyr::select(!!rlang::sym(FormVName))
+      df %>%
+        dplyr::transmute(!!FormVName := dplyr::if_else(j %in% VpartsN, 1, 0))
     })
-    do.call(cbind, df2)
   }
-
 
   # Loop through each Variable to split out and call the function
   # that splits it into separate variables
-  df3 <- lapply(1:length(ParseVars), function(x) {
-    df1 <- fdata |>
-      dplyr::rowwise() |>
-      dplyr::mutate(Vparts = (strsplit(!!rlang::sym(ParseVars[x]), ","))) |>
-      dplyr::mutate(VpartsN = list(parse_number(Vparts))) %>%
-      dplyr::select((ParseVars[x]), Vparts, VpartsN)
+  df3 <- purrr::map(1:length(ParseVars), function(x) {
+    df1 <- fdata %>%
+      dplyr::rowwise() %>%
+      dplyr::mutate(Vparts = stringr::str_split(!!rlang::sym(ParseVars[x]), ",")) %>%
+      dplyr::mutate(VpartsN = list(readr::parse_number(Vparts))) %>%
+      dplyr::select(dplyr::all_of(ParseVars[x]), Vparts, VpartsN)
     SplitFn1(x, df1)
   })
 
   # Combine generated form sub-variables with original data.frame
-  fdata2 <- cbind(fdata, (do.call(cbind, df3))) %>%
-    replace(is.na(.), 0) %>%
-    dplyr::mutate(dplyr::across(c(.data$F22_0, .data$F23_0, .data$F42_0, .data$F49_0), ~ stringr::str_replace(., "N/A", "0")))
-
-
+  fdata2 <- dplyr::bind_cols(fdata, dplyr::bind_cols(df3)) |>
+    dplyr::mutate(dplyr::across(c(.data$F22_0, .data$F23_0, .data$F42_0, .data$F49_0), ~ str_replace(., "N/A", "0")))
 
   # Case 3
   # Split out form binary variables that are contained in 1 variable
