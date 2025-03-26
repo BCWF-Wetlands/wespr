@@ -21,7 +21,7 @@
 calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "wesp_scores.csv") {
 
   #testing lines
- # wespdata <- wesp_data
+#  wespdata <- wesp_data_new
 #  sites = NULL
 ##  out_dir = "temp"
 #  out_name = "wesp_scores_test1.csv"
@@ -44,27 +44,27 @@ calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "w
 
   # apply Min-Max normalization
   wespNorm <- as.data.frame(lapply(wespRaw[, -1], min_max_norm)) %>%
-    dplyr::mutate(site = as.numeric(rownames(.)), .before = 1)
+    dplyr::mutate(site = as.numeric(rownames(.data)), .before = 1)
   wespNorm <- dplyr::rename_with(wespNorm, ~ gsub("_raw", "_norm", .x, fixed = TRUE))
 
 
-  # #format to long form
-  #
-  # norm_long <- pivot_longer(wespNorm, -site, names_to = "metric", values_to = "value") |>
-  #   mutate(type = "normalised") |>
-  #   mutate(name = gsub( "_norm", "", metric))
-  #
-  # norm_raw <- pivot_longer( wespRaw, -site, names_to = "metric", values_to = "value") |>
-  #   mutate(type = "raw")|>
-  #   mutate(name = gsub( "_raw", "", metric))
-  #
-  # all <- rbind(norm_long, norm_raw)
-  #
-  # ggplot( norm_raw, aes(value, fill = type)) +
-  #    geom_density(alpha = 0.2) +
-  #    facet_wrap(~name, scales = "free") +
-  #    theme_bw()
-  #
+  #format to long form
+
+   norm_long <- tidyr::pivot_longer(wespNorm, -.data$site, names_to = "metric", values_to = "value") |>
+     dplyr::mutate(type = "normalised") |>
+     dplyr::mutate(name = gsub( "_norm", "", .data$metric))
+
+   norm_raw <- tidyr::pivot_longer( wespRaw, -.data$site, names_to = "metric", values_to = "value") |>
+     dplyr::mutate(type = "raw")|>
+     dplyr::mutate(name = gsub( "_raw", "", .data$metric))
+
+   all <- rbind(norm_long, norm_raw)
+
+   ggplot2::ggplot(norm_raw, ggplot2::aes(.data$value, fill = .data$type)) +
+     ggplot2::geom_density(alpha = 0.2) +
+     ggplot2::facet_wrap(~.data$name, scales = "free") +
+     ggplot2::theme_bw()
+
 
 
 
@@ -85,9 +85,9 @@ calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "w
   # Change numeric to character High, Medium, Low
   wesp_breaks_cat <- lapply(wesp_breaks_raw[1:length(wesp_breaks_raw)], function(x) {
     dplyr::case_when(
-      x == 1 ~ "L",
-      x == 2 ~ "M",
-      x == 3 ~ "H"
+      .data$x == 1 ~ "L",
+      .data$x == 2 ~ "M",
+      .data$x == 3 ~ "H"
     )
   })
 
@@ -100,7 +100,7 @@ calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "w
   # Make a single data frame that includes the raw, normalized and Jenks values
   wespEcoS <- list(wespRaw, wespNorm, wespBreaks) %>%
     purrr::reduce(dplyr::full_join, by = "site") %>%
-    dplyr::select(site, sort(names(.)))
+    dplyr::select(.data$site, sort(names(.data)))
 
   # wespEcoS <-data.frame(Wetland_Co=wetLUT,wespEcoS.1)
 

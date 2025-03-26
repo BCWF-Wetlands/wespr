@@ -14,7 +14,7 @@
 #'}
 calculate_multi_site <- function(wespdata, sites = NULL) {
   # testing
-  # wespdata <- load_wesp_data(system.file("input_data/wetFlat_20240130.csv", package = "wespr"))
+  # wespdata <- load_wesp_data(system.file("input_data/wetFlat_20250325.csv", package = "wespr"))
   # sites <- NULL
   # end testing
 
@@ -40,11 +40,15 @@ calculate_multi_site <- function(wespdata, sites = NULL) {
 
   # run through all the sites and calculate values
 
+  #sitelist <- sitelist[1:109]
+  #i = 43
+
   cdat <- purrr::map(sitelist, function(i) {
     cli::cli_alert_info(" processsing {allsites[i]}")
     site <- as.wesp_site(wespdata, i)
     site <- calc_indicators(site)
     aa <- get_indicator_scores(site)
+    aa
   }) |> dplyr::bind_rows()
 
 
@@ -53,14 +57,14 @@ calculate_multi_site <- function(wespdata, sites = NULL) {
   cdatf <- cdat |>
     dplyr::select(-"ben") |>
     tidyr::pivot_wider(names_from = "indicator", values_from = "fun", names_glue = "{indicator}_f_raw", ) |>
-    dplyr::select(site, dplyr::everything()) |>
-    dplyr::mutate(site = as.numeric(sub("site_", "", site)))
+    dplyr::select(.data$site, dplyr::everything()) |>
+    dplyr::mutate(site = as.numeric(sub("site_", "", .data$site)))
 
   cdatb <- cdat |>
     dplyr::select(-"fun") |>
     tidyr::pivot_wider(names_from = "indicator", values_from = "ben", names_glue = "{indicator}_b_raw", ) |>
-    dplyr::select("site", dplyr::everything()) |>
-    dplyr::mutate(site = as.numeric(sub("site_", "", site)))
+    dplyr::select(.data$site, dplyr::everything()) |>
+    dplyr::mutate(site = as.numeric(sub("site_", "", .data$site)))
 
   wespRaw <- dplyr::left_join(cdatf, cdatb, by = "site")
 
@@ -72,7 +76,7 @@ calculate_multi_site <- function(wespdata, sites = NULL) {
   na_count <- na_count[na_count > 0]
 
   nas_check <- wespRaw |>
-    dplyr::select(site, dplyr::all_of(names(na_count)))
+    dplyr::select(.data$site, dplyr::all_of(names(na_count)))
 
   nas_check <- nas_check[!stats::complete.cases(nas_check), ]
 

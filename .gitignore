@@ -3,3 +3,4 @@
 .RData
 .Ruserdata
 .Rprofile
+/inst/input_data/archive*
