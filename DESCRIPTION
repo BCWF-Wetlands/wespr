@@ -20,10 +20,14 @@ Imports:
     readr,
     stringr,
     BAMMtools,
-    utils, 
+    utils,
     tidyr,
     rlang,
-    purrr
+    purrr,
+    openxlsx,
+    readxl,
+    ggplot2,
+    tibble
 Suggests: 
     testthat (>= 3.0.0),
     cli,
