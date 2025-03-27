@@ -20,14 +20,16 @@
 #'}
 calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "wesp_scores.csv") {
 
-  #testing lines
-#  wespdata <- wesp_data_new
-#  sites = NULL
-##  out_dir = "temp"
-#  out_name = "wesp_scores_test1.csv"
+  ##testing lines
+  #wespdata <- wesp_data
+  #sites = NULL
+  #out_dir = "temp"
+  #out_name = "wesp_scores_base.csv"
+
 
   # run multi-site analysis
   wespRaw <- calculate_multi_site(wespdata, sites = sites)
+  #wespRaw <- calculate_multi_site(wesp_data, sites = NULL)
 
   # check out dir exists and if not create it
   if (!dir.exists(out_dir)) {
@@ -44,7 +46,7 @@ calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "w
 
   # apply Min-Max normalization
   wespNorm <- as.data.frame(lapply(wespRaw[, -1], min_max_norm)) %>%
-    dplyr::mutate(site = as.numeric(rownames(.data)), .before = 1)
+    dplyr::mutate(site = as.numeric(rownames(.)), .before = 1)
   wespNorm <- dplyr::rename_with(wespNorm, ~ gsub("_raw", "_norm", .x, fixed = TRUE))
 
 
@@ -60,12 +62,10 @@ calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "w
 
    all <- rbind(norm_long, norm_raw)
 
-   ggplot2::ggplot(norm_raw, ggplot2::aes(.data$value, fill = .data$type)) +
-     ggplot2::geom_density(alpha = 0.2) +
-     ggplot2::facet_wrap(~.data$name, scales = "free") +
-     ggplot2::theme_bw()
-
-
+#   ggplot2::ggplot(norm_raw, ggplot2::aes(.data$value, fill = .data$type)) +
+#     ggplot2::geom_density(alpha = 0.2) +
+#     ggplot2::facet_wrap(~.data$name, scales = "free") +
+#     ggplot2::theme_bw()
 
 
   # 2) Calculate Jenks brakes
@@ -85,9 +85,9 @@ calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "w
   # Change numeric to character High, Medium, Low
   wesp_breaks_cat <- lapply(wesp_breaks_raw[1:length(wesp_breaks_raw)], function(x) {
     dplyr::case_when(
-      .data$x == 1 ~ "L",
-      .data$x == 2 ~ "M",
-      .data$x == 3 ~ "H"
+      x == 1 ~ "L",
+      x == 2 ~ "M",
+      x == 3 ~ "H"
     )
   })
 
@@ -100,7 +100,7 @@ calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "w
   # Make a single data frame that includes the raw, normalized and Jenks values
   wespEcoS <- list(wespRaw, wespNorm, wespBreaks) %>%
     purrr::reduce(dplyr::full_join, by = "site") %>%
-    dplyr::select(.data$site, sort(names(.data)))
+    dplyr::select(.data$site, sort(names(.)))
 
   # wespEcoS <-data.frame(Wetland_Co=wetLUT,wespEcoS.1)
 
@@ -117,4 +117,7 @@ calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "w
   # Write out the data frame
   utils::write.csv(wespEcoS, fs::path(out_dir, out_name), row.names = FALSE)
   cli::cli_alert_success("WESP scores calculated and saved to {fs::path(out_dir, out_name)}")
-}
+
+  return(wespEcoS)
+
+  }

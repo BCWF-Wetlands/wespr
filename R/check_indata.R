@@ -116,7 +116,7 @@ check_indata <- function(indata){
   #check number of sites
   allsites <- unique(names(wespdata)[grepl("site", names(wespdata))])
   sitelist <- seq(1, length(allsites), 1)
-  sitelist <- sitelist[1:109]
+  #sitelist <- sitelist[1:109]
 
   # loop through and validate the data
   cdat <- purrr::map(sitelist, function(i) {
