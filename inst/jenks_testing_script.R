@@ -1,3 +1,7 @@
+## TESTING AND DEVELOPMENT SCRIPT
+
+# This is the testing and development script to use to test the combine_rawdat function.
+# Use is for internal and develpoment only and not for pacakge use.
 
 #Prepare for and install wespr
 #devtools::install_github("BCWF-Wetlands/wespr")
