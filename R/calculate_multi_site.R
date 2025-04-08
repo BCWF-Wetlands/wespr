@@ -17,6 +17,8 @@ calculate_multi_site <- function(wespdata, sites = NULL) {
   # wespdata <- load_wesp_data(system.file("input_data/wetFlat_20250325.csv", package = "wespr"))
   # sites <- NULL
   # end testing
+  #wespdata <- wesp_data
+
 
   # check if wespdata is a data frame
   if (!is.data.frame(wespdata)) {

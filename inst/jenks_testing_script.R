@@ -1,3 +1,7 @@
+## TESTING AND DEVELOPMENT SCRIPT
+
+# This is the testing and development script to use to test the combine_rawdat function.
+# Use is for internal and develpoment only and not for pacakge use.
 
 #Prepare for and install wespr
 #devtools::install_github("BCWF-Wetlands/wespr")
@@ -8,6 +12,20 @@ load_all()
 data_test <- file.path("C:/Users/genev/OneDrive/Documents/02.Contracts/2023_BCWF_wetlands/04.Data/testing_don/wesp.csv")
 
 wesp_data <- load_wesp_data(data_test)
+
+site <- as.wesp_site(wesp_data, site = 1)
+site <- calc_indicators(site)
+
+data <- wesp_data
+site = 1
+
+
+
+
+
+
+
+
 
 # 2)  run all sites
 
