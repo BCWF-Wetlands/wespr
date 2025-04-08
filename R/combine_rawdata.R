@@ -29,14 +29,13 @@ combine_rawdata <- function(field_data,
                             overwrite = FALSE) {
 
   # check if the output directory exists and if not create it.
-
-#  field_data <-  field_data
-#  office_data <- office_data
-#  EcoP = "GD"
-#  write_subfiles = FALSE
-#  out_dir <- "inst/input_data/processed"
-#  overwrite = TRUE
-
+ # testing rows
+  #field_data <- system.file("extdata/field_survey123_edited.xls", package = "wespr")
+  ##office_data <- system.file("extdata/scripted_office.xlsx", package = "wespr")
+  #EcoP = "GD"
+  ##write_subfiles = FALSE
+  #out_dir <- "inst/input_data/processed"
+  #overwrite = TRUE
 
   if (!exists(out_dir)) {
     dir.create(out_dir, showWarnings = FALSE)
@@ -82,10 +81,7 @@ combine_rawdata <- function(field_data,
   # Missing fields check
   indata <- indata |>
     dplyr::select(.data$Wetland_Co, dplyr::starts_with(c("F", "S"))) |>
-    # dplyr::select(-c("F46_a", "surveyors"))
     dplyr::select(-c("surveyors"))
-
-  # Q for Don - should F46_a be kept to specify whcih conductance value is measures?
 
   # check the fields are all present.
   standard_cols <- c(
