@@ -13,6 +13,20 @@ data_test <- file.path("C:/Users/genev/OneDrive/Documents/02.Contracts/2023_BCWF
 
 wesp_data <- load_wesp_data(data_test)
 
+site <- as.wesp_site(wesp_data, site = 1)
+site <- calc_indicators(site)
+
+data <- wesp_data
+site = 1
+
+
+
+
+
+
+
+
+
 # 2)  run all sites
 
 calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores_test.csv")
