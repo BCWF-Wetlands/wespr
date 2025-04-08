@@ -105,6 +105,14 @@ processing_fielddata <- function(indata = indata) {
   WForm3.1 <- cbind(WForm_Wetland_Co, do.call(cbind, df4))
   WForm3 <- dplyr::mutate(fdata2, WForm3.1)
 
+  # drop the shrub_1 and rename values to F4_1 to F4_3
+  WForm3 <-  WForm3 |>
+    dplyr::select(-c(.data$F4_1)) |>
+    dplyr::rename(
+      F4_1 = .data$F4_2,
+      F4_2 = .data$F4_3,
+      F4_3 = .data$F4_4
+    )
 
   # Case 4
   # Modify y/n to 1/0 and set

@@ -6,6 +6,7 @@ Authors@R: c(
            role = c("aut", "cre")),
     person("Andy", "Teucher", , "andy.teucher@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0002-7840-692X")),
+    person("Don", "Morgan", , "dmorgan.bee3@gmail.com", role = "aut"),
     person("BC Wildlife Federation", role = "cph")
   )
 Description: Takes responses from a predetermined set of office and field-based
