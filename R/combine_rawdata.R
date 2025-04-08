@@ -30,8 +30,16 @@ combine_rawdata <- function(field_data,
 
   # check if the output directory exists and if not create it.
 
+#  field_data <-  field_data
+#  office_data <- office_data
+#  EcoP = "GD"
+#  write_subfiles = FALSE
+#  out_dir <- "inst/input_data/processed"
+#  overwrite = TRUE
+
+
   if (!exists(out_dir)) {
-    dir.create(out_dir)
+    dir.create(out_dir, showWarnings = FALSE)
     cli::cli_alert_success("Output directory created")
   }
 
