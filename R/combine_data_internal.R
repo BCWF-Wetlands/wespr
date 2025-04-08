@@ -154,10 +154,8 @@ processing_fielddata <- function(indata = indata) {
     dplyr::left_join(df6, by = "Wetland_Co")
 
 
-  ## needs more clean up to get it sorted
-  # remove F58 cols
+  # remove F58 cols as these are descriptive and not used in calculations
   # convert F22_0, F23_0, F42_0, to 1 and 0 and added _1
-
 
   WForm4 <- WForm4 |>
     dplyr::select(-c("F58_A", "F58_B", "F58_C", "F58_D", "F58_E", "F58_F")) |>
@@ -178,9 +176,8 @@ processing_fielddata <- function(indata = indata) {
       TRUE ~ 0
     ))
 
-  # currently dropping the F4_4 but need to figure out if this is correct.
+  # currently dropping the F57_7 as this consume7 and is not applicable response.
   WForm4 <- WForm4 |>
-    dplyr::select(-.data$F4_4) |>
     dplyr::select(-.data$F57_7)
 
   return(WForm4)
@@ -200,9 +197,11 @@ processing_stressordata <- function(indata = indata) {
 
   # Make list of variables that require parsing
   ParseVars <- c("S1", "S2", "S3", "S4", "S5", "S6")
-  NparseVars <- c(10, 5, 9, 9, 8, 2)
+  NparseVars <- c(10,     5,   10,   9,   8,     4)
 
   ## why does the S3 not include full score when others do? ie S2 = 5 but S1, 3 = full list?
+  # updated these to match responses
+
 
 
   # Function to split a Form variable that has multiple entries into separate variables
@@ -234,9 +233,12 @@ processing_stressordata <- function(indata = indata) {
 
   # Combine generated form sub-variables with original data.frame
   WFormS2.1 <- cbind(WForm_Wetland_Co, do.call(cbind, df3))
+  df3 = NA
   WFormS2 <- dplyr::mutate(WFormS, WFormS2.1) %>%
     dplyr::mutate(dplyr::across(dplyr::everything(), as.character))
 
+  # I dont fully comprehend these values - need to review in detail to make sure they
+  # make sense
   # Split out form binary variables that are contained in 1 variable
   ParseVars <- c(
     "S1_11", "S1_12", "S1_13", "S1_14", "S2_6", "S2_7", "S2_8", "S3_10", "S3_11", "S3_12",
