@@ -36,7 +36,11 @@ The data is exported from survey123 as a csv file. An example data file is inclu
 
 ```{r}
 
-field <- system.file("extdata/field_survey123_edited.xls", package = "wespr")
+file_123 <- 'field_survey123_edited.xls'
+s123_file <- file.path('extdata',file_123)
+
+field <- system.file(s123_file, package = "wespr")
+#field_excel <- read_xls(field)
 
 #head(field)
 
