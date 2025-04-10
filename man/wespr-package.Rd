@@ -21,6 +21,7 @@ Useful links:
 Authors:
 \itemize{
   \item Andy Teucher \email{andy.teucher@gmail.com} (\href{https://orcid.org/0000-0002-7840-692X}{ORCID})
+  \item Don Morgan \email{dmorgan.bee3@gmail.com}
 }
 
 Other contributors:
