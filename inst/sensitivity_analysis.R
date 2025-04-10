@@ -63,7 +63,7 @@ unique(question_metadata$type)
 # 1 binary                   11 # complete
 # 2 category                  1
 # 3 multi_choice             70 # complete
-# 4 multi_choice_flexible     5
+# 4 multi_choice_flexible     5 # complete
 # 5 multi_choice_numeric      1
 # 6 multiresponse_binary      6 # complete
 # 7 multiresponse_numeric     8
@@ -74,21 +74,172 @@ unique(question_metadata$type)
 #
 fls
 
-mrb <- question_metadata[question_metadata$type == "multiresponse_binary",]$no #F3 (n = 6)
-binaryq <- question_metadata[question_metadata$type == "binary",]$no # all complere (n = 11)
-mrb <- question_metadata[question_metadata$type == "multi_choice",]$no # all complete (n = 70)
-mrb <- question_metadata[question_metadata$type == "multi_choice_flexible",]$no (n = 5)
+mrb <- question_metadata[question_metadata$type == "multiresponse_binary",]$no #complete (n = 6)
+binaryq <- question_metadata[question_metadata$type == "binary",]$no # complete (n = 11)
+mrb <- question_metadata[question_metadata$type == "multi_choice",]$no # complete (n = 70)
+mrb <- question_metadata[question_metadata$type == "multi_choice_flexible",]$no #(n = 5)
+
+mrb <- question_metadata[question_metadata$type == "numeric",]$no #(n = 5)
+# F46a, F46
+
+
+
+
+# still to fix...
+#multiresponse_numeric
+#multi_choice_numeric
+#category
+
 
 setdiff(mrb, done)#F3
 setdiff(binaryq, done)
 
 
+length(done)
 
 
 
 # numeric
 # OF35 (0.01 - 1) = blocks of = 0.2, 0.4, 0.6, 0.8, 1.
 # OF5 (0.01 - 0.95) = blocks of = 0.01,  0.02, 0.03, 0.04, 0.05,  0.06,  0.07,  0.08,  0.09, 0.095
+# OF25 - local moisture (range from 114 - 360 )
+# OF26 - Degree Days (range from 1360 - 2135)
+# OF27 - local solar inputs (range from)
+# F46a - conductivity input ranger()
+# F46b - TDS input ranges ()
+
+
+origin <- readr::read_csv("temp/sensitivity_test.csv", show_col_types = FALSE)
+
+range <- origin |>
+  filter(Question == "F46_2") |>
+  as.numeric()
+
+ min(range, na.rm = TRUE)
+ max(range, na.rm = TRUE)
+ mean(range, na.rm = TRUE)
+
+#F23 - needs to be converted from numeric to binary. See issue: might be fixed for sensitivity but
+ # changes in the dataasheet will impact the grouping
+
+
+
+
+#############################################################################
+# Numeric response
+
+#############################################################################
+
+mrb <- question_metadata[question_metadata$type == "numeric",]$no
+#mrb <- question_metadata[question_metadata$type == "multi_choice_flexible",]$no #(n = 5)
+
+
+## loop through the options
+out <- purrr::map(mrb, function(x){
+
+ # x <- mrb[1]
+
+  if(x == "OF5"){
+    vec <- c(0.01,  0.02, 0.03, 0.04, 0.05,  0.06,  0.07,  0.08,  0.09, 0.095)
+  } else if(x == "OF35"){
+    vec <- c(0.2, 0.4, 0.6, 0.8, 1)
+  } else if(x == "OF25"){
+    vec <- c(100, 150, 200, 250, 300, 350, 400)
+  } else if(x == "OF26"){
+    vec <- c(1000, 1250, 1500, 1750, 2000, 2250, 2500)
+  } else if(x == "OF27"){
+    vec <- c(32, 32.5, 33, 33.5, 34, 34.5, 35, 35.5,36)
+  } else if(x == "F46a"){
+    vec <- c(0, 25, 50, 75, 100, 125, 150, 200, 250, 300, 350)
+  } else if(x == "F46b"){
+    vec <- c(0, 50, 75, 100, 150, 200, 300, 400, 500, 600, 700, 800)
+  }else if(x == "F23"){
+    vec <- c(0, 1)
+  }
+
+
+  noptions <- question_metadata[question_metadata$no == x,]$n_responses
+  n_iterations <- noptions
+
+  N   <- noptions
+  #vec <- c(0, 1)
+  lst <- lapply(numeric(N), function(x) vec)
+  combos <- as.data.frame(as.matrix(expand.grid(lst)))
+
+  # pair down the all combos options as there needs to be at least one option selected
+#  combos$rs = rowSums(combos)
+#  combos <- combos |>
+#    #filter(rs %in% c(1,0)) |>    # for multi_choice_flexible
+#    filter(rs == 1) |>          # for multi_choice_
+#    select(-rs)
+
+  # read in nad remove the values
+  origin <- readr::read_csv("temp/sensitivity_test.csv", show_col_types = FALSE)
+  nocols <- length(colnames(origin)[-1])
+  allqs <-  origin$Question
+
+  # remove the F56 from this data set
+  #origin <- origin[-grep(paste0(x, "_"), origin$Question),]
+
+  # remove rows where Question matches and starts with x
+  origin <- origin[-grep(paste0("^", x, "_"), origin$Question),]
+
+  #origin <- origin[-grep(x, origin$Question),]
+  #allqs2 <-  origin$Question
+  #setdiff(allqs, allqs2)
+
+  iterate <- purrr::map(1:nrow(combos), function(i){
+    #i <- 1
+    combos[i,]
+    origin.names <- origin[1,]
+
+    # create three rows which are equal to the row of options and then add togther
+    lines <- purrr::map(1:ncol(combos), function(j){
+      #j <- 1
+      coln <- paste0(x, "_", j)
+      #outline <- c(coln, rep(combos[i,j], nocols))
+      outline <- rbind(origin.names, c(coln, rep(combos[i,j], nocols)))
+      outline[-1,]
+
+    }) |> dplyr::bind_rows()
+
+    # add the iteration to the main dataset
+    outdf <- rbind(origin, lines)
+    write_csv(outdf , fs::path("temp", paste0("sensitivity_test_", x,"_",i, ".csv")))
+    cli::cli_alert_info(paste0("saving iteration ", i, " of ", n_iterations))
+
+  })
+
+
+  # lets read in the files and determine the scores per output
+
+  score <- purrr::map(1:nrow(combos), function(k){
+    #k <- 2
+    iname <- fs::path("temp", paste0("sensitivity_test_", x,"_",k, ".csv"))
+
+    wesp_file <- fs::path(iname)
+    wesp_data <- load_wesp_data(wesp_file)
+
+    site <- as.wesp_site(wesp_data)
+
+    site <- calc_indicators(site)
+
+    q0 <- calculate_multi_site(wesp_data) |>
+      tidyr::pivot_longer(-site, names_to = "question", values_to ="value") |>
+      mutate(type = k)
+
+    q0
+  })
+
+  score1 <-  score |> dplyr::bind_rows()
+
+
+  write_csv(score1, fs::path("temp", paste0("sensitivity_test_", x,"_scores.csv")))
+
+}) # end of loop through questions
+
+
+
 
 
 
@@ -101,16 +252,7 @@ setdiff(binaryq, done)
 mrb <- question_metadata[question_metadata$type == "multi_choice",]$no
 mrb <- question_metadata[question_metadata$type == "multi_choice_flexible",]$no #(n = 5)
 
-#mrb <- setdiff(mrb, done)
 
-#mrb <- mrb[1:27]
-#mrb <- mrb[27:59]
-
-
-mrb <- mrb[3]
-
-
-#mrb <- mrb[28:length(mrb)]
 ## loop through the options
 
 # still in development
@@ -299,7 +441,7 @@ done
 #fls
 
 out1 <- purrr::map(fls, function(x) {
-  # x <- fls[2]
+   x <- fls[41]
 
   xame <- gsub("_scores.csv", "", x)
   xtype <- gsub("sensitivity_test_", "", xame)

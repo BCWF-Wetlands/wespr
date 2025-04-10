@@ -35,20 +35,33 @@ processing_fielddata <- function(indata = indata) {
 # updated the ph columns
 
   phdf <- fdata |>
-    dplyr::select(.data$Wetland_Co, .data$F46_a, .data$F46_1) |>
-    dplyr::rename("F46_b" = .data$F46_1) |>
-    dplyr::mutate(F46_1 = ifelse(.data$F46_a == "Cond", .data$F46_b, NA)) |>
-    dplyr::mutate(F46_2 = ifelse(.data$F46_a == "TDS", .data$F46_b, NA)) |>
-    dplyr::select(-c(.data$F46_a, .data$F46_b))
+    dplyr::select(.data$Wetland_Co, .data$F46_0, .data$F46_1) |>
+    dplyr::mutate(F46_10 = ifelse(.data$F46_0 == "Cond", .data$F46_1, NA)) |>
+    dplyr::mutate(F46_20 = ifelse(.data$F46_0 == "TDS", .data$F46_1, NA)) |>
+    dplyr::select(-c(.data$F46_0, .data$F46_1)) |>
+    dplyr::rename("F46_1" = .data$F46_10,
+      "F46_2" = .data$F46_20
+    )
 
   fdata <- fdata |>
-    dplyr::select(-c( .data$F46_a, .data$F46_1)) |>
+    #dplyr::select(-c( .data$F46_a, .data$F46_1)) |>
     dplyr::left_join(phdf, by = "Wetland_Co")
 
 
   # Case 2 :  Make list of variables that require parsing
 
+  # update #F58 response 11 is merged with response 8, They are seperated in survey123 data,
+  #combined for calculations so will be merged here
+
+  fdataX <- fdata |>
+    dplyr::mutate(F58_0 = stringr::str_replace_all(.data$F58_0, "11", "8"))
+
+  #TODO;note this might be at risk if there are two incidents of SpeciesPres8 but not sure in this dataset
+  # requires more testing
+
+
   ParseVars <- c("F3_0", "F56_0", "F57_0", "F58_0")
+
   # Number of sub-categories for each variable
   NparseVars <- c(8, 3, 7, 10)
 
@@ -75,6 +88,27 @@ processing_fielddata <- function(indata = indata) {
   # Combine generated form sub-variables with original data.frame
   fdata2 <- dplyr::bind_cols(fdata, dplyr::bind_cols(df3)) |>
     dplyr::mutate(dplyr::across(c(.data$F22_0, .data$F23_0, .data$F42_0, .data$F49_0), ~ str_replace(., "N/A", "0")))
+
+  #rename columns in F3 to match survey123
+
+  fdata2 <- fdata2 |>
+    dplyr::rename(
+      F3_20 = .data$F3_2,
+      F3_30 = .data$F3_3,
+      F3_40 = .data$F3_4,
+      F3_50 = .data$F3_5,
+      F3_60 = .data$F3_6,
+      F3_70 = .data$F3_7,
+    ) |>
+    dplyr::rename(
+      F3_2 = .data$F3_50,
+      F3_3 = .data$F3_20,
+      F3_4 = .data$F3_60,
+      F3_5 = .data$F3_30,
+      F3_6 = .data$F3_70,
+      F3_7 = .data$F3_40
+    )
+
 
   # Case 3
   # Split out form binary variables that are contained in 1 variable
@@ -105,6 +139,7 @@ processing_fielddata <- function(indata = indata) {
   WForm3.1 <- cbind(WForm_Wetland_Co, do.call(cbind, df4))
   WForm3 <- dplyr::mutate(fdata2, WForm3.1)
 
+
   # drop the shrub_1 and rename values to F4_1 to F4_3
   WForm3 <-  WForm3 |>
     dplyr::select(-c(.data$F4_1)) |>
@@ -117,11 +152,10 @@ processing_fielddata <- function(indata = indata) {
   # Case 4
   # Modify y/n to 1/0 and set
   WForm4.1 <- WForm3 |>
-    dplyr::mutate(dplyr::across(c(.data$F22_0, .data$F23_0, .data$F42_0, .data$F49_0), ~ dplyr::case_when(. == "yes" ~ "1", TRUE ~ "0"))) |>
-    dplyr::mutate(
-      F2_A0 = 0,
-      F2_B0 = 0
-    )
+    dplyr::mutate(dplyr::across(c(.data$F22_0, .data$F23_0, .data$F42_0, .data$F49_0), ~ dplyr::case_when(. == "yes" ~ "1", TRUE ~ "0"))) # |>
+  # dplyr::mutate(
+  #    F2_A0 = 0,
+  #    F2_B0 = 0)
 
 
   # Special default cases, default to a specific (not 1) case
@@ -154,10 +188,8 @@ processing_fielddata <- function(indata = indata) {
     dplyr::left_join(df6, by = "Wetland_Co")
 
 
-  ## needs more clean up to get it sorted
-  # remove F58 cols
+  # remove F58 Alpha cols as these are descriptive and not used in calculations
   # convert F22_0, F23_0, F42_0, to 1 and 0 and added _1
-
 
   WForm4 <- WForm4 |>
     dplyr::select(-c("F58_A", "F58_B", "F58_C", "F58_D", "F58_E", "F58_F")) |>
@@ -178,9 +210,8 @@ processing_fielddata <- function(indata = indata) {
       TRUE ~ 0
     ))
 
-  # currently dropping the F4_4 but need to figure out if this is correct.
+  # currently dropping the F57_7 as this consume7 and is not applicable response.
   WForm4 <- WForm4 |>
-    dplyr::select(-.data$F4_4) |>
     dplyr::select(-.data$F57_7)
 
   return(WForm4)
@@ -200,9 +231,11 @@ processing_stressordata <- function(indata = indata) {
 
   # Make list of variables that require parsing
   ParseVars <- c("S1", "S2", "S3", "S4", "S5", "S6")
-  NparseVars <- c(10, 5, 9, 9, 8, 2)
+  NparseVars <- c(10,     5,   10,   9,   8,     4)
 
   ## why does the S3 not include full score when others do? ie S2 = 5 but S1, 3 = full list?
+  # updated these to match responses
+
 
 
   # Function to split a Form variable that has multiple entries into separate variables
@@ -234,9 +267,12 @@ processing_stressordata <- function(indata = indata) {
 
   # Combine generated form sub-variables with original data.frame
   WFormS2.1 <- cbind(WForm_Wetland_Co, do.call(cbind, df3))
+  df3 = NA
   WFormS2 <- dplyr::mutate(WFormS, WFormS2.1) %>%
     dplyr::mutate(dplyr::across(dplyr::everything(), as.character))
 
+  # I dont fully comprehend these values - need to review in detail to make sure they
+  # make sense
   # Split out form binary variables that are contained in 1 variable
   ParseVars <- c(
     "S1_11", "S1_12", "S1_13", "S1_14", "S2_6", "S2_7", "S2_8", "S3_10", "S3_11", "S3_12",
