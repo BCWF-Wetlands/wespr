@@ -90,7 +90,11 @@ i.e. format datatime column. These should be minimal in future as the
 processes is continually improved.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">field</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/field_survey123_edited.xls"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
+<span><span class="va">file_123</span> <span class="op">&lt;-</span> <span class="st">'field_survey123_edited.xls'</span></span>
+<span><span class="va">s123_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">'extdata'</span>,<span class="va">file_123</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">field</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="va">s123_file</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
+<span><span class="co">#field_excel &lt;- read_xls(field)</span></span>
 <span></span>
 <span><span class="co">#head(field)</span></span></code></pre></div>
 </div>
