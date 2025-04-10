@@ -33,6 +33,9 @@ indata <- fs::path("inst/input_data/wetFlat_20250325.csv")
 
 check_indata(indata)
 
+wesp_data <- load_wesp_data(indata)
+site <- as.wesp_site(wesp_data)
+calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores_test2.csv")
 
 
 
