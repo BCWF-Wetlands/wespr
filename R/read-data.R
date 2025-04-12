@@ -15,7 +15,12 @@ load_wesp_data <- function(path) {
   )
   on.exit(options(opts))
 
-  readr::read_csv(
+# testing lines
+# path <- fs::path("inst/input_data/wetFlat_20250413.csv")
+#xx<-
+# end testing lines
+
+   readr::read_csv(
     path,
     col_types = "c",
     name_repair = "universal"
@@ -29,16 +34,14 @@ load_wesp_data <- function(path) {
     dplyr::mutate(
       response_no = dplyr::case_when(
         .data$response_no == "F46_1" ~ "F46a_1",
-        .data$response_no == "F46_2" ~ "F46b_1",
+        .data$response_no == "F46_2" ~ "F46b_2",
         .default = .data$response_no
-      ),
+      )) |>
+    dplyr::mutate(
       q_no = stringr::str_split_i(.data$response_no, "_", 1),
       response_no = stringr::str_split_i(.data$response_no, "_", 2)
     ) |>
-    dplyr::select("q_no", "response_no", dplyr::everything()) |>
-    # Temporary hack to remove new ghost rows for F2
-    # https://github.com/BCWF-Wetlands/wespr/issues/90
-    dplyr::filter(!.data$response_no %in% c("A0", "B0"))
+    dplyr::select("q_no", "response_no", dplyr::everything())
 }
 
 #' Validate and record responses into a standard object
