@@ -63,3 +63,4 @@ test_that("calc_indicators calculates all indicators", {
   expect_s3_class(site$indicators$sr$ben, "indicator_score")
   expect_s3_class(site$indicators$cp$fun, "indicator_score")
 })
+
