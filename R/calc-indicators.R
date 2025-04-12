@@ -40,7 +40,7 @@ calc_indicators <- function(site) {
   site <- update_site_indicator(site, "fh", "fun")
   site <- update_site_indicator(site, "fh", "ben")
   site <- update_site_indicator(site, "app", "ben")
-  site <- update_site_indicator(site, "sfts", "fun")  # waiting on check conifer values
+  site <- update_site_indicator(site, "sfts", "fun")
   site <- update_site_indicator(site, "sfts", "ben")
   site <- update_site_indicator(site, "cri", "ben")
   site
