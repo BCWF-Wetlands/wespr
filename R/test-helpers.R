@@ -1,5 +1,6 @@
 make_test_site <- function(site = NULL, quiet = TRUE) {
-  data <- load_wesp_data(testthat::test_path("test-wetflat.csv"))
+  #data <- load_wesp_data(testthat::test_path("test-wetflat.csv"))
+  data <- load_wesp_data(testthat::test_path("test-wetflat_20250412.csv"))
 
   f <- if (quiet) suppressMessages else identity
   f(
