@@ -119,11 +119,12 @@ mrb <- question_metadata[question_metadata$type == "numeric",]$no
 #mrb <- question_metadata[question_metadata$type == "multi_choice_flexible",]$no #(n = 5)
 mrb <- question_metadata[question_metadata$type == "category",]$no #(n = 1) #OF29 - not working
 
+mrb <- question_metadata[question_metadata$type == "multiresponse_numeric",]$no
 
 ## loop through the options
 out <- purrr::map(mrb, function(x){
 
-  x <- mrb[1]
+  x <- "F1"
 
   if(x == "OF5"){
     vec <- c(0.01,  0.02, 0.03, 0.04, 0.05,  0.06,  0.07,  0.08,  0.09, 0.095)
@@ -143,6 +144,10 @@ out <- purrr::map(mrb, function(x){
     vec <- c(0, 1)
   } else if (x == "OF29"){
     vec <- c("T", "L", "D", "U", "F", "M", "C")
+  } else if (x == "OF20"){
+    vec <- c(0, 1, 2, 3)
+  } else if (x == "F1"){
+    vec <- c(0, 1, 2, 3, 4)
   }
 
 
@@ -161,7 +166,7 @@ out <- purrr::map(mrb, function(x){
 #    filter(rs == 1) |>          # for multi_choice_
 #    select(-rs)
 
-  # read in nad remove the values
+  # read in and remove the values
   origin <- readr::read_csv("temp/sensitivity_test.csv", show_col_types = FALSE)
   nocols <- length(colnames(origin)[-1])
   allqs <-  origin$Question
@@ -171,13 +176,14 @@ out <- purrr::map(mrb, function(x){
 
   # remove rows where Question matches and starts with x
   origin <- origin[-grep(paste0("^", x, "_"), origin$Question),]
+  #origin <- origin[-grep(paste0("^", "F46_1"), origin$Question),] # for F46a
 
   #origin <- origin[-grep(x, origin$Question),]
   #allqs2 <-  origin$Question
   #setdiff(allqs, allqs2)
 
   iterate <- purrr::map(1:nrow(combos), function(i){
-    #i <- 1
+   # i <- 1
     combos[i,]
     origin.names <- origin[1,]
 
@@ -202,7 +208,7 @@ out <- purrr::map(mrb, function(x){
   # lets read in the files and determine the scores per output
 
   score <- purrr::map(1:nrow(combos), function(k){
-    k <- 2
+    k <- 3
     iname <- fs::path("temp", paste0("sensitivity_test_", x,"_",k, ".csv"))
 
     wesp_file <- fs::path(iname)
@@ -551,14 +557,95 @@ out1 <- out1 |> dplyr::bind_rows()
 
 write_csv(out1, fs::path("temp", "sensitivity_all_summary.csv"))
 
+
+
+
+
+
+
+
+
+
+#################################################################
+
+## Grahics with full distribution
+
+######################################################################
+
+
+library(ggplot2)
+library(ggrepel)
+library(ggtext)
+library(ggdist)
+#install.packages("viridis")
+library(viridis)
+
 # prepare a summary plot
 
-out1
+out1 <- read_csv( fs::path("temp", "sensitivity_all_summary.csv"))
 
 
+ecotype <- unique(out1$question)
 
 
+xx <- out1 |>
+  mutate(mcol = case_when(
+    value_delta <0 & value_delta>0.05 ~ "red",
+    value_delta == 0 ~ "grey"
+    # question == ecotype[3] ~ "green",
+    # question == ecotype[4] ~ "orange",
+    # question == ecotype[5] ~ "purple",
+    # question == ecotype[6] ~ "pink",
+    # question == ecotype[7] ~ "yellow",
+    # question == ecotype[8] ~ "brown"
+  ))
 
 
+purrr::map(ecotype, function(x){
+  #x <- ecotype[1]
+  xx <- out1 |>
+    filter(question == x) |>
+    filter(value_delta!=0)
+
+  p1 <- ggplot(xx , aes(value_delta, qno, colour = value_delta)) +
+    geom_jitter(height = 0.08)+
+    scale_color_viridis() +
+    theme_bw()+
+    ggplot2::theme(legend.position = "none") +
+    xlab("Difference in overall score") +
+    ylab("Question Number") +
+    ggplot2::labs(title = paste0("Eco service: ", x),
+                  #subtitle = "Potential change in score as compared to reference site, based on contributing questions"
+    )
+
+  ggplot2::ggsave(
+    paste0("temp/", x, "_overall_deltas.png"),
+    plot = p1,
+    width = 25,
+    height = 20,
+    units = "cm"
+  )
+})
+
+xx <- xx |>
+  filter(question == ecotype[1]) |>
+  filter(value_delta!=0)
+
+
+ggplot(xx , aes(value_delta, qno, colour = value_delta)) +
+  geom_point()+
+  scale_color_viridis() +
+  theme_bw()+
+  ggplot2::theme(legend.position = "none") +
+  xlab("Difference in overall score") +
+  ylab("Question Number") +
+  ggplot2::labs(title = paste0("Eco service: ", ecotype[1]),
+                #subtitle = "Potential change in score as compared to reference site, based on contributing questions"
+  )
+
+ggplot2::ggsave(
+  paste0("temp/", xame, "_delta_p2.png"),
+  plot = p2
+)
 
 
