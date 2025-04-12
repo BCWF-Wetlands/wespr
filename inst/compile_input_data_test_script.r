@@ -11,6 +11,7 @@ library(lubridate)
 library(dplyr)
 library(readr)
 library(openxlsx)
+
 load_all()
 
 #Preparing the raw data
@@ -26,10 +27,14 @@ ww <- combine_rawdata(
     overwrite = TRUE
 )
 
-write.csv(ww, fs::path("inst/input_data/wetFlat_20250325.csv"), row.names=FALSE)
+ww$Question
+
+write.csv(ww, fs::path("inst/input_data/wetFlat_20250413.csv"), row.names=FALSE)
 
 
-indata <- fs::path("inst/input_data/wetFlat_20250325.csv")
+
+indata <- fs::path("inst/input_data/wetFlat_20250413.csv")
+#indata <- fs::path("inst/input_data/wetFlat_20250325.csv")
 
 check_indata(indata)
 
