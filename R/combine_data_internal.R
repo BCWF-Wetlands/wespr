@@ -44,7 +44,7 @@ processing_fielddata <- function(indata = indata) {
     )
 
   fdata <- fdata |>
-    #dplyr::select(-c( .data$F46_a, .data$F46_1)) |>
+    dplyr::select(-c( .data$F46_0, .data$F46_1)) |>
     dplyr::left_join(phdf, by = "Wetland_Co")
 
 
