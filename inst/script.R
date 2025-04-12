@@ -69,52 +69,66 @@ resp <- get_responses(site)
 get_derived_values(site)
 
 
+### Example to check F46 change
 
-## Update the raw survey123 data to fix issue with the
-
-#For the SpeciesPres1-11, SpeciesPres4 (one or small mammals of conservation concern (such as muskrat, rodents etc).
-# Was added at the end of 2023, should have been added as SpeciesPres11, but
-# was added as SpeciesPres4. This shifted SpeciesPres4-10 to be +1 (eg was 4-10, now 5-11) in the 2024 data.
-
-#In 2024 - SpeciesPres4 to be-11 in the 2024 data.
-# Speciespres5-11 should be 4-10
+wesp_file <- system.file("input_data/wetFlat_20250325.csv", package = "wespr")
+data150 <- readr::read_csv(wesp_file)
 
 
+# run the base scores for comparison
+wesp_data <- load_wesp_data(wesp_file)
+base_score <- calculate_jenks_score(wesp_data, out_dir = "temp", out_name = "wesp_scores_base.csv")
+base_score <- readr::read_csv("temp/wesp_scores_base.csv")
 
 
-field_data <- system.file("extdata/field_survey123_edited.xls", package = "wespr")
-
-indata <- readxl::read_xls(field_data,
-                           col_names = TRUE, sheet = 1,
-                           col_types = c(rep("text", 2), "date", rep("text", 117))
-)
 
 
-indata <- indata |>
-  #select(objectid, globalid, datetime, F58_0)|>
-  mutate(year = year(datetime))
-
-
-indata23 <- indata |>
-  filter(year <2024) |>
-  mutate(F58_0_fix = F58_0)
-
-
-indata24 <- indata |>
-  filter(year == 2024) |>
-  mutate(F58_0_fix = str_replace_all(F58_0, "5", "4"),
-         F58_0_fix = str_replace_all(F58_0_fix , "6", "5"),
-         F58_0_fix = str_replace_all(F58_0_fix , "7", "6"),
-         F58_0_fix = str_replace_all(F58_0_fix , "8", "7"),
-         F58_0_fix = str_replace_all(F58_0_fix , "9", "8"),
-         F58_0_fix = str_replace_all(F58_0_fix , "10", "9"),
-         F58_0_fix = str_replace_all(F58_0_fix , "11", "10"))
-
-out <- bind_rows(indata23, indata24)
-
-
-xx <- merge(indata, out, by = c(colnames(indata)))
-
-openxlsx::write.xlsx(xx, fs::path("temp",  "field_survey123_edited_fix.xls"),
-                     overwrite = overwrite, rowNames = FALSE, colNames = TRUE
-)
+# ## Update the raw survey123 data to fix issue with the
+## NOTE THIS IS OLD AND NO LONGER USED
+#
+# #For the SpeciesPres1-11, SpeciesPres4 (one or small mammals of conservation concern (such as muskrat, rodents etc).
+# # Was added at the end of 2023, should have been added as SpeciesPres11, but
+# # was added as SpeciesPres4. This shifted SpeciesPres4-10 to be +1 (eg was 4-10, now 5-11) in the 2024 data.
+#
+# #In 2024 - SpeciesPres4 to be-11 in the 2024 data.
+# # Speciespres5-11 should be 4-10
+#
+#
+#
+#
+# field_data <- system.file("extdata/field_survey123_edited.xls", package = "wespr")
+#
+# indata <- readxl::read_xls(field_data,
+#                            col_names = TRUE, sheet = 1,
+#                            col_types = c(rep("text", 2), "date", rep("text", 117))
+# )
+#
+#
+# indata <- indata |>
+#   #select(objectid, globalid, datetime, F58_0)|>
+#   mutate(year = year(datetime))
+#
+#
+# indata23 <- indata |>
+#   filter(year <2024) |>
+#   mutate(F58_0_fix = F58_0)
+#
+#
+# indata24 <- indata |>
+#   filter(year == 2024) |>
+#   mutate(F58_0_fix = str_replace_all(F58_0, "5", "4"),
+#          F58_0_fix = str_replace_all(F58_0_fix , "6", "5"),
+#          F58_0_fix = str_replace_all(F58_0_fix , "7", "6"),
+#          F58_0_fix = str_replace_all(F58_0_fix , "8", "7"),
+#          F58_0_fix = str_replace_all(F58_0_fix , "9", "8"),
+#          F58_0_fix = str_replace_all(F58_0_fix , "10", "9"),
+#          F58_0_fix = str_replace_all(F58_0_fix , "11", "10"))
+#
+# out <- bind_rows(indata23, indata24)
+#
+#
+# xx <- merge(indata, out, by = c(colnames(indata)))
+#
+# openxlsx::write.xlsx(xx, fs::path("temp",  "field_survey123_edited_fix.xls"),
+#                      overwrite = overwrite, rowNames = FALSE, colNames = TRUE
+# )

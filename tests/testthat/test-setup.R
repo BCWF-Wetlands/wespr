@@ -1,5 +1,5 @@
 test_that("as.wesp_site works", {
-  data <- load_wesp_data(test_path("test-wetflat.csv"))
+  data <- load_wesp_data(test_path("test-wetflat_20250412.csv"))
   expect_s3_class(data, "data.frame")
 
   expect_snapshot(
@@ -11,7 +11,7 @@ test_that("as.wesp_site works", {
 })
 
 test_that("site setup works", {
-  data <- load_wesp_data(test_path("test-wetflat.csv"))
+  data <- load_wesp_data(test_path("test-wetflat_20250412.csv"))
   expect_s3_class(data, "data.frame")
 
   suppressMessages(

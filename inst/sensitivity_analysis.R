@@ -50,10 +50,6 @@ indicator_weightings
 ## types of questions
 unique(question_metadata$type)
 
-#[1] "multi_choice"          "numeric"               "binary"
-#[4] "multiresponse_binary"  "multiresponse_numeric" "multi_choice_flexible"
-#[7] "category"              "multi_choice_numeric"
-
 
 
 #110 questions total
@@ -73,54 +69,43 @@ unique(question_metadata$type)
 # check which binary did not work and rerun
 #
 fls
-
+# complete
 mrb <- question_metadata[question_metadata$type == "multiresponse_binary",]$no #complete (n = 6)
 binaryq <- question_metadata[question_metadata$type == "binary",]$no # complete (n = 11)
 mrb <- question_metadata[question_metadata$type == "multi_choice",]$no # complete (n = 70)
 mrb <- question_metadata[question_metadata$type == "multi_choice_flexible",]$no #(n = 5)
 
+
+
+# still to do
 mrb <- question_metadata[question_metadata$type == "numeric",]$no #(n = 5)
 # F46a, F46
 
+mrb <- question_metadata[question_metadata$type == "category",]$no #(n = 5)
+# OF29  - c("T", "L", "D", "U", "F", "M", "C")
+
+mrb <- question_metadata[question_metadata$type == "multi_choice_numeric",]$no
+# F45 - ph (number of 2x binary) - weird mix
+
+
+mrb <- question_metadata[question_metadata$type == "multiresponse_numeric",]$no
+# F1  (0,1,2,3,4,5) # large!
+# OF20 (0,1,2,3) - but skewed so not all values possible?
+
+## + Stressors 1, 2, 3, 4, 5, 6,
 
 
 
-# still to fix...
-#multiresponse_numeric
-#multi_choice_numeric
-#category
+#origin <- readr::read_csv("temp/sensitivity_test.csv", show_col_types = FALSE)#
+#
+#range <- origin |>
+#  filter(Question == "S1") |>
+#  as.numeric()
+#
+# min(range, na.rm = TRUE)
+# max(range, na.rm = TRUE)
+# mean(range, na.rm = TRUE)
 
-
-setdiff(mrb, done)#F3
-setdiff(binaryq, done)
-
-
-length(done)
-
-
-
-# numeric
-# OF35 (0.01 - 1) = blocks of = 0.2, 0.4, 0.6, 0.8, 1.
-# OF5 (0.01 - 0.95) = blocks of = 0.01,  0.02, 0.03, 0.04, 0.05,  0.06,  0.07,  0.08,  0.09, 0.095
-# OF25 - local moisture (range from 114 - 360 )
-# OF26 - Degree Days (range from 1360 - 2135)
-# OF27 - local solar inputs (range from)
-# F46a - conductivity input ranger()
-# F46b - TDS input ranges ()
-
-
-origin <- readr::read_csv("temp/sensitivity_test.csv", show_col_types = FALSE)
-
-range <- origin |>
-  filter(Question == "F46_2") |>
-  as.numeric()
-
- min(range, na.rm = TRUE)
- max(range, na.rm = TRUE)
- mean(range, na.rm = TRUE)
-
-#F23 - needs to be converted from numeric to binary. See issue: might be fixed for sensitivity but
- # changes in the dataasheet will impact the grouping
 
 
 
@@ -132,22 +117,24 @@ range <- origin |>
 
 mrb <- question_metadata[question_metadata$type == "numeric",]$no
 #mrb <- question_metadata[question_metadata$type == "multi_choice_flexible",]$no #(n = 5)
+mrb <- question_metadata[question_metadata$type == "category",]$no #(n = 1) #OF29 - not working
 
+mrb <- question_metadata[question_metadata$type == "multiresponse_numeric",]$no
 
 ## loop through the options
 out <- purrr::map(mrb, function(x){
 
- # x <- mrb[1]
+  x <- "F1"
 
   if(x == "OF5"){
     vec <- c(0.01,  0.02, 0.03, 0.04, 0.05,  0.06,  0.07,  0.08,  0.09, 0.095)
   } else if(x == "OF35"){
     vec <- c(0.2, 0.4, 0.6, 0.8, 1)
-  } else if(x == "OF25"){
+  } else if(x == "OF25"){   # OF25 - local moisture (range from 114 - 360 )
     vec <- c(100, 150, 200, 250, 300, 350, 400)
-  } else if(x == "OF26"){
+  } else if(x == "OF26"){    # OF26 - Degree Days (range from 1360 - 2135)
     vec <- c(1000, 1250, 1500, 1750, 2000, 2250, 2500)
-  } else if(x == "OF27"){
+  } else if(x == "OF27"){   # OF27 - local solar inputs (range from)
     vec <- c(32, 32.5, 33, 33.5, 34, 34.5, 35, 35.5,36)
   } else if(x == "F46a"){
     vec <- c(0, 25, 50, 75, 100, 125, 150, 200, 250, 300, 350)
@@ -155,6 +142,12 @@ out <- purrr::map(mrb, function(x){
     vec <- c(0, 50, 75, 100, 150, 200, 300, 400, 500, 600, 700, 800)
   }else if(x == "F23"){
     vec <- c(0, 1)
+  } else if (x == "OF29"){
+    vec <- c("T", "L", "D", "U", "F", "M", "C")
+  } else if (x == "OF20"){
+    vec <- c(0, 1, 2, 3)
+  } else if (x == "F1"){
+    vec <- c(0, 1, 2, 3, 4)
   }
 
 
@@ -173,7 +166,7 @@ out <- purrr::map(mrb, function(x){
 #    filter(rs == 1) |>          # for multi_choice_
 #    select(-rs)
 
-  # read in nad remove the values
+  # read in and remove the values
   origin <- readr::read_csv("temp/sensitivity_test.csv", show_col_types = FALSE)
   nocols <- length(colnames(origin)[-1])
   allqs <-  origin$Question
@@ -183,13 +176,14 @@ out <- purrr::map(mrb, function(x){
 
   # remove rows where Question matches and starts with x
   origin <- origin[-grep(paste0("^", x, "_"), origin$Question),]
+  #origin <- origin[-grep(paste0("^", "F46_1"), origin$Question),] # for F46a
 
   #origin <- origin[-grep(x, origin$Question),]
   #allqs2 <-  origin$Question
   #setdiff(allqs, allqs2)
 
   iterate <- purrr::map(1:nrow(combos), function(i){
-    #i <- 1
+   # i <- 1
     combos[i,]
     origin.names <- origin[1,]
 
@@ -214,7 +208,7 @@ out <- purrr::map(mrb, function(x){
   # lets read in the files and determine the scores per output
 
   score <- purrr::map(1:nrow(combos), function(k){
-    #k <- 2
+    k <- 3
     iname <- fs::path("temp", paste0("sensitivity_test_", x,"_",k, ".csv"))
 
     wesp_file <- fs::path(iname)
@@ -426,7 +420,9 @@ out <- purrr::map(mrb, function(x){
 
 
 
-
+#########################################################################
+# sumarise all the scores
+#########################################################################
 
 # read in files and gnerate plots
 
@@ -441,7 +437,7 @@ done
 #fls
 
 out1 <- purrr::map(fls, function(x) {
-   x <- fls[41]
+   #x <- fls[41]
 
   xame <- gsub("_scores.csv", "", x)
   xtype <- gsub("sensitivity_test_", "", xame)
@@ -512,163 +508,144 @@ out1 <- purrr::map(fls, function(x) {
 })
 
 
+###############################################################
+# Summary table
+
+#############################################
+
+out1 <- purrr::map(fls, function(x) {
+  #x <- fls[44]
+
+  xame <- gsub("_scores.csv", "", x)
+  xtype <- gsub("sensitivity_test_", "", xame)
+
+  score <- read_csv(fs::path("temp", x),show_col_types = FALSE)
+
+  score2 <- score |>
+    tidyr::pivot_wider(
+      id_cols = c("site", "question"),
+      names_from = "type", values_from = "value"
+    )
+
+  # # merge the base data and calculate the delta for each rotation
+  score3 <- left_join(score2, base_raw) %>%
+    select(-type) |>
+    select(site, question, value, everything())
+
+  # value = base score (site 1)
+  # delta1 = iteration one, delta2 = iteration two.
+
+  score3 <- score3 |>
+    rowwise() |>
+    mutate(across(c(4:ncol(score3)), ~ .x - value, .names = "delta_{.col}")) |>
+    ungroup()
+
+  score3 <- score3 |>
+    mutate_if(is.numeric, ~ round(., digit = 2))
+
+  score_long <- score3 |>
+    select(site, question, starts_with("d")) |>
+    tidyr::pivot_longer(-c(site, question), names_to = "type", values_to = "value_delta") |>
+    mutate(qno = xtype)
+
+  score_long
+})
+
+# combine all the data
+
+out1 <- out1 |> dplyr::bind_rows()
+
+write_csv(out1, fs::path("temp", "sensitivity_all_summary.csv"))
 
 
 
 
 
 
-#############################################################################
-
-  # 1) Binary - these have a 1/0 response possible
-
-  #############################################################################
 
 
-#binaryq <- question_metadata[question_metadata$type == "binary",]$no
-
-#binaryq
-#"OF6"  "OF13" "OF14" "OF15" "OF16" "OF17" "OF21" "OF22" "F22"  "F42"  "F49"
-
-# out <- purrr::map(binaryq, function(x){
-#   #x <- binaryq[2]
-#   q_no <- paste0(x, "_1")
-#   q_no_zero <- paste0(x, "_0")
-#
-#   # assign a zero value
-#
-#   # prep_data
-#
-#   a <- readr::read_csv("temp/sensitivity_test.csv")
-#   nocols <- length(colnames(a)[-1])
-#   a <- a |>
-#     dplyr::filter(Question != q_no)
-#   a <- rbind(a, c(q_no, rep(0, nocols)))
-#   write_csv(a, fs::path("temp", paste0("sensitivity_test_",  q_no_zero, ".csv")))
-#
-#   #Calculate_scores
-#
-#   wesp_file <- fs::path("temp", paste0("sensitivity_test_",  q_no_zero, ".csv"))
-#   wesp_data <- load_wesp_data(wesp_file)
-#   q0 <- calculate_multi_site(wesp_data) |>
-#     tidyr::pivot_longer(-site, names_to = "question", values_to = "value_0") #|>
-#   #mutate(type = "OF6_0")
-#
-#   # assign a 1 value
-#   b <- readr::read_csv("temp/sensitivity_test.csv")
-#   b <- b |>
-#     dplyr::filter(Question != q_no)
-#   b <- rbind(b, c(q_no, rep(1, nocols)))
-#   write_csv(b, fs::path("temp", paste0("sensitivity_test_", q_no, ".csv")))
-#
-#   #Calculate_scores
-#
-#   wesp_file <- fs::path("temp", paste0("sensitivity_test_", q_no, ".csv"))
-#   wesp_data <- load_wesp_data(wesp_file)
-#   q1 <- calculate_multi_site(wesp_data) |>
-#     tidyr::pivot_longer(-site, names_to = "question", values_to = "value_1") #|>
-#   #mutate(type = "OF6_1")
-#
-#   alldat <- left_join(q0, q1, by = c("site", "question")) |>
-#     mutate(value_delta = value_1 - value_0) |>
-#     mutate(q = x)
-#
-#   alldat
-# })
-#
-# out1 <- out |>
-#   dplyr::bind_rows()
-#
-#
-#
-# head(out1)
-# summ <- group_by(out1, q) |>
-#   summarise(n = n(),
-#             no_change = sum(value_delta == 0, na.rm = TRUE),
-#             max_delta = max(value_delta, na.rm = TRUE),
-#             mean_delta = mean(value_delta, na.rm = TRUE),
-#             sd_delta = sd(value_delta, na.rm = TRUE))
-#
-#
-# n_zeros <- out1 |>
-#   group_by(q) |>
-#   dplyr::filter(value_delta == 0) |>
-#   count()
-#
-#
-#
-#
-# ggplot2::ggplot(out1, ggplot2::aes(.data$value_delta, fill = .data$q)) +
-#   ggplot2::geom_density(alpha = 0.5) +
-#   ggplot2::facet_wrap(~.data$question, scales = "free") +
-#   ggplot2::theme_bw()
-#
 
 
-#
-#
-# # review the second type of questions
-#
-# out <- purrr::map(binaryq, function(x){
-#   # x <- mrb[4]
-#   #x <- binaryq[1]
-#
-#   noptions <- question_metadata[question_metadata$no == x,]$n_responses
-#   n_iterations <- 2^noptions
-#
-#   N   <- noptions
-#   vec <- c(0, 1)
-#   lst <- lapply(numeric(N), function(x) vec)
-#   combos <- as.data.frame(as.matrix(expand.grid(lst)))
-#
-#   # read in nad remove the values
-#   origin <- readr::read_csv("temp/sensitivity_test.csv")
-#   nocols <- length(colnames(origin)[-1])
-#
-#   # remove the F56 from this data set
-#   origin <- origin[-grep(x, origin$Question),]
-#
-#   iterate <- purrr::map(1:nrow(combos), function(i){
-#     #i <- 1
-#     combos[i,]
-#     origin.names <- origin[1,]
-#
-#     # create three rows which are equal to the row of options and then add togther
-#     lines <- purrr::map(1:ncol(combos), function(j){
-#       #j <- 1
-#       coln <- paste0(x, "_", j)
-#       #outline <- c(coln, rep(combos[i,j], nocols))
-#       outline <- rbind(origin.names, c(coln, rep(combos[i,j], nocols)))
-#       outline[-1,]
-#
-#     }) |> dplyr::bind_rows()
-#
-#     # add the iteration to the main dataset
-#     outdf <- rbind(origin, lines)
-#     write_csv(outdf , fs::path("temp", paste0("sensitivity_test_", x,"_",i, ".csv")))
-#     cli::cli_alert_info(paste0("saving iteration ", i, " of ", n_iterations))
-#
-#   })
-#
-#   # lets read in the files and determine the scores per output
-#
-#   score <- purrr::map(1:nrow(combos), function(k){
-#     #k <- 2
-#     iname <- fs::path("temp", paste0("sensitivity_test_", x,"_",k, ".csv"))
-#
-#     wesp_file <- fs::path(iname)
-#     wesp_data <- load_wesp_data(wesp_file)
-#     q0 <- calculate_multi_site(wesp_data) |>
-#       tidyr::pivot_longer(-site, names_to = "question", values_to ="value") |>
-#       mutate(type = k)
-#
-#     q0
-#   })
-#
-#   score1 <-  score |> dplyr::bind_rows()
-#
-#
-#   write_csv(score1, fs::path("temp", paste0("sensitivity_test_", x,"_scores.csv")))
-#
-# }) # end of loop through questions
-#
+#################################################################
+
+## Grahics with full distribution
+
+######################################################################
+
+
+library(ggplot2)
+library(ggrepel)
+library(ggtext)
+library(ggdist)
+#install.packages("viridis")
+library(viridis)
+
+# prepare a summary plot
+
+out1 <- read_csv( fs::path("temp", "sensitivity_all_summary.csv"))
+
+
+ecotype <- unique(out1$question)
+
+
+xx <- out1 |>
+  mutate(mcol = case_when(
+    value_delta <0 & value_delta>0.05 ~ "red",
+    value_delta == 0 ~ "grey"
+    # question == ecotype[3] ~ "green",
+    # question == ecotype[4] ~ "orange",
+    # question == ecotype[5] ~ "purple",
+    # question == ecotype[6] ~ "pink",
+    # question == ecotype[7] ~ "yellow",
+    # question == ecotype[8] ~ "brown"
+  ))
+
+
+purrr::map(ecotype, function(x){
+  #x <- ecotype[1]
+  xx <- out1 |>
+    filter(question == x) |>
+    filter(value_delta!=0)
+
+  p1 <- ggplot(xx , aes(value_delta, qno, colour = value_delta)) +
+    geom_jitter(height = 0.08)+
+    scale_color_viridis() +
+    theme_bw()+
+    ggplot2::theme(legend.position = "none") +
+    xlab("Difference in overall score") +
+    ylab("Question Number") +
+    ggplot2::labs(title = paste0("Eco service: ", x),
+                  #subtitle = "Potential change in score as compared to reference site, based on contributing questions"
+    )
+
+  ggplot2::ggsave(
+    paste0("temp/", x, "_overall_deltas.png"),
+    plot = p1,
+    width = 25,
+    height = 20,
+    units = "cm"
+  )
+})
+
+xx <- xx |>
+  filter(question == ecotype[1]) |>
+  filter(value_delta!=0)
+
+
+ggplot(xx , aes(value_delta, qno, colour = value_delta)) +
+  geom_point()+
+  scale_color_viridis() +
+  theme_bw()+
+  ggplot2::theme(legend.position = "none") +
+  xlab("Difference in overall score") +
+  ylab("Question Number") +
+  ggplot2::labs(title = paste0("Eco service: ", ecotype[1]),
+                #subtitle = "Potential change in score as compared to reference site, based on contributing questions"
+  )
+
+ggplot2::ggsave(
+  paste0("temp/", xame, "_delta_p2.png"),
+  plot = p2
+)
+
+

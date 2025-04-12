@@ -72,7 +72,7 @@ validators <- list(
     }
   },
 
-  numeric = function(q_no, n = 1, min = -Inf, max = Inf) {
+  numeric = function(q_no, n = 1, min = 0, max = Inf) {
     function(x) {
       x <- as.numeric(x)
       valid <- length(x) == 1 &&

@@ -31,11 +31,11 @@ combine_rawdata <- function(field_data,
   # check if the output directory exists and if not create it.
  # testing rows
  # field_data <- system.file("extdata/field_survey123_edited.xls", package = "wespr")
-#  office_data <- system.file("extdata/scripted_office.xlsx", package = "wespr")
-#  EcoP = "GD"
-#  write_subfiles = FALSE
-#  out_dir <- "inst/input_data/processed"
-#  overwrite = TRUE
+ #  office_data <- system.file("extdata/scripted_office.xlsx", package = "wespr")
+ #  EcoP = "GD"
+ #  write_subfiles = FALSE
+ #  out_dir <- "inst/input_data/processed"
+ #  overwrite = TRUE
 
   if (!exists(out_dir)) {
     dir.create(out_dir, showWarnings = FALSE)
@@ -60,11 +60,11 @@ combine_rawdata <- function(field_data,
       dplyr::filter(!is.na(.data$datetime))
   }
 
-  indata <- indata %>%
-    dplyr::filter(.data$region == EcoP) %>%
+  indata <- indata  |>
+    dplyr::filter(.data$region == EcoP) |>
     dplyr::mutate(date = format(as.POSIXct(.data$datetime, format = "%m/%d/%Y %H:%M:%S"), format = "%m/%d/%Y")) %>%
-    dplyr::rename("Wetland_Co" = .data$Wetland_ID) %>%
-    dplyr::mutate(dplyr::across(dplyr::where(is.character), ~ stringr::str_trim(.))) %>%
+    dplyr::rename("Wetland_Co" = .data$Wetland_ID) |>
+    dplyr::mutate(dplyr::across(dplyr::where(is.character), ~ stringr::str_trim(.))) |>
     dplyr::mutate(dplyr::across(dplyr::where(is.character), ~ dplyr::na_if(., "")))
 
   # check for duplicate id numbers
@@ -93,7 +93,7 @@ combine_rawdata <- function(field_data,
     "F25_0", "F26_0", "F27_0", "F28_0", "F29_0", "F30_0",
     "F31_0", "F32_0", "F33_0", "F34_0", "F35_0", "F36_0",
     "F37_0", "F38_0", "F39_0", "F40_0", "F41_0", "F42_0",
-    "F43_0", "F44_0", "F45_0", "F45_1", "F46_0", "F46_1", "F47_0",
+    "F43_0", "F44_0", "F45_0", "F45_1", "F46_1", "F46_0", "F47_0",
     "F48_0", "F49_0", "F50_0", "F51_0", "F52_0", "F53_0",
     "F54_0", "F55_0", "F56_0", "F57_0", "F58_0", "F59_0",
     "S1", "S1_11", "S1_12", "S1_13", "S1_14", "S2",
@@ -185,6 +185,10 @@ combine_rawdata <- function(field_data,
   colOrder <- stringr::str_sort(rownames(wesp), numeric = TRUE)
   wesp <- wesp[match(colOrder, rownames(wesp)), ]
   wesp <- tibble::rownames_to_column(wesp, var = "Question")
+
+  # convert NAs to 0
+  wesp[is.na(wesp)] <- as.character(0)
+
 
   return(wesp)
 }
