@@ -225,17 +225,18 @@ processing_stressordata <- function(indata = indata) {
   WFormS <- indata |>
     dplyr::select(.data$Wetland_Co, dplyr::starts_with("S")) |>
     dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) |>
-    dplyr::distinct(.data$Wetland_Co, .keep_all = TRUE)
+    dplyr::distinct(.data$Wetland_Co, .keep_all = TRUE) |>
+      # need to relabel S6_3 to S6_5 and S6_4 to S6_6 
+      dplyr::rename(
+        S6_5 = .data$S6_3,
+        S6_6 = .data$S6_4
+      )
 
   WForm_Wetland_Co <- WFormS |> dplyr::select(.data$Wetland_Co)
 
-  # Make list of variables that require parsing
+  # Make list of variables that require parsing - Careful if changing these as it impacts the flowon question numbers
   ParseVars <- c("S1", "S2", "S3", "S4", "S5", "S6")
-  NparseVars <- c(10,     5,   10,   9,   8,     4)
-
-  ## why does the S3 not include full score when others do? ie S2 = 5 but S1, 3 = full list?
-  # updated these to match responses
-
+  NparseVars <- c(10,     5,   9,   8,   8,     4)
 
 
   # Function to split a Form variable that has multiple entries into separate variables
@@ -276,7 +277,7 @@ processing_stressordata <- function(indata = indata) {
   # Split out form binary variables that are contained in 1 variable
   ParseVars <- c(
     "S1_11", "S1_12", "S1_13", "S1_14", "S2_6", "S2_7", "S2_8", "S3_10", "S3_11", "S3_12",
-    "S4_10", "S4_11", "S4_12", "S5_9", "S5_10", "S5_11", "S5_12", "S6_3", "S6_4"
+    "S4_10", "S4_11", "S4_12", "S5_9", "S5_10", "S5_11", "S5_12", "S6_5", "S6_6"
   )
 
   WFormS3 <- WFormS2 |>
@@ -287,22 +288,22 @@ processing_stressordata <- function(indata = indata) {
       dplyr::starts_with("S1_"), dplyr::starts_with("S2_"),
       dplyr::starts_with("S3_"), dplyr::starts_with("S4_"),
       dplyr::starts_with("S5_"), dplyr::starts_with("S6_")
-    ) |>
-    dplyr::mutate(
-      S1_15 = 0,
-      S1_16 = 0,
-      S2_8 = 0,
-      S2_9 = 0,
-      S2_10 = 0,
-      S3_13 = 0,
-      S3_14 = 0,
-      S4_13 = 0,
-      S4_14 = 0,
-      S5_13 = 0,
-      S5_14 = 0,
-      S6_5 = 0,
-      S6_6 = 0
-    )
+    )# |>
+    #dplyr::mutate(
+    #  S1_15 = 0,
+    #  S1_16 = 0,
+    #  S2_8 = 0,
+    #  S2_9 = 0,
+    #  S2_10 = 0,
+    #  S3_13 = 0,
+    #  S3_14 = 0,
+    #  S4_13 = 0,
+    #  S4_14 = 0,
+    #  S5_13 = 0,
+    #  S5_14 = 0,
+    #  S6_5 = 0,
+    #  S6_6 = 0
+    #)
 
   WFormS3[is.na(WFormS3)] <- "0"
 
