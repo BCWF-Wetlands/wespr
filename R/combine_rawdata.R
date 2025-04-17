@@ -28,14 +28,15 @@ combine_rawdata <- function(field_data,
                             out_dir = "temp",
                             overwrite = FALSE) {
 
-  # check if the output directory exists and if not create it.
- # testing rows
- # field_data <- system.file("extdata/field_survey123_edited.xls", package = "wespr")
- #  office_data <- system.file("extdata/scripted_office.xlsx", package = "wespr")
- #  EcoP = "GD"
- #  write_subfiles = FALSE
- #  out_dir <- "inst/input_data/processed"
- #  overwrite = TRUE
+# check if the output directory exists and if not create it.
+
+## testing rows
+#   field_data <- system.file("extdata/field_survey123_edited_04.14.2025.xls", package = "wespr")
+#   office_data <- system.file("extdata/scripted_office.xlsx", package = "wespr")
+#   EcoP = "GD"
+#   write_subfiles = FALSE
+#   out_dir <- "inst/input_data/processed"
+#   overwrite = TRUE
 
   if (!exists(out_dir)) {
     dir.create(out_dir, showWarnings = FALSE)
@@ -115,9 +116,7 @@ combine_rawdata <- function(field_data,
   #############################################################
   # Format Field data
 
-
   WForm4 <- processing_fielddata(indata = indata)
-
 
   if (write_subfiles) {
     openxlsx::write.xlsx(WForm4, fs::path(out_dir, "wesp_f.xlsx"),
@@ -131,9 +130,7 @@ combine_rawdata <- function(field_data,
   #############################################################
   # 3) Format stressor data:
 
-
   cli::cli_alert("Processing stressor data")
-
 
   WFormS3 <- processing_stressordata(indata = indata)
 
