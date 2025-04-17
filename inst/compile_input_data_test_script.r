@@ -12,11 +12,13 @@ library(dplyr)
 library(readr)
 library(openxlsx)
 
-load_all()
+#load_all()
 
 #Preparing the raw data
-field_data <- system.file("extdata/field_survey123_edited.xls", package = "wespr")
+#field_data <- system.file("extdata/field_survey123_edited.xls", package = "wespr")
+field_data <- system.file("extdata/field_survey123_edited_04.14.2025.xls", package = "wespr")
 office_data <- system.file("extdata/scripted_office.xlsx", package = "wespr")
+
 
 ww <- combine_rawdata(
     field_data <-  field_data ,
@@ -29,17 +31,19 @@ ww <- combine_rawdata(
 
 ww$Question
 
-write.csv(ww, fs::path("inst/input_data/wetFlat_20250413.csv"), row.names=FALSE)
+write.csv(ww, fs::path("inst/input_data/wetFlat_20250417.csv"), row.names=FALSE)
 
 
 
-indata <- fs::path("inst/input_data/wetFlat_20250413.csv")
+indata <- fs::path("inst/input_data/wetFlat_20250417.csv")
 #indata <- fs::path("inst/input_data/wetFlat_20250325.csv")
 
 check_indata(indata)
 
 wesp_data <- load_wesp_data(indata)
 site <- as.wesp_site(wesp_data)
+
+
 calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores_test2.csv")
 
 
