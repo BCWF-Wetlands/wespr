@@ -90,7 +90,7 @@ i.e. format datatime column. These should be minimal in future as the
 processes is continually improved.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">file_123</span> <span class="op">&lt;-</span> <span class="st">'field_survey123_edited.xls'</span></span>
+<span><span class="va">file_123</span> <span class="op">&lt;-</span> <span class="st">'field_survey123_edited_04.14.2025.xls'</span></span>
 <span><span class="va">s123_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">'extdata'</span>,<span class="va">file_123</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">field</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="va">s123_file</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
@@ -128,7 +128,7 @@ file and if the file should be overwritten</p>
 <code class="sourceCode R"><span><span class="co">#Preparing the raw data</span></span>
 <span></span>
 <span><span class="va">ww</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/combine_rawdata.html">combine_rawdata</a></span><span class="op">(</span></span>
-<span>    <span class="va">field_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/field_survey123_edited.xls"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span>,</span>
+<span>    <span class="va">field_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/field_survey123_edited_04.14.2025.xls"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span>,</span>
 <span>    <span class="va">office_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/scripted_office.xlsx"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span>,</span>
 <span>    EcoP <span class="op">=</span> <span class="st">"GD"</span>,</span>
 <span>    write_subfiles <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -136,7 +136,7 @@ file and if the file should be overwritten</p>
 <span>    overwrite <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">ww</span>, <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="st">"input_data/wetFlat_20250325.csv"</span><span class="op">)</span>, row.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">ww</span>, <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="st">"input_data/wetFlat_20250417.csv"</span><span class="op">)</span>, row.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>If we choose to review the subfiles, these will be written to the
 out_dir directory.</p>
 </div>
@@ -147,7 +147,7 @@ out_dir directory.</p>
 function. This function checks the data for missing values, and ensures
 the data is in the correct format.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">indata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/wetFlat_20250325.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">indata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/wetFlat_20250417.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/check_indata.html">check_indata</a></span><span class="op">(</span><span class="va">indata</span><span class="op">)</span></span></code></pre></div>
 </div>
