@@ -7,11 +7,11 @@
       
       Site:  site_1 
       
-      Incomplete Questions:  F43, F44, F50 
+      Incomplete Questions:  F25, F32, F33, F34, F35, F36, F43, F44, F52 
         * Please ensure that it is valid to leave these questions unanswered.
       
       Derived values:
-        *  AllWater = 0
+        *  AllWater = 1
         *  NeverWater = 0
         *  NoSeasonal = 0
         *  NoPersis = 0
@@ -21,37 +21,37 @@
         *  TooShallow = 0
         *  NoPond = 0
         *  NoDeepPonded = 0
-        *  NoOW = 0
+        *  NoOW = 1
         *  NoOutletX = 0
         *  NoOutlet = 0
         *  Inflow = 0
         *  Disturb = 0
         *  FishFound = 0
         *  Moose = 0
-        *  Beaver = 0
+        *  Beaver = 1
         *  Muskrat = 0
         *  Bear = 0
         *  Caribou = 0
         *  NoCA = 0
         *  Fishless = 0
-        *  GDeco = 0
-        *  CMeco = 1
+        *  GDeco = 1
+        *  CMeco = 0
         *  SIMeco = 0
         *  BPeco = 0
         *  TPeco = 0
-        *  OutMap = 0
-        *  S1_sum = 2
-        *  S1_subscore = 0.17
-        *  S2_sum = 0
-        *  S2_subscore = 0
-        *  S3_sum = 0
-        *  S3_subscore = 0
-        *  S4_sum = 5
-        *  S4_subscore = 0.42
+        *  OutMap = 1
+        *  S1_sum = 0
+        *  S1_subscore = 0
+        *  S2_sum = 1
+        *  S2_subscore = 0.11
+        *  S3_sum = 1
+        *  S3_subscore = 0.11
+        *  S4_sum = 1
+        *  S4_subscore = 0.08
         *  S5_sum = 0
         *  S5_subscore = 0
-        *  S6_sum = 0
-        *  S6_subscore = 0
+        *  S6_sum = 6
+        *  S6_subscore = 1
       
       Indicators:
       All indicators are NULL. Run `calc_indicators()` to calculate them.
@@ -65,11 +65,11 @@
       
       Site:  site_1 
       
-      Incomplete Questions:  F43, F44, F50 
+      Incomplete Questions:  F25, F32, F33, F34, F35, F36, F43, F44, F52 
         * Please ensure that it is valid to leave these questions unanswered.
       
       Derived values:
-        *  AllWater = 0
+        *  AllWater = 1
         *  NeverWater = 0
         *  NoSeasonal = 0
         *  NoPersis = 0
@@ -79,91 +79,91 @@
         *  TooShallow = 0
         *  NoPond = 0
         *  NoDeepPonded = 0
-        *  NoOW = 0
+        *  NoOW = 1
         *  NoOutletX = 0
         *  NoOutlet = 0
         *  Inflow = 0
         *  Disturb = 0
         *  FishFound = 0
         *  Moose = 0
-        *  Beaver = 0
+        *  Beaver = 1
         *  Muskrat = 0
         *  Bear = 0
         *  Caribou = 0
         *  NoCA = 0
         *  Fishless = 0
-        *  GDeco = 0
-        *  CMeco = 1
+        *  GDeco = 1
+        *  CMeco = 0
         *  SIMeco = 0
         *  BPeco = 0
         *  TPeco = 0
-        *  OutMap = 0
-        *  S1_sum = 2
-        *  S1_subscore = 0.17
-        *  S2_sum = 0
-        *  S2_subscore = 0
-        *  S3_sum = 0
-        *  S3_subscore = 0
-        *  S4_sum = 5
-        *  S4_subscore = 0.42
+        *  OutMap = 1
+        *  S1_sum = 0
+        *  S1_subscore = 0
+        *  S2_sum = 1
+        *  S2_subscore = 0.11
+        *  S3_sum = 1
+        *  S3_subscore = 0.11
+        *  S4_sum = 1
+        *  S4_subscore = 0.08
         *  S5_sum = 0
         *  S5_subscore = 0
-        *  S6_sum = 0
-        *  S6_subscore = 0
+        *  S6_sum = 6
+        *  S6_subscore = 1
       
       Indicators:
         * WS:  
-          - fun: 4.61 
-          - ben: 10 
+          - fun: 1.94 
+          - ben: 5.97 
         * SR:  
-          - fun: 0.96 
-          - ben: 4.06 
+          - fun: 0 
+          - ben: 4.16 
         * PR:  
-          - fun: 6.88 
-          - ben: 3.18 
+          - fun: 3.32 
+          - ben: 4.14 
         * CP:  
-          - fun: 6.86 
+          - fun: 6.56 
         * FR:  
-          - fun: 4.39 
-          - ben: 8.06 
+          - fun: 6.58 
+          - ben: 8.21 
         * SENS:  
-          - fun: 6.24 
+          - fun: 4.92 
         * STR:  
-          - fun: 7.96 
+          - fun: 5.31 
         * NR:  
-          - fun: 7 
-          - ben: 5 
+          - fun: 4.16 
+          - ben: 4.14 
         * APP:  
-          - fun: 4.81 
-          - ben: 4 
+          - fun: 4.47 
+          - ben: 3.14 
         * PD:  
-          - fun: 5.59 
-          - ben: 5.45 
+          - fun: 4.12 
+          - ben: 3.55 
         * KMH:  
-          - fun: 5.38 
-          - ben: 5.3 
+          - fun: 6.59 
+          - ben: 6.37 
         * WB:  
-          - fun: 4.95 
-          - ben: 7.19 
+          - fun: 4.71 
+          - ben: 4.38 
         * POL:  
-          - fun: 5.81 
-          - ben: 6 
+          - fun: 5.05 
+          - ben: 4.58 
         * RSB:  
-          - fun: 4.96 
+          - fun: 0 
           - ben: 5.58 
         * OE:  
-          - fun: 3.4 
+          - fun: 3.71 
         * AM:  
-          - fun: 3.17 
-          - ben: 6.03 
+          - fun: 4.79 
+          - ben: 7.46 
         * FH:  
-          - fun: 2.92 
-          - ben: 4.98 
+          - fun: 3.04 
+          - ben: 1.57 
         * SFTS:  
-          - fun: 1.81 
-          - ben: 2.07 
+          - fun: 3.55 
+          - ben: 4 
         * CRI:  
-          - ben: 5.35 
+          - ben: 4.13 
       
       * Retrieve indicator scores with `get_indicator_scores()`
 
