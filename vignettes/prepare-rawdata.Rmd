@@ -36,7 +36,7 @@ The data is exported from survey123 as a csv file. An example data file is inclu
 
 ```{r}
 
-file_123 <- 'field_survey123_edited.xls'
+file_123 <- 'field_survey123_edited_04.14.2025.xls'
 s123_file <- file.path('extdata',file_123)
 
 field <- system.file(s123_file, package = "wespr")
@@ -73,7 +73,7 @@ Users can then define if they want to review the formatted subfiles (i.e. office
 #Preparing the raw data
 
 ww <- combine_rawdata(
-    field_data <- system.file("extdata/field_survey123_edited.xls", package = "wespr"),
+    field_data <- system.file("extdata/field_survey123_edited_04.14.2025.xls", package = "wespr"),
     office_data <- system.file("extdata/scripted_office.xlsx", package = "wespr"),
     EcoP = "GD",
     write_subfiles = FALSE,
@@ -81,7 +81,7 @@ ww <- combine_rawdata(
     overwrite = TRUE
 )
 
-write.csv(ww, fs::path("input_data/wetFlat_20250325.csv"), row.names=FALSE)
+write.csv(ww, fs::path("input_data/wetFlat_20250417.csv"), row.names=FALSE)
 
 ```
 
@@ -95,7 +95,7 @@ If we choose to review the subfiles, these will be written to the out_dir direct
 We can then check QA the data using the `check_indata` function. This function checks the data for missing values, and ensures the data is in the correct format. 
 
 ```{r, eval=FALSE}
-indata <- system.file("input_data/wetFlat_20250325.csv", package = "wespr")
+indata <- system.file("input_data/wetFlat_20250417.csv", package = "wespr")
 
 check_indata(indata)
 
