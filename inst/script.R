@@ -81,54 +81,139 @@ base_score <- calculate_jenks_score(wesp_data, out_dir = "temp", out_name = "wes
 base_score <- readr::read_csv("temp/wesp_scores_base.csv")
 
 
+###################################################################
+
+# import a single site and then compare against the calibration sites
+
+# assuming the calibration scores =
 
 
-# ## Update the raw survey123 data to fix issue with the
-## NOTE THIS IS OLD AND NO LONGER USED
+# import a single site and then compare against the calibration sites
+calibration_scores <- read.csv("temp/gd_jenks_breaks.csv")
+
+# Create a single site from data and export
+wesp <- fs::path("inst/input_data/wetFlat_20250417.csv")
+wesp <- read.csv(wesp)
+wesp <- wesp[,c("Question", "X10")]
+write.csv(wesp , fs::path("inst/input_data/wetFlat_20250427_single.csv"))
+
+# read in single site
+wesp <- fs::path("inst/input_data/wetFlat_20250427_single.csv")
+
+wesp_data <- load_wesp_data(wesp)
+
+# 2)  run all sites
+site <- as.wesp_site(wesp_data, 2)
+
+site <- calc_indicators(site)
+ind_scores <- get_indicator_scores(site)
+
+
+site <- as.wesp_site(wesp_data, 2)
+wespRaw <- calculate_multi_site(site)
+
+#######################################################
+# up to here
+
+
+# run multi-site analysis
+wespRaw <- calculate_multi_site(site)
+#wespRaw <- calculate_multi_site(wesp_data, sites = NULL)
+
+# check out dir exists and if not create it
+if (!dir.exists(out_dir)) {
+  dir.create(out_dir)
+}
+
+# Calculate Jenks breaks and add to data.frame
+
+# 1) First normalize the service and add to data.frame
+
+min_max_norm <- function(x) {
+  (x - min(x, na.rm = TRUE)) / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE))
+}
+
+# apply Min-Max normalization
+wespNorm <- as.data.frame(lapply(wespRaw[, -1], min_max_norm)) %>%
+  dplyr::mutate(site = as.numeric(rownames(.)), .before = 1)
+wespNorm <- dplyr::rename_with(wespNorm, ~ gsub("_raw", "_norm", .x, fixed = TRUE))
+
+
+#format to long form
+
+norm_long <- tidyr::pivot_longer(wespNorm, -.data$site, names_to = "metric", values_to = "value") |>
+  dplyr::mutate(type = "normalised") |>
+  dplyr::mutate(name = gsub( "_norm", "", .data$metric))
+
+norm_raw <- tidyr::pivot_longer( wespRaw, -.data$site, names_to = "metric", values_to = "value") |>
+  dplyr::mutate(type = "raw")|>
+  dplyr::mutate(name = gsub( "_raw", "", .data$metric))
+
+all <- rbind(norm_long, norm_raw)
+
+#   ggplot2::ggplot(norm_raw, ggplot2::aes(.data$value, fill = .data$type)) +
+#     ggplot2::geom_density(alpha = 0.2) +
+#     ggplot2::facet_wrap(~.data$name, scales = "free") +
+#     ggplot2::theme_bw()
+
+
+# 2) Calculate Jenks brakes
+wesp_breaks_raw <- purrr::map(names(wespNorm)[-1], function(x) {
+  # x <- names(wespNorm)[-1][16]
+  if (all(is.na(wespNorm[[x]]) == TRUE)) {
+    cli::cli_alert_warning("skipping calculation of jenks breask for {x} as all values are NA")
+    return(NA)
+  } else {
+    jen_breaks <- BAMMtools::getJenksBreaks(wespNorm[[x]], 4, subset = NULL)
+    .bincode(wespNorm[[x]], sort(jen_breaks), include.lowest = TRUE)
+  }
+})
+
+names(wesp_breaks_raw) <- names(wespNorm)[-1]
+
+# Change numeric to character High, Medium, Low
+wesp_breaks_cat <- lapply(wesp_breaks_raw[1:length(wesp_breaks_raw)], function(x) {
+  dplyr::case_when(
+    x == 1 ~ "L",
+    x == 2 ~ "M",
+    x == 3 ~ "H"
+  )
+})
+
+# Change list to data frame
+wespBreaks <- as.data.frame(do.call(cbind, wesp_breaks_cat))
+wespBreaks <- wespBreaks |>
+  dplyr::mutate(site = as.numeric(rownames(wespBreaks)), .before = 1)
+wespBreaks <- dplyr::rename_with(wespBreaks, ~ gsub("_norm", "_jenks", .x, fixed = TRUE))
+
+# Make a single data frame that includes the raw, normalized and Jenks values
+wespEcoS <- list(wespRaw, wespNorm, wespBreaks) %>%
+  purrr::reduce(dplyr::full_join, by = "site") %>%
+  dplyr::select(.data$site, sort(names(.)))
+
+# wespEcoS <-data.frame(Wetland_Co=wetLUT,wespEcoS.1)
+
+# #   # generate a histograph per metrics
+#    library(ggplot2)
+#    library(tidyr)
+#    ggplot(gather(wespEcoS), aes(value)) +
+#     geom_histogram(bins = 10) +
+#      facet_wrap(~key, scales = 'free_x')
 #
-# #For the SpeciesPres1-11, SpeciesPres4 (one or small mammals of conservation concern (such as muskrat, rodents etc).
-# # Was added at the end of 2023, should have been added as SpeciesPres11, but
-# # was added as SpeciesPres4. This shifted SpeciesPres4-10 to be +1 (eg was 4-10, now 5-11) in the 2024 data.
-#
-# #In 2024 - SpeciesPres4 to be-11 in the 2024 data.
-# # Speciespres5-11 should be 4-10
-#
-#
-#
-#
-# field_data <- system.file("extdata/field_survey123_edited.xls", package = "wespr")
-#
-# indata <- readxl::read_xls(field_data,
-#                            col_names = TRUE, sheet = 1,
-#                            col_types = c(rep("text", 2), "date", rep("text", 117))
-# )
-#
-#
-# indata <- indata |>
-#   #select(objectid, globalid, datetime, F58_0)|>
-#   mutate(year = year(datetime))
-#
-#
-# indata23 <- indata |>
-#   filter(year <2024) |>
-#   mutate(F58_0_fix = F58_0)
-#
-#
-# indata24 <- indata |>
-#   filter(year == 2024) |>
-#   mutate(F58_0_fix = str_replace_all(F58_0, "5", "4"),
-#          F58_0_fix = str_replace_all(F58_0_fix , "6", "5"),
-#          F58_0_fix = str_replace_all(F58_0_fix , "7", "6"),
-#          F58_0_fix = str_replace_all(F58_0_fix , "8", "7"),
-#          F58_0_fix = str_replace_all(F58_0_fix , "9", "8"),
-#          F58_0_fix = str_replace_all(F58_0_fix , "10", "9"),
-#          F58_0_fix = str_replace_all(F58_0_fix , "11", "10"))
-#
-# out <- bind_rows(indata23, indata24)
-#
-#
-# xx <- merge(indata, out, by = c(colnames(indata)))
-#
-# openxlsx::write.xlsx(xx, fs::path("temp",  "field_survey123_edited_fix.xls"),
-#                      overwrite = overwrite, rowNames = FALSE, colNames = TRUE
-# )
+#    #wespNorm %>% gather() %>% head()
+
+
+# Write out the data frame
+utils::write.csv(wespEcoS, fs::path(out_dir, out_name), row.names = FALSE)
+cli::cli_alert_success("WESP scores calculated and saved to {fs::path(out_dir, out_name)}")
+
+return(wespEcoS)
+
+}
+
+
+
+
+
+
+
