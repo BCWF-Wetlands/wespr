@@ -18,13 +18,14 @@
 #' wespdata <- load_wesp_data(system.file("input_data/wetFlat_20240130.csv", package = "wespr"))
 #' calculate_jenks_score(wespdata, out_dir = "temp",  out_name = "wesp_scores.csv")
 #'}
+#'
 calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "wesp_scores.csv") {
 
   ##testing lines
-  #wespdata <- wesp_data
-  #sites = NULL
-  #out_dir = "temp"
-  #out_name = "wesp_scores_base.csv"
+ # wespdata <- wesp_data
+#  sites = NULL
+#  out_dir = "temp"
+#  out_name = "wesp_scores_base.csv"
 
 
   # run multi-site analysis
@@ -70,7 +71,7 @@ calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "w
 
   # 2) Calculate Jenks brakes
   wesp_breaks_raw <- purrr::map(names(wespNorm)[-1], function(x) {
-    # x <- names(wespNorm)[-1][15]
+    # x <- names(wespNorm)[-1][16]
     if (all(is.na(wespNorm[[x]]) == TRUE)) {
       cli::cli_alert_warning("skipping calculation of jenks breask for {x} as all values are NA")
       return(NA)
