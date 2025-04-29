@@ -36,4 +36,5 @@ Calculate Jenks Breaks
 wespdata <- load_wesp_data(system.file("input_data/wetFlat_20240130.csv", package = "wespr"))
 calculate_jenks_score(wespdata, out_dir = "temp",  out_name = "wesp_scores.csv")
 }
+
 }
