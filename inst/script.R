@@ -83,133 +83,124 @@ base_score <- readr::read_csv("temp/wesp_scores_base.csv")
 
 ###################################################################
 
+
+
 # import a single site and then compare against the calibration sites
 
 # assuming the calibration scores =
 
+library(dplyr)
 
 # import a single site and then compare against the calibration sites
 calibration_scores <- read.csv("temp/gd_jenks_breaks.csv")
 
+
 # Create a single site from data and export
-wesp <- fs::path("inst/input_data/wetFlat_20250417.csv")
-wesp <- read.csv(wesp)
-wesp <- wesp[,c("Question", "X10")]
-write.csv(wesp , fs::path("inst/input_data/wetFlat_20250427_single.csv"))
+#wesp <- fs::path("inst/input_data/wetFlat_20250417.csv")
+#wesp <- read.csv(wesp)
+#wesp <- wesp[,c("Question", "X10")]
+#write.csv(wesp , fs::path("inst/input_data/wetFlat_20250427_single.csv"))
 
 # read in single site
 wesp <- fs::path("inst/input_data/wetFlat_20250427_single.csv")
 
+
+# option 1) # wide format
 wesp_data <- load_wesp_data(wesp)
+#wespRaw <- calculate_multi_site(wesp_data)
 
-# 2)  run all sites
-site <- as.wesp_site(wesp_data, 2)
-
+# option 2)
+site <- as.wesp_site(wesp_data)
 site <- calc_indicators(site)
 ind_scores <- get_indicator_scores(site)
 
 
-site <- as.wesp_site(wesp_data, 2)
-wespRaw <- calculate_multi_site(site)
+out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD")
+
 
 #######################################################
-# up to here
+
+ind_scores
+
+calibration_scores
 
 
-# run multi-site analysis
-wespRaw <- calculate_multi_site(site)
-#wespRaw <- calculate_multi_site(wesp_data, sites = NULL)
+# check against site 1
+# reform data to long format to match the calibration data (may not be needed)
+ind <- ind_scores |>
+  select(site, indicator, fun) |>
+  mutate(service_type = "f") |>
+  rename("value" = fun)
 
-# check out dir exists and if not create it
-if (!dir.exists(out_dir)) {
-  dir.create(out_dir)
-}
+indb <- ind_scores |>
+  select(site, indicator, ben) |>
+  mutate(service_type = "b") |>
+  rename("value" = ben)
 
-# Calculate Jenks breaks and add to data.frame
-
-# 1) First normalize the service and add to data.frame
-
-min_max_norm <- function(x) {
-  (x - min(x, na.rm = TRUE)) / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE))
-}
-
-# apply Min-Max normalization
-wespNorm <- as.data.frame(lapply(wespRaw[, -1], min_max_norm)) %>%
-  dplyr::mutate(site = as.numeric(rownames(.)), .before = 1)
-wespNorm <- dplyr::rename_with(wespNorm, ~ gsub("_raw", "_norm", .x, fixed = TRUE))
+ind <- rbind(ind, indb)
 
 
-#format to long form
-
-norm_long <- tidyr::pivot_longer(wespNorm, -.data$site, names_to = "metric", values_to = "value") |>
-  dplyr::mutate(type = "normalised") |>
-  dplyr::mutate(name = gsub( "_norm", "", .data$metric))
-
-norm_raw <- tidyr::pivot_longer( wespRaw, -.data$site, names_to = "metric", values_to = "value") |>
-  dplyr::mutate(type = "raw")|>
-  dplyr::mutate(name = gsub( "_raw", "", .data$metric))
-
-all <- rbind(norm_long, norm_raw)
-
-#   ggplot2::ggplot(norm_raw, ggplot2::aes(.data$value, fill = .data$type)) +
-#     ggplot2::geom_density(alpha = 0.2) +
-#     ggplot2::facet_wrap(~.data$name, scales = "free") +
-#     ggplot2::theme_bw()
+#head(ind)
+#head(calibration_scores)
 
 
-# 2) Calculate Jenks brakes
-wesp_breaks_raw <- purrr::map(names(wespNorm)[-1], function(x) {
-  # x <- names(wespNorm)[-1][16]
-  if (all(is.na(wespNorm[[x]]) == TRUE)) {
-    cli::cli_alert_warning("skipping calculation of jenks breask for {x} as all values are NA")
-    return(NA)
-  } else {
-    jen_breaks <- BAMMtools::getJenksBreaks(wespNorm[[x]], 4, subset = NULL)
-    .bincode(wespNorm[[x]], sort(jen_breaks), include.lowest = TRUE)
+classed_df <- lapply(1:nrow(ind), function(i) {
+
+  #print(i)
+  #i <- 19
+  trow <- ind[i,]
+
+  # filter for the service and f/b
+  calr <- calibration_scores |>
+    filter(service_name  == trow$indicator) |>
+    filter(service_type == trow$service_type)
+
+  my_min <- trow$value
+  my_max <- trow$value
+
+  # is na then assign to NA
+  if(is.na(my_min)){
+
+    cal_val = NA
+
+  }else{
+
+  my_df_filtered <- calr |>
+    dplyr::rowwise() |>
+    dplyr::filter(my_min >= min & my_max <= max)
+
+  if(nrow(my_df_filtered)== 0){
+    # check if value is higher than H max or lower than min for L
+
+    calr_h <- calr |>
+      dplyr::filter(jenks  == "H") |>
+      select(max) |>
+      pull()
+
+    if(my_max>calr_h){
+      cal_val = "H"
+
+    } else {
+      calr_l <- calr |>
+        dplyr::filter(jenks  == "L")
+
+      cal_val = "L"
+    }
+
+     cli::cli_alert_warning("Value {round(trow$value,2)} for {trow$indicator} ({trow$service_type}) is outside the calibration range")
+
+     } else {
+
+  cal_val <- my_df_filtered$jenks
   }
-})
-
-names(wesp_breaks_raw) <- names(wespNorm)[-1]
-
-# Change numeric to character High, Medium, Low
-wesp_breaks_cat <- lapply(wesp_breaks_raw[1:length(wesp_breaks_raw)], function(x) {
-  dplyr::case_when(
-    x == 1 ~ "L",
-    x == 2 ~ "M",
-    x == 3 ~ "H"
-  )
-})
-
-# Change list to data frame
-wespBreaks <- as.data.frame(do.call(cbind, wesp_breaks_cat))
-wespBreaks <- wespBreaks |>
-  dplyr::mutate(site = as.numeric(rownames(wespBreaks)), .before = 1)
-wespBreaks <- dplyr::rename_with(wespBreaks, ~ gsub("_norm", "_jenks", .x, fixed = TRUE))
-
-# Make a single data frame that includes the raw, normalized and Jenks values
-wespEcoS <- list(wespRaw, wespNorm, wespBreaks) %>%
-  purrr::reduce(dplyr::full_join, by = "site") %>%
-  dplyr::select(.data$site, sort(names(.)))
-
-# wespEcoS <-data.frame(Wetland_Co=wetLUT,wespEcoS.1)
-
-# #   # generate a histograph per metrics
-#    library(ggplot2)
-#    library(tidyr)
-#    ggplot(gather(wespEcoS), aes(value)) +
-#     geom_histogram(bins = 10) +
-#      facet_wrap(~key, scales = 'free_x')
-#
-#    #wespNorm %>% gather() %>% head()
-
-
-# Write out the data frame
-utils::write.csv(wespEcoS, fs::path(out_dir, out_name), row.names = FALSE)
-cli::cli_alert_success("WESP scores calculated and saved to {fs::path(out_dir, out_name)}")
-
-return(wespEcoS)
 
 }
+
+    trow <- trow |>
+      dplyr::mutate(calibrated_score = cal_val)
+
+    trow
+}) |> dplyr::bind_rows()
 
 
 
