@@ -69,8 +69,8 @@
 <div class="section level2">
 <h2 id="raw-data-imports">Raw data imports<a class="anchor" aria-label="anchor" href="#raw-data-imports"></a>
 </h2>
-<p>The first step in calculating wespr scores is to standarddise and
-Quality check the input data.</p>
+<p>The first step in calculating wespr scores is to standardise and
+quality check the input data.</p>
 <p>As of March 2025, data collection is comprised of there parts: -
 field data - collected using survey123 form - office questions -
 collected using a survey123 form - office questions - scripted using the
@@ -83,11 +83,13 @@ repo.</p>
 intended to control data inputs and standardize the data collection
 process. These comprise all the <em>field</em> and <em>stressor</em>
 based questions.</p>
-<p>The data is exported from survey123 as a csv file. An example data
-file is included within this package for testing. Note some minor manual
-edits were required to make the data file compatible to read in,
+<p>The data is exported from survey123 as a csv file. Note some minor
+manual edits were required to make the data file compatible to read in,
 i.e. format datatime column. These should be minimal in future as the
 processes is continually improved.</p>
+<p>An example data file is included within this package for testing.Note
+using system.file() can create some difficulties on a OS operating
+system.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">file_123</span> <span class="op">&lt;-</span> <span class="st">'field_survey123_edited_04.14.2025.xls'</span></span>
@@ -167,8 +169,8 @@ F2_A1,0,0,0,0,0,1
 F2_A2,0,0,0,0,0,0
 F2_B1,0,1,0,0,0,0
 F2_B2,1,0,1,1,1,0</code></pre>
-<p>The prepared dataset is then ready for use in the wespr calculations.
-Detailed steps for running the</p>
+<p>The prepared dataset is then ready for use in wespr calculations. See
+<a href="https://bcwf-wetlands.github.io/wespr/articles/calculate_wesp_scores.html">here</a></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

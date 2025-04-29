@@ -7,9 +7,11 @@
 <url><loc>https://bcwf-wetlands.github.io/wespr/authors.html</loc></url>
 <url><loc>https://bcwf-wetlands.github.io/wespr/index.html</loc></url>
 <url><loc>https://bcwf-wetlands.github.io/wespr/reference/as.wesp_site.html</loc></url>
+<url><loc>https://bcwf-wetlands.github.io/wespr/reference/assign_jenks_score.html</loc></url>
 <url><loc>https://bcwf-wetlands.github.io/wespr/reference/calc_indicators.html</loc></url>
 <url><loc>https://bcwf-wetlands.github.io/wespr/reference/calculate_jenks_score.html</loc></url>
 <url><loc>https://bcwf-wetlands.github.io/wespr/reference/calculate_multi_site.html</loc></url>
+<url><loc>https://bcwf-wetlands.github.io/wespr/reference/calibration_scores.html</loc></url>
 <url><loc>https://bcwf-wetlands.github.io/wespr/reference/check_indata.html</loc></url>
 <url><loc>https://bcwf-wetlands.github.io/wespr/reference/combine_rawdata.html</loc></url>
 <url><loc>https://bcwf-wetlands.github.io/wespr/reference/get_derived_values.html</loc></url>
