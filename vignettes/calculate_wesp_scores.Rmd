@@ -127,7 +127,7 @@ wesp <- fs::path("inst/input_data/wetFlat_20250427_single.csv")
 
 #load file and convert to wesp
 wesp_data <- load_wesp_data(wesp)
-site <- as.wesp_site(wesp)
+site <- as.wesp_site(wesp_data)
 
 ```
 
@@ -177,6 +177,25 @@ If the ecoprovince does not yet have calibration data loaded, users should selec
 out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD")
 
 ```
+
+The output scores will include a column with a calibration_score (L,M,H,NA)
+
+```
+site   indicator value service_type calibrated_score
+   <chr>  <chr>     <dbl> <chr>        <chr>           
+ 1 site_1 WS        3.61  f            L               
+ 2 site_1 SR        0.778 f            M               
+ 3 site_1 PR        6.20  f            M               
+ 4 site_1 CP        6.78  f            L               
+ 5 site_1 FR        1.67  f            L               
+ 6 site_1 SENS      4.86  f            L               
+ 7 site_1 STR       9.58  f            H               
+ 8 site_1 NR        5.52  f            M               
+ 9 site_1 APP       0     f            L               
+10 site_1 PD        0     f            L  
+
+```
+
 
 
 This is an on-going project and data will be added as comes available. Steps to update the calibration data are outline [here](https://github.com/BCWF-Wetlands/wespr/tree/main/data-raw)
