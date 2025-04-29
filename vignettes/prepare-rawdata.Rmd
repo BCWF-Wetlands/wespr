@@ -124,6 +124,6 @@ F2_B1,0,1,0,0,0,0
 F2_B2,1,0,1,1,1,0
 ```
 
-The prepared dataset is then ready for use in the wespr calculations.
+The prepared dataset is then ready for use in wespr calculations. See [here](https://bcwf-wetlands.github.io/wespr/articles/calculate_wesp_scores.html)
 
 

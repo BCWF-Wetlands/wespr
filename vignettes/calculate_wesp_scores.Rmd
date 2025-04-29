@@ -21,7 +21,7 @@ library(wespr)
 
 # Calculate Wespr Scores
 
-Once the wespr package has been installed, and the raw data processed using the steps outlined in the previous vignette, we can calculate the Wespr scores.
+Once the wespr package has been installed, and the raw data processed using the steps outlined in the previous [vignette](https://bcwf-wetlands.github.io/wespr/articles/prepare-rawdata.html), we can calculate the wespr scores and compare the scores to the ecoprovince calibration data. 
 
 
 We have included an example file in the package, which we can use for demonstration purposes:
@@ -95,9 +95,10 @@ calculated from the responses, and used as inputs into many indicators.
 get_derived_values(site)
 ```
 
+
 ## Calculating multiple site scores
 
-In most cases we wish to calculate indicator scores for multiple sites. If we only need the raw values for each site we can use the `calculate_multi_site()` function. Which requires the data to firstly be loaded using the `load_wesp_data()` function. For example the work flow would be: 
+We may wish to calculate indicator scores for multiple sites. If we only need the raw values for each site we can use the `calculate_multi_site()` function. Which requires the data to firstly be loaded using the `load_wesp_data()` function. For example the work flow would be: 
 
 
 ```{r, eval = FALSE}
@@ -107,14 +108,86 @@ calculate_multi_site(wesp_data)
 
 ```
 
-This will return a dateframe with all the values combined for each site within the dataset provided. 
+This will return a date.frame with all the values combined for each site within the dataset provided. 
 
 
-## Calculating Jenks scores
+## Assign Jenks scores
 
-Another method to step through the entire process of calculating site scores, and assigning them to a high medium and low catergory is to use the `calculate_jenks_score()` function. This function requires the data to be loaded using the `load_wesp_data()` function as above. 
+Once we have calculated our scores we may wish to compare to see how our particular site compares with other wetlands in the same Ecoprovince. [Wespr protocol](https://bcwfwatershedteam.ca/wetland-ecosystem-services-protocol/) is based on wetland assessment in eight Ecoprovinces (Georgia Depression (GD), Southern Interior (SI),
+Central Interior (CI), Southern Interior Mountains (SIM), Sub-Boreal Interior (SBI), Boreal and Taiga Plains (BTP), Northern Boreal Mountains (NBM), and Coast and Mountains (CM)).
 
-This will calculate the indicator scores for each site, normalize the data across all sites for the given ecosystem function or benefit then calcualte the Jenks breaks for each value to assign high, medium and low categories. The process will also flag unusual results, such as all values being the same across all sites. 
+In order to compare a particular site with the calibration sites (typically 100 sites per ecoregion), we can use the `assign_jenks_score()` function. This function requires the data to be loaded using the `load_wesp_data()` function as above.
+
+
+We can use the example below in which we have one site as an example: 
+
+```{r, eval = FALSE}
+# select file
+wesp <- fs::path("inst/input_data/wetFlat_20250427_single.csv")
+
+#load file and convert to wesp
+wesp_data <- load_wesp_data(wesp)
+site <- as.wesp_site(wesp)
+
+```
+
+We then calculate the indicator scores and extract the values into a table. Note this process is based on a single site, but can be iterated for multiple sites. 
+
+```{r, eval = FALSE}
+#calculate the scores and extract the indicator values 
+site <- calc_indicators(site)
+ind_scores <- get_indicator_scores(site)
+
+```
+
+An example format of the ind_score output is shown, with the service type (rows) for each site with a column for function(fun) and benefit(ben). Note not every service has both a function and benefit so you will see NA values.  
+
+```
+  site   indicator    fun   ben
+   <chr>  <chr>      <dbl> <dbl>
+ 1 site_1 WS         3.61   6.98
+ 2 site_1 SR         0.778  4.28
+ 3 site_1 PR         6.20   3.06
+ 4 site_1 CP         6.78  NA   
+ 5 site_1 FR         1.67   7.51
+ 6 site_1 SENS       4.86  NA   
+ 7 site_1 STR        9.58  NA   
+ 8 site_1 NR         5.52   3.06
+ 9 site_1 APP        0      2.99
+10 site_1 PD         0      5.51
+11 site_1 KMH        2.99   5.60
+12 site_1 WB         0     10   
+13 site_1 POL        6.30   1.67
+14 site_1 RSB        6.94   4.83
+15 site_1 OE         4.54  NA   
+16 site_1 AM         5.03   3.10
+17 site_1 FH         0      3.33
+18 site_1 SFTS       2.94   3.27
+19 site_1 CRI       NA      6.58
+
+```
+
+We can then use the `assign_jenks_score()` function to assign the Jenks breaks to each of the values. This function requires the calibration data to be loaded, which is included in the package. Calibration data is collected from approximate 100 sites in each ecoprovince. This data is then normalised and used to establish the threshold values for each service and function/benefit based on a distribution of values for the 100 sites. These thresholds can then be used as benchmarks for a given wetland within the same ecoprovince, to establish a service as high/medium/low. Note as thresholds are based on normalised values, we can extrapolate these to raw scores and assign the closest score based on the calibration dataset. Note in some cases where a raw score for the site to be assessed is below or above the raw calibration data score, these will be asssigned a L or H rank respectively. A warning message will also notify users if this is the case and for which service.  
+
+To assign a jenks score, we require 1) the indicator score data (as shown in steps above), 2) calibration scores (which are included in the package), and 3) the Ecoprovince to be assessed. 
+
+If the ecoprovince does not yet have calibration data loaded, users should select the next best ecoprovince available. 
+
+```{r eval = FALSE}
+out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD")
+
+```
+
+
+This is an on-going project and data will be added as comes available. Steps to update the calibration data are outline [here](https://github.com/BCWF-Wetlands/wespr/tree/main/data-raw)
+Note this is an advanced/admin level action, please contact the package dev team for assistance. 
+
+
+## Calculating Jenks Scores (new Ecoprovinces)
+
+Another method to step through the entire process of calculating site scores, and assigning them to a high medium and low category is to use the `calculate_jenks_score()` function. This function requires the data to be loaded using the `load_wesp_data()` function as above. 
+
+This will calculate the indicator scores for each site, normalize the data across all sites for the given ecosystem function or benefit then calculate the Jenks breaks for each value to assign high, medium and low categories. The process will also flag unusual results, such as all values being the same across all sites. 
 
 Note the `calculate_jenks_score()` function includes the steps described above to calculate all site scores. An example workflow using this function would be: 
 
@@ -126,8 +199,7 @@ calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores.csv"
 
 ```
 
-
-This is currently in development and requires finer regional assessment to be incorporated.
+With the exception of generating calibration data for a new ecoprovince, we strongly suggest to use the internal calibration data per ecoprovince to provide a realistic comparison. This function is included for exploration purposes only. 
 
 
 
@@ -181,4 +253,19 @@ These are updated by:
 
 5. Commit the changes to `R/sysdata.rda` (this file contains both datasets)
 
+
+
+### Updating Calibration data 
+
+The wespr package contains the summarized `calibration_scores`. These will require updating as more calibration data becomes available. 
+
+These are updated by:
+
+1. Run the script in `data-raw/upload-calibration-data.R`
+
+3. Reload/reinstall the package.
+
+4. Run `devtools::check()` to make sure the changes you made to the Google Sheet haven't broken any existing behaviour.
+
+5. The calibration data is accessible to users via the `calibration_scores` function.
 
