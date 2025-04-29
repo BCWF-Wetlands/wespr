@@ -40,3 +40,4 @@ Depends:
     R (>= 3.5)
 VignetteBuilder: knitr
 URL: https://bcwf-wetlands.github.io/wespr/
+LazyData: true

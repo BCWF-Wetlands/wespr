@@ -20,7 +20,7 @@ library(wespr)
 
 # Raw data imports 
 
-The first step in calculating wespr scores is to standarddise and Quality check the input data. 
+The first step in calculating wespr scores is to standardise and quality check the input data. 
 
 As of March 2025, data collection is comprised of there parts: 
 - field data - collected using survey123 form
@@ -32,7 +32,10 @@ As of March 2025, data collection is comprised of there parts:
 
 Field data is collected on site using the survey123 form. This is intended to control data inputs and standardize the data collection process. These comprise all the *field* and *stressor* based questions. 
 
-The data is exported from survey123 as a csv file. An example data file is included within this package for testing. Note some minor manual edits were required to make the data file compatible to read in, i.e. format datatime column. These should be minimal in future as the processes is continually improved. 
+The data is exported from survey123 as a csv file. Note some minor manual edits were required to make the data file compatible to read in, i.e. format datatime column. These should be minimal in future as the processes is continually improved. 
+
+An example data file is included within this package for testing.Note using system.file() can create some difficulties on a OS operating system. 
+
 
 ```{r}
 
@@ -121,6 +124,6 @@ F2_B1,0,1,0,0,0,0
 F2_B2,1,0,1,1,1,0
 ```
 
-The prepared dataset is then ready for use in the wespr calculations. Detailed steps for running the 
+The prepared dataset is then ready for use in wespr calculations. See [here](https://bcwf-wetlands.github.io/wespr/articles/calculate_wesp_scores.html)
 
 

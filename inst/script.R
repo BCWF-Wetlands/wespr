@@ -81,54 +81,130 @@ base_score <- calculate_jenks_score(wesp_data, out_dir = "temp", out_name = "wes
 base_score <- readr::read_csv("temp/wesp_scores_base.csv")
 
 
+###################################################################
 
 
-# ## Update the raw survey123 data to fix issue with the
-## NOTE THIS IS OLD AND NO LONGER USED
-#
-# #For the SpeciesPres1-11, SpeciesPres4 (one or small mammals of conservation concern (such as muskrat, rodents etc).
-# # Was added at the end of 2023, should have been added as SpeciesPres11, but
-# # was added as SpeciesPres4. This shifted SpeciesPres4-10 to be +1 (eg was 4-10, now 5-11) in the 2024 data.
-#
-# #In 2024 - SpeciesPres4 to be-11 in the 2024 data.
-# # Speciespres5-11 should be 4-10
-#
-#
-#
-#
-# field_data <- system.file("extdata/field_survey123_edited.xls", package = "wespr")
-#
-# indata <- readxl::read_xls(field_data,
-#                            col_names = TRUE, sheet = 1,
-#                            col_types = c(rep("text", 2), "date", rep("text", 117))
-# )
-#
-#
-# indata <- indata |>
-#   #select(objectid, globalid, datetime, F58_0)|>
-#   mutate(year = year(datetime))
-#
-#
-# indata23 <- indata |>
-#   filter(year <2024) |>
-#   mutate(F58_0_fix = F58_0)
-#
-#
-# indata24 <- indata |>
-#   filter(year == 2024) |>
-#   mutate(F58_0_fix = str_replace_all(F58_0, "5", "4"),
-#          F58_0_fix = str_replace_all(F58_0_fix , "6", "5"),
-#          F58_0_fix = str_replace_all(F58_0_fix , "7", "6"),
-#          F58_0_fix = str_replace_all(F58_0_fix , "8", "7"),
-#          F58_0_fix = str_replace_all(F58_0_fix , "9", "8"),
-#          F58_0_fix = str_replace_all(F58_0_fix , "10", "9"),
-#          F58_0_fix = str_replace_all(F58_0_fix , "11", "10"))
-#
-# out <- bind_rows(indata23, indata24)
-#
-#
-# xx <- merge(indata, out, by = c(colnames(indata)))
-#
-# openxlsx::write.xlsx(xx, fs::path("temp",  "field_survey123_edited_fix.xls"),
-#                      overwrite = overwrite, rowNames = FALSE, colNames = TRUE
-# )
+
+# import a single site and then compare against the calibration sites
+
+# assuming the calibration scores =
+
+library(dplyr)
+
+# import a single site and then compare against the calibration sites
+calibration_scores <- read.csv("temp/gd_jenks_breaks.csv")
+
+
+# Create a single site from data and export
+#wesp <- fs::path("inst/input_data/wetFlat_20250417.csv")
+#wesp <- read.csv(wesp)
+#wesp <- wesp[,c("Question", "X10")]
+#write.csv(wesp , fs::path("inst/input_data/wetFlat_20250427_single.csv"))
+
+# read in single site
+wesp <- fs::path("inst/input_data/wetFlat_20250427_single.csv")
+
+
+# option 1) # wide format
+wesp_data <- load_wesp_data(wesp)
+#wespRaw <- calculate_multi_site(wesp_data)
+
+# option 2)
+site <- as.wesp_site(wesp_data)
+site <- calc_indicators(site)
+ind_scores <- get_indicator_scores(site)
+
+
+out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD")
+
+
+#######################################################
+
+ind_scores
+
+calibration_scores
+
+
+# check against site 1
+# reform data to long format to match the calibration data (may not be needed)
+ind <- ind_scores |>
+  select(site, indicator, fun) |>
+  mutate(service_type = "f") |>
+  rename("value" = fun)
+
+indb <- ind_scores |>
+  select(site, indicator, ben) |>
+  mutate(service_type = "b") |>
+  rename("value" = ben)
+
+ind <- rbind(ind, indb)
+
+
+#head(ind)
+#head(calibration_scores)
+
+
+classed_df <- lapply(1:nrow(ind), function(i) {
+
+  #print(i)
+  #i <- 19
+  trow <- ind[i,]
+
+  # filter for the service and f/b
+  calr <- calibration_scores |>
+    filter(service_name  == trow$indicator) |>
+    filter(service_type == trow$service_type)
+
+  my_min <- trow$value
+  my_max <- trow$value
+
+  # is na then assign to NA
+  if(is.na(my_min)){
+
+    cal_val = NA
+
+  }else{
+
+  my_df_filtered <- calr |>
+    dplyr::rowwise() |>
+    dplyr::filter(my_min >= min & my_max <= max)
+
+  if(nrow(my_df_filtered)== 0){
+    # check if value is higher than H max or lower than min for L
+
+    calr_h <- calr |>
+      dplyr::filter(jenks  == "H") |>
+      select(max) |>
+      pull()
+
+    if(my_max>calr_h){
+      cal_val = "H"
+
+    } else {
+      calr_l <- calr |>
+        dplyr::filter(jenks  == "L")
+
+      cal_val = "L"
+    }
+
+     cli::cli_alert_warning("Value {round(trow$value,2)} for {trow$indicator} ({trow$service_type}) is outside the calibration range")
+
+     } else {
+
+  cal_val <- my_df_filtered$jenks
+  }
+
+}
+
+    trow <- trow |>
+      dplyr::mutate(calibrated_score = cal_val)
+
+    trow
+}) |> dplyr::bind_rows()
+
+
+
+
+
+
+
