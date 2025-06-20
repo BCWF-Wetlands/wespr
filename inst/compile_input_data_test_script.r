@@ -12,12 +12,15 @@ library(dplyr)
 library(readr)
 library(openxlsx)
 
-#load_all()
+load_all()
 
 #Preparing the raw data
 #field_data <- system.file("extdata/field_survey123_edited.xls", package = "wespr")
 field_data <- system.file("extdata/field_survey123_edited_04.14.2025.xls", package = "wespr")
-office_data <- system.file("extdata/scripted_office.xlsx", package = "wespr")
+
+#office_data <- system.file("extdata/scripted_office.xlsx", package = "wespr")
+office_data <- system.file("extdata/GD_OF_Answers.data.xlsx", package = "wespr")
+office_data <- system.file("extdata/SIM_OF_Answers.data.xlsx", package = "wespr")
 
 
 ww <- combine_rawdata(
@@ -25,26 +28,28 @@ ww <- combine_rawdata(
     office_data <- office_data,
     EcoP = "GD",
     write_subfiles = FALSE,
-    out_dir <- "inst/input_data/processed",
+    out_dir <- "inst/input_data/processed1",
     overwrite = TRUE
 )
 
 ww$Question
 
-write.csv(ww, fs::path("inst/input_data/wetFlat_20250417.csv"), row.names=FALSE)
+write.csv(ww, fs::path("inst/input_data/reference_GD_20250620.csv"), row.names=FALSE)
 
 
 
-indata <- fs::path("inst/input_data/wetFlat_20250417.csv")
-#indata <- fs::path("inst/input_data/wetFlat_20250325.csv")
+#indata <- fs::path("inst/input_data/wetFlat_20250417.csv")
+indata <- fs::path("inst/input_data/reference_SIM_20250620.csv")
+indata <- fs::path("inst/input_data/reference_GD_20250620.csv")
 
-check_indata(indata)
+#check_indata(indata)
 
 wesp_data <- load_wesp_data(indata)
 site <- as.wesp_site(wesp_data)
 
 
-calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores_test2.csv")
+calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores_GD.csv")
+calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores_SIM.csv")
 
 
 

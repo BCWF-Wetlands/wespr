@@ -18,7 +18,10 @@ library(readxl)
 # step.
 
 # update this line to point to specific file location
-indata <- fs::path("inst/input_data/input_refsites_GD.csv")
+#indata <- fs::path("inst/input_data/input_refsites_GD.csv")
+indata <- fs::path("inst/input_data/reference_SIM_20250620.csv")
+indata <- fs::path("inst/input_data/reference_GD_20250620.csv")
+
 
 # check data if needed
 #check_indata(indata)
@@ -31,7 +34,7 @@ site <- as.wesp_site(wesp_data)
 # note this script generates the jenks breaks on the normalised scores based on the 100 or so
 # reference site
 
-wespclass <- calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores_test2.csv")
+wespclass <- calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores_GD.csv")
 
 # format output data to get the range of each catergory per service
 
@@ -64,7 +67,7 @@ outsum <- purrr::map(wcols, function(x) {
 
 # add the Eco province name
 
-calibration_scores <- outsum |>
+calibration_scores_new <- outsum |>
   dplyr::mutate(ecoprovince = "GD") |>
   dplyr::select(ecoprovince, service, everything())
 
@@ -74,6 +77,9 @@ write.csv(calibration_scores, "temp/gd_jenks_breaks.csv", row.names = FALSE)
 
 
 # if data already exists then read in first and merge or updata
+
+
+if(calibration_scores)
 
 #TODO: add calibration_scores read in check add new data to existing
 
