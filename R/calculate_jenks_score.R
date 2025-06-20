@@ -22,15 +22,28 @@
 calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "wesp_scores.csv") {
 
   ##testing lines
- # wespdata <- wesp_data
-#  sites = NULL
-#  out_dir = "temp"
-#  out_name = "wesp_scores_base.csv"
+  #wespdata <- wesp_data
+  #ites = NULL
+  #out_dir = "temp"
+ # out_name = "wesp_scores_base.csv"
 
 
   # run multi-site analysis
   wespRaw <- calculate_multi_site(wespdata, sites = sites)
   #wespRaw <- calculate_multi_site(wesp_data, sites = NULL)
+
+
+  wespkey <- wespdata |>
+    dplyr::filter(.data$q_no == "Wetland" ) |>
+    tidyr::pivot_longer(cols = -c(.data$response_no),
+                  names_to = "site_no",
+                  values_to = "wetland_id"
+    ) |>
+    dplyr::select(-response_no) |>
+    dplyr::filter(site_no != "q_no") |>
+    dplyr::mutate(site = as.numeric(gsub("site_", "", site_no))) |>
+    dplyr::select(-site_no)
+
 
   # check out dir exists and if not create it
   if (!dir.exists(out_dir)) {
@@ -102,6 +115,10 @@ calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "w
   wespEcoS <- list(wespRaw, wespNorm, wespBreaks) %>%
     purrr::reduce(dplyr::full_join, by = "site") %>%
     dplyr::select(.data$site, sort(names(.)))
+
+
+  wespEcoS <- left_join(wespkey, wespEcoS, by = "site")
+
 
   # wespEcoS <-data.frame(Wetland_Co=wetLUT,wespEcoS.1)
 
