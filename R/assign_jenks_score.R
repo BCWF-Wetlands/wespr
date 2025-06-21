@@ -21,11 +21,11 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP) {
   # testing lines
   #ind_scores
   #calibration_scores
-  #EcoP <- "GD"
+  #EcoP <- "SIM"
   # end testing lines
 
   # check calibration data contains ecoprovince
-  if (!unique(calibration_scores$ecoprovince) %in% EcoP) {
+  if (!EcoP %in% unique(calibration_scores$ecoprovince)) {
     cli::cli_abort("No calibration data is currently stored for the selected Eco Province.
                    Please check your ecoprovince name or select from the following:
                    {unique(calibration_scores$ecoprovince)}")
@@ -45,6 +45,11 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP) {
 
   ind <- rbind(ind, indb)
 
+
+  calibration_scores_eco <- calibration_scores |>
+    dplyr::filter(.data$ecoprovince == EcoP)
+
+
   # loop through the ind_score data and find match for each row that corresponds with
   # either L, M, H class in calibration value
 
@@ -54,7 +59,7 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP) {
     trow <- ind[i, ]
 
     # filter for the service and f/b
-    calr <- calibration_scores |>
+    calr <- calibration_scores_eco |>
       dplyr::filter(.data$service_name == trow$indicator) |>
       dplyr::filter(.data$service_type == trow$service_type)
 
@@ -92,7 +97,7 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP) {
       }
     }
 
-    trow |> dplyr::mutate(calibrated_score = cal_val)
+    trow |> dplyr::mutate(calibration_scores_eco = cal_val)
   }) |> dplyr::bind_rows()
 
 
