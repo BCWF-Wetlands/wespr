@@ -1,5 +1,6 @@
 ---
 title: "Prepare data for Wespr calculations"
+#output: word_document
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Prepare data for Wespr calculations}

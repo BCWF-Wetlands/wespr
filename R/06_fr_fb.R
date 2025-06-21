@@ -103,7 +103,10 @@ fr_ben <- function(site){
                       )
   )
 
-  fr_ben_score <- 10* ((4*disttown7v + conif7v + dryness7v)/6)
+
+  #fr_ben_score <- 10* ((4*disttown7v + conif7v + dryness7v)/6)
+  # account for NA values
+  fr_ben_score <- 10* (sum((4*disttown7v), conif7v,dryness7v,  na.rm = TRUE)/6)
 
   as.indicator_score(fr_ben_score)
 
