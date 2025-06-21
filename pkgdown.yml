@@ -1,10 +1,10 @@
 pandoc: 3.1.11
-pkgdown: 2.1.1
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   calculate_wesp_scores: calculate_wesp_scores.html
   prepare-rawdata: prepare-rawdata.html
-last_built: 2025-04-29T01:03Z
+last_built: 2025-06-21T00:30Z
 urls:
   reference: https://bcwf-wetlands.github.io/wespr/reference
   article: https://bcwf-wetlands.github.io/wespr/articles
