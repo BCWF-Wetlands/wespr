@@ -10,6 +10,8 @@ library(wespr)
 library(readxl)
 
 
+
+
 # 2. read in the preprocessed file.
 # Note this assumes the data has been preprossed into the standard format to be
 # uploaded into the wespr calculator.
@@ -40,7 +42,7 @@ wespclass <- calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wes
 
 wcols <- names(wespclass)
 # remove the site column
-wcols <- wcols[!wcols %in% c("site")]
+wcols <- wcols[!wcols %in% c("site", "wetland_id")]
 wcols <- unique(sub("^([^_]*_[^_]*).*", "\\1", wcols))
 
 # loop through the data and get the min and max values of the raw scores
@@ -67,22 +69,41 @@ outsum <- purrr::map(wcols, function(x) {
 
 # add the Eco province name
 
+ecop = "SIM"
+
 calibration_scores_new <- outsum |>
-  dplyr::mutate(ecoprovince = "GD") |>
+  dplyr::mutate(ecoprovince = ecop) |>
   dplyr::select(ecoprovince, service, everything())
 
 
 # write out (temp fix while testing)
-write.csv(calibration_scores, "temp/gd_jenks_breaks.csv", row.names = FALSE)
+write.csv(calibration_scores_new, "temp/sim_jenks_breaks.csv", row.names = FALSE)
 
 
 # if data already exists then read in first and merge or updata
 
+if(calibration_scores){
+  # read in the existing calibration scores
+  calibration_scores <- wespr::calibration_scores
+  # check if the new data is already in the existing data
+  if (any(calibration_scores$ecoprovince %in% ecop)) {
 
-if(calibration_scores)
+    cli::cli_alert_warning("Calibration scores for {ecop} already exist. Updating existing data.")
 
-#TODO: add calibration_scores read in check add new data to existing
+    calibration_scores_to_update <- calibration_scores |>
+      dplyr::filter(.data$ecoprovince != ecop)
 
+    calibration_scores <- bind_rows(calibration_scores_to_update, calibration_scores_new)
+
+    # update the existing data with the new data
+  } else {
+    # add the new data to the existing data
+    calibration_scores <- dplyr::bind_rows(calibration_scores, calibration_scores_new)
+  }
+} else {
+  # if no existing data then just use the new data
+  calibration_scores <- calibration_scores_new
+}
 
 
 # export data as part of the package
