@@ -26,7 +26,7 @@ office_data <- system.file("extdata/SIM_OF_Answers.data.xlsx", package = "wespr"
 ww <- combine_rawdata(
     field_data <-  field_data ,
     office_data <- office_data,
-    EcoP = "GD",
+    EcoP = "SIM",
     write_subfiles = FALSE,
     out_dir <- "inst/input_data/processed1",
     overwrite = TRUE
@@ -34,6 +34,7 @@ ww <- combine_rawdata(
 
 ww$Question
 
+write.csv(ww, fs::path("inst/input_data/reference_SIM_20250620.csv"), row.names=FALSE)
 write.csv(ww, fs::path("inst/input_data/reference_GD_20250620.csv"), row.names=FALSE)
 
 

@@ -17,7 +17,9 @@ library(dplyr)
 
 
 # read in data and filter to questions we have implemented, and just one site:
-data <- load_wesp_data(system.file("input_data/wetFlat_20250417.csv", package = "wespr"))
+#data <- load_wesp_data(system.file("input_data/wetFlat_20250417.csv", package = "wespr"))
+data <- load_wesp_data(system.file("input_data/reference_SIM_20250620.csv", package = "wespr"))
+
 
 head(data)
 
@@ -25,9 +27,9 @@ head(data)
 wespsite <- as.wesp_site(data)
 
 # convert a single site to wesp format
-wespsite_specific <- as.wesp_site(data,8)
+wespsite_specific <- as.wesp_site(data,21)
 
-
+site <- wespsite_specific
 
 
 
@@ -72,20 +74,40 @@ allsites
 
 
 data <- load_wesp_data(system.file("input_data/wetFlat_20250417.csv", package = "wespr"))
+data <- load_wesp_data(system.file("input_data/reference_SIM_20250620.csv", package = "wespr"))
+
+
+wespkey <- data |>
+  dplyr::filter(.data$q_no == "Wetland" ) |>
+  tidyr::pivot_longer(cols = -c(.data$response_no),
+                      names_to = "site",
+                      values_to = "wetland_id"
+  ) |>
+  dplyr::select(-response_no) |>
+  dplyr::filter(site != "q_no")
 
 site <- as.wesp_site(data, 1)
 site <- calc_indicators(site)
 ind_scores <- get_indicator_scores(site)
 
 
-out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD")
+out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "SIM")
+
+out <- out |>
+  dplyr::left_join(wespkey, by = "site") |>
+  select(wetland_id, site, indicator,value, service_type, calibration_scores_eco)
 
 head(out)
 
 
 # Some ecoprovinces are yet to have calibration data. For example
 
-out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "SIM")
+out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "SK")
+
+
+# make report? template
+
+
 
 
 
