@@ -76,7 +76,7 @@ ecoprovince calibration data.</p>
 <p>We have included an example file in the package, which we can use for
 demonstration purposes:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">wesp_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/wetFlat_20240130.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">wesp_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/reference_GD_20250620.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
 <span><span class="va">wesp_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_wesp_data.html">load_wesp_data</a></span><span class="op">(</span><span class="va">wesp_file</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">wesp_data</span><span class="op">)</span></span></code></pre></div>
@@ -134,7 +134,7 @@ only need the raw values for each site we can use the
 firstly be loaded using the <code><a href="../reference/load_wesp_data.html">load_wesp_data()</a></code> function. For
 example the work flow would be:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">wesp_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/wetFlat_20240130.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">wesp_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/reference_GD_20250620.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
 <span><span class="va">wesp_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_wesp_data.html">load_wesp_data</a></span><span class="op">(</span><span class="va">wesp_file</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/calculate_multi_site.html">calculate_multi_site</a></span><span class="op">(</span><span class="va">wesp_data</span><span class="op">)</span></span></code></pre></div>
 <p>This will return a date.frame with all the values combined for each
@@ -257,7 +257,7 @@ values being the same across all sites.</p>
 steps described above to calculate all site scores. An example workflow
 using this function would be:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">wesp_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/wetFlat_20240130.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">wesp_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/reference_singlesite.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
 <span><span class="va">wesp_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_wesp_data.html">load_wesp_data</a></span><span class="op">(</span><span class="va">wesp_file</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/calculate_jenks_score.html">calculate_jenks_score</a></span><span class="op">(</span><span class="va">wesp_data</span>, out_dir <span class="op">=</span> <span class="st">"temp"</span>,  out_name <span class="op">=</span> <span class="st">"wesp_scores.csv"</span><span class="op">)</span></span></code></pre></div>
 <p>With the exception of generating calibration data for a new
