@@ -28,10 +28,11 @@ Once the wespr package has been installed, and the raw data processed using the 
 We have included an example file in the package, which we can use for demonstration purposes:
 
 ```{r, eval = FALSE}
-wesp_file <- system.file("input_data/wetFlat_20240130.csv", package = "wespr")
+wesp_file <- system.file("input_data/reference_GD_20250620.csv", package = "wespr")
 wesp_data <- load_wesp_data(wesp_file)
 
 head(wesp_data)
+
 ```
 
 Next we convert the data into a special `wesp_site` object. This process validates
@@ -81,6 +82,7 @@ that with `get_indicator_scores()`, which gives them to us as a `data.frame`:
 ind_scores <- get_indicator_scores(site)
 
 ind_scores
+
 ```
 
 Similarly, we can extract the original responses with `get_responses()`:
@@ -103,7 +105,7 @@ We may wish to calculate indicator scores for multiple sites. If we only need th
 
 
 ```{r, eval = FALSE}
-wesp_file <- system.file("input_data/wetFlat_20240130.csv", package = "wespr")
+wesp_file <- system.file("input_data/reference_GD_20250620.csv", package = "wespr")
 wesp_data <- load_wesp_data(wesp_file)
 calculate_multi_site(wesp_data)
 
