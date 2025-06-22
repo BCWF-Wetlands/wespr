@@ -22,7 +22,7 @@ test_that("get_indicator_scores() fails with wrong input", {
 test_that("get_responses() works", {
   site <- make_test_site()
   expect_s3_class(get_responses(site), "data.frame")
-  expect_equal(nrow(get_responses(site)), 500)
+  expect_equal(nrow(get_responses(site)), 501)
   expect_equal(ncol(get_responses(site)), 4)
 })
 
