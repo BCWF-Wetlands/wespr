@@ -1,7 +1,7 @@
 ---
 title: "Calculate Wespr Scores"
-output: word_document
-#output: rmarkdown::html_vignette
+#output: word_document
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Calculate Wespr Scores}
   %\VignetteEngine{knitr::rmarkdown}
@@ -215,17 +215,13 @@ Note the `calculate_jenks_score()` function includes the steps described above t
 
 
 ```{r,eval = FALSE}
-wesp_file <- system.file("input_data/wetFlat_20240130.csv", package = "wespr")
+wesp_file <- system.file("input_data/reference_singlesite.csv", package = "wespr")
 wesp_data <- load_wesp_data(wesp_file)
 calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores.csv")
 
 ```
 
 With the exception of generating calibration data for a new ecoprovince, we strongly suggest to use the internal calibration data per ecoprovince to provide a realistic comparison. This function is included for exploration purposes only. 
-
-
-
-
 
 
 
