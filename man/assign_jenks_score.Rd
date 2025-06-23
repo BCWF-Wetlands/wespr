@@ -4,7 +4,13 @@
 \alias{assign_jenks_score}
 \title{Assign Jenks score based on calibration dataset}
 \usage{
-assign_jenks_score(ind_scores, calibration_scores, EcoP)
+assign_jenks_score(
+  ind_scores,
+  calibration_scores,
+  EcoP,
+  report = TRUE,
+  output_dir
+)
 }
 \arguments{
 \item{ind_scores}{A data.frame of indicator scores. The output of get_indicator_scores().}
@@ -12,6 +18,10 @@ assign_jenks_score(ind_scores, calibration_scores, EcoP)
 \item{calibration_scores}{an internal dataset containing the calibration data for all sites. This can be updated by admin.}
 
 \item{EcoP}{A character string specifying the region. Default = 'GD'}
+
+\item{report}{A logical indicating whether to generate a report. Default = TRUE.}
+
+\item{output_dir}{A character string specifying the directory to save the report. Default = NULL.}
 }
 \value{
 A data.frame with indicator scores and jenks classification score (Low, Medium, High (L, M, H)).

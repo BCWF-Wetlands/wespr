@@ -1,0 +1,112 @@
+---
+title: "WESP site report"
+output: word_document
+params:
+  calibration_scores_eco: calibration_scores_eco
+  classed_df: classed_df
+  output_dir: output_dir
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(wespr)
+library(dplyr)
+```
+
+
+Report generated on : `r Sys.Date()`
+
+This document provides a summary score using the Wetland Ecosystem Services Protocol (WESP) for a single site as compared to results relative to the calibration dataset of the given ecosystem. More information can about the project can be found [here](https://bcwfwatershedteam.ca/wetland-ecosystem-services-protocol/). 
+
+
+# Ecoprovince
+
+```{r cars, echo = FALSE}
+#summary(cars)
+ecop <- unique(calibration_scores_eco$ecoprovince)
+sname <- unique(classed_df$site)
+# add map to show where in the province
+
+```
+
+
+This site (`r sname`) is located in the `r ecop` Ecoprovince. 
+
+### ADD A MAP HERE
+
+
+
+
+## Ecosystem Functions
+
+```{r overall plots, echo=FALSE}
+
+  tt <- calibration_scores_eco |>
+    group_by(.data$service) |>
+    tidyr::pivot_wider(names_from = jenks, values_from = c(min, max)) |>
+    dplyr::mutate(H = 10.1 - min_H,
+                  M = min_H - min_M,
+                  L = min_M) 
+  
+  ttt <- tt |> 
+    tidyr::pivot_longer(cols = c(H, M, L, -min_H, -min_L, -min_M, -max_H, -max_L, -max_M),
+                       names_to = "catergory",
+                       values_to = "threshold") |> 
+    dplyr::select(-c(min_H, min_L, min_M, max_H, max_L, max_M)) 
+  
+  ttt <- ttt |> 
+    dplyr::mutate(class = ordered(catergory, levels = c("H", "M", "L")))
+    
+  # match format for site data 
+ classed_df <- classed_df |>
+    dplyr::mutate(service = paste0(indicator, "_", service_type),
+                  service_name = indicator,
+                  threshold = value)
+                  
+                
+  
+ # functions 
+ ft <- ttt |> 
+   dplyr::filter(service_type == "f")
+ 
+ fclass <-  classed_df|> 
+   dplyr::filter(service_type == "f")
+ 
+ 
+ fn_plot <-  ggplot(ft , aes(x = threshold,y = service_name  )) +
+    geom_bar(aes(fill = class), stat = "identity", position = "stack")+
+    scale_fill_viridis_d()+ 
+    geom_point(data =  fclass, aes( x = threshold, y = service_name  ), colour = "darkgrey")+
+   labs(title = "Ecosystem Function Scores",
+        x = "Calibration Class thresholds",
+        y = "Ecosystem") +
+   theme_minimal()
+  
+ fn_plot
+
+```
+
+# Benefits 
+
+```{r, echo = FALSE}
+ # Benefit
+ bt <- ttt |> 
+   dplyr::filter(service_type == "b")
+ 
+ bclass <-  classed_df|> 
+   dplyr::filter(service_type == "b")
+ 
+ 
+bn_plot <-  ggplot(bt , aes(x = threshold,y = service_name  )) +
+    geom_bar(aes(fill = class), stat = "identity", position = "stack")+
+    scale_fill_viridis_d()+ 
+    geom_point(data =  bclass, aes( x = threshold, y = service_name  ), colour = "darkgrey")+
+   labs(title = "Ecosystem Benefit Scores",
+        x = "Calibration Class thresholds",
+        y = "Ecosystem") +
+   theme_minimal()
+
+bn_plot 
+
+```
+

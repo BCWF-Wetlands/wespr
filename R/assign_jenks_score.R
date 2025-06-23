@@ -3,6 +3,8 @@
 #' @param ind_scores A data.frame of indicator scores. The output of get_indicator_scores().
 #' @param calibration_scores an internal dataset containing the calibration data for all sites. This can be updated by admin.
 #' @param EcoP A character string specifying the region. Default = 'GD'
+#' @param report A logical indicating whether to generate a report. Default = TRUE.
+#' @param output_dir A character string specifying the directory to save the report. Default = NULL.
 #'
 #' @returns A data.frame with indicator scores and jenks classification score (Low, Medium, High (L, M, H)).
 #' @export
@@ -16,12 +18,14 @@
 #' out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD")
 #' }
 
-assign_jenks_score <- function(ind_scores, calibration_scores, EcoP) {
+assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TRUE, output_dir) {
 
   # testing lines
-  #ind_scores
-  #calibration_scores
-  #EcoP <- "SIM"
+  ind_scores
+  calibration_scores
+  EcoP <- "GD"
+  report = TRUE
+  output_dir = fs::path("temp")
   # end testing lines
 
   # check calibration data contains ecoprovince
@@ -45,10 +49,8 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP) {
 
   ind <- rbind(ind, indb)
 
-
   calibration_scores_eco <- calibration_scores |>
     dplyr::filter(.data$ecoprovince == EcoP)
-
 
   # loop through the ind_score data and find match for each row that corresponds with
   # either L, M, H class in calibration value
@@ -99,6 +101,26 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP) {
 
     trow |> dplyr::mutate(calibration_scores_eco = cal_val)
   }) |> dplyr::bind_rows()
+
+
+
+  if(report == TRUE) {
+    cli::cli_alert_info("Generating a site report")
+
+    RMD <- fs::path_package("wespr", "extdata/site_report.rmd")
+    rmarkdown::render(RMD,
+                      params = list(calibration_scores_eco = calibration_scores_eco,
+                                    classed_df = classed_df),
+                                    #final_model = final_model,
+                                    #out_bgc_dir = out_bgc_dir,
+                                    #extra_pts = extra_pts),
+                      output_dir = output_dir)                ## where to save the report
+
+
+
+  }
+
+
 
 
   return(classed_df)
