@@ -105,7 +105,7 @@ We may wish to calculate indicator scores for multiple sites. If we only need th
 
 
 ```{r, eval = FALSE}
-wesp_file <- system.file("input_data/reference_GD_20250620.csv", package = "wespr")
+wesp_file <- system.file("input_data/reference_singlesite.csv", package = "wespr")
 wesp_data <- load_wesp_data(wesp_file)
 calculate_multi_site(wesp_data)
 
@@ -126,7 +126,7 @@ We can use the example below in which we have one site as an example:
 
 ```{r, eval = FALSE}
 # select file
-wesp <- fs::path("inst/input_data/wetFlat_20250427_single.csv")
+wesp <- fs::path("inst/input_data/reference_singlesite.csv")
 
 #load file and convert to wesp
 wesp_data <- load_wesp_data(wesp)
