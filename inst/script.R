@@ -86,7 +86,7 @@ wespkey <- data |>
   dplyr::select(-response_no) |>
   dplyr::filter(site != "q_no")
 
-site <- as.wesp_site(data, 1)
+site <- as.wesp_site(data)#, 1)
 site <- calc_indicators(site)
 ind_scores <- get_indicator_scores(site)
 
