@@ -33,6 +33,17 @@ wesp_data <- load_wesp_data(wesp_file)
 
 head(wesp_data)
 
+# generate a key for site names 
+wespkey <- wesp_data |>
+    dplyr::filter(.data$q_no == "Wetland" ) |>
+    tidyr::pivot_longer(cols = -c(.data$response_no),
+                  names_to = "site_no",
+                  values_to = "wetland_id"
+    ) |>
+    dplyr::select(-response_no) |>
+    dplyr::filter(site_no != "q_no") |>
+    dplyr::rename("site" = .data$site_no) 
+
 ```
 
 Next we convert the data into a special `wesp_site` object. This process validates
@@ -46,6 +57,7 @@ site in the file.
 
 ```{r, eval = FALSE}
 site <- as.wesp_site(wesp_data, site = 1)
+
 ```
 
 You should not normally need to work with the internals of the `wesp_site` object
@@ -73,6 +85,7 @@ If we view the site object again, we can see the calculated indicator scores.
 
 ```{r, eval = FALSE}
 site
+
 ```
 
 We probably want to get the indicator scores out as a usable object. We can do 
@@ -80,6 +93,10 @@ that with `get_indicator_scores()`, which gives them to us as a `data.frame`:
 
 ```{r, eval = FALSE}
 ind_scores <- get_indicator_scores(site)
+
+# add site specific names
+ind_scores <- dplyr::left_join(wespkey, ind_scores, by = "site")
+
 
 ind_scores
 
@@ -105,9 +122,27 @@ We may wish to calculate indicator scores for multiple sites. If we only need th
 
 
 ```{r, eval = FALSE}
-wesp_file <- system.file("input_data/reference_singlesite.csv", package = "wespr")
+wesp_file <- system.file("input_data/reference_GD_20250620.csv", package = "wespr")
 wesp_data <- load_wesp_data(wesp_file)
-calculate_multi_site(wesp_data)
+
+# generate a site key 
+# generate a key for site names 
+wespkey <- wesp_data |>
+    dplyr::filter(.data$q_no == "Wetland" ) |>
+    tidyr::pivot_longer(cols = -c(.data$response_no),
+                  names_to = "site_no",
+                  values_to = "wetland_id"
+    ) |>
+    dplyr::select(-response_no) |>
+    dplyr::filter(site_no != "q_no") |>
+    dplyr::mutate(site = as.numeric(gsub("site_", "", site_no))) |>
+    dplyr::select(-site_no)
+
+allsites <- calculate_multi_site(wesp_data)
+
+# add site specific names
+allsites <- dplyr::left_join(wespkey, allsites, by = "site")
+
 
 ```
 
@@ -126,11 +161,14 @@ We can use the example below in which we have one site as an example:
 
 ```{r, eval = FALSE}
 # select file
-wesp <- fs::path("inst/input_data/reference_singlesite.csv")
+wesp <- system.file("input_data/reference_singlesite.csv", package = "wespr")
 
 #load file and convert to wesp
 wesp_data <- load_wesp_data(wesp)
 site <- as.wesp_site(wesp_data)
+
+# update site name
+site$site_name <- wesp_data$site_1[wesp_data$q_no == "Wetland"]
 
 ```
 
@@ -177,7 +215,7 @@ To assign a jenks score, we require 1) the indicator score data (as shown in ste
 If the ecoprovince does not yet have calibration data loaded, users should select the next best ecoprovince available. 
 
 ```{r eval = FALSE}
-out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD")
+out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD", report = FALSE, output_dir = NA)
 
 ```
 
