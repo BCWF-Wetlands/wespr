@@ -79,7 +79,18 @@ demonstration purposes:</p>
 <code class="sourceCode R"><span><span class="va">wesp_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/reference_GD_20250620.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
 <span><span class="va">wesp_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_wesp_data.html">load_wesp_data</a></span><span class="op">(</span><span class="va">wesp_file</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">wesp_data</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">wesp_data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># generate a key for site names </span></span>
+<span><span class="va">wespkey</span> <span class="op">&lt;-</span> <span class="va">wesp_data</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">q_no</span> <span class="op">==</span> <span class="st">"Wetland"</span> <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">response_no</span><span class="op">)</span>,</span>
+<span>                  names_to <span class="op">=</span> <span class="st">"site_no"</span>,</span>
+<span>                  values_to <span class="op">=</span> <span class="st">"wetland_id"</span></span>
+<span>    <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">response_no</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">site_no</span> <span class="op">!=</span> <span class="st">"q_no"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span><span class="st">"site"</span> <span class="op">=</span> <span class="va">.data</span><span class="op">$</span><span class="va">site_no</span><span class="op">)</span> </span></code></pre></div>
 <p>Next we convert the data into a special <code>wesp_site</code>
 object. This process validates the input data, and will give informative
 errors if a question is not answered correctly. It also calculates many
@@ -115,6 +126,10 @@ them to us as a <code>data.frame</code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ind_scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_indicator_scores.html">get_indicator_scores</a></span><span class="op">(</span><span class="va">site</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># add site specific names</span></span>
+<span><span class="va">ind_scores</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">wespkey</span>, <span class="va">ind_scores</span>, by <span class="op">=</span> <span class="st">"site"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
 <span><span class="va">ind_scores</span></span></code></pre></div>
 <p>Similarly, we can extract the original responses with
 <code><a href="../reference/get_responses.html">get_responses()</a></code>:</p>
@@ -134,9 +149,26 @@ only need the raw values for each site we can use the
 firstly be loaded using the <code><a href="../reference/load_wesp_data.html">load_wesp_data()</a></code> function. For
 example the work flow would be:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">wesp_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/reference_singlesite.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">wesp_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/reference_GD_20250620.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
 <span><span class="va">wesp_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_wesp_data.html">load_wesp_data</a></span><span class="op">(</span><span class="va">wesp_file</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/calculate_multi_site.html">calculate_multi_site</a></span><span class="op">(</span><span class="va">wesp_data</span><span class="op">)</span></span></code></pre></div>
+<span></span>
+<span><span class="co"># generate a site key </span></span>
+<span><span class="co"># generate a key for site names </span></span>
+<span><span class="va">wespkey</span> <span class="op">&lt;-</span> <span class="va">wesp_data</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">q_no</span> <span class="op">==</span> <span class="st">"Wetland"</span> <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">response_no</span><span class="op">)</span>,</span>
+<span>                  names_to <span class="op">=</span> <span class="st">"site_no"</span>,</span>
+<span>                  values_to <span class="op">=</span> <span class="st">"wetland_id"</span></span>
+<span>    <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">response_no</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">site_no</span> <span class="op">!=</span> <span class="st">"q_no"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>site <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"site_"</span>, <span class="st">""</span>, <span class="va">site_no</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">site_no</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">allsites</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_multi_site.html">calculate_multi_site</a></span><span class="op">(</span><span class="va">wesp_data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># add site specific names</span></span>
+<span><span class="va">allsites</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">wespkey</span>, <span class="va">allsites</span>, by <span class="op">=</span> <span class="st">"site"</span><span class="op">)</span></span></code></pre></div>
 <p>This will return a date.frame with all the values combined for each
 site within the dataset provided.</p>
 </div>
@@ -160,11 +192,14 @@ above.</p>
 example:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># select file</span></span>
-<span><span class="va">wesp</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="st">"inst/input_data/reference_singlesite.csv"</span><span class="op">)</span></span>
+<span><span class="va">wesp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/reference_singlesite.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#load file and convert to wesp</span></span>
 <span><span class="va">wesp_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_wesp_data.html">load_wesp_data</a></span><span class="op">(</span><span class="va">wesp</span><span class="op">)</span></span>
-<span><span class="va">site</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/as.wesp_site.html">as.wesp_site</a></span><span class="op">(</span><span class="va">wesp_data</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">site</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/as.wesp_site.html">as.wesp_site</a></span><span class="op">(</span><span class="va">wesp_data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># update site name</span></span>
+<span><span class="va">site</span><span class="op">$</span><span class="va">site_name</span> <span class="op">&lt;-</span> <span class="va">wesp_data</span><span class="op">$</span><span class="va">site_1</span><span class="op">[</span><span class="va">wesp_data</span><span class="op">$</span><span class="va">q_no</span> <span class="op">==</span> <span class="st">"Wetland"</span><span class="op">]</span></span></code></pre></div>
 <p>We then calculate the indicator scores and extract the values into a
 table. Note this process is based on a single site, but can be iterated
 for multiple sites.</p>
@@ -219,7 +254,7 @@ package), and 3) the Ecoprovince to be assessed.</p>
 <p>If the ecoprovince does not yet have calibration data loaded, users
 should select the next best ecoprovince available.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/assign_jenks_score.html">assign_jenks_score</a></span><span class="op">(</span><span class="va">ind_scores</span>, <span class="va">calibration_scores</span>, EcoP <span class="op">=</span> <span class="st">"GD"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/assign_jenks_score.html">assign_jenks_score</a></span><span class="op">(</span><span class="va">ind_scores</span>, <span class="va">calibration_scores</span>, EcoP <span class="op">=</span> <span class="st">"GD"</span>, report <span class="op">=</span> <span class="cn">FALSE</span>, output_dir <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
 <p>The output scores will include a column with a calibration_score
 (L,M,H,NA)</p>
 <pre><code>site   indicator value service_type calibrated_score
