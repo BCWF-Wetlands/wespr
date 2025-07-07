@@ -181,7 +181,7 @@ ind_scores <- get_indicator_scores(site)
 
 ```
 
-An example format of the ind_score output is shown, with the service type (rows) for each site with a column for function(fun) and benefit(ben). Note not every service has both a function and benefit so you will see NA values.  
+An example format of the ind_score output is shown, with the service type (rows) for each site with a column for function (fun) and benefit (ben). Note not every service has both a function and benefit so you will see NA values.  
 
 ```
   site   indicator    fun   ben
@@ -215,6 +215,7 @@ To assign a jenks score, we require 1) the indicator score data (as shown in ste
 If the ecoprovince does not yet have calibration data loaded, users should select the next best ecoprovince available. 
 
 ```{r eval = FALSE}
+
 out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD", report = FALSE, output_dir = NA)
 
 ```
