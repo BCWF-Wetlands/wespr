@@ -52,16 +52,57 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TR
   calibration_scores_eco <- calibration_scores |>
     dplyr::filter(.data$ecoprovince == EcoP)
 
+  # format the calibration scores to summarise to get the range of each category per service
+
+  wcols <- names(calibration_scores_eco)
+  ## remove the site column
+  wcols <- wcols[!wcols %in% c("site", "wetland_id","ecoprovince")]
+  wcols <- unique(sub("^([^_]*_[^_]*).*", "\\1", wcols))
+
+  # loop through the data and get the min and max values of the raw scores
+
+   outsum <- purrr::map(wcols, function(x) {
+     # get the columns for each service
+     #x <- wcols[1]
+
+     tw <- calibration_scores_eco |>
+       dplyr::select(dplyr::starts_with(x)) |>
+       dplyr::select(-dplyr::ends_with("_norm"))
+     names(tw) <- c("jenks", "raw" )
+
+     tww <- tw |>
+       dplyr::group_by(jenks) |>
+       dplyr::summarise(n = n(),
+                        min = min(raw),
+                        max = max(raw)) |>
+      dplyr::mutate(service = x,
+              service_name = unique(sub("^([^_]*).*", "\\1", service)),
+              service_type = unique(sub("^[^_]*_", "", service)))
+     tww
+
+   }) |>  dplyr::bind_rows()
+
+  # add the Eco province name
+  calibration_scores_summary <- outsum |>
+    dplyr::mutate(ecoprovince = ecop) |>
+    dplyr::select(ecoprovince, service, everything())
+
+
+  # write out (temp fix while testing)
+  #write.csv(calibration_scores_new, "temp/sim_jenks_breaks.csv", row.names = FALSE)
+
+
+
   # loop through the ind_score data and find match for each row that corresponds with
   # either L, M, H class in calibration value
 
   classed_df <- lapply(1:nrow(ind), function(i) {
     # print(i)
-    # i <- 19
+     #i <- 20
     trow <- ind[i, ]
 
     # filter for the service and f/b
-    calr <- calibration_scores_eco |>
+    calr <- calibration_scores_summary  |>
       dplyr::filter(.data$service_name == trow$indicator) |>
       dplyr::filter(.data$service_type == trow$service_type)
 
@@ -99,7 +140,8 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TR
       }
     }
 
-    trow |> dplyr::mutate(calibration_scores_eco = cal_val)
+    trow |> dplyr::mutate(calibration_scores_summary  = cal_val)
+
   }) |> dplyr::bind_rows()
 
 
@@ -110,8 +152,10 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TR
     RMD <- fs::path_package("wespr", "extdata/site_report.rmd")
     rmarkdown::render(RMD,
                       params = list(calibration_scores_eco = calibration_scores_eco,
+                                    calibration_scores_summary = calibration_scores_summary,
+                                    outsum = outsum,
                                     classed_df = classed_df),
-                                    #final_model = final_model,
+                      #final_model = final_model,
                                     #out_bgc_dir = out_bgc_dir,
                                     #extra_pts = extra_pts),
                       output_dir = output_dir)                ## where to save the report
