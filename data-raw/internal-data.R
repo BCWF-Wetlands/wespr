@@ -41,3 +41,22 @@ usethis::use_data(
   internal = TRUE,
   overwrite = TRUE
 )
+
+##################################################################
+
+# get the base data information for mapping report
+
+library(bcdata)
+
+ecoprovince_sp <-  bcdc_query_geodata('WHSE_TERRESTRIAL_ECOLOGY.ERC_ECOPROVINCES_SP') |>
+  bcdata::collect() |>
+  select(ECOPROVINCE_CODE, ECOPROVINCE_NAME, geometry) |>
+  filter(!ECOPROVINCE_CODE %in% c("SAL","NEP" ))
+
+usethis::use_data(
+  ecoprovince_sp,
+  internal = TRUE,
+  overwrite = TRUE
+)
+
+

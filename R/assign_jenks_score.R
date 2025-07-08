@@ -72,7 +72,7 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TR
 
      tww <- tw |>
        dplyr::group_by(jenks) |>
-       dplyr::summarise(n = n(),
+       dplyr::summarise(n = dplyr::n(),
                         min = min(raw),
                         max = max(raw)) |>
       dplyr::mutate(service = x,
@@ -84,7 +84,7 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TR
 
   # add the Eco province name
   calibration_scores_summary <- outsum |>
-    dplyr::mutate(ecoprovince = ecop) |>
+    dplyr::mutate(ecoprovince =  EcoP ) |>
     dplyr::select(ecoprovince, service, everything())
 
 
@@ -150,10 +150,11 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TR
     cli::cli_alert_info("Generating a site report")
 
     RMD <- fs::path_package("wespr", "extdata/site_report.rmd")
+
     rmarkdown::render(RMD,
                       params = list(calibration_scores_eco = calibration_scores_eco,
                                     calibration_scores_summary = calibration_scores_summary,
-                                    outsum = outsum,
+                                   # outsum = outsum,
                                     classed_df = classed_df),
                       #final_model = final_model,
                                     #out_bgc_dir = out_bgc_dir,
