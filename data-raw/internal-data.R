@@ -35,12 +35,6 @@ indicator_weightings <- read_sheet(
 # write_csv(all_indicators, "inst/input_data/all_indicators.csv")
 # write_csv(weightings, "inst/input_data/weightings.csv")
 
-usethis::use_data(
-  question_metadata,
-  indicator_weightings,
-  internal = TRUE,
-  overwrite = TRUE
-)
 
 ##################################################################
 
@@ -53,10 +47,12 @@ ecoprovince_sp <-  bcdc_query_geodata('WHSE_TERRESTRIAL_ECOLOGY.ERC_ECOPROVINCES
   select(ECOPROVINCE_CODE, ECOPROVINCE_NAME, geometry) |>
   filter(!ECOPROVINCE_CODE %in% c("SAL","NEP" ))
 
+
 usethis::use_data(
+  question_metadata,
+  indicator_weightings,
   ecoprovince_sp,
   internal = TRUE,
   overwrite = TRUE
 )
-
 
