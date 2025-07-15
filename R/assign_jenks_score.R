@@ -147,6 +147,7 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TR
 
 
   if(report == TRUE) {
+
     cli::cli_alert_info("Generating a site report")
 
     RMD <- fs::path_package("wespr", "extdata/site_report.rmd")

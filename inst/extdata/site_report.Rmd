@@ -3,6 +3,7 @@ title: "WESP site report"
 output: word_document
 params:
   calibration_scores_eco: calibration_scores_eco
+  calibration_scores_summary: calibration_scores_summary,
   classed_df: classed_df
   output_dir: output_dir
 ---
@@ -12,38 +13,144 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library(wespr)
 library(dplyr)
 library(ggplot2)
+library(sf)
+library(stringr)
 ```
 
 
-Report generated on : `r Sys.Date()`
-
-This document provides a summary score using the Wetland Ecosystem Services Protocol (WESP) for a single site as compared to results relative to the calibration dataset of the given ecosystem. More information can about the project can be found [here](https://bcwfwatershedteam.ca/wetland-ecosystem-services-protocol/). 
-
-
-# Ecoprovince
-
 ```{r cars, echo = FALSE}
 #summary(cars)
-ecop <- unique(calibration_scores_eco$ecoprovince)
+ecop <- unique(calibration_scores_summary$ecoprovince)
 sname <- unique(classed_df$site)
 # add map to show where in the province
 
 ```
 
+**Report generated on :** `r Sys.Date()`
 
-This site (`r sname`) is located in the `r ecop` Ecoprovince. 
+**Site Name :** `r sname`
 
-### ADD A MAP HERE
+## Background
+
+This report provides a summary of ecosystem function and benefit scores for a given site of interest using the Wetland Ecosystem Services Protocol (WESP). WESP collects information about a given wetland through field and desktop questions to provide a numeric score from 1 - 10 for 33 ecosystem metrics. These are broadly grouped into 18 ecosystem functions and 15 benefits. 
+
+Due to the wide geographic diversity across BC, wetlands are grouped by Ecoprovince, with 8 provinces across BC. These include: Georgia Depression (GD), Southern Interior (SI),Central Interior (CI), Southern Interior Mountains (SIM), Sub-Boreal Interior (SBI), Boreal and Taiga Plains (BTP), Northern Boreal Mountains (NBM), and Coast and Mountains (CM)).
+
+To provide appropriate baseline ecosystem scores, 100 or more wetlands are assessed within each Ecoprovince. Scores are then categorized into Low, medium or high classes using a jenks breaks methods. This looks for natural breaks and clusters within the sample of sites. Assigning a relative L, M, H values based on the sites score relative to the ecoprovince also allows comparison across the Province. 
+
+More information can about the project can be found [here](https://bcwfwatershedteam.ca/wetland-ecosystem-services-protocol/). 
+
+
+## Site Description 
+
+This site `r sname` is located in the `r ecop` Ecoprovince. The site was assessed using the Wetland Ecosystem Services Protocol (WESP).
+
+```{r generate map, echo = FALSE}
+if (ecop == "GD"){
+  ecop = "GED"
+}
+  
+ecoi <- ecoprovince_sp |>
+  dplyr::filter(ECOPROVINCE_CODE == ecop)
+
+map1 <- ggplot() +
+  geom_sf(data = ecoprovince_sp$geometry, fill = "lightgrey") +
+  geom_sf(data = ecoi, fill = "lightblue") +
+  labs(title = paste0("Ecoprovince : ", stringr::str_to_title(unique(ecoi$ECOPROVINCE_NAME))))+
+  theme_minimal()
+
+```
+
+```{r plot map, echo = FALSE, fig.width=3.25, fig.height=3.25}
+map1
+
+```
+
+```{r, echo = FALSE}
+# generate the background information for Calibration thresholds 
+#Calculate the numbers per group or by plot 
+cal_no <- calibration_scores_eco
+
+ wcols <- names(calibration_scores_eco)
+  ## remove the site column
+  wcols <- wcols[!wcols %in% c("site", "wetland_id","ecoprovince")]
+  wcols <- unique(sub("^([^_]*_[^_]*).*", "\\1", wcols))
+
+  # loop through the data and get the min and max values of the raw scores
+
+   outsum <- purrr::map(wcols, function(x) {
+     # get the columns for each service
+    #x <- wcols[1]
+
+     tw <- calibration_scores_eco |>
+       dplyr::select(dplyr::starts_with(x)) |>
+       dplyr::select(-dplyr::ends_with("_norm"))
+     names(tw) <- c("jenks", "raw" )
+
+     tww <- tw |>
+       #dplyr::group_by(jenks) |>
+       #dplyr::summarise(n = n(),
+      #                  min = min(raw),
+      #                  max = max(raw)) |>
+      dplyr::mutate(service = x,
+              service_name = unique(sub("^([^_]*).*", "\\1", service)),
+              service_type = unique(sub("^[^_]*_", "", service)))
+     tww
+
+   }) |>  dplyr::bind_rows()
+   
+   outsum <- outsum |> 
+   dplyr::mutate(jenks = ordered(jenks, levels = c("H", "M", "L"))) |> 
+    mutate(service_full_name = case_when(
+      service_name == "AM" ~ "Amphibian Habitat",
+      service_name == "APP" ~ "Aquatic Primary Productivity",
+      service_name == "CP" ~ "Carbon Preservation",
+      service_name == "CRI" ~ "Cultural Recreational Importance",
+      service_name == "FH" ~ "Fish Habitat",
+      service_name == "FR" ~ "Fire Resistance",
+      service_name == "KMH" ~ "Keystone Mammal Habitat",
+      service_name == "NR" ~ "Nitrate Removal and Retention",
+      service_name == "OE" ~ "Organic Matter Export",
+      service_name == "PD" ~ "Native Plant Diversity",
+      service_name == "POL" ~ "Pollinator Habitat",
+      service_name == "PR" ~ "Phosphorus Retention",
+      service_name == "RSB" ~ "Raptor and Wetland Songbird Habitat",
+      service_name == "SENS" ~ "Wetland Sensitivity",
+      service_name == "SFTS" ~ "Stream Flow and Temperature Support",
+      service_name == "SR" ~ "Sediment Retention and stabilization",
+      service_name == "STR" ~ "Wetland Stressors",
+      service_name == "WB" ~ "Waterbird Habitat",
+      service_name == "WS" ~ "Water Storage and Delay"))
+
+#Calculate the numbers per group or by plot 
+cal_no <- calibration_scores_eco
+
+# grouped scores 
+outsum_f <- outsum |> 
+  dplyr::filter(service_type == "f") 
+
+# p1 <-   ggplot(outsum_f, aes(x = raw, fill =jenks )) +
+#     geom_density()+
+#   facet_wrap(~service_full_name, scales = "free") +
+#    labs(title = "Ecosystem Function Scores",
+#         x = "Calibration Class thresholds",
+#         y = "Ecosystem") +
+#    theme_minimal()
+  
 
 
 
 
-## Ecosystem Functions
 
-```{r overall plots, echo=FALSE}
+```
 
-  tt <- calibration_scores_eco |>
+## Ecosystem Function Scores
+
+```{r overall plots, echo=FALSE, fig.width=8, fig.height=7}
+
+  tt <- calibration_scores_summary |>
     group_by(.data$service) |>
+    select(-n) |> 
     tidyr::pivot_wider(names_from = jenks, values_from = c(min, max)) |>
     dplyr::mutate(H = 10.1 - min_H,
                   M = min_H - min_M,
@@ -56,58 +163,279 @@ This site (`r sname`) is located in the `r ecop` Ecoprovince.
     dplyr::select(-c(min_H, min_L, min_M, max_H, max_L, max_M)) 
   
   ttt <- ttt |> 
-    dplyr::mutate(class = ordered(catergory, levels = c("H", "M", "L")))
-    
+    dplyr::mutate(class = ordered(catergory, levels = c("H", "M", "L"))) |> 
+    mutate(service_full_name = case_when(
+      service_name == "AM" ~ "Amphibian Habitat",
+      service_name == "APP" ~ "Aquatic Primary Productivity",
+      service_name == "CP" ~ "Carbon Preservation",
+      service_name == "CRI" ~ "Cultural Recreational Importance",
+      service_name == "FH" ~ "Fish Habitat",
+      service_name == "FR" ~ "Fire Resistance",
+      service_name == "KMH" ~ "Keystone Mammal Habitat",
+      service_name == "NR" ~ "Nitrate Removal and Retention",
+      service_name == "OE" ~ "Organic Matter Export",
+      service_name == "PD" ~ "Native Plant Diversity",
+      service_name == "POL" ~ "Pollinator Habitat",
+      service_name == "PR" ~ "Phosphorus Retention",
+      service_name == "RSB" ~ "Raptor and Wetland Songbird Habitat",
+      service_name == "SENS" ~ "Wetland Sensitivity",
+      service_name == "SFTS" ~ "Stream Flow and Temperature Support",
+      service_name == "SR" ~ "Sediment Retention and stabilization",
+      service_name == "STR" ~ "Wetland Stressors",
+      service_name == "WB" ~ "Waterbird Habitat",
+      service_name == "WS" ~ "Water Storage and Delay"))
+      
   # match format for site data 
  classed_df <- classed_df |>
     dplyr::mutate(service = paste0(indicator, "_", service_type),
                   service_name = indicator,
-                  threshold = value)
+                  threshold = value)|> 
+    mutate(service_full_name = case_when(
+      service_name == "AM" ~ "Amphibian Habitat",
+      service_name == "APP" ~ "Aquatic Primary Productivity",
+      service_name == "CP" ~ "Carbon Preservation",
+      service_name == "CRI" ~ "Cultural Recreational Importance",
+      service_name == "FH" ~ "Fish Habitat",
+      service_name == "FR" ~ "Fire Resistance",
+      service_name == "KMH" ~ "Keystone Mammal Habitat",
+      service_name == "NR" ~ "Nitrate Removal and Retention",
+      service_name == "OE" ~ "Organic Matter Export",
+      service_name == "PD" ~ "Native Plant Diversity",
+      service_name == "POL" ~ "Pollinator Habitat",
+      service_name == "PR" ~ "Phosphorus Retention",
+      service_name == "RSB" ~ "Raptor and Wetland Songbird Habitat",
+      service_name == "SENS" ~ "Wetland Sensitivity",
+      service_name == "SFTS" ~ "Stream Flow and Temperature Support",
+      service_name == "SR" ~ "Sediment Retention and stabilization",
+      service_name == "STR" ~ "Wetland Stressors",
+      service_name == "WB" ~ "Waterbird Habitat",
+      service_name == "WS" ~ "Water Storage and Delay"))
                   
-                
+
+ #summary of the ranks overall 
+ all_ranks_f <- classed_df |> 
+  filter(service_type == "f") |>
+  group_by(calibration_scores_summary) |>
+  summarise(n = n())
   
  # functions 
  ft <- ttt |> 
    dplyr::filter(service_type == "f")
  
  fclass <-  classed_df|> 
-   dplyr::filter(service_type == "f")
+   dplyr::filter(service_type == "f") |> 
+   filter(!is.na(value)) |> 
+   left_join(outsum)
  
  
- fn_plot <-  ggplot(ft , aes(x = threshold,y = service_name  )) +
+ fn_plot <-  ggplot(ft , aes(x = threshold,y = service_full_name  )) +
     geom_bar(aes(fill = class), stat = "identity", position = "stack")+
     scale_fill_viridis_d()+ 
-    geom_point(data =  fclass, aes( x = threshold, y = service_name  ), colour = "darkgrey")+
-   labs(title = "Ecosystem Function Scores",
-        x = "Calibration Class thresholds",
-        y = "Ecosystem") +
+  # geom_text(data= fclass,aes(x= max,y=service_full_name,label=n), color = "darkgrey",vjust=0) +
+    geom_point(data =  fclass, aes( x = threshold, y = service_full_name  ), colour = "darkgrey")+
+   labs(x = "Ecosystem Score",
+        y = "Ecosystem Function") +
    theme_minimal()
   
- fn_plot
-
 ```
 
-# Benefits 
+This site ecosystem function scores included `r all_ranks_f |> filter(calibration_scores_summary == "H") |> pull(n)` High ranked functions, `r all_ranks_f |> filter(calibration_scores_summary == "M") |> pull(n)` Medium ranked functions and `r all_ranks_f |> filter(calibration_scores_summary == "L") |> pull(n)` Low ranked functions. 
+
+```{r, echo = FALSE, fig.width=8, fig.height=6}
+ fn_plot
+```
+
+
+## High Ranked Functions
 
 ```{r, echo = FALSE}
- # Benefit
- bt <- ttt |> 
-   dplyr::filter(service_type == "b")
- 
- bclass <-  classed_df|> 
-   dplyr::filter(service_type == "b")
- 
- 
-bn_plot <-  ggplot(bt , aes(x = threshold,y = service_name  )) +
-    geom_bar(aes(fill = class), stat = "identity", position = "stack")+
-    scale_fill_viridis_d()+ 
-    geom_point(data =  bclass, aes( x = threshold, y = service_name  ), colour = "darkgrey")+
-   labs(title = "Ecosystem Benefit Scores",
-        x = "Calibration Class thresholds",
-        y = "Ecosystem") +
-   theme_minimal()
-
-bn_plot 
+fclass <-  classed_df|> 
+   dplyr::filter(service_type == "f") |> 
+   filter(!is.na(value)) |> 
+   select(service_full_name, calibration_scores_summary)
 
 ```
 
+Ecosystems for the high ranked functions include: `r fclass |> filter(calibration_scores_summary == "H") |> pull(service_full_name) |> paste(collapse = ", ")` are predominately driven by the following questions. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Ecosystem Benefit Scores 
+
+```{r, echo = FALSE, fig.width=8, fig.height=6}
+ # Benefit
+ bt <- ttt |> 
+   dplyr::filter(service_type == "b") 
+ 
+ bclass <-  classed_df|> 
+   dplyr::filter(service_type == "b")|> 
+   filter(!is.na(value))
+ 
+ 
+bn_plot <-  ggplot(bt , aes(x = threshold,y = service_full_name  )) +
+    geom_bar(aes(fill = class), stat = "identity", position = "stack")+
+    scale_fill_viridis_d()+ 
+   #  geom_text(data= dfTab,aes(x=x,y=Freq,label=lab),vjust=0) +
+    geom_point(data =  bclass, aes( x = threshold, y = service_full_name  ), colour = "darkgrey")+
+   labs(
+        x = "Ecosystem Score",
+        y = "Ecosystem Benefit") +
+   theme_minimal()
+
+ #summary of the ranks overall 
+ all_ranks_b <- bclass |> 
+  group_by(calibration_scores_summary) |>
+  summarise(n = n())
+   
+```
+
+This site ecosystem benefit scores included `r all_ranks_f |> filter(calibration_scores_summary == "H") |> pull(n)` High ranked benefits, `r all_ranks_f |> filter(calibration_scores_summary == "M") |> pull(n)` Medium ranked benefits and `r all_ranks_f |> filter(calibration_scores_summary == "L") |> pull(n)` Low ranked benefits 
+
+```{r echo = FALSE, fig.width=8, fig.height=6}
+ bn_plot 
+```
+
+
+
+## Still to add
+
+
+### Which questions are driving the scores? 
+
+### review all indicators? or review which ones are producing high results? 
+
+
+### Individual sensitivity analysis? I think this will take too long? 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Ecoprovince Calibration Scores 
+
+```{r, echo = FALSE}
+# generate the background information for Calibration thresholds 
+#Calculate the numbers per group or by plot 
+cal_no <- calibration_scores_eco
+
+ wcols <- names(calibration_scores_eco)
+  ## remove the site column
+  wcols <- wcols[!wcols %in% c("site", "wetland_id","ecoprovince")]
+  wcols <- unique(sub("^([^_]*_[^_]*).*", "\\1", wcols))
+
+  # loop through the data and get the min and max values of the raw scores
+
+   outsum <- purrr::map(wcols, function(x) {
+     # get the columns for each service
+    #x <- wcols[1]
+
+     tw <- calibration_scores_eco |>
+       dplyr::select(dplyr::starts_with(x)) |>
+       dplyr::select(-dplyr::ends_with("_norm"))
+     names(tw) <- c("jenks", "raw" )
+
+     tww <- tw |>
+       #dplyr::group_by(jenks) |>
+       #dplyr::summarise(n = n(),
+      #                  min = min(raw),
+      #                  max = max(raw)) |>
+      dplyr::mutate(service = x,
+              service_name = unique(sub("^([^_]*).*", "\\1", service)),
+              service_type = unique(sub("^[^_]*_", "", service)))
+     tww
+
+   }) |>  dplyr::bind_rows()
+   
+   
+   outsum <- outsum |> 
+   dplyr::mutate(jenks = ordered(jenks, levels = c("H", "M", "L"))) |> 
+    mutate(service_full_name = case_when(
+      service_name == "AM" ~ "Amphibian Habitat",
+      service_name == "APP" ~ "Aquatic Primary Productivity",
+      service_name == "CP" ~ "Carbon Preservation",
+      service_name == "CRI" ~ "Cultural Recreational Importance",
+      service_name == "FH" ~ "Fish Habitat",
+      service_name == "FR" ~ "Fire Resistance",
+      service_name == "KMH" ~ "Keystone Mammal Habitat",
+      service_name == "NR" ~ "Nitrate Removal and Retention",
+      service_name == "OE" ~ "Organic Matter Export",
+      service_name == "PD" ~ "Native Plant Diversity",
+      service_name == "POL" ~ "Pollinator Habitat",
+      service_name == "PR" ~ "Phosphorus Retention",
+      service_name == "RSB" ~ "Raptor and Wetland Songbird Habitat",
+      service_name == "SENS" ~ "Wetland Sensitivity",
+      service_name == "SFTS" ~ "Stream Flow and Temperature Support",
+      service_name == "SR" ~ "Sediment Retention and stabilization",
+      service_name == "STR" ~ "Wetland Stressors",
+      service_name == "WB" ~ "Waterbird Habitat",
+      service_name == "WS" ~ "Water Storage and Delay"))
+
+#Calculate the numbers per group or by plot 
+cal_no <- calibration_scores_eco
+
+# grouped scores 
+outsum_f <- outsum |> 
+  dplyr::filter(service_type == "f") 
+
+outsum_b <- outsum |> 
+  dplyr::filter(service_type == "b") 
+
+```
+
+The `r ecop` Ecoprovince has been calibrated using `r length(cal_no)` sites. For each ecosystem function or benefit, the raw scores are normalized and then assessed for natural breaks, using the jenks method. The following plots show the distribution of raw scores fro the calibration sites and how the classification to low, medium or high are defined. 
+
+
+## Functions 
+
+```{r, add calibration map, echo = FALSE, fig.width=12, fig.height=10}
+ggplot(outsum_f, aes(x = raw , fill = jenks)) +
+   geom_histogram( alpha=0.6, position = 'identity')+
+    scale_fill_viridis_d()+ 
+    geom_density(data=outsum_f, aes(x=raw, group=jenks, fill=jenks), adjust=1.5, alpha=.4) +
+    facet_wrap(~service_full_name, scales = "free_y") +
+   labs(title = "Calibration Sites threshold values for Ecosystem Functions",
+        x = "Function Score",
+        y = "Number of sites") +
+  guides(col= guide_legend(title= "Class"))+
+  theme_minimal()
+```
+
+## Benefits
+
+```{r, add calibration benefit map, echo = FALSE, fig.width=12, fig.height=10}
+ggplot(outsum_b, aes(x = raw , fill = jenks)) +
+   geom_histogram( alpha=0.6, position = 'identity')+
+    scale_fill_viridis_d()+ 
+    geom_density(data=outsum_f, aes(x=raw, group=jenks, fill=jenks), adjust=1.5, alpha=.4) +
+    facet_wrap(~service_full_name, scales = "free_y") +
+   labs(title = "Calibration Sites threshold values for Ecosystem Benefits",
+        x = "Benefit Score",
+        y = "Number of sites") +
+  guides(col= guide_legend(title= "Class"))+
+   theme_minimal()
+```
