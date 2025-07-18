@@ -216,7 +216,7 @@ If the ecoprovince does not yet have calibration data loaded, users should selec
 
 ```{r eval = FALSE}
 
-out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD", report = FALSE, output_dir = NA)
+out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD", report = FALSE, output_dir = "temp")
 
 ```
 
