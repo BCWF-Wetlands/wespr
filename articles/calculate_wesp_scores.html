@@ -255,7 +255,7 @@ package), and 3) the Ecoprovince to be assessed.</p>
 should select the next best ecoprovince available.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/assign_jenks_score.html">assign_jenks_score</a></span><span class="op">(</span><span class="va">ind_scores</span>, <span class="va">calibration_scores</span>, EcoP <span class="op">=</span> <span class="st">"GD"</span>, report <span class="op">=</span> <span class="cn">FALSE</span>, output_dir <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/assign_jenks_score.html">assign_jenks_score</a></span><span class="op">(</span><span class="va">ind_scores</span>, <span class="va">calibration_scores</span>, EcoP <span class="op">=</span> <span class="st">"GD"</span>, report <span class="op">=</span> <span class="cn">FALSE</span>, output_dir <span class="op">=</span> <span class="st">"temp"</span><span class="op">)</span></span></code></pre></div>
 <p>The output scores will include a column with a calibration_score
 (L,M,H,NA)</p>
 <pre><code>site   indicator value service_type calibrated_score
