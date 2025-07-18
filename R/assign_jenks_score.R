@@ -17,15 +17,13 @@
 #' ind_scores <- get_indicator_scores(site)
 #' out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD")
 #' }
-
 assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TRUE, output_dir) {
-
   # testing lines
   ind_scores
   calibration_scores
   EcoP <- "GD"
-  report = TRUE
-  output_dir = fs::path("temp")
+  report <- TRUE
+  output_dir <- fs::path("temp")
   # end testing lines
 
   # check calibration data contains ecoprovince
@@ -56,40 +54,43 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TR
 
   wcols <- names(calibration_scores_eco)
   ## remove the site column
-  wcols <- wcols[!wcols %in% c("site", "wetland_id","ecoprovince")]
+  wcols <- wcols[!wcols %in% c("site", "wetland_id", "ecoprovince")]
   wcols <- unique(sub("^([^_]*_[^_]*).*", "\\1", wcols))
 
   # loop through the data and get the min and max values of the raw scores
 
-   outsum <- purrr::map(wcols, function(x) {
-     # get the columns for each service
-     #x <- wcols[1]
+  outsum <- purrr::map(wcols, function(x) {
+    # get the columns for each service
+    # x <- wcols[1]
 
-     tw <- calibration_scores_eco |>
-       dplyr::select(dplyr::starts_with(x)) |>
-       dplyr::select(-dplyr::ends_with("_norm"))
-     names(tw) <- c("jenks", "raw" )
+    tw <- calibration_scores_eco |>
+      dplyr::select(dplyr::starts_with(x)) |>
+      dplyr::select(-dplyr::ends_with("_norm"))
+    names(tw) <- c("jenks", "raw")
 
-     tww <- tw |>
-       dplyr::group_by(jenks) |>
-       dplyr::summarise(n = dplyr::n(),
-                        min = min(raw),
-                        max = max(raw)) |>
-      dplyr::mutate(service = x,
-              service_name = unique(sub("^([^_]*).*", "\\1", service)),
-              service_type = unique(sub("^[^_]*_", "", service)))
-     tww
-
-   }) |>  dplyr::bind_rows()
+    tww <- tw |>
+      dplyr::group_by(jenks) |>
+      dplyr::summarise(
+        n = dplyr::n(),
+        min = min(raw),
+        max = max(raw)
+      ) |>
+      dplyr::mutate(
+        service = x,
+        service_name = unique(sub("^([^_]*).*", "\\1", service)),
+        service_type = unique(sub("^[^_]*_", "", service))
+      )
+    tww
+  }) |> dplyr::bind_rows()
 
   # add the Eco province name
   calibration_scores_summary <- outsum |>
-    dplyr::mutate(ecoprovince =  EcoP ) |>
+    dplyr::mutate(ecoprovince = EcoP) |>
     dplyr::select(ecoprovince, service, everything())
 
 
   # write out (temp fix while testing)
-  #write.csv(calibration_scores_new, "temp/sim_jenks_breaks.csv", row.names = FALSE)
+  # write.csv(calibration_scores_new, "temp/sim_jenks_breaks.csv", row.names = FALSE)
 
 
 
@@ -98,11 +99,11 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TR
 
   classed_df <- lapply(1:nrow(ind), function(i) {
     # print(i)
-     #i <- 20
+    # i <- 20
     trow <- ind[i, ]
 
     # filter for the service and f/b
-    calr <- calibration_scores_summary  |>
+    calr <- calibration_scores_summary |>
       dplyr::filter(.data$service_name == trow$indicator) |>
       dplyr::filter(.data$service_type == trow$service_type)
 
@@ -140,34 +141,29 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TR
       }
     }
 
-    trow |> dplyr::mutate(calibration_scores_summary  = cal_val)
-
+    trow |> dplyr::mutate(calibration_scores_summary = cal_val)
   }) |> dplyr::bind_rows()
 
 
+  topqs <- readRDS(file.path("temp/sensitivity_raw/sensitivity_top_questions.rds"))
 
-  if(report == TRUE) {
 
+
+  if (report == TRUE) {
     cli::cli_alert_info("Generating a site report")
 
     RMD <- fs::path_package("wespr", "extdata/site_report.rmd")
 
     rmarkdown::render(RMD,
-                      params = list(calibration_scores_eco = calibration_scores_eco,
-                                    calibration_scores_summary = calibration_scores_summary,
-                                   # outsum = outsum,
-                                    classed_df = classed_df),
-                      #final_model = final_model,
-                                    #out_bgc_dir = out_bgc_dir,
-                                    #extra_pts = extra_pts),
-                      output_dir = output_dir)                ## where to save the report
-
-
-
+      params = list(
+        calibration_scores_eco = calibration_scores_eco,
+        calibration_scores_summary = calibration_scores_summary,
+        classed_df = classed_df,
+        topqs = topqs
+      ),
+      output_dir = output_dir
+    )
   }
-
-
-
 
   return(classed_df)
 }
