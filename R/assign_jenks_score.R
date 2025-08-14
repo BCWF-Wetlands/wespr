@@ -148,7 +148,6 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TR
   topqs <- readRDS(file.path("temp/sensitivity_raw/sensitivity_top_questions.rds"))
 
 
-
   if (report == TRUE) {
     cli::cli_alert_info("Generating a site report")
 
