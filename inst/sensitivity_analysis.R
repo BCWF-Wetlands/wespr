@@ -507,12 +507,6 @@ fls <- list.files ("temp/sensitivity_raw/", pattern = "*scores.csv")
 sort(fls)
 #fls <- fls[1:5]
 
-#done <- gsub("sensitivity_", "",fls)
-#done <- gsub("_scores.csv", "", done)
-#done
-#sort(done)
-
-#fls#donefls
 
 out <- purrr::map(fls, function(x) {
   # x <- fls[63]
@@ -535,6 +529,8 @@ out <- purrr::map(fls, function(x) {
 #write out as rda
 
 head(out)
+save
+
 
 #calculate the average score for all 200 sites
 
@@ -591,6 +587,8 @@ names(topqs)<- eco_type
 saveRDS(topqs, "temp/sensitivity_raw/sensitivity_top_questions.rds")
 
 
+
+
 #
 # # Check your data it must have at least 3 rows and 3 columns
 #
@@ -607,6 +605,194 @@ saveRDS(topqs, "temp/sensitivity_raw/sensitivity_top_questions.rds")
 # )
 #
 #
+
+
+topqs <- readRDS(file.path("temp/sensitivity_raw/sensitivity_top_questions.rds"))
+
+
+## run through the single file
+wesp <- system.file("input_data/reference_singlesite.csv", package = "wespr")
+wesp_data <- load_wesp_data(wesp)
+site <- as.wesp_site(wesp_data)
+site$site_name <- wesp_data$site_1[wesp_data$q_no == "Wetland"]
+site <- calc_indicators(site)
+ind_scores <- get_indicator_scores(site)
+EcoP = "GD"
+# assign jenks breaks
+ind <- ind_scores |>
+  dplyr::select(.data$site, .data$indicator, .data$fun) |>
+  dplyr::mutate(service_type = "f") |>
+  dplyr::rename("value" = .data$fun)
+
+indb <- ind_scores |>
+  dplyr::select(.data$site, .data$indicator, .data$ben) |>
+  dplyr::mutate(service_type = "b") |>
+  dplyr::rename("value" = .data$ben)
+
+ind <- rbind(ind, indb)
+
+calibration_scores_eco <- calibration_scores |>
+  dplyr::filter(.data$ecoprovince == EcoP)
+
+wcols <- names(calibration_scores_eco)
+wcols <- wcols[!wcols %in% c("site", "wetland_id", "ecoprovince")]
+wcols <- unique(sub("^([^_]*_[^_]*).*", "\\1", wcols))
+
+outsum <- purrr::map(wcols, function(x) {
+  tw <- calibration_scores_eco |>
+    dplyr::select(dplyr::starts_with(x)) |>
+    dplyr::select(-dplyr::ends_with("_norm"))
+  names(tw) <- c("jenks", "raw")
+
+  tww <- tw |>
+    dplyr::group_by(jenks) |>
+    dplyr::summarise(
+      n = dplyr::n(),
+      min = min(raw),
+      max = max(raw)
+    ) |>
+    dplyr::mutate(
+      service = x,
+      service_name = unique(sub("^([^_]*).*", "\\1", service)),
+      service_type = unique(sub("^[^_]*_", "", service))
+    )
+  tww
+}) |> dplyr::bind_rows()
+
+calibration_scores_summary <- outsum |>
+  dplyr::mutate(ecoprovince = EcoP) |>
+  dplyr::select(ecoprovince, service, everything())
+
+classed_df <- lapply(1:nrow(ind), function(i) {
+  trow <- ind[i, ]
+  calr <- calibration_scores_summary |>
+    dplyr::filter(.data$service_name == trow$indicator) |>
+    dplyr::filter(.data$service_type == trow$service_type)
+
+  my_min <- trow$value
+  my_max <- trow$value
+
+  if (is.na(my_min)) {
+    cal_val <- NA
+  } else {
+    my_df_filtered <- calr |>
+      dplyr::rowwise() |>
+      dplyr::filter(my_min >= .data$min & my_max <= .data$max)
+
+    if (nrow(my_df_filtered) == 0) {
+      calr_h <- calr |>
+        dplyr::filter(.data$jenks == "H") |>
+        dplyr::select(.data$max) |>
+        dplyr::pull()
+
+      if (my_max > calr_h) {
+        cal_val <- "H"
+      } else {
+        calr_l <- calr |>
+          dplyr::filter(.data$jenks == "L")
+
+        cal_val <- "L"
+      }
+
+      cli::cli_alert_warning("Value {round(trow$value,2)} for {trow$indicator} ({trow$service_type}) is outside the calibration range, assign to closest match")
+    } else {
+      cal_val <- my_df_filtered$jenks
+    }
+  }
+
+  trow |> dplyr::mutate(calibration_scores_summary = cal_val)
+}) |> dplyr::bind_rows()
+
+classed_df <- classed_df |>
+  dplyr::mutate(
+    service = paste0(indicator, "_", service_type),
+    service_name = indicator,
+    threshold = value
+  ) |>
+  mutate(service_full_name = case_when(
+    service_name == "AM" ~ "Amphibian Habitat",
+    service_name == "APP" ~ "Aquatic Primary Productivity",
+    service_name == "CP" ~ "Carbon Preservation",
+    service_name == "CRI" ~ "Cultural Recreational Importance",
+    service_name == "FH" ~ "Fish Habitat",
+    service_name == "FR" ~ "Fire Resistance",
+    service_name == "KMH" ~ "Keystone Mammal Habitat",
+    service_name == "NR" ~ "Nitrate Removal and Retention",
+    service_name == "OE" ~ "Organic Matter Export",
+    service_name == "PD" ~ "Native Plant Diversity",
+    service_name == "POL" ~ "Pollinator Habitat",
+    service_name == "PR" ~ "Phosphorus Retention",
+    service_name == "RSB" ~ "Raptor and Wetland Songbird Habitat",
+    service_name == "SENS" ~ "Wetland Sensitivity",
+    service_name == "SFTS" ~ "Stream Flow and Temperature Support",
+    service_name == "SR" ~ "Sediment Retention and stabilization",
+    service_name == "STR" ~ "Wetland Stressors",
+    service_name == "WB" ~ "Waterbird Habitat",
+    service_name == "WS" ~ "Water Storage and Delay"
+  ))
+
+
+# summary of the ranks overall
+all_ranks_f <- classed_df |>
+  filter(service_type == "f") |>
+  group_by(calibration_scores_summary) |>
+  summarise(n = n())
+
+fclass <- classed_df |>
+  dplyr::filter(service_type == "f") |>
+  filter(!is.na(value)) |>
+  left_join(outsum)
+
+
+fclass <-  classed_df|>
+  dplyr::filter(service_type == "f") |>
+  filter(!is.na(value)) |>
+  select(service_full_name, calibration_scores_summary,service_name )
+
+fclass_high <- fclass |>
+  filter(calibration_scores_summary == "H") |>
+  select(service_name) |>
+  mutate(service_name = paste0(service_name, "_f_raw")) |>
+  pull()
+
+
+library(fmsb)
+
+keep_by_name <- function(l, keep_names) l[keep_names]
+
+ttqs <- topqs %>% keep_by_name(fclass_high)
+
+for(i in names(ttqs)){
+
+  i <- names(ttqs[1])
+
+  print(i)
+
+  xxx <- ttqs[grep(names(ttqs))]
+
+  radarchart(xxx , axistype=1,
+             #custom polygon
+             pcol=rgb(0.2,0.5,0.5,0.9) , pfcol=rgb(0.2,0.5,0.5,0.5) , plwd=4 ,
+
+             #custom the grid
+             cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(-6,6,3), cglwd=0.7,
+
+             #custom labels
+             vlcex=0.7
+  )
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
