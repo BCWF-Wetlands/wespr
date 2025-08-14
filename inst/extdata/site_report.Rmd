@@ -266,6 +266,7 @@ fclass <-  classed_df|>
 
 Ecosystems for the high ranked functions include: `r fclass |> filter(calibration_scores_summary == "H") |> pull(service_full_name) |> paste(collapse = ", ")` are predominately driven by the following questions. 
 
+The figures below show the questions which are most important for the high ranked scores. There is a radar plot for each of the top 
 
 
 ```{r, echo = FALSE}
@@ -294,7 +295,7 @@ for(i in names(ttqs)){
   xxx <- ttqs |> keep_by_name(i) 
   names(xxx) = ""
   tx <- as.data.frame(xxx, row.names = NULL)
-    print(tx)
+  print(tx[3,1])
   
   radarchart(tx, axistype=1,
   #custom polygon
