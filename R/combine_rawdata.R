@@ -31,9 +31,18 @@ combine_rawdata <- function(field_data,
 # check if the output directory exists and if not create it.
 
 ## testing rows
-   # field_data <- system.file("extdata/field_survey123_edited_04.14.2025.xls", package = "wespr")
-   # office_data <- system.file("extdata/scripted_office.xlsx", package = "wespr")
-   # EcoP = "GD"
+   #  field_data <- system.file("extdata/field_survey123_edited_04.14.2025.xls", package = "wespr")
+   #  office_data <- system.file("extdata/scripted_office.xlsx", package = "wespr")
+   #
+   #
+  #  field_data <- "C:/Users/genev/Downloads/wetland-ecosystem-services-protocol-r/wetland-ecosystem-services-protocol-r/data/input/2019-8473-01_field_assessment_formatted_data.xls"
+   # office_data <- "C:/Users/genev/Downloads/wetland-ecosystem-services-protocol-r/wetland-ecosystem-services-protocol-r/data/input/2019-8473-01_desktop_analysis_scripted_data.xlsx"
+   #  EcoP = "GD"
+   #  write_subfiles = TRUE
+   #  out_dir = "C:/Users/genev/Downloads/wetland-ecosystem-services-protocol-r/wetland-ecosystem-services-protocol-r/data/prepared"
+   #  overwrite = TRUE
+
+    # EcoP = "GD"
    # write_subfiles = FALSE
    # out_dir <- "inst/input_data/processed"
    # overwrite = TRUE
@@ -41,6 +50,17 @@ combine_rawdata <- function(field_data,
   if (!exists(out_dir)) {
     dir.create(out_dir, showWarnings = FALSE)
     cli::cli_alert_success("Output directory created")
+  }
+
+
+  # check format for field and data files
+  otype = readxl::excel_format(office_data)
+  if(otype != "xlsx"){
+    cli::cli_abort("office data is required to be in .xlsx format, please check input")
+  }
+  ftype = readxl::excel_format(field_data)
+  if(ftype != "xls"){
+    cli::cli_abort("field data is required to be in .xls format, please check input")
   }
 
 
@@ -180,7 +200,15 @@ combine_rawdata <- function(field_data,
 
   wesp <- stats::setNames(as.data.frame(t(wesp.1)), row.names(wesp.1))
   colOrder <- stringr::str_sort(rownames(wesp), numeric = TRUE)
+
   wesp <- wesp[match(colOrder, rownames(wesp)), ]
+
+  # where there is only one column this causes issues as convert to vector
+  if (is.vector(wesp)){
+  wesp <- as.data.frame(wesp, row.names = colOrder)
+  colnames(wesp)<- '1'
+  }
+
   wesp <- tibble::rownames_to_column(wesp, var = "Question")
 
   # convert NAs to 0
