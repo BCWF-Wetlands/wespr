@@ -23,7 +23,8 @@ library(wespr)
 
 The first step in calculating wespr scores is to standardise and quality check the input data. 
 
-As of March 2025, data collection is comprised of there parts: 
+As of March 2025, data collection is comprised of there parts:
+
 - field data - collected using survey123 form
 - office questions - collected using a survey123 form
 - office questions - scripted using the [WESP_OF](https://github.com/BCWF-Wetlands/WESP_OF) github repo. 
