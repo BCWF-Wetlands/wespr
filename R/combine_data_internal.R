@@ -87,7 +87,7 @@ processing_fielddata <- function(indata = indata) {
 
   # Combine generated form sub-variables with original data.frame
   fdata2 <- dplyr::bind_cols(fdata, dplyr::bind_cols(df3)) |>
-    dplyr::mutate(dplyr::across(c(.data$F22_0, .data$F23_0, .data$F42_0, .data$F49_0), ~ str_replace(., "N/A", "0")))
+    dplyr::mutate(dplyr::across(c(.data$F22_0, .data$F23_0, .data$F42_0, .data$F49_0), ~ stringr::str_replace(., "N/A", "0")))
 
   #rename columns in F3 to match survey123
 
@@ -131,7 +131,7 @@ processing_fielddata <- function(indata = indata) {
   df4 <- lapply(1:length(ParseVars), function(x) {
     df1 <- fdata2 %>%
       dplyr::rowwise() %>%
-      dplyr::mutate(VpartsN = parse_number(!!rlang::sym(ParseVars[x]))) %>%
+      dplyr::mutate(VpartsN = readr::parse_number(!!rlang::sym(ParseVars[x]))) %>%
       dplyr::select(ParseVars[x], VpartsN)
     SplitFn1(x, df1)
   })
@@ -259,7 +259,7 @@ processing_stressordata <- function(indata = indata) {
     df1 <- WFormS %>%
       dplyr::rowwise() %>%
       dplyr::mutate(Vparts = (strsplit(!!rlang::sym(ParseVars[x]), ","))) %>%
-      dplyr::mutate(VpartsN = list(parse_number(Vparts))) %>%
+      dplyr::mutate(VpartsN = list(readr::parse_number(Vparts))) %>%
       dplyr::select((ParseVars[x]), Vparts, VpartsN)
     SplitFn2(x, df1)
   })
@@ -277,7 +277,7 @@ processing_stressordata <- function(indata = indata) {
   )
 
   WFormS3 <- WFormS2 |>
-    dplyr::mutate(dplyr::across(dplyr::all_of(ParseVars), parse_number)) |>
+    dplyr::mutate(dplyr::across(dplyr::all_of(ParseVars), readr::parse_number)) |>
     dplyr::mutate(dplyr::across(dplyr::everything(), as.character))
 
 
