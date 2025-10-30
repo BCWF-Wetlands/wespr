@@ -145,7 +145,7 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TR
   }) |> dplyr::bind_rows()
 
 
-  topqs <- readRDS(file.path("temp/sensitivity_raw/sensitivity_top_questions.rds"))
+  #topqs <- readRDS(file.path("temp/sensitivity_raw/sensitivity_top_questions.rds"))
 
 
   if (report == TRUE) {
@@ -157,8 +157,8 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TR
       params = list(
         calibration_scores_eco = calibration_scores_eco,
         calibration_scores_summary = calibration_scores_summary,
-        classed_df = classed_df,
-        topqs = topqs
+        classed_df = classed_df#,
+       # topqs = topqs
       ),
       output_dir = output_dir
     )

@@ -5,7 +5,7 @@ params:
   calibration_scores_eco: calibration_scores_eco
   calibration_scores_summary: calibration_scores_summary,
   classed_df: classed_df
-  topqs: topqs 
+  #topqs: topqs 
   output_dir: output_dir
 ---
 
@@ -266,10 +266,14 @@ fclass <-  classed_df|>
 
 Ecosystems for the high ranked functions include: `r fclass |> filter(calibration_scores_summary == "H") |> pull(service_full_name) |> paste(collapse = ", ")` are predominately driven by the following questions. 
 
-The figures below show the questions which are most important for the high ranked scores. There is a radar plot for each of the top 
+```{r eval = FALSE}
+#The figures below show the questions which are most important for the high #ranked scores. There is a radar plot for each of the top 
+
+```
 
 
-```{r, echo = FALSE}
+
+```{r, eval = FALSE, echo = FALSE}
 fclass_high <- fclass |> 
   filter(calibration_scores_summary == "H") |> 
   select(service_name) |> 
@@ -370,7 +374,7 @@ Ecosystems for the high ranked benefits include: `r bclass |> filter(calibration
 
 
 
-```{r, echo = FALSE}
+```{r, eval = FALSE, echo = FALSE}
 bclass_high <- bclass |> 
   filter(calibration_scores_summary == "H") |> 
   select(service_name) |> 
