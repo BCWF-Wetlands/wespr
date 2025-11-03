@@ -93,7 +93,7 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = NA
   # add the Eco province name
   calibration_scores_summary <- outsum |>
     dplyr::mutate(ecoprovince = EcoP) |>
-    dplyr::select(.data$ecoprovince, .data$service, .data$everything())
+    dplyr::select(.data$ecoprovince, .data$service, everything())
 
 
   # write out (temp fix while testing)
