@@ -39,10 +39,10 @@ calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "w
                   names_to = "site_no",
                   values_to = "wetland_id"
     ) |>
-    dplyr::select(-response_no) |>
-    dplyr::filter(site_no != "q_no") |>
-    dplyr::mutate(site = as.numeric(gsub("site_", "", site_no))) |>
-    dplyr::select(-site_no)
+    dplyr::select(-.data$response_no) |>
+    dplyr::filter(.data$site_no != "q_no") |>
+    dplyr::mutate(site = as.numeric(gsub("site_", "", .data$site_no))) |>
+    dplyr::select(-.data$site_no)
 
 
   # check out dir exists and if not create it

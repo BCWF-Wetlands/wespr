@@ -3,7 +3,7 @@
 #' @param ind_scores A data.frame of indicator scores. The output of get_indicator_scores().
 #' @param calibration_scores an internal dataset containing the calibration data for all sites. This can be updated by admin.
 #' @param EcoP A character string specifying the region. Default = 'GD'
-#' @param report A logical indicating whether to generate a report. Default = TRUE.
+#' @param report A logical indicating whether to generate a report. Default = NA will not produce a report.
 #' @param output_dir A character string specifying the directory to save the report. Default = NULL.
 #'
 #' @returns A data.frame with indicator scores and jenks classification score (Low, Medium, High (L, M, H)).
@@ -17,13 +17,13 @@
 #' ind_scores <- get_indicator_scores(site)
 #' out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD")
 #' }
-assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TRUE, output_dir) {
+assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = NA, output_dir = NULL) {
   # testing lines
-  ind_scores
-  calibration_scores
-  EcoP <- "GD"
-  report <- TRUE
-  output_dir <- fs::path("temp")
+  #ind_scores
+  #calibration_scores
+  #EcoP <- "GD"
+  #report = TRUE
+  #output_dir <- fs::path("temp")
   # end testing lines
 
   # check calibration data contains ecoprovince
@@ -31,6 +31,13 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TR
     cli::cli_abort("No calibration data is currently stored for the selected Eco Province.
                    Please check your ecoprovince name or select from the following:
                    {unique(calibration_scores$ecoprovince)}")
+  }
+
+
+  # if report option selected, check there is an output dir
+  if (!is.na(report) & is.null(output_dir)){
+    cli::cli_abort("Report is requested but no {output_dir} parameter is specified.
+                   Please add the filepath location where you want the report to be saved")
   }
 
   # format ind_scores to long format
@@ -69,7 +76,7 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TR
     names(tw) <- c("jenks", "raw")
 
     tww <- tw |>
-      dplyr::group_by(jenks) |>
+      dplyr::group_by(.data$jenks) |>
       dplyr::summarise(
         n = dplyr::n(),
         min = min(raw),
@@ -77,8 +84,8 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TR
       ) |>
       dplyr::mutate(
         service = x,
-        service_name = unique(sub("^([^_]*).*", "\\1", service)),
-        service_type = unique(sub("^[^_]*_", "", service))
+        service_name = unique(sub("^([^_]*).*", "\\1", .data$service)),
+        service_type = unique(sub("^[^_]*_", "", .data$service))
       )
     tww
   }) |> dplyr::bind_rows()
@@ -86,7 +93,7 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TR
   # add the Eco province name
   calibration_scores_summary <- outsum |>
     dplyr::mutate(ecoprovince = EcoP) |>
-    dplyr::select(ecoprovince, service, everything())
+    dplyr::select(.data$ecoprovince, .data$service, .data$everything())
 
 
   # write out (temp fix while testing)
@@ -148,7 +155,7 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = TR
   #topqs <- readRDS(file.path("temp/sensitivity_raw/sensitivity_top_questions.rds"))
 
 
-  if (report == TRUE) {
+  if (!is.na(report)) {
     cli::cli_alert_info("Generating a site report")
 
     RMD <- fs::path_package("wespr", "extdata/site_report.rmd")

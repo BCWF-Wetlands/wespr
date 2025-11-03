@@ -8,8 +8,8 @@ assign_jenks_score(
   ind_scores,
   calibration_scores,
   EcoP,
-  report = TRUE,
-  output_dir
+  report = NA,
+  output_dir = NULL
 )
 }
 \arguments{
@@ -19,7 +19,7 @@ assign_jenks_score(
 
 \item{EcoP}{A character string specifying the region. Default = 'GD'}
 
-\item{report}{A logical indicating whether to generate a report. Default = TRUE.}
+\item{report}{A logical indicating whether to generate a report. Default = NA will not produce a report.}
 
 \item{output_dir}{A character string specifying the directory to save the report. Default = NULL.}
 }
