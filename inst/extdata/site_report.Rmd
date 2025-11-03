@@ -63,7 +63,7 @@ map1 <- ggplot() +
 
 ```
 
-```{r plot map, echo = FALSE, fig.width=3.5, fig.height=3.25, fig.align = 'center'}
+```{r plot map, echo = FALSE, fig.width=3.5, fig.height=3.25}
 map1
 
 ```
@@ -267,7 +267,7 @@ fclass <-  classed_df|>
 
 Ecosystems for the high ranked functions include: `r fclass |> filter(calibration_scores_summary == "H") |> pull(service_full_name) |> paste(collapse = ", ")`. 
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, echo = FALSE}
 #The figures below show the questions which are most important for the high #ranked scores. There is a radar plot for each of the top 
 
 ```
@@ -417,7 +417,7 @@ for(i in names(ttqs)){
 
 ```
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, echo = FALSE}
 
 # Still to add
 
