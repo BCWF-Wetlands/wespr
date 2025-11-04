@@ -501,6 +501,7 @@ out <- purrr::map(response, function(x){
 # sumarise all the scores
 #########################################################################
 library(tidyverse)
+
 # read in files and gnerate plots
 
 fls <- list.files ("temp/sensitivity_raw/", pattern = "*scores.csv")
@@ -529,7 +530,6 @@ out <- purrr::map(fls, function(x) {
 #write out as rda
 
 head(out)
-save
 
 
 #calculate the average score for all 200 sites
@@ -1016,6 +1016,9 @@ write_csv(out1, fs::path("temp", "sensitivity_all_summary.csv"))
 
 
 
+
+
+
 #################################################################
 
 ## Grahics with full distribution
@@ -1033,7 +1036,9 @@ library(viridis)
 # prepare a summary plot
 
 #out1 <- read_csv( fs::path("temp", "sensitivity_all_summary.csv"))
-out1  <- read.csv(fs::path("temp", "initial_sensitivity_testing", "sensitivity_all_summary.csv"))
+#out1  <- read.csv(fs::path("temp", "initial_sensitivity_testing", "sensitivity_all_summary.csv"))
+out1 <- readRDS(fs::path("temp", "sensitivity_raw","all_summaries_compiled.rds"))
+
 
 ecotype <- unique(out1$question)
 
@@ -1050,7 +1055,88 @@ purrr::map(ecotype, function(x){
 
   xx <- out1 |>
     filter(question == x)|>
-    filter(value_delta!=0) |>
+    select(site, question, value, type, question_no)
+
+  xxx <- xx |>
+    group_by(site) |>
+    mutate(median_val = round(median(xx$value),2)) |>
+    ungroup()
+
+    filter(site == 1)
+
+  xxx <- xx |>
+    mutate(median_val = round(median(xx$value),2))
+
+  xxx <- xxx |>
+    mutate(delta = round(value,2) - median_val)
+
+
+
+  xx_to_keep <- xxx |>
+    filter(delta != 0) |>
+    select(question_no) |>
+    distinct() |>
+    pull()
+
+
+  xxx <- xxx |>
+    filter(question_no %in% xx_to_keep)
+
+
+
+
+
+  p1 <- ggplot(xxx , aes(delta, question_no)) +
+    geom_point()+
+    #geom_jitter(width = 0.01)+
+    #scale_color_viridis() +
+    theme_bw()+
+    ggplot2::theme(legend.position = "none") +
+    #xlab("Difference in overall score") +
+    ylab("Question Number") +
+    ggplot2::labs(title = paste0("Eco service: ", x),
+                  #subtitle = "Potential change in score as compared to reference site, based on contributing questions"
+    )
+  p1
+
+
+
+
+  p2 <- ggplot(xxx , aes(delta, fill = question_no)) +
+    geom_histogram( alpha=0.6, position = 'identity')+
+    geom_density(data=xxx, aes(x=delta, group=question_no, fill=question_no), adjust=1.5, alpha=.4) +
+    scale_color_viridis_d() +
+    facet_wrap(~question_no, scales = "free_y") +
+    #theme_ridges()+
+    ggplot2::theme(legend.position = "none") +
+    #xlab("Difference in overall score") +
+    ylab("Question Number") +
+    ggplot2::labs(title = paste0("Eco service: ", x),
+                  #subtitle = "Potential change in score as compared to reference site, based on contributing questions"
+    )
+
+  p2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  #  filter(value_delta!=0) |>
     # mutate(impact = case_when(
     #   value_delta > -1 & value_delta <1 ~ "minor",
     #   value_delta > 1 & value_delta <4 ~ "moderate",
