@@ -479,24 +479,6 @@ out <- purrr::map(response, function(x){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #########################################################################
 # sumarise all the scores
 #########################################################################
@@ -507,7 +489,6 @@ library(tidyverse)
 fls <- list.files ("temp/sensitivity_raw/", pattern = "*scores.csv")
 sort(fls)
 #fls <- fls[1:5]
-
 
 out <- purrr::map(fls, function(x) {
   # x <- fls[63]
@@ -528,441 +509,6 @@ out <- purrr::map(fls, function(x) {
 }) |> bind_rows()
 
 #write out as rda
-
-head(out)
-
-
-#calculate the average score for all 200 sites
-
-mean_score <- out |>
-  group_by(score_name) |>
-  summarise(overall_mean_score = mean(score, na.rm = TRUE),
-            .groups = "drop")
-
-question_means <- out %>%
-  group_by(question, score_name) %>%
-  summarise(mean_score = mean(score),
-            standev = sd(score),
-            .groups = "drop") |>
-  left_join(mean_score) |>
-  mutate(delta = mean_score - overall_mean_score)
-
-
-
-# plot which questions are driving most variate in each response type
-
-major_questions <- question_means |>
-  #filter(abs(delta) > 0.1) |>
-  arrange(score_name, abs(delta)) |>
-  group_by(score_name) |>
-  slice_head(n = 5)
-
-
-
-
-# build the plots for each function or benefit
-
-library(fmsb)
-#install.packages("fmsb")
-
-eco_type <- unique(major_questions$score_name)
-
-topqs <- purrr::map(eco_type, function(x){
-  #x = eco_type[1]
-
-  xx <-major_questions |> filter(score_name == x)
-
-  xxx <- pivot_wider(xx,
-                     id_cols = c("overall_mean_score"),
-                     names_from = "question",
-                     values_from = c("delta")) |>
-    select(-overall_mean_score)
-
-  xxx <- rbind(rep(5,length(xxx)) , rep(-5, length(xxx)) , xxx)
-
-  xxx})
-
-names(topqs)<- eco_type
-
-saveRDS(topqs, "temp/sensitivity_raw/sensitivity_top_questions.rds")
-
-
-
-
-#
-# # Check your data it must have at least 3 rows and 3 columns
-#
-# # Custom the radarChart !
-# radarchart(xxx , axistype=1,
-#            #custom polygon
-#            pcol=rgb(0.2,0.5,0.5,0.9) , pfcol=rgb(0.2,0.5,0.5,0.5) , plwd=4 ,
-#
-#            #custom the grid
-#            cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(-6,6,3), cglwd=0.7,
-#
-#            #custom labels
-#            vlcex=0.7
-# )
-#
-#
-
-
-topqs <- readRDS(file.path("temp/sensitivity_raw/sensitivity_top_questions.rds"))
-
-
-## run through the single file
-wesp <- system.file("input_data/reference_singlesite.csv", package = "wespr")
-wesp_data <- load_wesp_data(wesp)
-site <- as.wesp_site(wesp_data)
-site$site_name <- wesp_data$site_1[wesp_data$q_no == "Wetland"]
-site <- calc_indicators(site)
-ind_scores <- get_indicator_scores(site)
-EcoP = "GD"
-# assign jenks breaks
-ind <- ind_scores |>
-  dplyr::select(.data$site, .data$indicator, .data$fun) |>
-  dplyr::mutate(service_type = "f") |>
-  dplyr::rename("value" = .data$fun)
-
-indb <- ind_scores |>
-  dplyr::select(.data$site, .data$indicator, .data$ben) |>
-  dplyr::mutate(service_type = "b") |>
-  dplyr::rename("value" = .data$ben)
-
-ind <- rbind(ind, indb)
-
-calibration_scores_eco <- calibration_scores |>
-  dplyr::filter(.data$ecoprovince == EcoP)
-
-wcols <- names(calibration_scores_eco)
-wcols <- wcols[!wcols %in% c("site", "wetland_id", "ecoprovince")]
-wcols <- unique(sub("^([^_]*_[^_]*).*", "\\1", wcols))
-
-outsum <- purrr::map(wcols, function(x) {
-  tw <- calibration_scores_eco |>
-    dplyr::select(dplyr::starts_with(x)) |>
-    dplyr::select(-dplyr::ends_with("_norm"))
-  names(tw) <- c("jenks", "raw")
-
-  tww <- tw |>
-    dplyr::group_by(jenks) |>
-    dplyr::summarise(
-      n = dplyr::n(),
-      min = min(raw),
-      max = max(raw)
-    ) |>
-    dplyr::mutate(
-      service = x,
-      service_name = unique(sub("^([^_]*).*", "\\1", service)),
-      service_type = unique(sub("^[^_]*_", "", service))
-    )
-  tww
-}) |> dplyr::bind_rows()
-
-calibration_scores_summary <- outsum |>
-  dplyr::mutate(ecoprovince = EcoP) |>
-  dplyr::select(ecoprovince, service, everything())
-
-classed_df <- lapply(1:nrow(ind), function(i) {
-  trow <- ind[i, ]
-  calr <- calibration_scores_summary |>
-    dplyr::filter(.data$service_name == trow$indicator) |>
-    dplyr::filter(.data$service_type == trow$service_type)
-
-  my_min <- trow$value
-  my_max <- trow$value
-
-  if (is.na(my_min)) {
-    cal_val <- NA
-  } else {
-    my_df_filtered <- calr |>
-      dplyr::rowwise() |>
-      dplyr::filter(my_min >= .data$min & my_max <= .data$max)
-
-    if (nrow(my_df_filtered) == 0) {
-      calr_h <- calr |>
-        dplyr::filter(.data$jenks == "H") |>
-        dplyr::select(.data$max) |>
-        dplyr::pull()
-
-      if (my_max > calr_h) {
-        cal_val <- "H"
-      } else {
-        calr_l <- calr |>
-          dplyr::filter(.data$jenks == "L")
-
-        cal_val <- "L"
-      }
-
-      cli::cli_alert_warning("Value {round(trow$value,2)} for {trow$indicator} ({trow$service_type}) is outside the calibration range, assign to closest match")
-    } else {
-      cal_val <- my_df_filtered$jenks
-    }
-  }
-
-  trow |> dplyr::mutate(calibration_scores_summary = cal_val)
-}) |> dplyr::bind_rows()
-
-classed_df <- classed_df |>
-  dplyr::mutate(
-    service = paste0(indicator, "_", service_type),
-    service_name = indicator,
-    threshold = value
-  ) |>
-  mutate(service_full_name = case_when(
-    service_name == "AM" ~ "Amphibian Habitat",
-    service_name == "APP" ~ "Aquatic Primary Productivity",
-    service_name == "CP" ~ "Carbon Preservation",
-    service_name == "CRI" ~ "Cultural Recreational Importance",
-    service_name == "FH" ~ "Fish Habitat",
-    service_name == "FR" ~ "Fire Resistance",
-    service_name == "KMH" ~ "Keystone Mammal Habitat",
-    service_name == "NR" ~ "Nitrate Removal and Retention",
-    service_name == "OE" ~ "Organic Matter Export",
-    service_name == "PD" ~ "Native Plant Diversity",
-    service_name == "POL" ~ "Pollinator Habitat",
-    service_name == "PR" ~ "Phosphorus Retention",
-    service_name == "RSB" ~ "Raptor and Wetland Songbird Habitat",
-    service_name == "SENS" ~ "Wetland Sensitivity",
-    service_name == "SFTS" ~ "Stream Flow and Temperature Support",
-    service_name == "SR" ~ "Sediment Retention and stabilization",
-    service_name == "STR" ~ "Wetland Stressors",
-    service_name == "WB" ~ "Waterbird Habitat",
-    service_name == "WS" ~ "Water Storage and Delay"
-  ))
-
-
-# summary of the ranks overall
-all_ranks_f <- classed_df |>
-  filter(service_type == "f") |>
-  group_by(calibration_scores_summary) |>
-  summarise(n = n())
-
-fclass <- classed_df |>
-  dplyr::filter(service_type == "f") |>
-  filter(!is.na(value)) |>
-  left_join(outsum)
-
-
-fclass <-  classed_df|>
-  dplyr::filter(service_type == "f") |>
-  filter(!is.na(value)) |>
-  select(service_full_name, calibration_scores_summary,service_name )
-
-fclass_high <- fclass |>
-  filter(calibration_scores_summary == "H") |>
-  select(service_name) |>
-  mutate(service_name = paste0(service_name, "_f_raw")) |>
-  pull()
-
-
-library(fmsb)
-
-keep_by_name <- function(l, keep_names) l[keep_names]
-
-ttqs <- topqs %>% keep_by_name(fclass_high)
-
-for(i in names(ttqs)){
-
-  i <- names(ttqs[1])
-
-  print(i)
-
-  xxx <- ttqs[grep(names(ttqs))]
-
-  radarchart(xxx , axistype=1,
-             #custom polygon
-             pcol=rgb(0.2,0.5,0.5,0.9) , pfcol=rgb(0.2,0.5,0.5,0.5) , plwd=4 ,
-
-             #custom the grid
-             cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(-6,6,3), cglwd=0.7,
-
-             #custom labels
-             vlcex=0.7
-  )
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# review the responses for each question
-
-response_means <- out %>%
-  group_by(question, response, score_name) %>%
-  summarise(mean_score = mean(score),
-            standev = sd(score),
-            .groups = "drop")
-
-
-question_means <- out %>%
-  group_by(question, score_name) %>%
-  summarise(mean_score = mean(score),
-            standev = sd(score),
-            .groups = "drop")
-
-# add the average to the original data
-
-# plot the average response and SD
-#rr <- response_names |>
-#  filter(score_name = WS_f_raw)
-
-
-ggplot(question_means, aes(.data$mean_score, fill = .data$question )) +
-  geom_density(alpha = 0.5) +
-  facet_wrap(~ .data$score_name , scales = "free") +
-  theme_bw() +
-  theme(legend.position = "none")
-
-
-
-out_delta <- left_join(out, response_means)
-
-head(out_delta)
-
-# calculate the delta
-out_delta <- out_delta |>
-  mutate(delta = score - mean_score)
-
-summ <- out_delta |>
-  group_by(question, response, score_name) |>
-  summarise(
-    n = n(),
-    no_change = sum(delta == 0, na.rm = TRUE),
-    max_delta = max(delta, na.rm = TRUE),
-    mean_delta = mean(delta, na.rm = TRUE),
-    sd_delta = sd(delta, na.rm = TRUE)
-  )
-
-head(summ)
-
-
-p1 <- ggplot2::ggplot(out_delta, ggplot2::aes(.data$delta, fill = .data$score_name)) +
-  ggplot2::geom_density(alpha = 0.5) +
-  ggplot2::facet_wrap(~ .data$question, scales = "free") +
-  ggplot2::theme_bw() +
-  ggplot2::theme(legend.position = "none") +
-  ggplot2::labs(title = paste0("Question: ", xtype))
-
-ggplot2::ggsave(
-  paste0("temp/", xame, "_delta_p1.png"),
-  plot = p1
-)
-
-
-p2 <- ggplot2::ggplot(score_long, ggplot2::aes(.data$value_delta)) +
-  ggplot2::geom_density(alpha = 0.5) +
-  ggplot2::facet_wrap(~ .data$question, scales = "free") +
-  ggplot2::theme_bw() +
-  ggplot2::theme(legend.position = "none") +
-  ggplot2::labs(title = paste0("Question: ", xtype))
-
-
-ggplot2::ggsave(
-  paste0("temp/", xame, "_delta_p2.png"),
-  plot = p2
-)
-})
-
-
-
-
-#
-#
-#   score2 <- score |>
-#     tidyr::pivot_wider(
-#       id_cols = c("site", "question"),
-#       names_from = "type", values_from = "value"
-#     )
-#
-#   # # merge the base data and calculate the delta
-#   score3 <- left_join(score2, base_raw) %>%
-#     select(-type) |>
-#     select(site, question, value, everything())
-#
-#
-#   score3 <- score3 |>
-#     rowwise() |>
-#     mutate(across(c(4:ncol(score3)), ~ .x - value, .names = "delta_{.col}")) |>
-#     ungroup()
-
-  # score3 <-  score3  |>
-  score3 <- score3 |>
-    mutate_if(is.numeric, ~ round(., digit = 2))
-
-  score_long <- score3 |>
-    select(site, question, starts_with("d")) |>
-    tidyr::pivot_longer(-c(site, question), names_to = "type", values_to = "value_delta")
-
-  head(score_long)
-  summ <- score_long |>
-    summarise(
-      n = n(),
-      no_change = sum(value_delta == 0, na.rm = TRUE),
-      max_delta = max(value_delta, na.rm = TRUE),
-      mean_delta = mean(value_delta, na.rm = TRUE),
-      sd_delta = sd(value_delta, na.rm = TRUE)
-    )
-
-
-  p1 <- ggplot2::ggplot(score_long, ggplot2::aes(.data$value_delta, fill = .data$type)) +
-    ggplot2::geom_density(alpha = 0.5) +
-    ggplot2::facet_wrap(~ .data$question, scales = "free") +
-    ggplot2::theme_bw() +
-    ggplot2::theme(legend.position = "none") +
-    ggplot2::labs(title = paste0("Question: ", xtype))
-
-  ggplot2::ggsave(
-    paste0("temp/", xame, "_delta_p1.png"),
-    plot = p1
-  )
-
-
-  p2 <- ggplot2::ggplot(score_long, ggplot2::aes(.data$value_delta)) +
-    ggplot2::geom_density(alpha = 0.5) +
-    ggplot2::facet_wrap(~ .data$question, scales = "free") +
-    ggplot2::theme_bw() +
-    ggplot2::theme(legend.position = "none") +
-    ggplot2::labs(title = paste0("Question: ", xtype))
-
-
-  ggplot2::ggsave(
-    paste0("temp/", xame, "_delta_p2.png"),
-    plot = p2
-  )
-})
-
 
 ###############################################################
 # Summary table
@@ -1027,11 +573,20 @@ write_csv(out1, fs::path("temp", "sensitivity_all_summary.csv"))
 
 
 library(ggplot2)
-library(ggrepel)
+library(dplyr)
+library(ggdist)
+library(tidyverse)
 library(ggtext)
 library(ggdist)
+library(glue)
+library(ggridges)
+
+#install.packages("MetBrewer")
+#library(patchwork)
+#library(ggrepel)
+#library(ggtext)
 #install.packages("viridis")
-library(viridis)
+#library(viridis)
 
 # prepare a summary plot
 
@@ -1039,19 +594,13 @@ library(viridis)
 #out1  <- read.csv(fs::path("temp", "initial_sensitivity_testing", "sensitivity_all_summary.csv"))
 out1 <- readRDS(fs::path("temp", "sensitivity_raw","all_summaries_compiled.rds"))
 
-
+# get list of questions
 ecotype <- unique(out1$question)
+#ecotype<- ecotype[1:2]
 
-# xx <- out1 |>
-#   mutate(mcol = case_when(
-#     value_delta <0 & value_delta>0.05 ~ "red",
-#     value_delta == 0 ~ "grey"
-#   ))
+summary_top_questions <- purrr::map(ecotype, function(x){
 
-
-purrr::map(ecotype, function(x){
-
-  x <- ecotype[1]
+  #x <- ecotype[1]
 
   xx <- out1 |>
     filter(question == x)|>
@@ -1059,113 +608,147 @@ purrr::map(ecotype, function(x){
 
   xxx <- xx |>
     group_by(site) |>
-    mutate(median_val = round(median(xx$value),2)) |>
-    ungroup()
-
-    filter(site == 1)
-
-  xxx <- xx |>
-    mutate(median_val = round(median(xx$value),2))
-
-  xxx <- xxx |>
+    mutate(median_val = round(median(value),2)) |>
+    ungroup() |>
     mutate(delta = round(value,2) - median_val)
 
-
-
+  # select any questions which impact the result
   xx_to_keep <- xxx |>
     filter(delta != 0) |>
     select(question_no) |>
     distinct() |>
     pull()
 
-
+  # catergorise the imapact of question on result
   xxx <- xxx |>
-    filter(question_no %in% xx_to_keep)
-
-
-
-
-
-  p1 <- ggplot(xxx , aes(delta, question_no)) +
-    geom_point()+
-    #geom_jitter(width = 0.01)+
-    #scale_color_viridis() +
-    theme_bw()+
-    ggplot2::theme(legend.position = "none") +
-    #xlab("Difference in overall score") +
-    ylab("Question Number") +
-    ggplot2::labs(title = paste0("Eco service: ", x),
-                  #subtitle = "Potential change in score as compared to reference site, based on contributing questions"
+    filter(question_no %in% xx_to_keep) |>
+    mutate(impact = case_when(
+      delta > -1 & delta <1 ~ "minor",
+      delta > 1 & delta <4 ~ "moderate",
+      delta < -4 ~ "large",
+      delta < -1 ~ "moderate",
+      delta >4 ~ "large")
     )
-  p1
+
+  # plot 1: plot a simple bar chart
+
+  # p1 <- ggplot(xxx , aes(delta, question_no, colour = impact)) +
+  #   #geom_point(alpha = 0.5)+
+  #   geom_jitter(height = 0.01, alpha = 0.2)+
+  #   scale_color_viridis_d() +
+  #   theme_bw()+
+  #   ggplot2::theme(legend.position = "none") +
+  #   #xlab("Difference in overall score") +
+  #   ylab("Question Number") +
+  #   ggplot2::labs(title = paste0("Eco service: ", x),
+  #                 #subtitle = "Potential change in score as compared to reference site, based on contributing questions"
+  #   )
+  # p1
 
 
+  # plot the distribution of the range of posible options
 
-
-  p2 <- ggplot(xxx , aes(delta, fill = question_no)) +
-    geom_histogram( alpha=0.6, position = 'identity')+
-    geom_density(data=xxx, aes(x=delta, group=question_no, fill=question_no), adjust=1.5, alpha=.4) +
+  p2 <-ggplot(xxx, aes(x = delta, y = question_no))+ #, fill = after_stat(x))) +
+    geom_density_ridges_gradient(scale = 0.8, rel_min_height = 0.02) +
+    scale_fill_viridis(name = "Temp. [F]", option = "C") +
+    #geom_jitter(size = 0.2, colour = "darkgrey", alpha = 0.2, height = -0.9)+
+    geom_point(size = 0.2, aes(colour = impact), alpha = 0.2)+#, alpha = 0.2)+
+    #stat_interval(.width = c(0.5, 0.75, 0.95), interval_size=1) +
     scale_color_viridis_d() +
-    facet_wrap(~question_no, scales = "free_y") +
-    #theme_ridges()+
-    ggplot2::theme(legend.position = "none") +
-    #xlab("Difference in overall score") +
-    ylab("Question Number") +
-    ggplot2::labs(title = paste0("Eco service: ", x),
-                  #subtitle = "Potential change in score as compared to reference site, based on contributing questions"
-    )
+    #scale_color_manual(values = MetBrewer::met.brewer("VanGogh3")) +
+    theme_ridges() +
+    theme(legend.position = "none")
 
   p2
 
 
+  # plot 3 basic histogram
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  #  filter(value_delta!=0) |>
-    # mutate(impact = case_when(
-    #   value_delta > -1 & value_delta <1 ~ "minor",
-    #   value_delta > 1 & value_delta <4 ~ "moderate",
-    #   value_delta < -1 ~ "moderate",
-    #   value_delta >4 ~ "large",
-    #   value_delta < -4 ~ "large")
-    # )
-
-  p1 <- ggplot(xx , aes(value_delta, qno, colour = value_delta)) +
-    geom_jitter(height = 0.08)+
-    scale_color_viridis() +
-    theme_bw()+
-    ggplot2::theme(legend.position = "none") +
-    xlab("Difference in overall score") +
-    ylab("Question Number") +
-    ggplot2::labs(title = paste0("Eco service: ", x),
-                  #subtitle = "Potential change in score as compared to reference site, based on contributing questions"
-    )
-
-  p1
+  # p3 <- ggplot(xxx , aes(delta, fill = question_no)) +
+  #   geom_histogram( alpha=0.6, position = 'identity')+
+  #   #geom_density(data=xxx, aes(x=delta, group=question_no, fill=question_no), adjust=1.5, alpha=.4) +
+  #   scale_color_viridis_d() +
+  #   facet_wrap(~question_no, scales = "free_y") +
+  #   #theme_ridges()+
+  #   ggplot2::theme(legend.position = "none") +
+  #   #xlab("Difference in overall score") +
+  #   ylab("Question Number") +
+  #   ggplot2::labs(title = paste0("Eco service: ", x),
+  #   )
+  #
+  # p3
 
   ggplot2::ggsave(
-    paste0("temp/", x, "_overall_deltas.png"),
-    plot = p1,
+    paste0("temp/sensitivity_raw/", x, "_deltas_all.jpeg"),
+    #plot = p2,
     width = 25,
     height = 20,
     units = "cm"
   )
-})
+
+  # summarise the questions that have the most impact on result (> +1/-1)
+  xx_high_impact <- xxx |>
+    filter(impact %in%  c("moderate", "large")) |>
+    select(question_no) |>
+    distinct() |>
+    mutate(ecotype = x)
+
+  xx_high_impact_qs <- xxx |>
+    filter(question_no %in% unique(xx_high_impact$question_no))
+
+  # plot only the highest impact
+
+  p3 <-ggplot(xx_high_impact_qs, aes(x = delta, y = question_no))+ #, fill = after_stat(x))) +
+    geom_density_ridges_gradient(scale = 0.8, rel_min_height = 0.02) +
+    scale_fill_viridis(name = "Temp. [F]", option = "C") +
+    #geom_jitter(size = 0.2, colour = "darkgrey", alpha = 0.2, height = -0.9)+
+    geom_point(size = 0.9, aes(colour = impact), alpha = 0.2)+#, alpha = 0.2)+
+    #stat_interval(.width = c(0.5, 0.75, 0.95), interval_size=1) +
+    scale_color_viridis_d() +
+    #scale_color_manual(values = MetBrewer::met.brewer("VanGogh3")) +
+    theme_ridges() +
+    theme(legend.position = "none")
+
+  p3
+
+  ggplot2::ggsave(
+    paste0("temp/sensitivity_raw/", x, "_deltas_topqs.jpeg"),
+    #plot = p2,
+    width = 25,
+    height = 20,
+    units = "cm"
+  )
+
+  xx_high_impact
+
+
+})|>  bind_rows()
+
+summary_top_questions
+
+
+write.csv(summary_top_questions, path("temp","sensitivity_raw","top_qs_per_ecofunction.csv"))
+
+
+
+
+# heat map function???
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # try to creat a matrix risk
 
