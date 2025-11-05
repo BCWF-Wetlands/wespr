@@ -856,6 +856,7 @@ top_questions <- purrr::map(ecotype, function(x) {
 
 top_questions
 
+write.csv(top_questions, fs::path("temp","sensitivity_raw","top_qs_per_ecofunction.csv"))
 
 
 
