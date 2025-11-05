@@ -12,7 +12,7 @@
 #Prepare for and install wespr
 #devtools::install_github("BCWF-Wetlands/wespr")
 #library(wespr)
-load_all()
+#load_all()
 library(dplyr)
 library(readr)
 library(ggplot2)
@@ -565,6 +565,8 @@ write_csv(out1, fs::path("temp", "sensitivity_all_summary.csv"))
 
 
 
+
+
 #################################################################
 
 ## Grahics with full distribution
@@ -585,8 +587,7 @@ library(ggridges)
 #library(patchwork)
 #library(ggrepel)
 #library(ggtext)
-#install.packages("viridis")
-#library(viridis)
+library(viridis)
 
 # prepare a summary plot
 
@@ -594,9 +595,13 @@ library(ggridges)
 #out1  <- read.csv(fs::path("temp", "initial_sensitivity_testing", "sensitivity_all_summary.csv"))
 out1 <- readRDS(fs::path("temp", "sensitivity_raw","all_summaries_compiled.rds"))
 
-# get list of questions
+# get list of ecotypes
 ecotype <- unique(out1$question)
-#ecotype<- ecotype[1:2]
+#ecotype<- ecotype[1:2] # testing line
+
+# get list of questions
+responseno <- unique(out1$question_no)
+
 
 summary_top_questions <- purrr::map(ecotype, function(x){
 
@@ -606,11 +611,13 @@ summary_top_questions <- purrr::map(ecotype, function(x){
     filter(question == x)|>
     select(site, question, value, type, question_no)
 
-  xxx <- xx |>
+  xx <- xx |>
     group_by(site) |>
     mutate(median_val = round(median(value),2)) |>
     ungroup() |>
     mutate(delta = round(value,2) - median_val)
+
+  xxx <- xx
 
   # select any questions which impact the result
   xx_to_keep <- xxx |>
@@ -719,130 +726,138 @@ summary_top_questions <- purrr::map(ecotype, function(x){
     units = "cm"
   )
 
-  xx_high_impact
+  xx
 
+})#|>  bind_rows()
 
-})|>  bind_rows()
+##############################################################################
+# Combine all outputs with full data sensitivity output
 
-summary_top_questions
+all <- summary_top_questions |>
+  bind_rows()
 
+all <- all |> select(question, type, question_no, delta)
+all <- all |>
+  mutate(question = gsub("_raw", "", question)) |>
+  filter(!is.na(delta))
 
-write.csv(summary_top_questions, path("temp","sensitivity_raw","top_qs_per_ecofunction.csv"))
+max_delta <- all |>
+  group_by(question, question_no) |>
+  summarise(
+    max_delta = max(delta),
+    min_delta = min(delta)
+  ) |>
+  ungroup()
 
-
-
-
-# heat map function???
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# try to creat a matrix risk
-
-x <- ecotype[1]
-
-xx <- out1 |>
-  filter(question == x)|>
-  filter(value_delta!=0) #|>
-  # mutate(impact = case_when(
-
-max_impact <- out1 |>
-  group_by(question, qno) |>
-  summarise(max_impact = max(abs(value_delta), na.rm = TRUE)) |>
-  filter(max_impact > 1)
-
-
-tt <- max_impact |> filter(question == "AM_b_raw")
+# part 1: field questions
+fmax_delta <- max_delta |>
+  filter(startsWith(question_no, "F"))
 
 tta <- tidyr::pivot_wider(
-  tt,
+  fmax_delta,
   id_cols = question,
-  names_from = qno,
-  values_from = max_impact
-) |>
-  ungroup() |>
-  select(-question)
-
-tta <- rbind(rep(10, ncol(tta)),
-             rep(0, ncol(tta)),
-             tta)
-
-
-radarchart(tta,axistype=1 ,
-  #custom polygon
-  pcol=rgb(0.2,0.5,0.5,0.9) , pfcol=rgb(0.2,0.5,0.5,0.5) , plwd=4 ,
-
-  #custom the grid
-  cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(0,10,2), cglwd=0.8,
-  #custom labels
-  vlcex=0.8 )
-
-
-# build spider plot
-
-library(fmsb)
-install.packages("fmsb")
-
-# Create data: note in High school for Jonathan:
-data <- as.data.frame(matrix( sample( 2:20 , 10 , replace=T) , ncol=10))
-colnames(data) <- c("math" , "english" , "biology" , "music" , "R-coding", "data-viz" , "french" , "physic", "statistic", "sport" )
-
-# To use the fmsb package, I have to add 2 lines to the dataframe: the max and min of each topic to show on the plot!
-data <- rbind(rep(20,10) , rep(0,10) , data)
-
-# Check your data, it has to look like this!
- head(data)
-
-# The default radar chart
-
- # Custom the radarChart !
- radarchart( data  , axistype=1 ,
-
-             #custom polygon
-             pcol=rgb(0.2,0.5,0.5,0.9) , pfcol=rgb(0.2,0.5,0.5,0.5) , plwd=4 ,
-
-             #custom the grid
-             cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(0,20,5), cglwd=0.8,
-
-             #custom labels
-             vlcex=0.8
- )
-
-
-
-
-xx <- xx |>
-  filter(question == ecotype[1]) |>
-  filter(value_delta!=0)
-
-
-ggplot(xx , aes(value_delta, qno, colour = value_delta)) +
-  geom_point()+
-  scale_color_viridis() +
-  theme_bw()+
-  ggplot2::theme(legend.position = "none") +
-  xlab("Difference in overall score") +
-  ylab("Question Number") +
-  ggplot2::labs(title = paste0("Eco service: ", ecotype[1]),
-                #subtitle = "Potential change in score as compared to reference site, based on contributing questions"
-  )
-
-ggplot2::ggsave(
-  paste0("temp/", xame, "_delta_p2.png"),
-  plot = p2
+  names_from = question_no,
+  values_from = max_delta
 )
+
+tta <- as.data.frame(tta)
+row.names(tta) <- tta$question
+tta <- tta[, -1]
+
+# install.packages("heatmaply")
+library(heatmaply)
+heatmaply(tta, Rowv = FALSE, Colv = FALSE, file = "temp/sensitivity_raw/heatmap_maxdelta_fieldqs.html")
+browseURL("temp/sensitivity_raw/heatmap_maxdelta_fieldqs.html")
+
+# part 2: office questions
+fmax_delta <- max_delta |>
+  filter(startsWith(question_no, "O"))
+
+tta <- tidyr::pivot_wider(
+  fmax_delta,
+  id_cols = question,
+  names_from = question_no,
+  values_from = max_delta
+)
+
+tta <- as.data.frame(tta)
+row.names(tta) <- tta$question
+tta <- tta[, -1]
+
+# install.packages("heatmaply")
+library(heatmaply)
+heatmaply(tta, Rowv = FALSE, Colv = FALSE, file = "temp/sensitivity_raw/heatmap_maxdelta_officeqs.html")
+browseURL("temp/sensitivity_raw/heatmap_maxdelta_officeqs.html")
+
+# library(RColorBrewer)
+# note these cut off the number of columns and rows that can be shown
+
+# heatmap(as.matrix(tta), Colv = NA, Rowv = NA, scale="column",
+#        xlab="ecosystem function/benefit", ylab="question")#,
+# col= colorRampPalette(brewer.pal(8, "Blues"))(25))
+#
+# #install.packages("ggheatmap", dep = T)
+# library(ggheatmap)
+# ggheatmap(tta, shape = "circle", show_cluster_rows = F )
+#
+# install.packages("gplots")
+# library(gplots)
+# heatmap.2(as.matrix(tta),dendrogram='none', Rowv=FALSE, Colv=FALSE,trace='none')
+#
+# geom_tile(tta)
+
+
+####################################################################################
+
+# Part 2: extract the top responses
+
+# summary_top_questions
+# write.csv(summary_top_questions, fs::path("temp","sensitivity_raw","top_qs_per_ecofunction.csv"))
+
+xxx <- summary_top_questions |> bind_rows()
+
+ecotype <- unique(xxx$question)
+# ecotype<- ecotype[1:2] # testing line
+
+top_questions <- purrr::map(ecotype, function(x) {
+  #  x <- ecotype[1]
+
+  xx <- xxx |>
+    filter(question == x) |>
+    select(site, question, question_no, delta)
+
+  # select any questions which impact the result
+  xx_to_keep <- xx |>
+    filter(delta != 0) |>
+    select(question_no) |>
+    distinct() |>
+    pull()
+
+  # catergorise the imapact of question on result
+  xx <- xx |>
+    filter(question_no %in% xx_to_keep) |>
+    mutate(impact = case_when(
+      delta > -1 & delta < 1 ~ "minor",
+      delta > 1 & delta < 4 ~ "moderate",
+      delta < -4 ~ "large",
+      delta < -1 ~ "moderate",
+      delta > 4 ~ "large"
+    ))
+
+  # summarise the questions that have the most impact on result (> +1/-1)
+  xx_high_impact <- xx |>
+    filter(impact %in% c("moderate", "large")) |>
+    select(question_no) |>
+    distinct() |>
+    mutate(ecotype = x)
+
+  xx_high_impact
+}) |> bind_rows()
+
+top_questions
+
+
+
+
 
 
