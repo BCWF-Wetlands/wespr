@@ -93,9 +93,10 @@ be the input file type.</p>
 Note using system.file() can create some difficulties on a OS operating
 system.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># Define the location of the survey123 Field data </span></span>
+<code class="sourceCode R"><span><span class="co"># load library</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bcwf-wetlands.github.io/wespr/">wespr</a></span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Define the location of the survey123 Field data </span></span>
 <span><span class="va">field</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">'extdata'</span>,<span class="st">'WESP_FIELDV1.csv'</span><span class="op">)</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -110,7 +111,7 @@ export from survey123 is in a .csv file format.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="compiling-and-formatting-data">Compiling and formatting data<a class="anchor" aria-label="anchor" href="#compiling-and-formatting-data"></a>
+<h2 id="compile-and-format-survey123-data">Compile and format survey123 data<a class="anchor" aria-label="anchor" href="#compile-and-format-survey123-data"></a>
 </h2>
 <p>The data is compiled and formatted using the
 <code>format_rawdata</code> function. This function takes the two
@@ -130,17 +131,16 @@ filepath where these should be saved to.</p></li>
 to overwrite them?</p></li>
 </ul>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Preparing the raw data</span></span>
-<span></span>
+<code class="sourceCode R"><span></span>
 <span><span class="va">ww</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format_rawinputs.html">format_rawinputs</a></span><span class="op">(</span></span>
-<span>    <span class="va">field_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">'extdata'</span>,<span class="st">'WESP_FIELDV1.csv'</span><span class="op">)</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span>,</span>
-<span>    <span class="va">desktop_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">'extdata'</span>,<span class="st">'WESP_DESKTOPV1.csv'</span><span class="op">)</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span>,</span>
-<span>    write_subfiles <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    out_dir <span class="op">=</span> <span class="st">"input_data"</span>,</span>
-<span>    overwrite <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="va">field_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">'extdata'</span>,<span class="st">'WESP_FIELDV1.csv'</span><span class="op">)</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span>,</span>
+<span>  <span class="va">desktop_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">'extdata'</span>,<span class="st">'WESP_DESKTOPV1.csv'</span><span class="op">)</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span>,</span>
+<span>  write_subfiles <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  out_dir <span class="op">=</span> <span class="st">"input_data"</span>,</span>
+<span>  overwrite <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">ww</span>, <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="st">"input_data/wesp_input_20251125.csv"</span><span class="op">)</span>, row.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">ww</span>, <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="st">"inst"</span>, <span class="st">'extdata'</span>,<span class="st">"wesp_input_20251125.csv"</span><span class="op">)</span>, row.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quality-checking-the-data">Quality checking the data<a class="anchor" aria-label="anchor" href="#quality-checking-the-data"></a>
@@ -149,15 +149,28 @@ to overwrite them?</p></li>
 function. This function checks the data for missing values, and ensures
 the data is in the correct format.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">indata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/wesp_input_20251125.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">indata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/wesp_input_20251125.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/check_indata.html">check_indata</a></span><span class="op">(</span><span class="va">indata</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="the-final-output">The final output<a class="anchor" aria-label="anchor" href="#the-final-output"></a>
-</h2>
-<p>An example of the final compiled data is shown, with the first 10
-questions (rows) and 6 sites (columns) shown:</p>
+<div class="section level4">
+<h4 id="the-final-output">The final output<a class="anchor" aria-label="anchor" href="#the-final-output"></a>
+</h4>
+<p>The combined data should now be in the following format:</p>
+<pre><code>Question,1
+F1_1,1
+F1_2,4
+F1_3,0
+F1_4,2
+F1_5,0
+F1_6,1
+F2_A1,1
+F2_A2,0
+F2_B1,0
+F2_B2,0
+</code></pre>
+<p>Each row is a unique question and each column is a unique site.</p>
+<p>An example of the final compiled data with multiple sites is shown,
+with the first 10 questions (rows) and 6 sites (columns) shown:</p>
 <pre><code>Question,1,2,3,4,5,6
 F1_1,1,0,1,1,1,2
 F1_2,0,3,3,2,0,2
@@ -171,6 +184,7 @@ F2_B1,0,1,0,0,0,0
 F2_B2,1,0,1,1,1,0</code></pre>
 <p>The prepared dataset is then ready for use in wespr calculations. See
 <a href="https://bcwf-wetlands.github.io/wespr/articles/calculate_wesp_scores.html">here</a></p>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

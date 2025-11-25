@@ -32,9 +32,10 @@ using system.file() can create some difficulties on a OS operating
 system.
 
 ``` r
+# load library
+library(wespr)
 
 # Define the location of the survey123 Field data 
-
 field <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr")
 ```
 
@@ -49,7 +50,7 @@ from survey123 is in a .csv file format.
 desktop <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr")
 ```
 
-## Compiling and formatting data
+## Compile and format survey123 data
 
 The data is compiled and formatted using the `format_rawdata` function.
 This function takes the two survey123 outputs csv’s (field and desktop),
@@ -71,17 +72,16 @@ Optional parameters also include:
   overwrite them?
 
 ``` r
-#Preparing the raw data
 
 ww <- format_rawinputs(
-    field_data <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr"),
-    desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr"),
-    write_subfiles = FALSE,
-    out_dir = "input_data",
-    overwrite = TRUE
+  field_data <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr"),
+  desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr"),
+  write_subfiles = FALSE,
+  out_dir = "input_data",
+  overwrite = TRUE
 )
 
-write.csv(ww, fs::path("input_data/wesp_input_20251125.csv"), row.names=FALSE)
+write.csv(ww, fs::path("inst", 'extdata',"wesp_input_20251125.csv"), row.names=FALSE)
 ```
 
 ## Quality checking the data
@@ -91,15 +91,31 @@ function checks the data for missing values, and ensures the data is in
 the correct format.
 
 ``` r
-indata <- system.file("input_data/wesp_input_20251125.csv", package = "wespr")
+indata <- system.file("extdata/wesp_input_20251125.csv", package = "wespr")
 
 check_indata(indata)
 ```
 
-## The final output
+#### The final output
 
-An example of the final compiled data is shown, with the first 10
-questions (rows) and 6 sites (columns) shown:
+The combined data should now be in the following format:
+
+    Question,1
+    F1_1,1
+    F1_2,4
+    F1_3,0
+    F1_4,2
+    F1_5,0
+    F1_6,1
+    F2_A1,1
+    F2_A2,0
+    F2_B1,0
+    F2_B2,0
+
+Each row is a unique question and each column is a unique site.
+
+An example of the final compiled data with multiple sites is shown, with
+the first 10 questions (rows) and 6 sites (columns) shown:
 
     Question,1,2,3,4,5,6
     F1_1,1,0,1,1,1,2
