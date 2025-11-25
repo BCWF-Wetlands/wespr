@@ -23,11 +23,11 @@ library(wespr)
 
 The first step in calculating wespr scores is to standardise and quality check the input data. 
 
-As of March 2025, data collection is comprised of there parts:
+As of November 2025, data collection is comprised of three parts:
 
 - field data - collected using survey123 form
-- office questions - collected using a survey123 form
-- office questions - scripted using the [WESP_OF](https://github.com/BCWF-Wetlands/WESP_OF) github repo. 
+- office desktop questions - collected using a survey123 form
+- office GIS related questions - scripted using the [WESP_OF](https://github.com/BCWF-Wetlands/WESP_OF) github repo. Note these can also be processed manually using QGIS or equivalent software and can be input into a survey123 form.  
 
 
 ## Field data
@@ -36,7 +36,7 @@ Field data is collected on site using the survey123 form. This is intended to co
 
 The data is exported from survey123 as a csv file. Note some minor manual edits were required to make the data file compatible to read in, i.e. format datatime column. These should be minimal in future as the processes is continually improved. 
 
-An example data file is included within this package for testing.Note using system.file() can create some difficulties on a OS operating system. 
+An example data file is included within this package for testing. Note using system.file() can create some difficulties on a OS operating system. 
 
 
 ```{r}
