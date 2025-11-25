@@ -605,7 +605,7 @@ responseno <- unique(out1$question_no)
 
 summary_top_questions <- purrr::map(ecotype, function(x){
 
-  #x <- ecotype[1]
+  x <- ecotype[1]
 
   xx <- out1 |>
     filter(question == x)|>
