@@ -214,7 +214,8 @@ processing_fielddata <- function(indata = indata) {
 
   # currently dropping the F57_7 as this consume7 and is not applicable response.
   WForm4 <- WForm4 |>
-    dplyr::select(-.data$F57_7)
+    dplyr::select(-.data$F57_7) |>
+    dplyr::select(-.data$F1)
 
   return(WForm4)
 }
@@ -422,12 +423,15 @@ processing_officedata <- function(indata = indata) {
     "OF41_0", "OF42_0", "OF43_0", "OF44_0"
   )
 
-  # Number of sub-categories for each variable
+  # Number of sub-categories for each variable -
+
+  #TODO: Need to update the OF44 values to 9 options
+
   NparseVars <- c(
     5, 6, 7, 6, 3, 3, 4, 6,
-    4, 3, 5, 5, 5, 5, 3, 3,
+    4, 3, 5, 5, 6, 5, 3, 3,
     5, 5, 3, 4, 5, 5, 5, 5,
-    5, 3, 5, 9
+    5, 3, 5, 5
   )
 
   df1 <- odata %>%
@@ -491,14 +495,14 @@ processing_officedata <- function(indata = indata) {
 
 
   multiresp <- c("OF24_0")
-  multirespN <- c(3)
+  multirespN <- c(5)
   od4 <- odata %>%
     dplyr::select(c(.data$Wetland_Co, tidyr::all_of(multiresp))) |>
     #plyr::mutate(dplyr::across(tidyr::all_of(multiresp), ~ gsub("OF20_", "", .x))) |>
     dplyr::mutate(dplyr::across(tidyr::all_of(multiresp), ~ gsub("OF24_", "", .x)))
 
   ParseVars <- c("OF24_0")
-  NparseVars <- c(3)
+  NparseVars <- c(5)
 
   # Function to split a Form variable that has multiple entries into separate variables
   SplitFn1 <- function(i, df) {
@@ -568,7 +572,7 @@ processing_officedata <- function(indata = indata) {
 
   OF_manual.2 <- dplyr::left_join(OF_manual.2, of20, by = "Wetland_Co")
 
-  cli::cli_alert_success("Manual Office data sucessfully processed")
+  cli::cli_alert_success("Desktop data sucessfully processed")
 
   return(OF_manual.2)
 }
