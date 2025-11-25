@@ -31,13 +31,15 @@ combine_rawdata <- function(field_data,
 # check if the output directory exists and if not create it.
 
 ## testing rows
-   #  field_data <- system.file("extdata/field_survey123_edited_04.14.2025.xls", package = "wespr")
+     field_data <- system.file("extdata/field_survey123_edited_04.14.2025.xls", package = "wespr")
    #  office_data <- system.file("extdata/scripted_office.xlsx", package = "wespr")
+  field_data <- fs::path("inst" , "input_data", "raw", "survey_123_raw_outputs","test_field.csv")
+  #list.files(data_raw)
+
    #
-   #
-  #  field_data <- "C:/Users/genev/Downloads/wetland-ecosystem-services-protocol-r/wetland-ecosystem-services-protocol-r/data/input/2019-8473-01_field_assessment_formatted_data.xls"
-   # office_data <- "C:/Users/genev/Downloads/wetland-ecosystem-services-protocol-r/wetland-ecosystem-services-protocol-r/data/input/2019-8473-01_desktop_analysis_scripted_data.xlsx"
-   #  EcoP = "GD"
+ # field_data <- "C:/Users/genev/Downloads/wetland-ecosystem-services-protocol-r/wetland-ecosystem-services-protocol-r/data/input/2019-8473-01_field_assessment_formatted_data.xls"
+    office_data <- "C:/Users/genev/Downloads/wetland-ecosystem-services-protocol-r/wetland-ecosystem-services-protocol-r/data/input/2019-8473-01_desktop_analysis_scripted_data.xlsx"
+     EcoP = "SI"
    #  write_subfiles = TRUE
    #  out_dir = "C:/Users/genev/Downloads/wetland-ecosystem-services-protocol-r/wetland-ecosystem-services-protocol-r/data/prepared"
    #  overwrite = TRUE
@@ -58,6 +60,10 @@ combine_rawdata <- function(field_data,
   if(otype != "xlsx"){
     cli::cli_abort("office data is required to be in .xlsx format, please check input")
   }
+
+
+  # potentially update this to csv? and change below....
+
   ftype = readxl::excel_format(field_data)
   if(ftype != "xls"){
     cli::cli_abort("field data is required to be in .xls format, please check input")
@@ -66,10 +72,12 @@ combine_rawdata <- function(field_data,
 
   cli::cli_alert("Processing field data")
 
-  indata <- readxl::read_xls(field_data,
-    col_names = TRUE, sheet = 1,
-    col_types = c(rep("text", 2), "date", rep("text", 117))
-  )
+  indata <- read.csv(field_data)
+
+  # indata <- readxl::read_xls(field_data,
+  #   col_names = TRUE, sheet = 1,
+  #   col_types = c(rep("text", 2), "date", rep("text", 117))
+  # )
 
   # check if date is read in correctly
   if (anyNA(indata$datetime)) {
@@ -83,6 +91,7 @@ combine_rawdata <- function(field_data,
 
   indata <- indata  |>
     dplyr::filter(.data$region == EcoP) |>
+    dplyr::mutate_all(as.character) |>
     dplyr::mutate(date = format(as.POSIXct(.data$datetime, format = "%m/%d/%Y %H:%M:%S"), format = "%m/%d/%Y")) %>%
     dplyr::rename("Wetland_Co" = .data$Wetland_ID) |>
     dplyr::mutate(dplyr::across(dplyr::where(is.character), ~ stringr::str_trim(.))) |>
@@ -138,6 +147,10 @@ combine_rawdata <- function(field_data,
 
   WForm4 <- processing_fielddata(indata = indata)
 
+ # openxlsx::write.xlsx(WForm4, fs::path(out_dir, "wesp_f_csv.xlsx"))
+# need to check if this output matches the other wesp_f_csv.xlsx matches the otiginal wesp_f.xlsx
+
+
   if (write_subfiles) {
     openxlsx::write.xlsx(WForm4, fs::path(out_dir, "wesp_f.xlsx"),
       overwrite = overwrite, rowNames = FALSE, colNames = TRUE
@@ -178,6 +191,7 @@ combine_rawdata <- function(field_data,
     dplyr::rename("OF17_1" = .data$OF17) |>
     dplyr::rename("OF21_1" = .data$OF21) |>
     dplyr::rename("OF22_1" = .data$OF22)
+
 
   fd <- WForm4
   sd <- WFormS3
