@@ -117,7 +117,7 @@ calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "w
     dplyr::select(.data$site, sort(names(.)))
 
 
-  wespEcoS <- left_join(wespkey, wespEcoS, by = "site")
+  wespEcoS <- dplyr::left_join(wespkey, wespEcoS, by = "site")
 
 
   # wespEcoS <-data.frame(Wetland_Co=wetLUT,wespEcoS.1)
