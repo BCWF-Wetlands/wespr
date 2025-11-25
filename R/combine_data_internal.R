@@ -50,7 +50,6 @@ processing_fielddata <- function(indata = indata) {
     dplyr::left_join(phdf, by = "Wetland_Co")
 
 
-
   # Case 2 :  Make list of variables that require parsing
 
   # update #F58 response 11 is merged with response 8, They are seperated in survey123 data,
@@ -284,7 +283,7 @@ processing_stressordata <- function(indata = indata) {
   )
 
   WFormS3 <- WFormS2 |>
-    dplyr::mutate(dplyr::across(dplyr::all_of(ParseVars), readr::parse_number)) |>
+    dplyr::mutate(dplyr::across(tidyr::all_of(ParseVars), readr::parse_number)) |>
     dplyr::mutate(dplyr::across(dplyr::everything(), as.character))
 
 
@@ -345,67 +344,67 @@ processing_officedata <- function(indata = indata) {
  #indata <- ofdata
 
   on <- indata |>
-    rename(
-      "objectid" = ObjectID,
-      "globalid" = GlobalID,
-      "Wetland_Co" = `Site ID (should match Field Assessment Form)`,
-      "Assessors" = `Name of Assessor`,
-      "OF1_0" = `OF1. Distance to Community`,
-      "OF2_0" = `OF 2. Distance to Frequently Traveled Road`,
-      "OF3_0" = `OF 3. Distance to Ponded Water`,
-      "OF4_0" = `OF 4. Distance to Lakes`,
-      "OF5_1" = `OF 5. Relative Elevations in Watershed`,
-      "OF6_1" = `OF 6. Stream Intersect`,
-      "OF7_0" = `OF 7. Aspect`,
-      "OF8_0" = `OF 8. Glacier Influence`,
-      "OF9_0" = `OF 9. Floodable Infrastructure`,
-      "OF10_0" = `OF 10. Internal Flow Distance`,
-      "OF11_0" = `OF 11. Wetland as a % of its Contributing Area (Catchment)`,
-      "OF12_0" = `OF 12. Unvegetated Surface in the Wetland's WAU`,
-      "OF13_1" = `OF 13. Conservation Investment`,
-      "OF14_1" = `OF 14. Sustained Scientific Use`,
-      "OF15_1" = `OF 15. Burned`,
-      "OF16_1" = `OF 16. Karst Geology`,
-      "OF17_1" = `OF 17. Geologic Faults`,
-      "OF18_0" = `OF 18. Lakes within 2 km`,
-      "OF19_0" = `OF 19. Wetlands and Lakes within 2 km`,
-      "OF20_0" = `OF 20. Fish Occurrence`,
-      "OF21_1" = `OF 21. Ecological Designation`,
-      "OF22_1" = `OF 22. Protection from Intensive Uses`,
-      "OF23_0" = `OF 23. BGC Protection Percentage`,
-      "OF24_0" = `\"Select all the species of conservation concern (in the list below) that have been observed within a 500m buffer of the AA?\"`,
-      "x11" = `If any species of conservation were observed, list them in the text fields below.`,
-      "x1" = `Any plant species or community of conservation concern`,
-      "x2" = `Any amphibian listed as being of conservation concern`,
-      "x3" = `Either of these waterbird species of conservation concern: American Bittern, Eared Grebe`,
-      "x4" = `Raptor or wetland songbird species of conservation concern: Broad-winged Hawk, Swainson's Hawk, Northern Goshawk, Peregrine Falcon, Prairie Falcon, Long-billed Curlew, Western Screech-owl, Short-eared Owl, Black Swift, Olive-sided Flycatcher, Barn Swallow, Cape May Warbler, and/or Rusty Blackbird`,
-      "x5" = `Caribou`,
-      "OF25_1" = `OF 25. Local Moisture Deficit`,
-      "OF26_1" = `OF 26. Degree Days Index`,
-      "OF27_1" = `OF 27. Local Solar Input`,
-      "OF28_0" = `OF 28. Site Index (Soil Nutrients)`,
-      "OF29_1" = `OF 29. Topographic Position`,
-      "OF30_0" = `OF 30. Road Density within AA's Buffer`,
-      "OF31_0" = `OF 31. Road Density within 2 km of the AA`,
-      "OF32_0" = `OF 32. Intactness of Landscape within 2 km`,
-      "OF33_0" = `OF 33. Mature & Old Growth Forest within 2 km`,
-      "OF34_0" = `OF 34. Land Cover Type Uniqueness`,
-      "OF35_1" = `OF 35. Maximum Dominance of a Land Cover Type`,
-      "OF36_0" = `OF 36. Number of Land Cover Types in the AA and 100 m Buffer`,
-      "OF37_0" = `OF 37. Number of Land Cover Types within 2 km`,
-      "OF38_0" = `OF 38. Deciduous Land Cover within the AA and 100 m Buffer`,
-      "OF39_0" = `OF 39. Closed Coniferous Land Cover within the AA and 100 m Buffer`,
-      "OF40_0" = `OF 40. Non-tree Vegetattion within the AA and 100 m Buffer`,
-      "OF41_0" = `OF 41. Disturbed Area Percentage in the WAU`,
-      "OF42_0" = `OF 42. Road Density in the WAU`,
-      "OF43_0" = `OF 43. Wetland Density in the WAU`,
-      "OF44_0" = `OF 44. Ecoprovince`,
-      "CreationDate" = `CreationDate`,
-      "Creator" = `Creator`,
-      "EditDate" = `EditDate`,
-      "Editor" = `Editor`,
-      "x" = `x`,
-      "y" = `y`
+    dplyr::rename(
+      "objectid" = .data$ObjectID,
+      "globalid" = .data$GlobalID,
+      "Wetland_Co" = .data$`Site ID (should match Field Assessment Form)`,
+      "Assessors" = .data$`Name of Assessor`,
+      "OF1_0" = .data$`OF1. Distance to Community`,
+      "OF2_0" = .data$`OF 2. Distance to Frequently Traveled Road`,
+      "OF3_0" = .data$`OF 3. Distance to Ponded Water`,
+      "OF4_0" = .data$`OF 4. Distance to Lakes`,
+      "OF5_1" = .data$`OF 5. Relative Elevations in Watershed`,
+      "OF6_1" = .data$`OF 6. Stream Intersect`,
+      "OF7_0" = .data$`OF 7. Aspect`,
+      "OF8_0" = .data$`OF 8. Glacier Influence`,
+      "OF9_0" = .data$`OF 9. Floodable Infrastructure`,
+      "OF10_0" = .data$`OF 10. Internal Flow Distance`,
+      "OF11_0" = .data$`OF 11. Wetland as a % of its Contributing Area (Catchment)`,
+      "OF12_0" = .data$`OF 12. Unvegetated Surface in the Wetland's WAU`,
+      "OF13_1" = .data$`OF 13. Conservation Investment`,
+      "OF14_1" = .data$`OF 14. Sustained Scientific Use`,
+      "OF15_1" = .data$`OF 15. Burned`,
+      "OF16_1" = .data$`OF 16. Karst Geology`,
+      "OF17_1" = .data$`OF 17. Geologic Faults`,
+      "OF18_0" = .data$`OF 18. Lakes within 2 km`,
+      "OF19_0" = .data$`OF 19. Wetlands and Lakes within 2 km`,
+      "OF20_0" = .data$`OF 20. Fish Occurrence`,
+      "OF21_1" = .data$`OF 21. Ecological Designation`,
+      "OF22_1" = .data$`OF 22. Protection from Intensive Uses`,
+      "OF23_0" = .data$`OF 23. BGC Protection Percentage`,
+      "OF24_0" = .data$`\"Select all the species of conservation concern (in the list below) that have been observed within a 500m buffer of the AA?\"`,
+      "x11" = .data$`If any species of conservation were observed, list them in the text fields below.`,
+      "x1" = .data$`Any plant species or community of conservation concern`,
+      "x2" = .data$`Any amphibian listed as being of conservation concern`,
+      "x3" = .data$`Either of these waterbird species of conservation concern: American Bittern, Eared Grebe`,
+      "x4" = .data$`Raptor or wetland songbird species of conservation concern: Broad-winged Hawk, Swainson's Hawk, Northern Goshawk, Peregrine Falcon, Prairie Falcon, Long-billed Curlew, Western Screech-owl, Short-eared Owl, Black Swift, Olive-sided Flycatcher, Barn Swallow, Cape May Warbler, and/or Rusty Blackbird`,
+      "x5" = .data$`Caribou`,
+      "OF25_1" = .data$`OF 25. Local Moisture Deficit`,
+      "OF26_1" = .data$`OF 26. Degree Days Index`,
+      "OF27_1" = .data$`OF 27. Local Solar Input`,
+      "OF28_0" = .data$`OF 28. Site Index (Soil Nutrients)`,
+      "OF29_1" = .data$`OF 29. Topographic Position`,
+      "OF30_0" = .data$`OF 30. Road Density within AA's Buffer`,
+      "OF31_0" = .data$`OF 31. Road Density within 2 km of the AA`,
+      "OF32_0" = .data$`OF 32. Intactness of Landscape within 2 km`,
+      "OF33_0" = .data$`OF 33. Mature & Old Growth Forest within 2 km`,
+      "OF34_0" = .data$`OF 34. Land Cover Type Uniqueness`,
+      "OF35_1" = .data$`OF 35. Maximum Dominance of a Land Cover Type`,
+      "OF36_0" = .data$`OF 36. Number of Land Cover Types in the AA and 100 m Buffer`,
+      "OF37_0" = .data$`OF 37. Number of Land Cover Types within 2 km`,
+      "OF38_0" = .data$`OF 38. Deciduous Land Cover within the AA and 100 m Buffer`,
+      "OF39_0" = .data$`OF 39. Closed Coniferous Land Cover within the AA and 100 m Buffer`,
+      "OF40_0" = .data$`OF 40. Non-tree Vegetattion within the AA and 100 m Buffer`,
+      "OF41_0" = .data$`OF 41. Disturbed Area Percentage in the WAU`,
+      "OF42_0" = .data$`OF 42. Road Density in the WAU`,
+      "OF43_0" = .data$`OF 43. Wetland Density in the WAU`,
+      "OF44_0" = .data$`OF 44. Ecoprovince`,
+      "CreationDate" = .data$`CreationDate`,
+      "Creator" = .data$`Creator`,
+      "EditDate" = .data$`EditDate`,
+      "Editor" = .data$`Editor`,
+      "x" = .data$`x`,
+      "y" = .data$`y`
     )
 
   odata <- on |>
@@ -413,7 +412,7 @@ processing_officedata <- function(indata = indata) {
     dplyr::distinct(.data$Wetland_Co, .keep_all = TRUE)
 
   OF_Wetland_Co <- odata %>%
-    dplyr::select(Wetland_Co)
+    dplyr::select(.data$Wetland_Co)
 
   # Case 1: Only a single response from multiple choices
   ParseVars <- c(
@@ -432,14 +431,14 @@ processing_officedata <- function(indata = indata) {
   )
 
   df1 <- odata %>%
-    select(c(.data$Wetland_Co, all_of(ParseVars))) |>
-    mutate(across(all_of(ParseVars), ~ stringr::str_split_i(.x, "_", 2)))
+    dplyr::select(c(.data$Wetland_Co, tidyr::all_of(ParseVars))) |>
+    dplyr::mutate(dplyr::across(tidyr::all_of(ParseVars), ~ stringr::str_split_i(.x, "_", 2)))
 
   SplitFn1 <- function(i, df) {
     df2 <- lapply(1:NparseVars[i], function(j) {
       FormVName <- sub("_0", paste0("_", j), ParseVars[i])
       df %>%
-        mutate(!!FormVName := if_else(!!rlang::sym(ParseVars[i]) == j, 1, 0)) %>%
+        dplyr::mutate(!!FormVName := dplyr::if_else(!!rlang::sym(ParseVars[i]) == j, 1, 0)) %>%
         dplyr::select(!!rlang::sym(FormVName))
     })
     do.call(cbind, df2)
@@ -448,8 +447,8 @@ processing_officedata <- function(indata = indata) {
   # Loop through each Variable to split out and call the function that splits it into separate variables
   df3 <- lapply(1:length(ParseVars), function(x) {
     df2 <- df1 %>%
-      rowwise() %>%
-      mutate(VpartsN = NparseVars[x]) %>%
+      dplyr::rowwise() %>%
+      dplyr::mutate(VpartsN = NparseVars[x]) %>%
       dplyr::select((ParseVars[x]), VpartsN)
     SplitFn1(x, df2)
   })
@@ -468,10 +467,10 @@ processing_officedata <- function(indata = indata) {
   num_cols <- c("OF5_1", "OF25_1", "OF26_1", "OF27_1", "OF29_1", "OF35_1")
 
   od2 <- odata %>%
-    select(c(.data$Wetland_Co, all_of(num_cols))) |>
-    mutate(across(all_of(num_cols), ~ gsub("OF29_", "", .x)))
+    dplyr::select(c(.data$Wetland_Co, tidyr::all_of(num_cols))) |>
+    dplyr::mutate(dplyr::across(tidyr::all_of(num_cols), ~ gsub("OF29_", "", .x)))
 
-  OF_manual.1 <- left_join(OF_manual.1, od2, by = "Wetland_Co")
+  OF_manual.1 <- dplyr::left_join(OF_manual.1, od2, by = "Wetland_Co")
 
   # Case 3: Numeric values - leave as is.
 
@@ -479,10 +478,10 @@ processing_officedata <- function(indata = indata) {
   binvars <- c("OF6_1", "OF13_1", "OF14_1", "OF15_1", "OF16_1", "OF17_1", "OF21_1", "OF22_1")
 
   od3 <- odata %>%
-    select(c(.data$Wetland_Co, all_of(binvars))) |>
-    mutate(across(all_of(binvars), ~ stringr::str_split_i(.x, "_", 2)))
+    dplyr::select(c(.data$Wetland_Co, tidyr::all_of(binvars))) |>
+    dplyr::mutate(dplyr::across(tidyr::all_of(binvars), ~ stringr::str_split_i(.x, "_", 2)))
 
-  OF_manual.1 <- left_join(OF_manual.1, od3, by = "Wetland_Co")
+  OF_manual.1 <- dplyr::left_join(OF_manual.1, od3, by = "Wetland_Co")
 
   #################################################################################
 
@@ -494,9 +493,9 @@ processing_officedata <- function(indata = indata) {
   multiresp <- c("OF24_0")
   multirespN <- c(3)
   od4 <- odata %>%
-    select(c(.data$Wetland_Co, all_of(multiresp))) |>
-    mutate(across(all_of(multiresp), ~ gsub("OF20_", "", .x))) |>
-    mutate(across(all_of(multiresp), ~ gsub("OF24_", "", .x)))
+    dplyr::select(c(.data$Wetland_Co, tidyr::all_of(multiresp))) |>
+    #plyr::mutate(dplyr::across(tidyr::all_of(multiresp), ~ gsub("OF20_", "", .x))) |>
+    dplyr::mutate(dplyr::across(tidyr::all_of(multiresp), ~ gsub("OF24_", "", .x)))
 
   ParseVars <- c("OF24_0")
   NparseVars <- c(3)
@@ -517,57 +516,57 @@ processing_officedata <- function(indata = indata) {
       dplyr::rowwise() %>%
       dplyr::mutate(Vparts = stringr::str_split(!!rlang::sym(ParseVars[x]), ",")) %>%
       dplyr::mutate(VpartsN = list(readr::parse_number(Vparts))) %>%
-      dplyr::select(dplyr::all_of(ParseVars[x]), Vparts, VpartsN)
+      dplyr::select(tidyr::all_of(ParseVars[x]), Vparts, VpartsN)
     SplitFn1(x, df1)
   })
 
   # WForm3.1 <- cbind(WForm_Wetland_Co, do.call(cbind, df4))
   OF_manual.2 <- cbind(OF_Wetland_Co, do.call(cbind, df3))
-  OF_manual.2 <- left_join(OF_manual.1, OF_manual.2, by = "Wetland_Co")
+  OF_manual.2 <- dplyr::left_join(OF_manual.1, OF_manual.2, by = "Wetland_Co")
 
 
   # case 5: OF20 adjustments - this is a special case
 
   od5 <- odata %>%
-    select(c(.data$Wetland_Co, "OF20_0")) #|>
+    dplyr::select(c(.data$Wetland_Co, "OF20_0")) #|>
     #mutate(across(all_of(multiresp), ~ gsub("OF20", "", .x)))
 
   ## IF multiple sites this needs to be updated...# do this per row
   fish_values <- od5$OF20_0
 
   od5 <- od5 |>
-    mutate(OF20_1 = case_when(
-      str_detect(fish_values, "CK_3") == TRUE ~ 3,
-      str_detect(fish_values, "CK_2") == TRUE ~ 2,
-      str_detect(fish_values, "CK_1") == TRUE ~ 1,
+    dplyr::mutate(OF20_1 = dplyr::case_when(
+      stringr::str_detect(fish_values, "CK_3") == TRUE ~ 3,
+      stringr::str_detect(fish_values, "CK_2") == TRUE ~ 2,
+      stringr::str_detect(fish_values, "CK_1") == TRUE ~ 1,
       .default = 0
     )) |>
-    mutate(OF20_2 = case_when(
-      str_detect(fish_values, "CM_3") == TRUE ~ 3,
-      str_detect(fish_values, "CM_2") == TRUE ~ 2,
-      str_detect(fish_values, "CM_1") == TRUE ~ 1,
+    dplyr::mutate(OF20_2 = dplyr::case_when(
+      stringr::str_detect(fish_values, "CM_3") == TRUE ~ 3,
+      stringr::str_detect(fish_values, "CM_2") == TRUE ~ 2,
+      stringr::str_detect(fish_values, "CM_1") == TRUE ~ 1,
       .default = 0
     )) |>
-    mutate(OF20_3 = case_when(
-      str_detect(fish_values, "CO_3") == TRUE ~ 3,
-      str_detect(fish_values, "CO_2") == TRUE ~ 2,
-      str_detect(fish_values, "CO_1") == TRUE ~ 1,
+    dplyr::mutate(OF20_3 = dplyr::case_when(
+      stringr::str_detect(fish_values, "CO_3") == TRUE ~ 3,
+      stringr::str_detect(fish_values, "CO_2") == TRUE ~ 2,
+      stringr::str_detect(fish_values, "CO_1") == TRUE ~ 1,
       .default = 0
     )) |>
-    mutate(OF20_4 = case_when(
-      str_detect(fish_values, "FH_1") == TRUE ~ 1,
+    dplyr::mutate(OF20_4 = dplyr::case_when(
+      stringr::str_detect(fish_values, "FH_1") == TRUE ~ 1,
       .default = 0
     )) |>
-    mutate(OF20_5 = case_when(
-      str_detect(fish_values, "FS_0") ~ 1,
+    dplyr::mutate(OF20_5 = dplyr::case_when(
+      stringr::str_detect(fish_values, "FS_0") ~ 1,
       .default = 0
     ))
 
 
   of20 <- od5 |>
-    dplyr::select(Wetland_Co, OF20_1, OF20_2, OF20_3, OF20_4, OF20_5)
+    dplyr::select(.data$Wetland_Co, .data$OF20_1, .data$OF20_2, .data$OF20_3, .data$OF20_4, .data$OF20_5)
 
-  OF_manual.2 <- left_join(OF_manual.2, of20, by = "Wetland_Co")
+  OF_manual.2 <- dplyr::left_join(OF_manual.2, of20, by = "Wetland_Co")
 
   cli::cli_alert_success("Manual Office data sucessfully processed")
 
