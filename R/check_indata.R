@@ -13,7 +13,7 @@
 check_indata <- function(indata){
 
   # testing
-  indata <- fs::path("inst/extdata/wesp_input_20251125.csv")
+  #indata <- fs::path("inst/extdata/wesp_input_20251125.csv")
 
   wcsv <- read.csv(indata)
 
