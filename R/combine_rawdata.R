@@ -31,15 +31,15 @@ combine_rawdata <- function(field_data,
 # check if the output directory exists and if not create it.
 
 ## testing rows
-     field_data <- system.file("extdata/field_survey123_edited_04.14.2025.xls", package = "wespr")
+   #  field_data <- system.file("extdata/field_survey123_edited_04.14.2025.xls", package = "wespr")
    #  office_data <- system.file("extdata/scripted_office.xlsx", package = "wespr")
-  field_data <- fs::path("inst" , "input_data", "raw", "survey_123_raw_outputs","test_field.csv")
+  #field_data <- fs::path("inst" , "input_data", "raw", "survey_123_raw_outputs","test_field.csv")
   #list.files(data_raw)
 
    #
  # field_data <- "C:/Users/genev/Downloads/wetland-ecosystem-services-protocol-r/wetland-ecosystem-services-protocol-r/data/input/2019-8473-01_field_assessment_formatted_data.xls"
-    office_data <- "C:/Users/genev/Downloads/wetland-ecosystem-services-protocol-r/wetland-ecosystem-services-protocol-r/data/input/2019-8473-01_desktop_analysis_scripted_data.xlsx"
-     EcoP = "SI"
+    # office_data <- "C:/Users/genev/Downloads/wetland-ecosystem-services-protocol-r/wetland-ecosystem-services-protocol-r/data/input/2019-8473-01_desktop_analysis_scripted_data.xlsx"
+    #  EcoP = "SI"
    #  write_subfiles = TRUE
    #  out_dir = "C:/Users/genev/Downloads/wetland-ecosystem-services-protocol-r/wetland-ecosystem-services-protocol-r/data/prepared"
    #  overwrite = TRUE
