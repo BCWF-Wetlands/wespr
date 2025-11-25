@@ -25,12 +25,12 @@ format_rawinputs <- function(field_data,
                             out_dir = "temp",
                             overwrite = FALSE) {
 
-  # testing files
-  #field_data <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr"),
-  #desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr"),
+  # # testing files
+  # field_data <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr")
+  # desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr")
   # write_subfiles = FALSE
-  #out_dir <- "inst/input_data/processed1"
-  #overwrite = TRUE
+  # out_dir <- "inst/input_data/processed1"
+  # overwrite = TRUE
 
   if (!exists(out_dir)) {
     dir.create(out_dir, showWarnings = FALSE)
@@ -39,11 +39,11 @@ format_rawinputs <- function(field_data,
 
   # check format for field and data files
   if (tools::file_ext(field_data) != "csv") {
-    cli::cli_abort("field data is required to be in .xls format, please check input")
+    cli::cli_abort("field data is required to be in .csv format, please check input")
   }
 
   if (tools::file_ext(desktop_data) != "csv") {
-    cli::cli_abort("field data is required to be in .xls format, please check input")
+    cli::cli_abort("field data is required to be in .csv format, please check input")
   }
 
 
@@ -300,32 +300,11 @@ format_rawinputs <- function(field_data,
   }
 
 
-#   # Note if showing error in opening make sure you dont have the file open
-#
-#   ofdata <- readxl::read_xlsx(office_data) |>
-#     dplyr::rename(Wetland_Co = .data$WTLND_ID) |>
-#     dplyr::filter(.data$Wetland_Co %in% WForm4$Wetland_Co) |>
-#     dplyr::rename("OF15_1" = .data$OF15) |>
-#     dplyr::rename("OF16_1" = .data$OF16) |>
-#     dplyr::rename("OF17_1" = .data$OF17) |>
-#     dplyr::rename("OF21_1" = .data$OF21) |>
-#     dplyr::rename("OF22_1" = .data$OF22)
-#
-#   # format the office data
-
+  # merge all the components together
 
   fd <- WForm4
   sd <- WFormS3
   osd <- WFormOF
-
-#   # temp check
-#   fd <- fd[1,]
-#   fd$Wetland_Co = "TEST"
-#   sd <- sd[1,]
-#   sd$Wetland_Co = "TEST"
-# # end test update
-
-
 
   # check length of outputs
 
