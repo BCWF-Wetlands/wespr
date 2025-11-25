@@ -1,0 +1,117 @@
+# Prepare data for Wespr calculations
+
+``` r
+library(wespr)
+```
+
+## Raw data imports
+
+The first step in calculating wespr scores for a wetland is to
+standardise and quality check the input data.
+
+As of November 2025, data collection is comprised of two parts:
+
+- Field data collected using a survey123 form (WESP_FIELDV1.csv)
+- Desktop data collected using a survey123 form (WESP_DESKTOPV1.csv)
+
+Note for advanced users the desktop analysis can be conducted using the
+R package[WESP_OF](https://github.com/BCWF-Wetlands/WESP_OF) github
+repo. This is beyond the scope of this tutorial.
+
+### Field data
+
+Field data is collected on site using the survey123 form. This is
+intended to control data inputs and standardize the data collection
+process. These comprise all the *field* and *stressor* based questions.
+
+The data is exported from survey123 as a *csv file*. This will be the
+input file type.
+
+An example data file is included within this package for testing. Note
+using system.file() can create some difficulties on a OS operating
+system.
+
+``` r
+
+# Define the location of the survey123 Field data 
+
+field <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr")
+```
+
+### Desktop data
+
+Desktop data is also collected using a survey123 form. Ensure the export
+from survey123 is in a .csv file format.
+
+``` r
+# Define the location of the survey123 Desktop data 
+
+desktop <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr")
+```
+
+## Compiling and formatting data
+
+The data is compiled and formatted using the `format_rawdata` function.
+This function takes the two survey123 outputs csv’s (field and desktop),
+it standardises naming field, data types and combines the data into a
+single dataframe ready to be used to calculate wespr values.
+
+The user needs to define the filepath to the field and desktop csv
+files.  
+Optional parameters also include:
+
+- write_subfiles (TRUE/FALSE) : do you want to produce individual files
+  for field, desktop and stressor data components, to allow for easy
+  data checks
+
+- out_dir (filepath): If you want to output subfiles define the filepath
+  where these should be saved to.
+
+- overwrite (TRUE/FALSE) : If subfiles already exist, do you want to
+  overwrite them?
+
+``` r
+#Preparing the raw data
+
+ww <- format_rawinputs(
+    field_data <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr"),
+    desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr"),
+    write_subfiles = FALSE,
+    out_dir = "input_data",
+    overwrite = TRUE
+)
+
+write.csv(ww, fs::path("input_data/wesp_input_20251125.csv"), row.names=FALSE)
+```
+
+## Quality checking the data
+
+We can then check QA the data using the `check_indata` function. This
+function checks the data for missing values, and ensures the data is in
+the correct format.
+
+``` r
+indata <- system.file("input_data/wesp_input_20251125.csv", package = "wespr")
+
+check_indata(indata)
+```
+
+## The final output
+
+An example of the final compiled data is shown, with the first 10
+questions (rows) and 6 sites (columns) shown:
+
+    Question,1,2,3,4,5,6
+    F1_1,1,0,1,1,1,2
+    F1_2,0,3,3,2,0,2
+    F1_3,1,0,3,1,1,1
+    F1_4,1,4,1,1,1,3
+    F1_5,1,0,1,1,1,0
+    F1_6,1,1,1,1,1,4
+    F2_A1,0,0,0,0,0,1
+    F2_A2,0,0,0,0,0,0
+    F2_B1,0,1,0,0,0,0
+    F2_B2,1,0,1,1,1,0
+
+The prepared dataset is then ready for use in wespr calculations. See
+[here](https://bcwf-wetlands.github.io/wespr/articles/calculate_wesp_scores.html)

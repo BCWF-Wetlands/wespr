@@ -1,0 +1,368 @@
+# Calculate Wespr Scores
+
+``` r
+library(wespr)
+```
+
+## Calculate Wespr Scores
+
+Once the wespr package has been installed, and the raw data processed
+using the steps outlined in the previous
+[vignette](https://bcwf-wetlands.github.io/wespr/articles/prepare-rawdata.html),
+we can calculate the wespr scores and compare the scores to the
+ecoprovince calibration data.
+
+We have included an example file in the package, which we can use for
+demonstration purposes:
+
+``` r
+wesp_file <- system.file("input_data/reference_GD_20250620.csv", package = "wespr")
+wesp_data <- load_wesp_data(wesp_file)
+
+head(wesp_data)
+
+# generate a key for site names 
+wespkey <- wesp_data |>
+    dplyr::filter(.data$q_no == "Wetland" ) |>
+    tidyr::pivot_longer(cols = -c(.data$response_no),
+                  names_to = "site_no",
+                  values_to = "wetland_id"
+    ) |>
+    dplyr::select(-response_no) |>
+    dplyr::filter(site_no != "q_no") |>
+    dplyr::rename("site" = .data$site_no) 
+```
+
+Next we convert the data into a special `wesp_site` object. This process
+validates the input data, and will give informative errors if a question
+is not answered correctly. It also calculates many “derived values” from
+the questions, which are common inputs into different indicator
+calculations.
+
+If there is more than one site in the input data, you can select which
+site you would like to use — if no site is selected it will default to
+choosing the first site in the file.
+
+``` r
+site <- as.wesp_site(wesp_data, site = 1)
+```
+
+You should not normally need to work with the internals of the
+`wesp_site` object as it is quite complex, however we can get an
+overview of what is in it by just typing the name of the object:
+
+``` r
+site
+```
+
+We can see that the responses are loaded, with a few flagged as
+incomplete, and the derived values have been calculated. However, the
+indicators have not yet been calculated.
+
+Now, we can calculate the indicator scores with the
+[`calc_indicators()`](https://bcwf-wetlands.github.io/wespr/reference/calc_indicators.md)
+function.
+
+You must assign the output of this function back to the original
+`wesp_site` object, as it updates the `indicators` with the calculated
+values:
+
+``` r
+site <- calc_indicators(site)
+```
+
+If we view the site object again, we can see the calculated indicator
+scores.
+
+``` r
+site
+```
+
+We probably want to get the indicator scores out as a usable object. We
+can do that with
+[`get_indicator_scores()`](https://bcwf-wetlands.github.io/wespr/reference/get_indicator_scores.md),
+which gives them to us as a `data.frame`:
+
+``` r
+ind_scores <- get_indicator_scores(site)
+
+# add site specific names
+ind_scores <- dplyr::left_join(wespkey, ind_scores, by = "site")
+
+
+ind_scores
+```
+
+Similarly, we can extract the original responses with
+[`get_responses()`](https://bcwf-wetlands.github.io/wespr/reference/get_responses.md):
+
+``` r
+get_responses(site)
+```
+
+We can also get out a data.frame of derived values, those values which
+are calculated from the responses, and used as inputs into many
+indicators.
+
+``` r
+get_derived_values(site)
+```
+
+### Calculating multiple site scores
+
+We may wish to calculate indicator scores for multiple sites. If we only
+need the raw values for each site we can use the
+[`calculate_multi_site()`](https://bcwf-wetlands.github.io/wespr/reference/calculate_multi_site.md)
+function. Which requires the data to firstly be loaded using the
+[`load_wesp_data()`](https://bcwf-wetlands.github.io/wespr/reference/load_wesp_data.md)
+function. For example the work flow would be:
+
+``` r
+wesp_file <- system.file("input_data/reference_GD_20250620.csv", package = "wespr")
+wesp_data <- load_wesp_data(wesp_file)
+
+# generate a site key 
+# generate a key for site names 
+wespkey <- wesp_data |>
+    dplyr::filter(.data$q_no == "Wetland" ) |>
+    tidyr::pivot_longer(cols = -c(.data$response_no),
+                  names_to = "site_no",
+                  values_to = "wetland_id"
+    ) |>
+    dplyr::select(-response_no) |>
+    dplyr::filter(site_no != "q_no") |>
+    dplyr::mutate(site = as.numeric(gsub("site_", "", site_no))) |>
+    dplyr::select(-site_no)
+
+allsites <- calculate_multi_site(wesp_data)
+
+# add site specific names
+allsites <- dplyr::left_join(wespkey, allsites, by = "site")
+```
+
+This will return a date.frame with all the values combined for each site
+within the dataset provided.
+
+### Assign Jenks scores
+
+Once we have calculated our scores we may wish to compare to see how our
+particular site compares with other wetlands in the same Ecoprovince.
+[Wespr
+protocol](https://bcwfwatershedteam.ca/wetland-ecosystem-services-protocol/)
+is based on wetland assessment in eight Ecoprovinces (Georgia Depression
+(GD), Southern Interior (SI), Central Interior (CI), Southern Interior
+Mountains (SIM), Sub-Boreal Interior (SBI), Boreal and Taiga Plains
+(BTP), Northern Boreal Mountains (NBM), and Coast and Mountains (CM)).
+
+In order to compare a particular site with the calibration sites
+(typically 100 sites per ecoregion), we can use the
+[`assign_jenks_score()`](https://bcwf-wetlands.github.io/wespr/reference/assign_jenks_score.md)
+function. This function requires the data to be loaded using the
+[`load_wesp_data()`](https://bcwf-wetlands.github.io/wespr/reference/load_wesp_data.md)
+function as above.
+
+We can use the example below in which we have one site as an example:
+
+``` r
+# select file
+wesp <- system.file("input_data/reference_singlesite.csv", package = "wespr")
+
+#load file and convert to wesp
+wesp_data <- load_wesp_data(wesp)
+site <- as.wesp_site(wesp_data)
+
+# update site name
+site$site_name <- wesp_data$site_1[wesp_data$q_no == "Wetland"]
+```
+
+We then calculate the indicator scores and extract the values into a
+table. Note this process is based on a single site, but can be iterated
+for multiple sites.
+
+``` r
+#calculate the scores and extract the indicator values 
+site <- calc_indicators(site)
+ind_scores <- get_indicator_scores(site)
+```
+
+An example format of the ind_score output is shown, with the service
+type (rows) for each site with a column for function (fun) and benefit
+(ben). Note not every service has both a function and benefit so you
+will see NA values.
+
+      site   indicator    fun   ben
+       <chr>  <chr>      <dbl> <dbl>
+     1 site_1 WS         3.61   6.98
+     2 site_1 SR         0.778  4.28
+     3 site_1 PR         6.20   3.06
+     4 site_1 CP         6.78  NA   
+     5 site_1 FR         1.67   7.51
+     6 site_1 SENS       4.86  NA   
+     7 site_1 STR        9.58  NA   
+     8 site_1 NR         5.52   3.06
+     9 site_1 APP        0      2.99
+    10 site_1 PD         0      5.51
+    11 site_1 KMH        2.99   5.60
+    12 site_1 WB         0     10   
+    13 site_1 POL        6.30   1.67
+    14 site_1 RSB        6.94   4.83
+    15 site_1 OE         4.54  NA   
+    16 site_1 AM         5.03   3.10
+    17 site_1 FH         0      3.33
+    18 site_1 SFTS       2.94   3.27
+    19 site_1 CRI       NA      6.58
+
+We can then use the
+[`assign_jenks_score()`](https://bcwf-wetlands.github.io/wespr/reference/assign_jenks_score.md)
+function to assign the Jenks breaks to each of the values. This function
+requires the calibration data to be loaded, which is included in the
+package. Calibration data is collected from approximate 100 sites in
+each ecoprovince. This data is then normalised and used to establish the
+threshold values for each service and function/benefit based on a
+distribution of values for the 100 sites. These thresholds can then be
+used as benchmarks for a given wetland within the same ecoprovince, to
+establish a service as high/medium/low. Note as thresholds are based on
+normalised values, we can extrapolate these to raw scores and assign the
+closest score based on the calibration dataset. Note in some cases where
+a raw score for the site to be assessed is below or above the raw
+calibration data score, these will be asssigned a L or H rank
+respectively. A warning message will also notify users if this is the
+case and for which service.
+
+To assign a jenks score, we require 1) the indicator score data (as
+shown in steps above), 2) calibration scores (which are included in the
+package), and 3) the Ecoprovince to be assessed.
+
+If the ecoprovince does not yet have calibration data loaded, users
+should select the next best ecoprovince available.
+
+``` r
+
+out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD", report = FALSE, output_dir = "temp")
+```
+
+The output scores will include a column with a calibration_score
+(L,M,H,NA)
+
+    site   indicator value service_type calibrated_score
+       <chr>  <chr>     <dbl> <chr>        <chr>           
+     1 site_1 WS        3.61  f            L               
+     2 site_1 SR        0.778 f            M               
+     3 site_1 PR        6.20  f            M               
+     4 site_1 CP        6.78  f            L               
+     5 site_1 FR        1.67  f            L               
+     6 site_1 SENS      4.86  f            L               
+     7 site_1 STR       9.58  f            H               
+     8 site_1 NR        5.52  f            M               
+     9 site_1 APP       0     f            L               
+    10 site_1 PD        0     f            L  
+
+This is an on-going project and data will be added as comes available.
+Steps to update the calibration data are outline
+[here](https://github.com/BCWF-Wetlands/wespr/tree/main/data-raw) Note
+this is an advanced/admin level action, please contact the package dev
+team for assistance.
+
+### Calculating Jenks Scores (new Ecoprovinces)
+
+Another method to step through the entire process of calculating site
+scores, and assigning them to a high medium and low category is to use
+the
+[`calculate_jenks_score()`](https://bcwf-wetlands.github.io/wespr/reference/calculate_jenks_score.md)
+function. This function requires the data to be loaded using the
+[`load_wesp_data()`](https://bcwf-wetlands.github.io/wespr/reference/load_wesp_data.md)
+function as above.
+
+This will calculate the indicator scores for each site, normalize the
+data across all sites for the given ecosystem function or benefit then
+calculate the Jenks breaks for each value to assign high, medium and low
+categories. The process will also flag unusual results, such as all
+values being the same across all sites.
+
+Note the
+[`calculate_jenks_score()`](https://bcwf-wetlands.github.io/wespr/reference/calculate_jenks_score.md)
+function includes the steps described above to calculate all site
+scores. An example workflow using this function would be:
+
+``` r
+wesp_file <- system.file("input_data/reference_singlesite.csv", package = "wespr")
+wesp_data <- load_wesp_data(wesp_file)
+calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores.csv")
+```
+
+With the exception of generating calibration data for a new ecoprovince,
+we strongly suggest to use the internal calibration data per ecoprovince
+to provide a realistic comparison. This function is included for
+exploration purposes only.
+
+### Anatomy of the `wesp_site` object
+
+As mentioned above, this is a large, complex object, and it is almost
+always best to interact with the `wesp_site` object via the provided
+functions. If there is functionality that is missing please [open an
+issue](https://github.com/BCWF-Wetlands/wespr/issues).
+
+It has four elements:
+
+``` r
+length(site)
+names(site)
+```
+
+The first three (`site_name`, `questions`, and `derived_values`) are
+populated when the `wesp_site` object is created, but the `indicators`
+element is just a placeholder, until
+[`calc_indicators()`](https://bcwf-wetlands.github.io/wespr/reference/calc_indicators.md)
+has been run:
+
+``` r
+site$site_name
+
+# The questions element is large and complex, so we will just show the names:
+names(site$questions)
+
+site$derived_values
+
+site$indicators
+```
+
+### Development
+
+#### Updating internal data
+
+The wespr package contains two internal datasets which facilitate
+question validation and indicator calculations: `question_metadata` and
+`indicator_weightings`.
+
+These are updated by:
+
+1.  Update the Google Sheet at:
+    <https://docs.google.com/spreadsheets/d/1l2h7Z65H5z0cKv_gvorxkT6k9LC7ZKLS/edit#gid=924841838>
+    (you need to be authorized to edit this document)
+
+2.  Run the script in `data-raw/internal-data.R`
+
+3.  Reload/reinstall the package.
+
+4.  Run `devtools::check()` to make sure the changes you made to the
+    Google Sheet haven’t broken any existing behaviour.
+
+5.  Commit the changes to `R/sysdata.rda` (this file contains both
+    datasets)
+
+#### Updating Calibration data
+
+The wespr package contains the summarized `calibration_scores`. These
+will require updating as more calibration data becomes available.
+
+These are updated by:
+
+1.  Run the script in `data-raw/upload-calibration-data.R`
+
+2.  Reload/reinstall the package.
+
+3.  Run `devtools::check()` to make sure the changes you made to the
+    Google Sheet haven’t broken any existing behaviour.
+
+4.  The calibration data is accessible to users via the
+    `calibration_scores` function.

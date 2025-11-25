@@ -69,15 +69,17 @@
 <div class="section level2">
 <h2 id="raw-data-imports">Raw data imports<a class="anchor" aria-label="anchor" href="#raw-data-imports"></a>
 </h2>
-<p>The first step in calculating wespr scores is to standardise and
-quality check the input data.</p>
-<p>As of March 2025, data collection is comprised of there parts:</p>
+<p>The first step in calculating wespr scores for a wetland is to
+standardise and quality check the input data.</p>
+<p>As of November 2025, data collection is comprised of two parts:</p>
 <ul>
-<li>field data - collected using survey123 form</li>
-<li>office questions - collected using a survey123 form</li>
-<li>office questions - scripted using the <a href="https://github.com/BCWF-Wetlands/WESP_OF" class="external-link">WESP_OF</a> github
-repo.</li>
+<li>Field data collected using a survey123 form (WESP_FIELDV1.csv)</li>
+<li>Desktop data collected using a survey123 form
+(WESP_DESKTOPV1.csv)</li>
 </ul>
+<p>Note for advanced users the desktop analysis can be conducted using
+the R package<a href="https://github.com/BCWF-Wetlands/WESP_OF" class="external-link">WESP_OF</a> github repo.
+This is beyond the scope of this tutorial.</p>
 <div class="section level3">
 <h3 id="field-data">Field data<a class="anchor" aria-label="anchor" href="#field-data"></a>
 </h3>
@@ -85,64 +87,60 @@ repo.</li>
 intended to control data inputs and standardize the data collection
 process. These comprise all the <em>field</em> and <em>stressor</em>
 based questions.</p>
-<p>The data is exported from survey123 as a csv file. Note some minor
-manual edits were required to make the data file compatible to read in,
-i.e. format datatime column. These should be minimal in future as the
-processes is continually improved.</p>
-<p>An example data file is included within this package for testing.Note
-using system.file() can create some difficulties on a OS operating
+<p>The data is exported from survey123 as a <em>csv file</em>. This will
+be the input file type.</p>
+<p>An example data file is included within this package for testing.
+Note using system.file() can create some difficulties on a OS operating
 system.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">file_123</span> <span class="op">&lt;-</span> <span class="st">'field_survey123_edited_04.14.2025.xls'</span></span>
-<span><span class="va">s123_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">'extdata'</span>,<span class="va">file_123</span><span class="op">)</span></span>
+<span><span class="co"># Define the location of the survey123 Field data </span></span>
 <span></span>
-<span><span class="va">field</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="va">s123_file</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
-<span><span class="co">#field_excel &lt;- read_xls(field)</span></span>
-<span></span>
-<span><span class="co">#head(field)</span></span></code></pre></div>
+<span><span class="va">field</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">'extdata'</span>,<span class="st">'WESP_FIELDV1.csv'</span><span class="op">)</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="office-data">Office data<a class="anchor" aria-label="anchor" href="#office-data"></a>
+<h3 id="desktop-data">Desktop data<a class="anchor" aria-label="anchor" href="#desktop-data"></a>
 </h3>
-<p>Office data is collected in two part (by users either post or pre
-fieldwork, and compiled as part of the <a href="https://github.com/BCWF-Wetlands/WESP_OF" class="external-link">BCWF-Wetlands/WESP_OF</a>.
-These are merged into a single file and exported as a .xls file. An
-example data file is included within this package for testing.</p>
+<p>Desktop data is also collected using a survey123 form. Ensure the
+export from survey123 is in a .csv file format.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">office</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/scripted_office.xlsx"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Define the location of the survey123 Desktop data </span></span>
 <span></span>
-<span><span class="co">#head(office)</span></span></code></pre></div>
+<span><span class="va">desktop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">'extdata'</span>,<span class="st">'WESP_DESKTOPV1.csv'</span><span class="op">)</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="compiling-and-formatting-data">Compiling and formatting data<a class="anchor" aria-label="anchor" href="#compiling-and-formatting-data"></a>
 </h2>
 <p>The data is compiled and formatted using the
-<code>combine_rawdata</code> function. This function takes the field and
-office data as inputs, and outputs a single data frame with the data
-formatted for use in the wespr calculations.</p>
-<p>Users need to define the file path to the field and office data
-files, the ecoregion to be reviewed. In this example we define the EcoP
-as “GD” for Georgia Depression.</p>
-<p>Users can then define if they want to review the formatted subfiles
-(i.e. office and field data), and if they want to save the final data
-file and if the file should be overwritten</p>
+<code>format_rawdata</code> function. This function takes the two
+survey123 outputs csv’s (field and desktop), it standardises naming
+field, data types and combines the data into a single dataframe ready to
+be used to calculate wespr values.</p>
+<p>The user needs to define the filepath to the field and desktop csv
+files.<br>
+Optional parameters also include:</p>
+<ul>
+<li><p>write_subfiles (TRUE/FALSE) : do you want to produce individual
+files for field, desktop and stressor data components, to allow for easy
+data checks</p></li>
+<li><p>out_dir (filepath): If you want to output subfiles define the
+filepath where these should be saved to.</p></li>
+<li><p>overwrite (TRUE/FALSE) : If subfiles already exist, do you want
+to overwrite them?</p></li>
+</ul>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Preparing the raw data</span></span>
 <span></span>
-<span><span class="va">ww</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/combine_rawdata.html">combine_rawdata</a></span><span class="op">(</span></span>
-<span>    <span class="va">field_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/field_survey123_edited_04.14.2025.xls"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span>,</span>
-<span>    <span class="va">office_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/scripted_office.xlsx"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span>,</span>
-<span>    EcoP <span class="op">=</span> <span class="st">"GD"</span>,</span>
+<span><span class="va">ww</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format_rawinputs.html">format_rawinputs</a></span><span class="op">(</span></span>
+<span>    <span class="va">field_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">'extdata'</span>,<span class="st">'WESP_FIELDV1.csv'</span><span class="op">)</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span>,</span>
+<span>    <span class="va">desktop_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">'extdata'</span>,<span class="st">'WESP_DESKTOPV1.csv'</span><span class="op">)</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span>,</span>
 <span>    write_subfiles <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>    out_dir <span class="op">=</span> <span class="st">"input_data"</span>,</span>
 <span>    overwrite <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">ww</span>, <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="st">"input_data/wetFlat_20250417.csv"</span><span class="op">)</span>, row.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p>If we choose to review the subfiles, these will be written to the
-out_dir directory.</p>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">ww</span>, <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="st">"input_data/wesp_input_20251125.csv"</span><span class="op">)</span>, row.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quality-checking-the-data">Quality checking the data<a class="anchor" aria-label="anchor" href="#quality-checking-the-data"></a>
@@ -151,7 +149,7 @@ out_dir directory.</p>
 function. This function checks the data for missing values, and ensures
 the data is in the correct format.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">indata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/wetFlat_20250417.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">indata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/wesp_input_20251125.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/check_indata.html">check_indata</a></span><span class="op">(</span><span class="va">indata</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -185,7 +183,7 @@ F2_B2,1,0,1,1,1,0</code></pre>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
