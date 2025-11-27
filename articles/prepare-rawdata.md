@@ -73,15 +73,18 @@ Optional parameters also include:
 
 ``` r
 
+# point to the location where you want the outputs to be saved
+output_dir = "outputs"
+
 ww <- format_rawinputs(
   field_data <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr"),
   desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr"),
   write_subfiles = FALSE,
-  out_dir = "input_data",
+  out_dir = output_dir,
   overwrite = TRUE
 )
 
-write.csv(ww, fs::path("inst", 'extdata',"wesp_input_20251125.csv"), row.names=FALSE)
+write.csv(ww, fs::path(output_dir,"wesp_input_20251125.csv"), row.names=FALSE)
 ```
 
 ## Quality checking the data
@@ -91,7 +94,7 @@ function checks the data for missing values, and ensures the data is in
 the correct format.
 
 ``` r
-indata <- system.file("extdata/wesp_input_20251125.csv", package = "wespr")
+indata <- fs::path(output_dir,"wesp_input_20251125.csv")
 
 check_indata(indata)
 ```
