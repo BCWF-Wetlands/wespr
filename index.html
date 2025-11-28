@@ -87,31 +87,25 @@
 <span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>F2_B2,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span></span></code></pre></div>
 <p>We have included an example file in the package, which we can use for demonstration purposes:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">wesp_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/wetFlat_20240130.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">wesp_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/reference_multisite.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
 <span><span class="va">wesp_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/load_wesp_data.html">load_wesp_data</a></span><span class="op">(</span><span class="va">wesp_file</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">wesp_data</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 6 × 102</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 12</span></span>
 <span><span class="co">#&gt;   q_no  response_no site_1 site_2 site_3 site_4 site_5 site_6 site_7 site_8</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; </span></span>
-<span><span class="co">#&gt; 1 F1    1           0           1 1      1      2      1      4      1     </span></span>
-<span><span class="co">#&gt; 2 F1    2           3           3 2      0      2      0      0      0     </span></span>
-<span><span class="co">#&gt; 3 F1    3           0           3 1      1      1      1      3      1     </span></span>
-<span><span class="co">#&gt; 4 F1    4           4           1 1      1      3      1      0      0     </span></span>
-<span><span class="co">#&gt; 5 F1    5           0           1 1      1      0      1      1      0     </span></span>
-<span><span class="co">#&gt; 6 F1    6           1           1 1      1      4      3      0      0     </span></span>
-<span><span class="co">#&gt; # ℹ 92 more variables: site_9 &lt;chr&gt;, site_10 &lt;chr&gt;, site_11 &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   site_12 &lt;chr&gt;, site_13 &lt;chr&gt;, site_14 &lt;chr&gt;, site_15 &lt;chr&gt;, site_16 &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   site_17 &lt;chr&gt;, site_18 &lt;chr&gt;, site_19 &lt;chr&gt;, site_20 &lt;chr&gt;, site_21 &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   site_22 &lt;chr&gt;, site_23 &lt;chr&gt;, site_24 &lt;chr&gt;, site_25 &lt;chr&gt;, site_26 &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   site_27 &lt;chr&gt;, site_28 &lt;chr&gt;, site_29 &lt;chr&gt;, site_30 &lt;chr&gt;, site_31 &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   site_32 &lt;chr&gt;, site_33 &lt;chr&gt;, site_34 &lt;chr&gt;, site_35 &lt;chr&gt;, site_36 &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   site_37 &lt;chr&gt;, site_38 &lt;chr&gt;, site_39 &lt;chr&gt;, site_40 &lt;chr&gt;, …</span></span></code></pre></div>
+<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; </span></span>
+<span><span class="co">#&gt; 1 F1    1           1      0      1      2      1      3      1      1     </span></span>
+<span><span class="co">#&gt; 2 F1    2           1      1      0      1      0      0      2      0     </span></span>
+<span><span class="co">#&gt; 3 F1    3           1      0      1      1      1      3      1      1     </span></span>
+<span><span class="co">#&gt; 4 F1    4           2      1      1      2      1      0      3      0     </span></span>
+<span><span class="co">#&gt; 5 F1    5           1      0      0      1      2      0      0      1     </span></span>
+<span><span class="co">#&gt; 6 F1    6           1      0      2      1      1      3      2      1     </span></span>
+<span><span class="co">#&gt; # ℹ 2 more variables: site_9 &lt;chr&gt;, site_10 &lt;chr&gt;</span></span></code></pre></div>
 <p>Next we convert the data into a special <code>wesp_site</code> object. This process validates the input data, and will give informative errors if a question is not answered correctly. It also calculates many “derived values” from the questions, which are common inputs into different indicator calculations.</p>
 <p>If there is more than one site in the input data, you can select which site you would like to use — if no site is selected it will default to choosing the first site in the file.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">site</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/as.wesp_site.html">as.wesp_site</a></span><span class="op">(</span><span class="va">wesp_data</span>, site <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Questions F43, F44, F50 do not appear to have been filled out.</span></span>
+<span><span class="co">#&gt; Questions F31, F32, F33, F34, F35, F36, F37, F50, F52, F55 do not appear to have been filled out.</span></span>
 <span><span class="co">#&gt;  Please ensure this is valid.</span></span></code></pre></div>
 <p>You should not normally need to work with the internals of the <code>wesp_site</code> object as it is quite complex, however we can get an overview of what is in it by just typing the name of the object:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -120,7 +114,7 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Site:  site_1 </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Incomplete Questions:  F43, F44, F50 </span></span>
+<span><span class="co">#&gt; Incomplete Questions:  F31, F32, F33, F34, F35, F36, F37, F50, F52, F55 </span></span>
 <span><span class="co">#&gt;   * Please ensure that it is valid to leave these questions unanswered.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Derived values:</span></span>
@@ -133,38 +127,38 @@
 <span><span class="co">#&gt;   *  HiFlucW = 0</span></span>
 <span><span class="co">#&gt;   *  TooShallow = 0</span></span>
 <span><span class="co">#&gt;   *  NoPond = 0</span></span>
-<span><span class="co">#&gt;   *  NoDeepPonded = 0</span></span>
+<span><span class="co">#&gt;   *  NoDeepPonded = 1</span></span>
 <span><span class="co">#&gt;   *  NoOW = 0</span></span>
 <span><span class="co">#&gt;   *  NoOutletX = 0</span></span>
 <span><span class="co">#&gt;   *  NoOutlet = 0</span></span>
-<span><span class="co">#&gt;   *  Inflow = 0</span></span>
+<span><span class="co">#&gt;   *  Inflow = 1</span></span>
 <span><span class="co">#&gt;   *  Disturb = 0</span></span>
-<span><span class="co">#&gt;   *  FishFound = 0</span></span>
-<span><span class="co">#&gt;   *  Moose = 0</span></span>
-<span><span class="co">#&gt;   *  Beaver = 0</span></span>
-<span><span class="co">#&gt;   *  Muskrat = 0</span></span>
-<span><span class="co">#&gt;   *  Bear = 0</span></span>
-<span><span class="co">#&gt;   *  Caribou = 0</span></span>
+<span><span class="co">#&gt;   *  FishFound = 1</span></span>
+<span><span class="co">#&gt;   *  Moose = 1</span></span>
+<span><span class="co">#&gt;   *  Beaver = 1</span></span>
+<span><span class="co">#&gt;   *  Muskrat = 1</span></span>
+<span><span class="co">#&gt;   *  Bear = 1</span></span>
+<span><span class="co">#&gt;   *  Caribou = 1</span></span>
 <span><span class="co">#&gt;   *  NoCA = 0</span></span>
 <span><span class="co">#&gt;   *  Fishless = 0</span></span>
 <span><span class="co">#&gt;   *  GDeco = 0</span></span>
-<span><span class="co">#&gt;   *  CMeco = 1</span></span>
-<span><span class="co">#&gt;   *  SIMeco = 0</span></span>
+<span><span class="co">#&gt;   *  CMeco = 0</span></span>
+<span><span class="co">#&gt;   *  SIMeco = 1</span></span>
 <span><span class="co">#&gt;   *  BPeco = 0</span></span>
 <span><span class="co">#&gt;   *  TPeco = 0</span></span>
-<span><span class="co">#&gt;   *  OutMap = 0</span></span>
-<span><span class="co">#&gt;   *  S1_sum = 2</span></span>
-<span><span class="co">#&gt;   *  S1_subscore = 0.17</span></span>
+<span><span class="co">#&gt;   *  OutMap = 1</span></span>
+<span><span class="co">#&gt;   *  S1_sum = 1</span></span>
+<span><span class="co">#&gt;   *  S1_subscore = 0.08</span></span>
 <span><span class="co">#&gt;   *  S2_sum = 0</span></span>
 <span><span class="co">#&gt;   *  S2_subscore = 0</span></span>
-<span><span class="co">#&gt;   *  S3_sum = 0</span></span>
-<span><span class="co">#&gt;   *  S3_subscore = 0</span></span>
-<span><span class="co">#&gt;   *  S4_sum = 5</span></span>
-<span><span class="co">#&gt;   *  S4_subscore = 0.42</span></span>
+<span><span class="co">#&gt;   *  S3_sum = 1</span></span>
+<span><span class="co">#&gt;   *  S3_subscore = 0.11</span></span>
+<span><span class="co">#&gt;   *  S4_sum = 0</span></span>
+<span><span class="co">#&gt;   *  S4_subscore = 0</span></span>
 <span><span class="co">#&gt;   *  S5_sum = 0</span></span>
 <span><span class="co">#&gt;   *  S5_subscore = 0</span></span>
-<span><span class="co">#&gt;   *  S6_sum = 0</span></span>
-<span><span class="co">#&gt;   *  S6_subscore = 0</span></span>
+<span><span class="co">#&gt;   *  S6_sum = 3</span></span>
+<span><span class="co">#&gt;   *  S6_subscore = 0.5</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Indicators:</span></span>
 <span><span class="co">#&gt; All indicators are NULL. Run `calc_indicators()` to calculate them.</span></span></code></pre></div>
@@ -180,7 +174,7 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Site:  site_1 </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Incomplete Questions:  F43, F44, F50 </span></span>
+<span><span class="co">#&gt; Incomplete Questions:  F31, F32, F33, F34, F35, F36, F37, F50, F52, F55 </span></span>
 <span><span class="co">#&gt;   * Please ensure that it is valid to leave these questions unanswered.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Derived values:</span></span>
@@ -193,92 +187,92 @@
 <span><span class="co">#&gt;   *  HiFlucW = 0</span></span>
 <span><span class="co">#&gt;   *  TooShallow = 0</span></span>
 <span><span class="co">#&gt;   *  NoPond = 0</span></span>
-<span><span class="co">#&gt;   *  NoDeepPonded = 0</span></span>
+<span><span class="co">#&gt;   *  NoDeepPonded = 1</span></span>
 <span><span class="co">#&gt;   *  NoOW = 0</span></span>
 <span><span class="co">#&gt;   *  NoOutletX = 0</span></span>
 <span><span class="co">#&gt;   *  NoOutlet = 0</span></span>
-<span><span class="co">#&gt;   *  Inflow = 0</span></span>
+<span><span class="co">#&gt;   *  Inflow = 1</span></span>
 <span><span class="co">#&gt;   *  Disturb = 0</span></span>
-<span><span class="co">#&gt;   *  FishFound = 0</span></span>
-<span><span class="co">#&gt;   *  Moose = 0</span></span>
-<span><span class="co">#&gt;   *  Beaver = 0</span></span>
-<span><span class="co">#&gt;   *  Muskrat = 0</span></span>
-<span><span class="co">#&gt;   *  Bear = 0</span></span>
-<span><span class="co">#&gt;   *  Caribou = 0</span></span>
+<span><span class="co">#&gt;   *  FishFound = 1</span></span>
+<span><span class="co">#&gt;   *  Moose = 1</span></span>
+<span><span class="co">#&gt;   *  Beaver = 1</span></span>
+<span><span class="co">#&gt;   *  Muskrat = 1</span></span>
+<span><span class="co">#&gt;   *  Bear = 1</span></span>
+<span><span class="co">#&gt;   *  Caribou = 1</span></span>
 <span><span class="co">#&gt;   *  NoCA = 0</span></span>
 <span><span class="co">#&gt;   *  Fishless = 0</span></span>
 <span><span class="co">#&gt;   *  GDeco = 0</span></span>
-<span><span class="co">#&gt;   *  CMeco = 1</span></span>
-<span><span class="co">#&gt;   *  SIMeco = 0</span></span>
+<span><span class="co">#&gt;   *  CMeco = 0</span></span>
+<span><span class="co">#&gt;   *  SIMeco = 1</span></span>
 <span><span class="co">#&gt;   *  BPeco = 0</span></span>
 <span><span class="co">#&gt;   *  TPeco = 0</span></span>
-<span><span class="co">#&gt;   *  OutMap = 0</span></span>
-<span><span class="co">#&gt;   *  S1_sum = 2</span></span>
-<span><span class="co">#&gt;   *  S1_subscore = 0.17</span></span>
+<span><span class="co">#&gt;   *  OutMap = 1</span></span>
+<span><span class="co">#&gt;   *  S1_sum = 1</span></span>
+<span><span class="co">#&gt;   *  S1_subscore = 0.08</span></span>
 <span><span class="co">#&gt;   *  S2_sum = 0</span></span>
 <span><span class="co">#&gt;   *  S2_subscore = 0</span></span>
-<span><span class="co">#&gt;   *  S3_sum = 0</span></span>
-<span><span class="co">#&gt;   *  S3_subscore = 0</span></span>
-<span><span class="co">#&gt;   *  S4_sum = 5</span></span>
-<span><span class="co">#&gt;   *  S4_subscore = 0.42</span></span>
+<span><span class="co">#&gt;   *  S3_sum = 1</span></span>
+<span><span class="co">#&gt;   *  S3_subscore = 0.11</span></span>
+<span><span class="co">#&gt;   *  S4_sum = 0</span></span>
+<span><span class="co">#&gt;   *  S4_subscore = 0</span></span>
 <span><span class="co">#&gt;   *  S5_sum = 0</span></span>
 <span><span class="co">#&gt;   *  S5_subscore = 0</span></span>
-<span><span class="co">#&gt;   *  S6_sum = 0</span></span>
-<span><span class="co">#&gt;   *  S6_subscore = 0</span></span>
+<span><span class="co">#&gt;   *  S6_sum = 3</span></span>
+<span><span class="co">#&gt;   *  S6_subscore = 0.5</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Indicators:</span></span>
 <span><span class="co">#&gt;   * WS:  </span></span>
-<span><span class="co">#&gt;     - fun: 4.61 </span></span>
-<span><span class="co">#&gt;     - ben: 10 </span></span>
+<span><span class="co">#&gt;     - fun: 2.37 </span></span>
+<span><span class="co">#&gt;     - ben: 3.39 </span></span>
 <span><span class="co">#&gt;   * SR:  </span></span>
-<span><span class="co">#&gt;     - fun: 10 </span></span>
-<span><span class="co">#&gt;     - ben: 4.06 </span></span>
-<span><span class="co">#&gt;   * PR:  </span></span>
-<span><span class="co">#&gt;     - fun: 10 </span></span>
-<span><span class="co">#&gt;     - ben: 3.18 </span></span>
-<span><span class="co">#&gt;   * CP:  </span></span>
-<span><span class="co">#&gt;     - fun: 6.86 </span></span>
-<span><span class="co">#&gt;   * FR:  </span></span>
-<span><span class="co">#&gt;     - fun: 4.39 </span></span>
-<span><span class="co">#&gt;     - ben: 8.06 </span></span>
-<span><span class="co">#&gt;   * SENS:  </span></span>
-<span><span class="co">#&gt;     - fun: 6.24 </span></span>
-<span><span class="co">#&gt;   * STR:  </span></span>
-<span><span class="co">#&gt;     - fun: 7.96 </span></span>
-<span><span class="co">#&gt;   * NR:  </span></span>
-<span><span class="co">#&gt;     - fun: 10 </span></span>
-<span><span class="co">#&gt;     - ben: 5 </span></span>
-<span><span class="co">#&gt;   * APP:  </span></span>
-<span><span class="co">#&gt;     - fun: 4.81 </span></span>
-<span><span class="co">#&gt;     - ben: 4 </span></span>
-<span><span class="co">#&gt;   * PD:  </span></span>
-<span><span class="co">#&gt;     - fun: 5.59 </span></span>
-<span><span class="co">#&gt;     - ben: 5.45 </span></span>
-<span><span class="co">#&gt;   * KMH:  </span></span>
-<span><span class="co">#&gt;     - fun: 5.38 </span></span>
-<span><span class="co">#&gt;     - ben: 5.3 </span></span>
-<span><span class="co">#&gt;   * WB:  </span></span>
-<span><span class="co">#&gt;     - fun: 4.95 </span></span>
-<span><span class="co">#&gt;     - ben: 7.19 </span></span>
-<span><span class="co">#&gt;   * POL:  </span></span>
-<span><span class="co">#&gt;     - fun: 5.81 </span></span>
-<span><span class="co">#&gt;     - ben: 6 </span></span>
-<span><span class="co">#&gt;   * RSB:  </span></span>
-<span><span class="co">#&gt;     - fun: 4.96 </span></span>
-<span><span class="co">#&gt;     - ben: 5.58 </span></span>
-<span><span class="co">#&gt;   * OE:  </span></span>
 <span><span class="co">#&gt;     - fun: 0 </span></span>
+<span><span class="co">#&gt;     - ben: 3.05 </span></span>
+<span><span class="co">#&gt;   * PR:  </span></span>
+<span><span class="co">#&gt;     - fun: 4.73 </span></span>
+<span><span class="co">#&gt;     - ben: 3.84 </span></span>
+<span><span class="co">#&gt;   * CP:  </span></span>
+<span><span class="co">#&gt;     - fun: 6.56 </span></span>
+<span><span class="co">#&gt;   * FR:  </span></span>
+<span><span class="co">#&gt;     - fun: 2.75 </span></span>
+<span><span class="co">#&gt;     - ben: 0.35 </span></span>
+<span><span class="co">#&gt;   * SENS:  </span></span>
+<span><span class="co">#&gt;     - fun: 6.95 </span></span>
+<span><span class="co">#&gt;   * STR:  </span></span>
+<span><span class="co">#&gt;     - fun: 5.54 </span></span>
+<span><span class="co">#&gt;   * NR:  </span></span>
+<span><span class="co">#&gt;     - fun: 5.23 </span></span>
+<span><span class="co">#&gt;     - ben: 3.84 </span></span>
+<span><span class="co">#&gt;   * APP:  </span></span>
+<span><span class="co">#&gt;     - fun: 2.77 </span></span>
+<span><span class="co">#&gt;     - ben: 4.51 </span></span>
+<span><span class="co">#&gt;   * PD:  </span></span>
+<span><span class="co">#&gt;     - fun: 6.31 </span></span>
+<span><span class="co">#&gt;     - ben: 2.63 </span></span>
+<span><span class="co">#&gt;   * KMH:  </span></span>
+<span><span class="co">#&gt;     - fun: 8.8 </span></span>
+<span><span class="co">#&gt;     - ben: 4.58 </span></span>
+<span><span class="co">#&gt;   * WB:  </span></span>
+<span><span class="co">#&gt;     - fun: 3.96 </span></span>
+<span><span class="co">#&gt;     - ben: 6.67 </span></span>
+<span><span class="co">#&gt;   * POL:  </span></span>
+<span><span class="co">#&gt;     - fun: 5.78 </span></span>
+<span><span class="co">#&gt;     - ben: 3.33 </span></span>
+<span><span class="co">#&gt;   * RSB:  </span></span>
+<span><span class="co">#&gt;     - fun: 6.7 </span></span>
+<span><span class="co">#&gt;     - ben: 4.72 </span></span>
+<span><span class="co">#&gt;   * OE:  </span></span>
+<span><span class="co">#&gt;     - fun: 4.37 </span></span>
 <span><span class="co">#&gt;   * AM:  </span></span>
-<span><span class="co">#&gt;     - fun: 3.17 </span></span>
-<span><span class="co">#&gt;     - ben: 6.03 </span></span>
+<span><span class="co">#&gt;     - fun: 4.44 </span></span>
+<span><span class="co">#&gt;     - ben: 3.96 </span></span>
 <span><span class="co">#&gt;   * FH:  </span></span>
-<span><span class="co">#&gt;     - fun: 2.92 </span></span>
-<span><span class="co">#&gt;     - ben: 4.98 </span></span>
+<span><span class="co">#&gt;     - fun: 2.94 </span></span>
+<span><span class="co">#&gt;     - ben: 4.65 </span></span>
 <span><span class="co">#&gt;   * SFTS:  </span></span>
-<span><span class="co">#&gt;     - fun: 1.81 </span></span>
-<span><span class="co">#&gt;     - ben: 2.07 </span></span>
+<span><span class="co">#&gt;     - fun: 4.5 </span></span>
+<span><span class="co">#&gt;     - ben: 2.93 </span></span>
 <span><span class="co">#&gt;   * CRI:  </span></span>
-<span><span class="co">#&gt;     - ben: 5.35 </span></span>
+<span><span class="co">#&gt;     - ben: 5.54 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; * Retrieve indicator scores with `get_indicator_scores()`</span></span></code></pre></div>
 <p>We probably want to get the indicator scores out as a usable object. We can do that with <code><a href="reference/get_indicator_scores.html">get_indicator_scores()</a></code>, which gives them to us as a <code>data.frame</code>:</p>
@@ -287,44 +281,44 @@
 <span></span>
 <span><span class="va">ind_scores</span></span>
 <span><span class="co">#&gt; # A tibble: 19 × 4</span></span>
-<span><span class="co">#&gt;    site   indicator   fun   ben</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1 site_1 WS         4.61 10   </span></span>
-<span><span class="co">#&gt;  2 site_1 SR        10     4.06</span></span>
-<span><span class="co">#&gt;  3 site_1 PR        10     3.18</span></span>
-<span><span class="co">#&gt;  4 site_1 CP         6.86 NA   </span></span>
-<span><span class="co">#&gt;  5 site_1 FR         4.39  8.06</span></span>
-<span><span class="co">#&gt;  6 site_1 SENS       6.24 NA   </span></span>
-<span><span class="co">#&gt;  7 site_1 STR        7.96 NA   </span></span>
-<span><span class="co">#&gt;  8 site_1 NR        10     5   </span></span>
-<span><span class="co">#&gt;  9 site_1 APP        4.81  4.00</span></span>
-<span><span class="co">#&gt; 10 site_1 PD         5.59  5.45</span></span>
-<span><span class="co">#&gt; 11 site_1 KMH        5.38  5.30</span></span>
-<span><span class="co">#&gt; 12 site_1 WB         4.95  7.19</span></span>
-<span><span class="co">#&gt; 13 site_1 POL        5.81  6   </span></span>
-<span><span class="co">#&gt; 14 site_1 RSB        4.96  5.58</span></span>
-<span><span class="co">#&gt; 15 site_1 OE         0    NA   </span></span>
-<span><span class="co">#&gt; 16 site_1 AM         3.17  6.03</span></span>
-<span><span class="co">#&gt; 17 site_1 FH         2.92  4.98</span></span>
-<span><span class="co">#&gt; 18 site_1 SFTS       1.81  2.07</span></span>
-<span><span class="co">#&gt; 19 site_1 CRI       NA     5.35</span></span></code></pre></div>
+<span><span class="co">#&gt;    site   indicator   fun    ben</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 site_1 WS         2.37  3.39 </span></span>
+<span><span class="co">#&gt;  2 site_1 SR         0     3.05 </span></span>
+<span><span class="co">#&gt;  3 site_1 PR         4.73  3.84 </span></span>
+<span><span class="co">#&gt;  4 site_1 CP         6.56 NA    </span></span>
+<span><span class="co">#&gt;  5 site_1 FR         2.75  0.352</span></span>
+<span><span class="co">#&gt;  6 site_1 SENS       6.95 NA    </span></span>
+<span><span class="co">#&gt;  7 site_1 STR        5.54 NA    </span></span>
+<span><span class="co">#&gt;  8 site_1 NR         5.23  3.84 </span></span>
+<span><span class="co">#&gt;  9 site_1 APP        2.77  4.51 </span></span>
+<span><span class="co">#&gt; 10 site_1 PD         6.31  2.63 </span></span>
+<span><span class="co">#&gt; 11 site_1 KMH        8.80  4.58 </span></span>
+<span><span class="co">#&gt; 12 site_1 WB         3.96  6.67 </span></span>
+<span><span class="co">#&gt; 13 site_1 POL        5.78  3.33 </span></span>
+<span><span class="co">#&gt; 14 site_1 RSB        6.70  4.72 </span></span>
+<span><span class="co">#&gt; 15 site_1 OE         4.37 NA    </span></span>
+<span><span class="co">#&gt; 16 site_1 AM         4.44  3.96 </span></span>
+<span><span class="co">#&gt; 17 site_1 FH         2.94  4.65 </span></span>
+<span><span class="co">#&gt; 18 site_1 SFTS       4.5   2.93 </span></span>
+<span><span class="co">#&gt; 19 site_1 CRI       NA     5.54</span></span></code></pre></div>
 <p>Similarly, we can extract the original responses with <code><a href="reference/get_responses.html">get_responses()</a></code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/get_responses.html">get_responses</a></span><span class="op">(</span><span class="va">site</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 498 × 4</span></span>
+<span><span class="co">#&gt; # A tibble: 501 × 4</span></span>
 <span><span class="co">#&gt;    no    question                           response_no value</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;                              &lt;chr&gt;       &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1 F1    Vegetation Height &amp; Form Diversity F1_1            0</span></span>
-<span><span class="co">#&gt;  2 F1    Vegetation Height &amp; Form Diversity F1_2            3</span></span>
-<span><span class="co">#&gt;  3 F1    Vegetation Height &amp; Form Diversity F1_3            0</span></span>
-<span><span class="co">#&gt;  4 F1    Vegetation Height &amp; Form Diversity F1_4            4</span></span>
-<span><span class="co">#&gt;  5 F1    Vegetation Height &amp; Form Diversity F1_5            0</span></span>
+<span><span class="co">#&gt;  1 F1    Vegetation Height &amp; Form Diversity F1_1            1</span></span>
+<span><span class="co">#&gt;  2 F1    Vegetation Height &amp; Form Diversity F1_2            1</span></span>
+<span><span class="co">#&gt;  3 F1    Vegetation Height &amp; Form Diversity F1_3            1</span></span>
+<span><span class="co">#&gt;  4 F1    Vegetation Height &amp; Form Diversity F1_4            2</span></span>
+<span><span class="co">#&gt;  5 F1    Vegetation Height &amp; Form Diversity F1_5            1</span></span>
 <span><span class="co">#&gt;  6 F1    Vegetation Height &amp; Form Diversity F1_6            1</span></span>
-<span><span class="co">#&gt;  7 F10   Dense Moss Extent                  F10_1           1</span></span>
+<span><span class="co">#&gt;  7 F10   Dense Moss Extent                  F10_1           0</span></span>
 <span><span class="co">#&gt;  8 F10   Dense Moss Extent                  F10_2           0</span></span>
 <span><span class="co">#&gt;  9 F10   Dense Moss Extent                  F10_3           0</span></span>
-<span><span class="co">#&gt; 10 F10   Dense Moss Extent                  F10_4           0</span></span>
-<span><span class="co">#&gt; # ℹ 488 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; 10 F10   Dense Moss Extent                  F10_4           1</span></span>
+<span><span class="co">#&gt; # ℹ 491 more rows</span></span></code></pre></div>
 <p>We can also get out a data.frame of derived values, those values which are calculated from the responses, and used as inputs into many indicators.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/get_derived_values.html">get_derived_values</a></span><span class="op">(</span><span class="va">site</span><span class="op">)</span></span>
@@ -340,7 +334,7 @@
 <span><span class="co">#&gt;  7 HiFlucW          0</span></span>
 <span><span class="co">#&gt;  8 TooShallow       0</span></span>
 <span><span class="co">#&gt;  9 NoPond           0</span></span>
-<span><span class="co">#&gt; 10 NoDeepPonded     0</span></span>
+<span><span class="co">#&gt; 10 NoDeepPonded     1</span></span>
 <span><span class="co">#&gt; # ℹ 31 more rows</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -348,25 +342,39 @@
 </h2>
 <p>In most cases we wish to calculate indicator scores for multiple site. This can be done with the <code><a href="reference/calculate_multi_site.html">calculate_multi_site()</a></code> function. Which requires the data to firstly be loaded using the <code><a href="reference/load_wesp_data.html">load_wesp_data()</a></code> function. We can then iterate through all sites.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="reference/calculate_multi_site.html">calculate_multi_site</a></span><span class="op">(</span><span class="va">wesp_data</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/calculate_multi_site.html">calculate_multi_site</a></span><span class="op">(</span><span class="va">wesp_data</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="calculating-jenks-scores">Calculating Jenks scores<a class="anchor" aria-label="anchor" href="#calculating-jenks-scores"></a>
 </h2>
+<p>Once all the indicator scores have been calculated, we can calculate the Jenks breaks and assign high, medium and low categories. This process firstly normalizes the data, then calculates the Jenks breaks and assigns the catergories. The process will also flag unusual results, such as all values being the same across all sites.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/calculate_jenks_score.html">calculate_jenks_score</a></span><span class="op">(</span><span class="va">wesp_data</span>, out_dir <span class="op">=</span> <span class="st">"temp"</span>,  out_name <span class="op">=</span> <span class="st">"wesp_scores_breaks.csv"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>site, AM_b_jenks, AM_b_norm, AM_b_raw, AM_f_jenks, AM_f_norm</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="dv">1</span>,  L,  <span class="fl">0.00</span>,   <span class="fl">3.96</span>,    M, <span class="fl">0.59</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="dv">2</span>,  M,  <span class="fl">0.52</span>,   <span class="fl">7.14</span>,    L, <span class="fl">0.00</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="dv">3</span>,  M,  <span class="fl">0.68</span>,   <span class="fl">8.09</span>,    L, <span class="fl">0.02</span>    </span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="dv">4</span>,  M,  <span class="fl">0.52</span>,   <span class="fl">7.14</span>,    M, <span class="fl">0.33</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="dv">5</span>,  H,  <span class="fl">0.76</span>,   <span class="fl">8.57</span>,    L, <span class="fl">0.14</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="dv">6</span>,  M,  <span class="fl">0.42</span>,   <span class="fl">6.50</span>,    M, <span class="fl">0.48</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="dv">7</span>,  H,  <span class="fl">1.00</span>,   <span class="fl">10.00</span>, H,   <span class="fl">1.00</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="dv">8</span>,  H,  <span class="fl">0.76</span>,   <span class="fl">8.57</span>,    L, <span class="fl">0.11</span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="dv">9</span>,  H,  <span class="fl">1.00</span>,   <span class="fl">10.00</span>, M,   <span class="fl">0.57</span>    </span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="dv">10</span>, M,  <span class="fl">0.60</span>,   <span class="fl">7.59</span>,    L, <span class="fl">0.25</span></span></code></pre></div>
+<p>This is currently in development and requires finer regional assessment to be incorporated. More detail is provided in this <a href="https://bcwf-wetlands.github.io/wespr/articles/calculate_wesp_scores.html">vignette</a></p>
 </div>
 <div class="section level2">
 <h2 id="anatomy-of-the-wesp_site-object">Anatomy of the <code>wesp_site</code> object<a class="anchor" aria-label="anchor" href="#anatomy-of-the-wesp_site-object"></a>
 </h2>
 <p>As mentioned above, this is a large, complex object, and it is almost always best to interact with the <code>wesp_site</code> object via the provided functions. If there is functionality that is missing please <a href="https://github.com/BCWF-Wetlands/wespr/issues" class="external-link">open an issue</a>.</p>
 <p>It has four elements:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">site</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 4</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">site</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "site_name"      "questions"      "derived_values" "indicators"</span></span></code></pre></div>
 <p>The first three (<code>site_name</code>, <code>questions</code>, and <code>derived_values</code>) are populated when the <code>wesp_site</code> object is created, but the <code>indicators</code> element is just a placeholder, until <code><a href="reference/calc_indicators.html">calc_indicators()</a></code> has been run:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">site</span><span class="op">$</span><span class="va">site_name</span></span>
 <span><span class="co">#&gt; [1] "site_1"</span></span>
 <span></span>
@@ -386,222 +394,222 @@
 <span></span>
 <span><span class="va">site</span><span class="op">$</span><span class="va">derived_values</span></span>
 <span><span class="co">#&gt;     AllWater   NeverWater   NoSeasonal     NoPersis      TempWet     AllPermW </span></span>
-<span><span class="co">#&gt;    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000 </span></span>
+<span><span class="co">#&gt;   0.00000000   0.00000000   0.00000000   0.00000000   0.00000000   0.00000000 </span></span>
 <span><span class="co">#&gt;      HiFlucW   TooShallow       NoPond NoDeepPonded         NoOW    NoOutletX </span></span>
-<span><span class="co">#&gt;    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000 </span></span>
+<span><span class="co">#&gt;   0.00000000   0.00000000   0.00000000   1.00000000   0.00000000   0.00000000 </span></span>
 <span><span class="co">#&gt;     NoOutlet       Inflow      Disturb    FishFound        Moose       Beaver </span></span>
-<span><span class="co">#&gt;    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000 </span></span>
+<span><span class="co">#&gt;   0.00000000   1.00000000   0.00000000   1.00000000   1.00000000   1.00000000 </span></span>
 <span><span class="co">#&gt;      Muskrat         Bear      Caribou         NoCA     Fishless        GDeco </span></span>
-<span><span class="co">#&gt;    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000    0.0000000 </span></span>
+<span><span class="co">#&gt;   1.00000000   1.00000000   1.00000000   0.00000000   0.00000000   0.00000000 </span></span>
 <span><span class="co">#&gt;        CMeco       SIMeco        BPeco        TPeco       OutMap       S1_sum </span></span>
-<span><span class="co">#&gt;    1.0000000    0.0000000    0.0000000    0.0000000    0.0000000    2.0000000 </span></span>
+<span><span class="co">#&gt;   0.00000000   1.00000000   0.00000000   0.00000000   1.00000000   1.00000000 </span></span>
 <span><span class="co">#&gt;  S1_subscore       S2_sum  S2_subscore       S3_sum  S3_subscore       S4_sum </span></span>
-<span><span class="co">#&gt;    0.1666667    0.0000000    0.0000000    0.0000000    0.0000000    5.0000000 </span></span>
+<span><span class="co">#&gt;   0.08333333   0.00000000   0.00000000   1.00000000   0.11111111   0.00000000 </span></span>
 <span><span class="co">#&gt;  S4_subscore       S5_sum  S5_subscore       S6_sum  S6_subscore </span></span>
-<span><span class="co">#&gt;    0.4166667    0.0000000    0.0000000    0.0000000    0.0000000</span></span>
+<span><span class="co">#&gt;   0.00000000   0.00000000   0.00000000   3.00000000   0.50000000</span></span>
 <span></span>
 <span><span class="va">site</span><span class="op">$</span><span class="va">indicators</span></span>
 <span><span class="co">#&gt; $ws</span></span>
 <span><span class="co">#&gt; $ws$fun</span></span>
-<span><span class="co">#&gt; Score: 4.605741 </span></span>
+<span><span class="co">#&gt; Score: 2.367995 </span></span>
 <span><span class="co">#&gt;   Subscores: </span></span>
-<span><span class="co">#&gt;     - subsurf: 0.46</span></span>
-<span><span class="co">#&gt;     - livestore: 0.6</span></span>
-<span><span class="co">#&gt;     - friction: 0.62</span></span>
+<span><span class="co">#&gt;     - subsurf: 0.6</span></span>
+<span><span class="co">#&gt;     - livestore: 0.4</span></span>
+<span><span class="co">#&gt;     - friction: 0.56</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $ws$ben</span></span>
-<span><span class="co">#&gt; Score: 10</span></span>
+<span><span class="co">#&gt; Score: 3.39</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $sr</span></span>
 <span><span class="co">#&gt; $sr$fun</span></span>
-<span><span class="co">#&gt; Score: 10 </span></span>
+<span><span class="co">#&gt; Score: 0 </span></span>
 <span><span class="co">#&gt;   Subscores: </span></span>
-<span><span class="co">#&gt;     - livestore: 0.62</span></span>
-<span><span class="co">#&gt;     - dryintercept: 0.17</span></span>
-<span><span class="co">#&gt;     - wetintercept: 0.65</span></span>
-<span><span class="co">#&gt;     - connectiv: 0.2</span></span>
+<span><span class="co">#&gt;     - livestore: 0.38</span></span>
+<span><span class="co">#&gt;     - dryintercept: 0.51</span></span>
+<span><span class="co">#&gt;     - wetintercept: 0.48</span></span>
+<span><span class="co">#&gt;     - connectiv: 0</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $sr$ben</span></span>
-<span><span class="co">#&gt; Score: 4.06</span></span>
+<span><span class="co">#&gt; Score: 3.05</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $pr</span></span>
 <span><span class="co">#&gt; $pr$fun</span></span>
-<span><span class="co">#&gt; Score: 10 </span></span>
+<span><span class="co">#&gt; Score: 4.733932 </span></span>
 <span><span class="co">#&gt;   Subscores: </span></span>
-<span><span class="co">#&gt;     - interceptdry: 0.31</span></span>
-<span><span class="co">#&gt;     - interceptwet: 0.46</span></span>
-<span><span class="co">#&gt;     - connec: 0.67</span></span>
-<span><span class="co">#&gt;     - adsorb: 0.7</span></span>
-<span><span class="co">#&gt;     - desorb: 0.49</span></span>
+<span><span class="co">#&gt;     - interceptdry: 0.52</span></span>
+<span><span class="co">#&gt;     - interceptwet: 0.39</span></span>
+<span><span class="co">#&gt;     - connec: 0.42</span></span>
+<span><span class="co">#&gt;     - adsorb: 0.3</span></span>
+<span><span class="co">#&gt;     - desorb: 0.54</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $pr$ben</span></span>
-<span><span class="co">#&gt; Score: 3.18</span></span>
+<span><span class="co">#&gt; Score: 3.84</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $cp</span></span>
 <span><span class="co">#&gt; $cp$fun</span></span>
-<span><span class="co">#&gt; Score: 6.86</span></span>
+<span><span class="co">#&gt; Score: 6.56</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $fr</span></span>
 <span><span class="co">#&gt; $fr$fun</span></span>
-<span><span class="co">#&gt; Score: 4.39</span></span>
+<span><span class="co">#&gt; Score: 2.75</span></span>
 <span><span class="co">#&gt; $fr$ben</span></span>
-<span><span class="co">#&gt; Score: 8.06</span></span>
+<span><span class="co">#&gt; Score: 0.35</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $sens</span></span>
 <span><span class="co">#&gt; $sens$fun</span></span>
-<span><span class="co">#&gt; Score: 6.237939 </span></span>
+<span><span class="co">#&gt; Score: 6.947053 </span></span>
 <span><span class="co">#&gt;   Subscores: </span></span>
 <span><span class="co">#&gt;     - abiosens: 1</span></span>
-<span><span class="co">#&gt;     - biosens: 0.62</span></span>
-<span><span class="co">#&gt;     - colonizer: 0.45</span></span>
-<span><span class="co">#&gt;     - growrate: 0.42</span></span>
+<span><span class="co">#&gt;     - biosens: 0.75</span></span>
+<span><span class="co">#&gt;     - colonizer: 0.37</span></span>
+<span><span class="co">#&gt;     - growrate: 0.66</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $str</span></span>
 <span><span class="co">#&gt; $str$fun</span></span>
-<span><span class="co">#&gt; Score: 7.959184 </span></span>
+<span><span class="co">#&gt; Score: 5.544218 </span></span>
 <span><span class="co">#&gt;   Subscores: </span></span>
-<span><span class="co">#&gt;     - hydrostress: 0.17</span></span>
-<span><span class="co">#&gt;     - wqstress: 0.13</span></span>
-<span><span class="co">#&gt;     - connecstress: 0.8</span></span>
+<span><span class="co">#&gt;     - hydrostress: 0.03</span></span>
+<span><span class="co">#&gt;     - wqstress: 0.02</span></span>
+<span><span class="co">#&gt;     - connecstress: 0.55</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $nr</span></span>
 <span><span class="co">#&gt; $nr$fun</span></span>
-<span><span class="co">#&gt; Score: 10 </span></span>
+<span><span class="co">#&gt; Score: 5.230225 </span></span>
 <span><span class="co">#&gt;   Subscores: </span></span>
-<span><span class="co">#&gt;     - warmth: 0.51</span></span>
-<span><span class="co">#&gt;     - intercept: 0.37</span></span>
-<span><span class="co">#&gt;     - connecc: 0.67</span></span>
-<span><span class="co">#&gt;     - organic: 0.7</span></span>
-<span><span class="co">#&gt;     - redox: 0.9</span></span>
+<span><span class="co">#&gt;     - warmth: 0.55</span></span>
+<span><span class="co">#&gt;     - intercept: 0.42</span></span>
+<span><span class="co">#&gt;     - connecc: 0.42</span></span>
+<span><span class="co">#&gt;     - organic: 1</span></span>
+<span><span class="co">#&gt;     - redox: 0.46</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $nr$ben</span></span>
-<span><span class="co">#&gt; Score: 5</span></span>
+<span><span class="co">#&gt; Score: 3.84</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $app</span></span>
 <span><span class="co">#&gt; $app$fun</span></span>
-<span><span class="co">#&gt; Score: 4.810678 </span></span>
+<span><span class="co">#&gt; Score: 2.769416 </span></span>
 <span><span class="co">#&gt;   Subscores: </span></span>
-<span><span class="co">#&gt;     - npinput: 0.12</span></span>
-<span><span class="co">#&gt;     - npcycling: 0.74</span></span>
-<span><span class="co">#&gt;     - templight: 0.68</span></span>
-<span><span class="co">#&gt;     - stressors: 0.77</span></span>
+<span><span class="co">#&gt;     - npinput: 0.33</span></span>
+<span><span class="co">#&gt;     - npcycling: 0.5</span></span>
+<span><span class="co">#&gt;     - templight: 0.59</span></span>
+<span><span class="co">#&gt;     - stressors: 0.8</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $app$ben</span></span>
-<span><span class="co">#&gt; Score: 4</span></span>
+<span><span class="co">#&gt; Score: 4.51</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $pd</span></span>
 <span><span class="co">#&gt; $pd$fun</span></span>
-<span><span class="co">#&gt; Score: 5.592124 </span></span>
+<span><span class="co">#&gt; Score: 6.309854 </span></span>
 <span><span class="co">#&gt;   Subscores: </span></span>
-<span><span class="co">#&gt;     - spparea: 0.56</span></span>
-<span><span class="co">#&gt;     - vrichness: 0.6</span></span>
-<span><span class="co">#&gt;     - aqfertilpd: 0.48</span></span>
-<span><span class="co">#&gt;     - vscape: 0.58</span></span>
-<span><span class="co">#&gt;     - stresspd: 0.54</span></span>
+<span><span class="co">#&gt;     - spparea: 0.7</span></span>
+<span><span class="co">#&gt;     - vrichness: 0.65</span></span>
+<span><span class="co">#&gt;     - aqfertilpd: 0.4</span></span>
+<span><span class="co">#&gt;     - vscape: 0.69</span></span>
+<span><span class="co">#&gt;     - stresspd: 0.95</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $pd$ben</span></span>
-<span><span class="co">#&gt; Score: 5.45</span></span>
+<span><span class="co">#&gt; Score: 2.63</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $kmh</span></span>
 <span><span class="co">#&gt; $kmh$fun</span></span>
-<span><span class="co">#&gt; Score: 5.384443 </span></span>
+<span><span class="co">#&gt; Score: 8.803362 </span></span>
 <span><span class="co">#&gt;   Subscores: </span></span>
-<span><span class="co">#&gt;     - beaverhab: 0.45</span></span>
-<span><span class="co">#&gt;     - muskrathab: 0.44</span></span>
-<span><span class="co">#&gt;     - moosehab: 0.75</span></span>
-<span><span class="co">#&gt;     - caribouhab: 0.35</span></span>
-<span><span class="co">#&gt;     - bearhab: 0.7</span></span>
+<span><span class="co">#&gt;     - beaverhab: 1</span></span>
+<span><span class="co">#&gt;     - muskrathab: 0.4</span></span>
+<span><span class="co">#&gt;     - moosehab: 1</span></span>
+<span><span class="co">#&gt;     - caribouhab: 1</span></span>
+<span><span class="co">#&gt;     - bearhab: 1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $kmh$ben</span></span>
-<span><span class="co">#&gt; Score: 5.3</span></span>
+<span><span class="co">#&gt; Score: 4.58</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $wb</span></span>
 <span><span class="co">#&gt; $wb$fun</span></span>
-<span><span class="co">#&gt; Score: 4.952343 </span></span>
+<span><span class="co">#&gt; Score: 3.961478 </span></span>
 <span><span class="co">#&gt;   Subscores: </span></span>
-<span><span class="co">#&gt;     - lscape: 0.36</span></span>
+<span><span class="co">#&gt;     - lscape: 0.61</span></span>
 <span><span class="co">#&gt;     - hydro: 0.55</span></span>
-<span><span class="co">#&gt;     - produc: 0.48</span></span>
-<span><span class="co">#&gt;     - struc: 0.45</span></span>
+<span><span class="co">#&gt;     - produc: 0.28</span></span>
+<span><span class="co">#&gt;     - struc: 0.36</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $wb$ben</span></span>
-<span><span class="co">#&gt; Score: 7.19</span></span>
+<span><span class="co">#&gt; Score: 6.67</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $pol</span></span>
 <span><span class="co">#&gt; $pol$fun</span></span>
-<span><span class="co">#&gt; Score: 5.809951 </span></span>
+<span><span class="co">#&gt; Score: 5.775628 </span></span>
 <span><span class="co">#&gt;   Subscores: </span></span>
-<span><span class="co">#&gt;     - pollen: 0.56</span></span>
-<span><span class="co">#&gt;     - nestsites: 0.63</span></span>
-<span><span class="co">#&gt;     - stress: 0.54</span></span>
+<span><span class="co">#&gt;     - pollen: 0.63</span></span>
+<span><span class="co">#&gt;     - nestsites: 0.43</span></span>
+<span><span class="co">#&gt;     - stress: 0.72</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $pol$ben</span></span>
-<span><span class="co">#&gt; Score: 6</span></span>
+<span><span class="co">#&gt; Score: 3.33</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $rsb</span></span>
 <span><span class="co">#&gt; $rsb$fun</span></span>
-<span><span class="co">#&gt; Score: 4.956015 </span></span>
+<span><span class="co">#&gt; Score: 6.6958 </span></span>
 <span><span class="co">#&gt;   Subscores: </span></span>
-<span><span class="co">#&gt;     - hydrosize: 0.52</span></span>
-<span><span class="co">#&gt;     - struc: 0.65</span></span>
-<span><span class="co">#&gt;     - foods: 0.49</span></span>
-<span><span class="co">#&gt;     - habs: 0.5</span></span>
-<span><span class="co">#&gt;     - lscape: 0.28</span></span>
-<span><span class="co">#&gt;     - nopred: 0.33</span></span>
+<span><span class="co">#&gt;     - hydrosize: 0.68</span></span>
+<span><span class="co">#&gt;     - struc: 0.6</span></span>
+<span><span class="co">#&gt;     - foods: 0.46</span></span>
+<span><span class="co">#&gt;     - habs: 0.52</span></span>
+<span><span class="co">#&gt;     - lscape: 0.71</span></span>
+<span><span class="co">#&gt;     - nopred: 1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $rsb$ben</span></span>
-<span><span class="co">#&gt; Score: 5.58</span></span>
+<span><span class="co">#&gt; Score: 4.72</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $oe</span></span>
 <span><span class="co">#&gt; $oe$fun</span></span>
-<span><span class="co">#&gt; Score: 0 </span></span>
+<span><span class="co">#&gt; Score: 4.366295 </span></span>
 <span><span class="co">#&gt;   Subscores: </span></span>
-<span><span class="co">#&gt;     - histaccum: 0.69</span></span>
-<span><span class="co">#&gt;     - productiv: 0.48</span></span>
-<span><span class="co">#&gt;     - exportpot: 0.5</span></span>
+<span><span class="co">#&gt;     - histaccum: 0.66</span></span>
+<span><span class="co">#&gt;     - productiv: 0.28</span></span>
+<span><span class="co">#&gt;     - exportpot: 0.67</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $am</span></span>
 <span><span class="co">#&gt; $am$fun</span></span>
-<span><span class="co">#&gt; Score: 3.165836 </span></span>
+<span><span class="co">#&gt; Score: 4.440898 </span></span>
 <span><span class="co">#&gt;   Subscores: </span></span>
-<span><span class="co">#&gt;     - waterscape: 0.11</span></span>
-<span><span class="co">#&gt;     - hydro: 0.54</span></span>
-<span><span class="co">#&gt;     - aqstruc: 0.71</span></span>
-<span><span class="co">#&gt;     - terrstruc: 0.43</span></span>
-<span><span class="co">#&gt;     - biostress: 0.41</span></span>
+<span><span class="co">#&gt;     - waterscape: 0.31</span></span>
+<span><span class="co">#&gt;     - hydro: 0.55</span></span>
+<span><span class="co">#&gt;     - aqstruc: 0.5</span></span>
+<span><span class="co">#&gt;     - terrstruc: 0.61</span></span>
+<span><span class="co">#&gt;     - biostress: 0.65</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $am$ben</span></span>
-<span><span class="co">#&gt; Score: 6.03</span></span>
+<span><span class="co">#&gt; Score: 3.96</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $fh</span></span>
 <span><span class="co">#&gt; $fh$fun</span></span>
-<span><span class="co">#&gt; Score: 2.920322 </span></span>
+<span><span class="co">#&gt; Score: 2.936314 </span></span>
 <span><span class="co">#&gt;   Subscores: </span></span>
-<span><span class="co">#&gt;     - hydro: 0.47</span></span>
-<span><span class="co">#&gt;     - struc: 0.08</span></span>
-<span><span class="co">#&gt;     - nooxyrisk: 0.5</span></span>
-<span><span class="co">#&gt;     - nostress: 0.31</span></span>
+<span><span class="co">#&gt;     - hydro: 0.33</span></span>
+<span><span class="co">#&gt;     - struc: 0.5</span></span>
+<span><span class="co">#&gt;     - nooxyrisk: 0</span></span>
+<span><span class="co">#&gt;     - nostress: 0.27</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $fh$ben</span></span>
-<span><span class="co">#&gt; Score: 4.98</span></span>
+<span><span class="co">#&gt; Score: 4.65</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $sfts</span></span>
 <span><span class="co">#&gt; $sfts$fun</span></span>
-<span><span class="co">#&gt; Score: 1.808248 </span></span>
+<span><span class="co">#&gt; Score: 4.5 </span></span>
 <span><span class="co">#&gt;   Subscores: </span></span>
-<span><span class="co">#&gt;     - shadedsurf: 0.44</span></span>
-<span><span class="co">#&gt;     - surfacestorage: 0.14</span></span>
-<span><span class="co">#&gt;     - groundwater: 0.33</span></span>
+<span><span class="co">#&gt;     - shadedsurf: 0.46</span></span>
+<span><span class="co">#&gt;     - surfacestorage: 0.52</span></span>
+<span><span class="co">#&gt;     - groundwater: 0.37</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $sfts$ben</span></span>
-<span><span class="co">#&gt; Score: 2.07</span></span>
+<span><span class="co">#&gt; Score: 2.93</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $cri</span></span>
 <span><span class="co">#&gt; $cri$ben</span></span>
-<span><span class="co">#&gt; Score: 5.35</span></span></code></pre></div>
+<span><span class="co">#&gt; Score: 5.54</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="development">Development<a class="anchor" aria-label="anchor" href="#development"></a>

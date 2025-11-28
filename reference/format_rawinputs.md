@@ -51,7 +51,7 @@ ww <- format_rawinputs(
  field_data <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr"),
  desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr"),
  write_subfiles = FALSE,
- out_dir = "input_data",
+ out_dir = "temp",
  overwrite = TRUE)
 } # }
 ```
