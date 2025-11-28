@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup, eval = FALSE}
+```{r setup, eval = FALSE, includ = FALSE}
 library(wespr)
 ```
 
@@ -29,7 +29,6 @@ As of November 2025, data collection is comprised of two parts:
 - Desktop data collected using a survey123 form (WESP_DESKTOPV1.csv)
 
 Note for advanced users the desktop analysis can be conducted using the R package[WESP_OF](https://github.com/BCWF-Wetlands/WESP_OF) github repo. This is beyond the scope of this tutorial. 
-
 
 
 
