@@ -26,6 +26,10 @@ format_rawinputs <- function(field_data,
                             overwrite = FALSE) {
 
   # # testing files
+
+  field_data <- fs::path("inst",'input_data','raw', "FIELD_RR.csv")
+  desktop_data <- fs::path("inst",'input_data','raw', "WESP_BC_Desktop_Analysis_2025_V4_0.csv")
+
   # field_data <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr")
   # desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr")
   # write_subfiles = FALSE
@@ -196,7 +200,7 @@ format_rawinputs <- function(field_data,
     dplyr::mutate(dplyr::across(dplyr::where(is.character), ~ stringr::str_trim(.))) |>
     dplyr::mutate(dplyr::across(dplyr::where(is.character), ~ dplyr::na_if(., ""))) |>
     dplyr::mutate(dplyr::across(dplyr::where(is.character), ~stringr::str_trim(.))) |>
-    dplyr:: mutate(dplyr::across(dplyr::where(is.character), ~na_if(., ""))) # not sure if this is actually needed.
+    dplyr:: mutate(dplyr::across(dplyr::where(is.character), ~dplyr::na_if(., ""))) # not sure if this is actually needed.
 
   # check if date is read in correctly
   if (anyNA(indata$date)) {

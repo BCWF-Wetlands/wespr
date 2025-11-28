@@ -1,7 +1,8 @@
 ## processing Field data - internal function
 
 processing_fielddata <- function(indata = indata) {
-  fdata <- indata |>
+
+   fdata <- indata |>
     dplyr::select(.data$Wetland_Co, dplyr::starts_with("F")) |>
     dplyr::distinct(.data$Wetland_Co, .keep_all = TRUE)
 
@@ -373,7 +374,7 @@ processing_officedata <- function(indata = indata) {
       "OF21_1" = .data$`OF 21. Ecological Designation`,
       "OF22_1" = .data$`OF 22. Protection from Intensive Uses`,
       "OF23_0" = .data$`OF 23. BGC Protection Percentage`,
-      "OF24_0" = .data$`Select all the species of conservation concern (in the list below) that have been observed within a 500m buffer of the AA?`,
+      "OF24_0" = .data$`OF 24. Select all the species of conservation concern (in the list below) that have been observed within a 500m buffer of the AA?`,
       "x11" = .data$`If any species of conservation were observed, list them in the text fields below.`,
       "x1" = .data$`Any plant species or community of conservation concern`,
       "x2" = .data$`Any amphibian listed as being of conservation concern`,
@@ -395,7 +396,7 @@ processing_officedata <- function(indata = indata) {
       "OF37_0" = .data$`OF 37. Number of Land Cover Types within 2 km`,
       "OF38_0" = .data$`OF 38. Deciduous Land Cover within the AA and 100 m Buffer`,
       "OF39_0" = .data$`OF 39. Closed Coniferous Land Cover within the AA and 100 m Buffer`,
-      "OF40_0" = .data$`OF 40. Non-tree Vegetattion within the AA and 100 m Buffer`,
+      "OF40_0" = .data$`OF 40. Non-tree Vegetation within the AA and 100 m Buffer`,
       "OF41_0" = .data$`OF 41. Disturbed Area Percentage in the WAU`,
       "OF42_0" = .data$`OF 42. Road Density in the WAU`,
       "OF43_0" = .data$`OF 43. Wetland Density in the WAU`,
@@ -498,7 +499,6 @@ processing_officedata <- function(indata = indata) {
   multirespN <- c(5)
   od4 <- odata %>%
     dplyr::select(c(.data$Wetland_Co, tidyr::all_of(multiresp))) |>
-    #plyr::mutate(dplyr::across(tidyr::all_of(multiresp), ~ gsub("OF20_", "", .x))) |>
     dplyr::mutate(dplyr::across(tidyr::all_of(multiresp), ~ gsub("OF24_", "", .x)))
 
   ParseVars <- c("OF24_0")
@@ -533,36 +533,36 @@ processing_officedata <- function(indata = indata) {
 
   od5 <- odata %>%
     dplyr::select(c(.data$Wetland_Co, "OF20_0")) #|>
-    #mutate(across(all_of(multiresp), ~ gsub("OF20", "", .x)))
+   # mutate(across(all_of(multiresp), ~ gsub("OF20", "", .x)))
 
   ## IF multiple sites this needs to be updated...# do this per row
   fish_values <- od5$OF20_0
 
   od5 <- od5 |>
     dplyr::mutate(OF20_1 = dplyr::case_when(
-      stringr::str_detect(fish_values, "CK_3") == TRUE ~ 3,
-      stringr::str_detect(fish_values, "CK_2") == TRUE ~ 2,
-      stringr::str_detect(fish_values, "CK_1") == TRUE ~ 1,
+      stringr::str_detect(fish_values, "CK3") == TRUE ~ 3,
+      stringr::str_detect(fish_values, "CK2") == TRUE ~ 2,
+      stringr::str_detect(fish_values, "CK1") == TRUE ~ 1,
       .default = 0
     )) |>
     dplyr::mutate(OF20_2 = dplyr::case_when(
-      stringr::str_detect(fish_values, "CM_3") == TRUE ~ 3,
-      stringr::str_detect(fish_values, "CM_2") == TRUE ~ 2,
-      stringr::str_detect(fish_values, "CM_1") == TRUE ~ 1,
+      stringr::str_detect(fish_values, "CM3") == TRUE ~ 3,
+      stringr::str_detect(fish_values, "CM2") == TRUE ~ 2,
+      stringr::str_detect(fish_values, "CM1") == TRUE ~ 1,
       .default = 0
     )) |>
     dplyr::mutate(OF20_3 = dplyr::case_when(
-      stringr::str_detect(fish_values, "CO_3") == TRUE ~ 3,
-      stringr::str_detect(fish_values, "CO_2") == TRUE ~ 2,
-      stringr::str_detect(fish_values, "CO_1") == TRUE ~ 1,
+      stringr::str_detect(fish_values, "CO3") == TRUE ~ 3,
+      stringr::str_detect(fish_values, "CO2") == TRUE ~ 2,
+      stringr::str_detect(fish_values, "CO1") == TRUE ~ 1,
       .default = 0
     )) |>
     dplyr::mutate(OF20_4 = dplyr::case_when(
-      stringr::str_detect(fish_values, "FH_1") == TRUE ~ 1,
+      stringr::str_detect(fish_values, "FH") == TRUE ~ 1,
       .default = 0
     )) |>
     dplyr::mutate(OF20_5 = dplyr::case_when(
-      stringr::str_detect(fish_values, "FS_0") ~ 1,
+      stringr::str_detect(fish_values, "FS") ~ 1,
       .default = 0
     ))
 
