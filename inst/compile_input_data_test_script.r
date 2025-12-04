@@ -18,6 +18,10 @@ load_all()
 #field_data <- system.file("extdata/field_survey123_edited.xls", package = "wespr")
 field_data <- system.file("extdata/field_survey123_edited_04.14.2025.xls", package = "wespr")
 
+field_data <- fs::path("inst" , "input_data", "raw", "survey_123_raw_outputs","test_field.xls")
+#list.files(data_raw)
+
+
 #office_data <- system.file("extdata/scripted_office.xlsx", package = "wespr")
 office_data <- system.file("extdata/GD_OF_Answers.data.xlsx", package = "wespr")
 office_data <- system.file("extdata/SIM_OF_Answers.data.xlsx", package = "wespr")
@@ -107,24 +111,64 @@ write.csv(wespEcoS, fs::path(out_dir, out_name),row.names=FALSE)
 #    theme_bw()
 #
 
+###########################################################################
+
+library(wespr)
+
+field_data <- fs::path("inst",'input_data','raw',"20251204", "WESP_FIELD_MA.csv")
+desktop_data <- fs::path("inst",'input_data','raw', "20251204", "WESP_DESKTOP_MA.csv")
 
 
+ww <- format_rawinputs(
+  field_data <- field_data,
+  desktop_data <- desktop_data,
+  write_subfiles = FALSE,
+  out_dir = "temp",
+  overwrite = TRUE
+)
+
+write.csv(ww, fs::path("inst",'input_data','raw',"20251204","wesp_input_20251204.csv"), row.names=FALSE)
+
+indata <- fs::path("inst",'input_data','raw',"20251204","wesp_input_20251204.csv")
+
+check_indata(indata)
 
 
+wesp_file <- indata
+wesp_data <- load_wesp_data(wesp_file)
+
+head(wesp_data)
+
+# generate a key for site names
+wespkey <- wesp_data |>
+  dplyr::filter(.data$q_no == "Wetland" ) |>
+  tidyr::pivot_longer(cols = -c(.data$response_no),
+                      names_to = "site_no",
+                      values_to = "wetland_id"
+  ) |>
+  dplyr::select(-response_no) |>
+  dplyr::filter(site_no != "q_no") |>
+  dplyr::rename("site" = .data$site_no)
 
 
+site <- as.wesp_site(wesp_data, site = 1)
 
+site
 
+site <- calc_indicators(site)
 
+ind_scores <- get_indicator_scores(site)
 
+# add site specific names
+ind_scores <- dplyr::left_join(wespkey, ind_scores, by = "site")
 
+ind_scores
 
+get_responses(site)
+get_derived_values(site)
 
+out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD", report = FALSE, output_dir = "temp")
 
-
-
-
-
-
+write.csv(out, fs::path("inst",'input_data','raw',"20251204","wesp_output_20251204.csv"), row.names=FALSE)
 
 
