@@ -26,8 +26,13 @@ format_rawinputs <- function(field_data,
                             overwrite = FALSE) {
 
   # # testing files
-  #field_data <- fs::path("inst",'input_data','raw', "FIELD_RR.csv")
-  #desktop_data <- fs::path("inst",'input_data','raw', "WESP_BC_Desktop_Analysis_2025_V4_0.csv")
+#
+#    field_data <- fs::path("inst",'input_data','raw',"20251222", "WESP_Field_AE2.csv")
+#    desktop_data <- fs::path("inst",'input_data','raw', "20251222", "WESP_Desktop_AE2.csv")
+#    write_subfiles = FALSE
+#    out_dir = "temp"
+#    overwrite = TRUE
+  #
   # field_data <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr")
   # desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr")
   # write_subfiles = FALSE
@@ -119,7 +124,7 @@ format_rawinputs <- function(field_data,
            "F45_0" = .data$`The pH in most of the AA's surface water:`,
            "F45_1" = .data$`pH measurement`,
            "F46_0" = .data$`Was EC (Electrical Conductivity) measured?`,
-           "F46_1" = .data$`Enter EC in microSiemens/cm`,
+           "F46_1" = .data$`Enter EC in microSiemens`,
            "F47_0" = .data$`Select the first applicable choice:`,
            "F48_0" = .data$`Use of the AA by beaver during the past 5 years is (select most applicable ONE):`,
            "F49_0" = .data$`Within a 30 m-wide buffer around the AA (or a 50 m-wide buffer if the AA is >5 ha), are there roads, trails, buildings, or any other human-associated features, or areas burned intensively during the past 5 years, that have reduced vegetation normally present on any side of this AA. If no,  SKIP to F53.`,

@@ -36,17 +36,20 @@ combine_rawdata <- function(field_data,
   #field_data <- fs::path("inst" , "input_data", "raw", "survey_123_raw_outputs","test_field.csv")
   #list.files(data_raw)
 
-   #
+
+  field_data <- fs::path("inst",'input_data','raw',"20251217", "field_assessment_by_class_20Nov2025.xls")
+  office_data <- fs::path("inst",'input_data','raw', "20251217", "office_data_by_class_formatted_for_R_12Dec2025.xlsx")
+
  # field_data <- "C:/Users/genev/Downloads/wetland-ecosystem-services-protocol-r/wetland-ecosystem-services-protocol-r/data/input/2019-8473-01_field_assessment_formatted_data.xls"
     # office_data <- "C:/Users/genev/Downloads/wetland-ecosystem-services-protocol-r/wetland-ecosystem-services-protocol-r/data/input/2019-8473-01_desktop_analysis_scripted_data.xlsx"
-    #  EcoP = "SI"
-   #  write_subfiles = TRUE
+      EcoP = "GD"
+     write_subfiles = TRUE
    #  out_dir = "C:/Users/genev/Downloads/wetland-ecosystem-services-protocol-r/wetland-ecosystem-services-protocol-r/data/prepared"
    #  overwrite = TRUE
 
     # EcoP = "GD"
    # write_subfiles = FALSE
-   # out_dir <- "inst/input_data/processed"
+    out_dir <- "inst/input_data/processed"
    # overwrite = TRUE
 
   if (!exists(out_dir)) {
@@ -72,12 +75,12 @@ combine_rawdata <- function(field_data,
 
   cli::cli_alert("Processing field data")
 
-  indata <- read.csv(field_data)
+  #indata <- read.csv(field_data)
 
-  # indata <- readxl::read_xls(field_data,
-  #   col_names = TRUE, sheet = 1,
-  #   col_types = c(rep("text", 2), "date", rep("text", 117))
-  # )
+   indata <- readxl::read_xls(field_data,
+     col_names = TRUE, sheet = 1,
+     col_types = c(rep("text", 2), "date", rep("text", 117))
+   )
 
   # check if date is read in correctly
   if (anyNA(indata$datetime)) {
