@@ -12,14 +12,14 @@
 
 ## Citation
 
-Perkins G, Teucher A, Morgan D (2025). *wespr: Calculate ecosystem
+Perkins G, Teucher A, Morgan D (2026). *wespr: Calculate ecosystem
 function and benefit scores for wetlands*. R package version 0.0.0.9000,
 <https://bcwf-wetlands.github.io/wespr/>.
 
     @Manual{,
       title = {wespr: Calculate ecosystem function and benefit scores for wetlands},
       author = {Genevieve Perkins and Andy Teucher and Don Morgan},
-      year = {2025},
+      year = {2026},
       note = {R package version 0.0.0.9000},
       url = {https://bcwf-wetlands.github.io/wespr/},
     }
