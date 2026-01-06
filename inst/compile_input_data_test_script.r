@@ -61,35 +61,35 @@ calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores_SIM.
 
 
 # check old file
-wesp_file <- system.file("input_data/wetFlat_20240130.csv", package = "wespr")
-wesp_data <- load_wesp_data(wesp_file)
-head(wesp_data)
+#wesp_file <- system.file("input_data/wetFlat_20240130.csv", package = "wespr")
+#wesp_data <- load_wesp_data(wesp_file)
+#head(wesp_data)
 
-wesp_file <- read.csv("inst/input_data/wetFlat_20240130.csv")
+#wesp_file <- read.csv("inst/input_data/wetFlat_20240130.csv")
 #setdiff(names(wesp), names(wesp_file))
-setdiff(wesp$Question, wesp_file$Question)
+#setdiff(wesp$Question, wesp_file$Question)
 #[1] "F4_4" (error fix)
 # "F57_7"  (error fix)
  #"OF15"       "OF16"       "OF17"       "OF21"       "OF22"  (were previously _1)
 
-setdiff(wesp_file$Question, wesp$Question)
+#setdiff(wesp_file$Question, wesp$Question)
 #[1] "F22_1"  "F23_1"  "F42_1"
 #"F49_1"  #"OF15_1" "OF16_1" "OF17_1" "OF21_1" "OF22_1"
 
 
 
 
-
-# run the data with new data
-wesp <- fs::path("inst/input_data/wetFlat_202503241.csv")
-wesp_data <- load_wesp_data(wesp)
-
-# 2)  run all sites
-site <- as.wesp_site(wesp_data, site = 1)
-calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores_test1.csv")
-
-#Write out the data frame
-write.csv(wespEcoS, fs::path(out_dir, out_name),row.names=FALSE)
+#
+# # run the data with new data
+# wesp <- fs::path("inst/input_data/wetFlat_202503241.csv")
+# wesp_data <- load_wesp_data(wesp)
+#
+# # 2)  run all sites
+# site <- as.wesp_site(wesp_data, site = 1)
+# calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores_test1.csv")
+#
+# #Write out the data frame
+# write.csv(wespEcoS, fs::path(out_dir, out_name),row.names=FALSE)
 
 
 ### QA data
@@ -122,8 +122,8 @@ library (fs)
 field_data <- fs::path("inst",'input_data','raw',"20251204", "WESP_FIELD_MA.csv")
 desktop_data <- fs::path("inst",'input_data','raw', "20251204", "WESP_DESKTOP_MA.csv")
 
-#field_data <- fs::path("inst",'input_data','raw',"20251222", "WESP_Field_AE2.csv")
-#desktop_data <- fs::path("inst",'input_data','raw', "20251222", "WESP_Desktop_AE2.csv")
+field_data <- fs::path("inst",'input_data','raw',"20251222", "WESP_Field_AE2.csv")
+desktop_data <- fs::path("inst",'input_data','raw', "20251222", "WESP_Desktop_AE2.csv")
 
 ww <- format_rawinputs(
   field_data <- field_data,
@@ -133,9 +133,9 @@ ww <- format_rawinputs(
   overwrite = TRUE
 )
 
-write.csv(ww, fs::path("inst",'input_data','raw',"20251222","wesp_input_20251222.csv"), row.names=FALSE)
+write.csv(ww, fs::path("inst",'input_data','raw',"20260105","wesp_input_20260105.csv"), row.names=FALSE)
 
-indata <- fs::path("inst",'input_data','raw',"20251222","wesp_input_20251222.csv")
+indata <- fs::path("inst",'input_data','raw',"20260105","wesp_input_20260105.csv")
 
 check_indata(indata)
 
@@ -157,25 +157,38 @@ wespkey <- wesp_data |>
   dplyr::rename("site" = .data$site_no)
 
 
-site <- as.wesp_site(wesp_data, site = 1)
 
-site
 
-site <- calc_indicators(site)
+site_overall <- purrr::map(c(1:4), function(x){
 
-ind_scores <- get_indicator_scores(site)
+  #x <- c(1:4)[1]
+  site <- as.wesp_site(wesp_data, site = x)
 
-# add site specific names
-ind_scores <- dplyr::left_join(wespkey, ind_scores, by = "site")
+  site
 
-ind_scores
+  site <- calc_indicators(site)
 
-get_responses(site)
-get_derived_values(site)
+  ind_scores <- get_indicator_scores(site)
 
-out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD", report = TRUE, output_dir = "temp")
+  # add site specific names
+  ind_scores <- dplyr::left_join(wespkey, ind_scores, by = "site")
 
-write.csv(out, fs::path("inst",'input_data','raw',"20251222","wesp_output_20251222.csv"), row.names=FALSE)
+  ind_scores
+
+  get_responses(site)
+  get_derived_values(site)
+
+  out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD", report = NA, output_dir = "temp")
+
+  out
+
+}) |> bind_rows()
+
+
+site_overall <- left_join(site_overall, wespkey)
+
+
+write.csv(site_overall, fs::path("inst",'input_data','raw',"20260105","wesp_output_20260105.csv"), row.names=FALSE)
 
 
 
