@@ -19,11 +19,11 @@
 #' }
 assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = NA, output_dir = NULL) {
   # testing lines
-  #ind_scores
-  #calibration_scores
-  #EcoP <- "GD"
-  #report = TRUE
-  #output_dir <- fs::path("temp")
+ # ind_scores
+#  calibration_scores
+#  EcoP ="GD"
+#  report = TRUE
+#  output_dir <- fs::path("temp")
   # end testing lines
 
   # check calibration data contains ecoprovince
@@ -93,7 +93,7 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = NA
   # add the Eco province name
   calibration_scores_summary <- outsum |>
     dplyr::mutate(ecoprovince = EcoP) |>
-    dplyr::select(.data$ecoprovince, .data$service, everything())
+    dplyr::select(.data$ecoprovince, .data$service, dplyr::everything())
 
 
   # write out (temp fix while testing)
@@ -152,11 +152,13 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = NA
   }) |> dplyr::bind_rows()
 
 
-  #topqs <- readRDS(file.path("temp/sensitivity_raw/sensitivity_top_questions.rds"))
-
 
   if (!is.na(report)) {
     cli::cli_alert_info("Generating a site report")
+
+   # report_site = unique(classed_df$site)
+
+   #output_dir = fs::path(output_dir, report_site)
 
     RMD <- fs::path_package("wespr", "extdata/site_report.rmd")
 
@@ -164,8 +166,7 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = NA
       params = list(
         calibration_scores_eco = calibration_scores_eco,
         calibration_scores_summary = calibration_scores_summary,
-        classed_df = classed_df#,
-       # topqs = topqs
+        classed_df = classed_df
       ),
       output_dir = output_dir
     )

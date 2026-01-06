@@ -13,7 +13,7 @@
 check_indata <- function(indata){
 
   # testing
-  #indata <- fs::path("inst/input_data/wetFlat_20250325.csv")
+  #indata <- fs::path("inst/extdata/wesp_input_20251125.csv")
 
   wcsv <- read.csv(indata)
 
@@ -60,11 +60,11 @@ check_indata <- function(indata){
   if(any(is.na(colSums(odd)))) {
     na_sites <- colnames(odd)[colSums(is.na(odd)) > 0]
 
-    cli::cli_alert("Office data is not complete: check the following sites : {na_sites}")
+    cli::cli_alert("Desktop data is not complete: check the following sites : {na_sites}")
     #get column names where values are NA
 
   } else {
-    cli::cli_alert_success("Office data is complete")
+    cli::cli_alert_success("Desktop data is complete")
   }
 
   # check if field data is entered:
@@ -103,9 +103,9 @@ check_indata <- function(indata){
     sites <- neg_val$col
     question <- unique(of$Question[neg_val$row])
 
-    cli::cli_alert("Office data contains negative values : check sites {sites} for question {question}")
+    cli::cli_alert("Desktop data contains negative values : check sites {sites} for question {question}")
   } else {
-    cli::cli_alert_success("Office data does not contain negative values")
+    cli::cli_alert_success("Desktop data does not contain negative values")
   }
 
   # detailed site check

@@ -44,14 +44,17 @@ load_wesp_data <- function(path) {
     dplyr::select("q_no", "response_no", dplyr::everything())
 }
 
+
 #' Validate and record responses into a standard object
+#' This is an internal function to generate wesp class object
 #'
-#' This currently is only implemented for a single site
+#' @param data path to csv
+#' @param site a number to show which site
 #'
-#' @inheritParams as.wesp_site
 #'
 #' @return a `list` object containing validated responses and question metadata
-#' @noRd
+#' @export
+#'
 record_values <- function(data, site) {
   questions <- make_core_questions()
   #question <- questions[[81]]
@@ -67,6 +70,14 @@ record_values <- function(data, site) {
   })
 }
 
+#' Validate and record responses into a standard object
+#'
+#' This currently is only implemented for a single site
+#'
+#' @inheritParams as.wesp_site
+#'
+#' @return a `list` object containing validated responses and question metadata
+#' @noRd
 validate <- function(question, values) {
   question$value <- question$validator(values)
   question <- check_incomplete(question)

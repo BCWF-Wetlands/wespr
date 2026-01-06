@@ -63,7 +63,7 @@ F2_B2,1,0,1,1,1,0
 We have included an example file in the package, which we can use for demonstration purposes:
 
 ```{r}
-wesp_file <- system.file("input_data/wetFlat_20240130.csv", package = "wespr")
+wesp_file <- system.file("input_data/reference_multisite.csv", package = "wespr")
 wesp_data <- load_wesp_data(wesp_file)
 
 head(wesp_data)
@@ -150,14 +150,27 @@ calculate_multi_site(wesp_data)
 Once all the indicator scores have been calculated, we can calculate the Jenks breaks and assign high, medium and low categories. This process firstly normalizes the data, then calculates the Jenks breaks and assigns the catergories. The process will also flag unusual results, such as all values being the same across all sites. 
 
 ```{r,eval = FALSE}
-calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores.csv")
+calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores_breaks.csv")
+```
+
+```
+site, AM_b_jenks, AM_b_norm, AM_b_raw, AM_f_jenks, AM_f_norm
+1,	L,	0.00,	3.96,	 M,	0.59
+2,	M,	0.52,	7.14,	 L,	0.00
+3,	M,	0.68,	8.09,	 L,	0.02	
+4,	M,	0.52,	7.14,	 M,	0.33
+5,	H,	0.76,	8.57,	 L,	0.14
+6,	M,	0.42,	6.50,	 M,	0.48
+7,	H,	1.00,	10.00, H,	1.00
+8,	H,	0.76,	8.57,	 L,	0.11
+9,	H,	1.00,	10.00, M,	0.57	
+10,	M,	0.60,	7.59,	 L,	0.25
+
 ```
 
 
 This is currently in development and requires finer regional assessment to be incorporated.
-
-
-
+More detail is provided in this [vignette](https://bcwf-wetlands.github.io/wespr/articles/calculate_wesp_scores.html)
 
 
 

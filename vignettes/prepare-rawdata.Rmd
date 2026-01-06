@@ -15,84 +15,83 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup, eval = FALSE}
+```{r setup, eval = FALSE, includ = FALSE}
 library(wespr)
 ```
 
 # Raw data imports 
 
-The first step in calculating wespr scores is to standardise and quality check the input data. 
+The first step in calculating wespr scores for a wetland is to standardise and quality check the input data. 
 
-As of March 2025, data collection is comprised of there parts:
+As of November 2025, data collection is comprised of two parts:
 
-- field data - collected using survey123 form
-- office questions - collected using a survey123 form
-- office questions - scripted using the [WESP_OF](https://github.com/BCWF-Wetlands/WESP_OF) github repo. 
+- Field data collected using a survey123 form (WESP_FIELDV1.csv)
+- Desktop data collected using a survey123 form (WESP_DESKTOPV1.csv)
+
+Note for advanced users the desktop analysis can be conducted using the R package[WESP_OF](https://github.com/BCWF-Wetlands/WESP_OF) github repo. This is beyond the scope of this tutorial. 
+
 
 
 ## Field data
 
 Field data is collected on site using the survey123 form. This is intended to control data inputs and standardize the data collection process. These comprise all the *field* and *stressor* based questions. 
 
-The data is exported from survey123 as a csv file. Note some minor manual edits were required to make the data file compatible to read in, i.e. format datatime column. These should be minimal in future as the processes is continually improved. 
+The data is exported from survey123 as a *csv file*. This will be the input file type. 
 
-An example data file is included within this package for testing.Note using system.file() can create some difficulties on a OS operating system. 
+An example data file is included within this package for testing. Note using system.file() can create some difficulties on a OS operating system. 
 
 
 ```{r}
+# load library
+library(wespr)
 
-file_123 <- 'field_survey123_edited_04.14.2025.xls'
-s123_file <- file.path('extdata',file_123)
-
-field <- system.file(s123_file, package = "wespr")
-#field_excel <- read_xls(field)
-
-#head(field)
+# Define the location of the survey123 Field data 
+field <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr")
 
 ```
 
 
-## Office data
+## Desktop data
 
-Office data is collected in two part (by users either post or pre fieldwork, and compiled as part of the [BCWF-Wetlands/WESP_OF](https://github.com/BCWF-Wetlands/WESP_OF). These are merged into a single file and exported as a .xls file. An example data file is included within this package for testing.
+Desktop data is also collected using a survey123 form. Ensure the export from survey123 is in a .csv file format. 
+
 
 ```{r}
-office <- system.file("extdata/scripted_office.xlsx", package = "wespr")
+# Define the location of the survey123 Desktop data 
 
-#head(office)
+desktop <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr")
+
 ```
 
+# Compile and format survey123 data 
 
+The data is compiled and formatted using the `format_rawdata` function. This function takes the two survey123 outputs csv's (field and desktop), it standardises naming field, data types and combines the data into a single dataframe ready to be used to calculate wespr values. 
 
-# Compiling and formatting data 
+The user needs to define the filepath to the field and desktop csv files.  
+Optional parameters also include: 
 
+- write_subfiles (TRUE/FALSE) : do you want to produce individual files for field, desktop and stressor data components, to allow for easy data checks
 
-The data is compiled and formatted using the `combine_rawdata` function. This function takes the field and office data as inputs, and outputs a single data frame with the data formatted for use in the wespr calculations. 
-
-Users need to define the file path to the field and office data files, the ecoregion to be reviewed. In this example we define the EcoP as "GD" for Georgia Depression. 
-
-Users can then define if they want to review the formatted subfiles (i.e. office and field data), and if they want to save the final data file and if the file should be overwritten  
+- out_dir (filepath): If you want to output subfiles define the filepath where these should be saved to. 
+- overwrite (TRUE/FALSE) : If subfiles already exist, do you want to overwrite them?
 
 
 ```{r, eval=FALSE}
-#Preparing the raw data
 
-ww <- combine_rawdata(
-    field_data <- system.file("extdata/field_survey123_edited_04.14.2025.xls", package = "wespr"),
-    office_data <- system.file("extdata/scripted_office.xlsx", package = "wespr"),
-    EcoP = "GD",
-    write_subfiles = FALSE,
-    out_dir = "input_data",
-    overwrite = TRUE
+# point to the location where you want the outputs to be saved
+output_dir = "outputs"
+
+ww <- format_rawinputs(
+  field_data <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr"),
+  desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr"),
+  write_subfiles = FALSE,
+  out_dir = output_dir,
+  overwrite = TRUE
 )
 
-write.csv(ww, fs::path("input_data/wetFlat_20250417.csv"), row.names=FALSE)
+write.csv(ww, fs::path(output_dir,"wesp_input_20251125.csv"), row.names=FALSE)
 
 ```
-
-
-If we choose to review the subfiles, these will be written to the out_dir directory. 
-
 
 
 # Quality checking the data
@@ -100,17 +99,35 @@ If we choose to review the subfiles, these will be written to the out_dir direct
 We can then check QA the data using the `check_indata` function. This function checks the data for missing values, and ensures the data is in the correct format. 
 
 ```{r, eval=FALSE}
-indata <- system.file("input_data/wetFlat_20250417.csv", package = "wespr")
+indata <- fs::path(output_dir,"wesp_input_20251125.csv")
 
 check_indata(indata)
 
 ```
 
 
+### The final output 
 
-# The final output 
+The combined data should now be in the following format: 
 
-An example of the final compiled data is shown, with the first 10 questions (rows) and 6 sites (columns) shown:
+```
+Question,1
+F1_1,1
+F1_2,4
+F1_3,0
+F1_4,2
+F1_5,0
+F1_6,1
+F2_A1,1
+F2_A2,0
+F2_B1,0
+F2_B2,0
+
+```
+
+Each row is a unique question and each column is a unique site. 
+
+An example of the final compiled data with multiple sites is shown, with the first 10 questions (rows) and 6 sites (columns) shown:
 
 ```
 Question,1,2,3,4,5,6

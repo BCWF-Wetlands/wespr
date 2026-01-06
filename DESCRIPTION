@@ -34,7 +34,8 @@ Suggests:
     cli,
     fs,
     knitr,
-    rmarkdown
+    rmarkdown,
+    lubridate
 Config/testthat/edition: 3
 Depends: 
     R (>= 4.1.0)

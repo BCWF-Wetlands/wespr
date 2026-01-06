@@ -21,7 +21,7 @@ library(viridis)
 
 # prepare a summary plot
 
-#out1 <- read_csv( fs::path("temp", "sensitivity_all_summary.csv"))
+
 #out1  <- read.csv(fs::path("temp", "initial_sensitivity_testing", "sensitivity_all_summary.csv"))
 out1 <- readRDS(fs::path("temp", "sensitivity_raw","all_summaries_compiled.rds"))
 
@@ -83,13 +83,19 @@ summary_top_questions <- purrr::map(ecotype, function(x){
   # p1
   #
 
+  plasma_pal <- c(viridis::viridis(n = 3))
+  plasma_pal
+  #> [1] "red"       "#0D0887FF" "#6A00A8FF" "#B12A90FF" "#E16462FF" "#FCA636FF"
+  #> [7] "#F0F921FF"
   # plot the distribution of the range of posible options
 
   p2 <-ggplot(xxx, aes(x = delta, y = question_no))+ #, fill = after_stat(x))) +
     #geom_density_ridges_gradient(scale = 0.8, rel_min_height = 0.02) +
     geom_point(size = 1, aes(colour = impactf), alpha = 0.2)+#, alpha = 0.2)+
     #stat_interval(.width = c(0.5, 0.75, 0.95), interval_size=1) +
-    scale_color_viridis_d() +
+    #scale_color_viridis_d() +
+    scale_color_manual(values = plasma_pal)+
+    #scale_fill_brewer(palette = 2) + # Line added
     #scale_color_manual(values = MetBrewer::met.brewer("VanGogh3")) +
     theme_ridges() +
     theme(legend.position = "none")
@@ -120,7 +126,7 @@ summary_top_questions <- purrr::map(ecotype, function(x){
     height = 30,
     units = "cm"
   )
-  #
+
   # summarise the questions that have the most impact on result (> +1/-1)
   xx_high_impact <- xxx |>
     filter(impact %in%  c("moderate", "large")) |>
@@ -164,58 +170,120 @@ summary_top_questions <- purrr::map(ecotype, function(x){
 all <- summary_top_questions |>
   bind_rows()
 
-all <- all |> select(question, type, question_no, delta)
+all <- all |> select(question, question_no, delta)
 all <- all |>
   mutate(question = gsub("_raw", "", question)) |>
-  filter(!is.na(delta))
+  filter(!is.na(delta)) |>
+  filter(delta !=0)
 
 max_delta <- all |>
   group_by(question, question_no) |>
   summarise(
-    max_delta = max(delta),
-    min_delta = min(delta)
+    max_delta = round(max(delta),2),
+    min_delta = round(min(delta),2)
   ) |>
   ungroup()
 
-# part 1: field questions
-fmax_delta <- max_delta |>
-  filter(startsWith(question_no, "F"))
 
-tta <- tidyr::pivot_wider(
-  fmax_delta,
-  id_cols = question,
-  names_from = question_no,
-  values_from = max_delta
+
+
+# functions
+max_delta_type <- max_delta |>
+  mutate(question_type = str_split_i(question, "_", 2))|>
+  mutate(overall_impact = (max_delta + (min_delta* -1))/2)
+
+# benefit type
+max_delta_b <- max_delta_type |>
+  filter(question_type == "b") |>
+  mutate(question = gsub("_b", "", question))
+
+## max delta
+raw_plotb <- ggplot(max_delta_b, aes(x = question, y = question_no))+
+  geom_tile(aes(fill = overall_impact))+
+  #scale_colour_gradient()
+  scale_fill_distiller(palette = "Blues", direction = 1)+
+  theme_minimal()+
+  labs(title = "Benefits")
+
+# theme(legend.position = "none")
+raw_plotb
+
+ggplot2::ggsave(
+  paste0("temp/sensitivity_raw/benefit_overall_imapact.jpeg"),
+  width = 25,
+  height = 30,
+  units = "cm"
 )
 
-tta <- as.data.frame(tta)
-row.names(tta) <- tta$question
-tta <- tta[, -1]
 
-# install.packages("heatmaply")
-library(heatmaply)
-heatmaply(tta, Rowv = FALSE, Colv = FALSE, file = "temp/sensitivity_raw/heatmap_maxdelta_fieldqs.html")
-browseURL("temp/sensitivity_raw/heatmap_maxdelta_fieldqs.html")
 
-# part 2: office questions
-fmax_delta <- max_delta |>
-  filter(startsWith(question_no, "O"))
+# function type
 
-tta <- tidyr::pivot_wider(
-  fmax_delta,
-  id_cols = question,
-  names_from = question_no,
-  values_from = max_delta
+max_delta_f <- max_delta_type |>
+  filter(question_type == "f") |>
+  mutate(question = gsub("_f", "", question))
+
+raw_plotf <- ggplot(max_delta_f, aes(x = question, y = question_no))+
+  geom_tile(aes(fill = overall_impact))+
+  scale_fill_distiller(palette = "Blues", direction = 1)+
+  theme_minimal()+
+  labs(title = "Functions")
+
+raw_plotf
+
+ggplot2::ggsave(
+  paste0("temp/sensitivity_raw/function_overall_imapact.jpeg"),
+  width = 25,
+  height = 30,
+  units = "cm"
 )
 
-tta <- as.data.frame(tta)
-row.names(tta) <- tta$question
-tta <- tta[, -1]
 
-# install.packages("heatmaply")
-library(heatmaply)
-heatmaply(tta, Rowv = FALSE, Colv = FALSE, file = "temp/sensitivity_raw/heatmap_maxdelta_officeqs.html")
-browseURL("temp/sensitivity_raw/heatmap_maxdelta_officeqs.html")
+
+
+#
+#
+#
+#
+# # part 1: field questions
+# fmax_delta <- max_delta |>
+#   filter(startsWith(question_no, "F"))
+#
+# tta <- tidyr::pivot_wider(
+#   fmax_delta,
+#   id_cols = question,
+#   names_from = question_no,
+#   values_from = max_delta
+# )
+#
+# tta <- as.data.frame(tta)
+# row.names(tta) <- tta$question
+# tta <- tta[, -1]
+#
+# # install.packages("heatmaply")
+# library(heatmaply)
+# heatmaply(tta, Rowv = FALSE, Colv = FALSE, file = "temp/sensitivity_raw/heatmap_maxdelta_fieldqs.html")
+# browseURL("temp/sensitivity_raw/heatmap_maxdelta_fieldqs.html")
+#
+# # part 2: office questions
+# fmax_delta <- max_delta |>
+#   filter(startsWith(question_no, "O"))
+#
+# tta <- tidyr::pivot_wider(
+#   fmax_delta,
+#   id_cols = question,
+#   names_from = question_no,
+#   values_from = max_delta
+# )
+#
+# tta <- as.data.frame(tta)
+# row.names(tta) <- tta$question
+# tta <- tta[, -1]
+#
+# # install.packages("heatmaply")
+# library(heatmaply)
+# heatmaply(tta, Rowv = FALSE, Colv = FALSE, file = "temp/sensitivity_raw/heatmap_maxdelta_officeqs.html")
+# browseURL("temp/sensitivity_raw/heatmap_maxdelta_officeqs.html")
 
 # library(RColorBrewer)
 # note these cut off the number of columns and rows that can be shown
