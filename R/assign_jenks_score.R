@@ -19,11 +19,11 @@
 #' }
 assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = NA, output_dir = NULL) {
   # testing lines
- # ind_scores
-#  calibration_scores
-#  EcoP ="GD"
-#  report = TRUE
-#  output_dir <- fs::path("temp")
+  # ind_scores
+  # calibration_scores
+  # EcoP ="GD"
+  # report = TRUE
+  # output_dir <- fs::path("temp")
   # end testing lines
 
   # check calibration data contains ecoprovince
@@ -95,12 +95,6 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = NA
     dplyr::mutate(ecoprovince = EcoP) |>
     dplyr::select(.data$ecoprovince, .data$service, dplyr::everything())
 
-
-  # write out (temp fix while testing)
-  # write.csv(calibration_scores_new, "temp/sim_jenks_breaks.csv", row.names = FALSE)
-
-
-
   # loop through the ind_score data and find match for each row that corresponds with
   # either L, M, H class in calibration value
 
@@ -152,13 +146,14 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = NA
   }) |> dplyr::bind_rows()
 
 
+  classed_df <- classed_df |>
+    dplyr::filter(!is.na(value)) |>
+    dplyr::mutate(value = round(value, 2))
+
+  return(classed_df)
 
   if (!is.na(report)) {
     cli::cli_alert_info("Generating a site report")
-
-   # report_site = unique(classed_df$site)
-
-   #output_dir = fs::path(output_dir, report_site)
 
     RMD <- fs::path_package("wespr", "extdata/site_report.rmd")
 
@@ -172,5 +167,5 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = NA
     )
   }
 
-  return(classed_df)
+
 }
