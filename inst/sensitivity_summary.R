@@ -82,11 +82,18 @@ summary_top_questions <- purrr::map(ecotype, function(x){
   #   )
   # p1
   #
+  qname_site <- unique(xxx$question)
+  qname <- if(str_detect(qname_site, "_f_")== TRUE){
+    "function"
+  } else {
+    "benefit"
+  }
+  qtype <- str_split_i(qname_site, "_", 1)
+  qname <- paste0(qtype ," : ", qname)
 
   plasma_pal <- c(viridis::viridis(n = 3))
   plasma_pal
-  #> [1] "red"       "#0D0887FF" "#6A00A8FF" "#B12A90FF" "#E16462FF" "#FCA636FF"
-  #> [7] "#F0F921FF"
+
   # plot the distribution of the range of posible options
 
   p2 <-ggplot(xxx, aes(x = delta, y = question_no))+ #, fill = after_stat(x))) +
@@ -98,7 +105,8 @@ summary_top_questions <- purrr::map(ecotype, function(x){
     #scale_fill_brewer(palette = 2) + # Line added
     #scale_color_manual(values = MetBrewer::met.brewer("VanGogh3")) +
     theme_ridges() +
-    theme(legend.position = "none")
+    theme(legend.position = "none")+
+    labs(title = qname)
 
   p2
 
@@ -148,7 +156,8 @@ summary_top_questions <- purrr::map(ecotype, function(x){
     scale_color_viridis_d() +
     #scale_color_manual(values = MetBrewer::met.brewer("VanGogh3")) +
     theme_ridges() +
-    theme(legend.position = "none")
+    theme(legend.position = "none")+
+    labs(title = qname)
 
   p3
 
