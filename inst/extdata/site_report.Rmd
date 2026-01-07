@@ -43,11 +43,11 @@ sname <- unique(classed_df$site)
 
 This report provides a summary of ecosystem function and benefit scores for a given site using the Wetland Ecosystem Services Protocol for British Columbia (WESP-BC). WESP collects information about a given wetland through field and desktop questions and generates a numeric score from 1 - 10 for 33 ecosystem metrics. These are broadly grouped into 18 ecosystem functions and 15 benefits. 
 
-Due to the wide geographic diversity across BC, wetlands are grouped by Ecoprovince, with 8 provinces across BC. These include: Georgia Depression (GD), Southern Interior (SI), Central Interior (CI), Southern Interior Mountains (SIM), Sub-Boreal Interior (SBI), Boreal and Taiga Plains (BTP), Northern Boreal Mountains (NBM), and Coast and Mountains (CM)).
+Due to the wide geographic diversity across BC, wetlands are grouped by Ecoprovince, with 8 ecoprovinces across BC. These include: Georgia Depression (GD), Southern Interior (SI), Central Interior (CI), Southern Interior Mountains (SIM), Sub-Boreal Interior (SBI), Boreal and Taiga Plains (BTP), Northern Boreal Mountains (NBM), and Coast and Mountains (CM)).
 
-For each Ecoprovince, a reference data set is used to ensure and new wetlands can be compared to an appropriate baseline scores. This also allows comparison of scores broadly across Ecoprovinces. To generate the baseline scores per ecoprovince, approximately 100 wetlands are surveyed and function and benefit numeric scores are calculated according to the WESP-BC process. For each function and benefit we then use the distribution of numeric (using the 100 reference sites) and define numeric thresholds to split the data into three classes: low (L), medium (M) or high (H) values based on the jenks breaks method. This statistical method looks for natural breaks and clusters within the reference data set to identify threshold values for each class. 
+For each Ecoprovince, a reference data set (the calibration data set) is used to ensure and new wetlands can be compared to an appropriate baseline scores. This also allows comparison of scores broadly across Ecoprovinces. To generate the baseline scores per ecoprovince, approximately 100 wetlands are surveyed and function and benefit numeric scores are calculated according to the WESP-BC process. For each function and benefit we then use the distribution of numeric (using the 100 reference sites) and define numeric thresholds to split the data into three classes: low (L), medium (M) or high (H) values based on the jenks breaks method. This statistical method looks for natural breaks and clusters within the reference data set to identify threshold values for each class. 
 
-We can now assign a new site to a category (L/M/H) based on where the values of the new site score relative to the baseline scores derived from the 100 reference sites within that ecoporvince. This allows sites from difference ecoprovinces to be compared across the Province. 
+Using WESP-BC on a single site assigns a category (L/M/H) based on where the values of the new site score relative to the baseline scores derived from the 100 reference sites within that ecoporvince. This allows sites from difference ecoprovinces to be compared across the Province. 
 
 More information can about the project can be found [here](https://bcwfwatershedteam.ca/wetland-ecosystem-services-protocol/). 
 
@@ -56,7 +56,7 @@ More information can about the project can be found [here](https://bcwfwatershed
 
 ## 2. Site Description 
 
-This site(`r sname`) is located in the `r ecop` Ecoprovince. 
+This site (`r sname`) is located in the `r ecop` Ecoprovince. 
 
 ```{r generate map, echo = FALSE}
 if (ecop == "GD"){
@@ -153,7 +153,7 @@ outsum_f <- outsum |>
 
 ### 2.1 Ecosystem Raw Scores
 
-We can review the scores based on raw scores or those classified into low medium and high grouping
+We can review the scores based on raw scores or those classified into low, medium and high categories.
 
 
 ```{r, echo = FALSE}
@@ -369,7 +369,7 @@ fn_plot <- ggplot(ft, aes(x = threshold, y = service_full_name)) +
 This site ecosystem function scores included `r all_ranks_f |> filter(calibration_scores_summary == "H") |> pull(n)` High ranked functions, `r all_ranks_f |> filter(calibration_scores_summary == "M") |> pull(n)` Medium ranked functions and `r all_ranks_f |> filter(calibration_scores_summary == "L") |> pull(n)` Low ranked functions. 
 
 
-The plot below shows where `r sname` scores relative to the baseline values for the `r ecop` Ecoprovince. The grey dot indicated the site scores, while the yellow, aqua and purple bars show the threshold values for Low, Medium, High ranked sites within the Ecoprovince.  
+The plot below shows where `r sname` scores relative to the baseline values for the `r ecop` Ecoprovince. The grey dot indicated the score for the single site, while the yellow, aqua and purple bars show the threshold values for Low, Medium, High ranked sites within the Ecoprovince.  
 
 ```{r, echo = FALSE, fig.width=8, fig.height=6}
  fn_plot
