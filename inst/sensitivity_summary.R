@@ -1,5 +1,9 @@
 # sensitivity summary outputs
 
+# internal script to summarise and plot the full sensitivity analysis
+# this is only run on the linux machine
+
+
 #################################################################
 ## Grahics with full distribution
 ######################################################################
