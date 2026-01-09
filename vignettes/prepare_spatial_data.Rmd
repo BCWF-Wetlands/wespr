@@ -1,0 +1,65 @@
+---
+title: "prepare_spatial_data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{prepare_spatial_data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+This package has a number of functions to assist in completing the desktop analysis components of WESP-BC. 
+One important step is to download the spatial data required for analysis. We can use the [bcdata package](https://github.com/bcgov/bcdata) to download and prepare some of these datasets.
+
+Note a number of data sets need to be downloaded manually. These include:
+
+1)  [BC Cumulative Effects Framework - Human Disturbance](https://catalogue.data.gov.bc.ca/dataset/7d61ff12-b85f-4aeb-ac8b-7b10e84b046c) (Government of British Columbia, 2023a).
+This data set is used in OF 31, 32, 41.The information required includes the following field: 
+
+* Natural vs disturbed
+* Disturbed = Agriculture and clearing, cutblocks, mining and extraction, OGC Geophysical, OGC Infrastructure, Power, ROW, Rail and infrastructure, Urban
+* Natural = all other categories (under CEF Disturb Group) 
+
+2) [BC Cumulative Effects Framework – Integrated Roads – 2025](https://catalogue.data.gov.bc.ca/dataset/a489bc6a-f676-4503-8cd7-dcf0bdf2ae99) (Government of British Columbia, 2025a)
+ 
+
+3) Designated Lands. 
+This file is a [downloadable zip file](https://github.com/bcgov/designatedlands/releases/download/v0.1.0/designatedlands.gpkg.zip) (GitHub File). 
+This data is used on OF 21, 22. 
+
+
+All other standard data sets can be downloaded from the [BC Data Catalog] (https://catalogue.data.gov.bc.ca/). 
+
+
+```{r setup}
+library(wespr)
+```
+
+We need to specify an aoi of interest or Assessment Area (AA). We provide an example aoi wetland within this package in the format of a geopackage (.gpkg).
+
+
+```{r, eval = FALSE}
+# read in aoi dataset 
+example_dir <- system.file("extdata", package = "wespr")
+
+aoi <- sf::st_read(fs::path(example_dir, "aoi_example.gpkg"))
+
+
+```
+
+Our first step is to define the file folder where we want the outputs to be saved
+
+```{r, eval = FALSE}
+out_dir = fs::path("./temp/spatial_layers")
+
+import_spatial_data(aoi, out_dir)
+
+
+```
