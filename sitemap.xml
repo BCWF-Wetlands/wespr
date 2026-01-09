@@ -4,6 +4,7 @@
 <url><loc>https://bcwf-wetlands.github.io/wespr/articles/calculate_wesp_scores.html</loc></url>
 <url><loc>https://bcwf-wetlands.github.io/wespr/articles/index.html</loc></url>
 <url><loc>https://bcwf-wetlands.github.io/wespr/articles/prepare-rawdata.html</loc></url>
+<url><loc>https://bcwf-wetlands.github.io/wespr/articles/prepare_spatial_data.html</loc></url>
 <url><loc>https://bcwf-wetlands.github.io/wespr/authors.html</loc></url>
 <url><loc>https://bcwf-wetlands.github.io/wespr/index.html</loc></url>
 <url><loc>https://bcwf-wetlands.github.io/wespr/reference/as.wesp_site.html</loc></url>
@@ -18,8 +19,10 @@
 <url><loc>https://bcwf-wetlands.github.io/wespr/reference/get_derived_values.html</loc></url>
 <url><loc>https://bcwf-wetlands.github.io/wespr/reference/get_indicator_scores.html</loc></url>
 <url><loc>https://bcwf-wetlands.github.io/wespr/reference/get_responses.html</loc></url>
+<url><loc>https://bcwf-wetlands.github.io/wespr/reference/import_spatial_data.html</loc></url>
 <url><loc>https://bcwf-wetlands.github.io/wespr/reference/index.html</loc></url>
 <url><loc>https://bcwf-wetlands.github.io/wespr/reference/load_wesp_data.html</loc></url>
+<url><loc>https://bcwf-wetlands.github.io/wespr/reference/record_values.html</loc></url>
 <url><loc>https://bcwf-wetlands.github.io/wespr/reference/wespr-package.html</loc></url>
 </urlset>
 

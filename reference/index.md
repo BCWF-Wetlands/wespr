@@ -48,5 +48,13 @@
   Retrieve all input responses from a `wesp_site` object as a
   data.frame.
 
+- [`import_spatial_data()`](https://bcwf-wetlands.github.io/wespr/reference/import_spatial_data.md)
+  : Download base spatial information layers to support desktop analysis
+  for Wespr
+
 - [`load_wesp_data()`](https://bcwf-wetlands.github.io/wespr/reference/load_wesp_data.md)
   : Load the data containing the responses to WESP form
+
+- [`record_values()`](https://bcwf-wetlands.github.io/wespr/reference/record_values.md)
+  : Validate and record responses into a standard object This is an
+  internal function to generate wesp class object

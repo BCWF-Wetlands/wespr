@@ -3,8 +3,9 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   calculate_wesp_scores: calculate_wesp_scores.html
+  prepare_spatial_data: prepare_spatial_data.html
   prepare-rawdata: prepare-rawdata.html
-last_built: 2026-01-07T02:55Z
+last_built: 2026-01-09T00:58Z
 urls:
   reference: https://bcwf-wetlands.github.io/wespr/reference
   article: https://bcwf-wetlands.github.io/wespr/articles
