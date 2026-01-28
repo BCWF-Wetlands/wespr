@@ -115,6 +115,7 @@ calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores_SIM.
 
 library(wespr)
 library (fs)
+library(dplyr)
 
 #field_data <- fs::path("inst",'input_data','raw',"20251217", "field_assessment_by_class_20Nov2025.csv")
 #desktop_data <- fs::path("inst",'input_data','raw', "20251217", "office_data_by_class_formatted_for_R_12Dec2025.csv")
@@ -161,7 +162,7 @@ wespkey <- wesp_data |>
 
 site_overall <- purrr::map(c(1:4), function(x){
 
-  #x <- c(1:4)[1]
+#  x <- c(1:4)[1]
   site <- as.wesp_site(wesp_data, site = x)
 
   site
@@ -188,7 +189,7 @@ site_overall <- purrr::map(c(1:4), function(x){
 site_overall <- left_join(site_overall, wespkey)
 
 
-write.csv(site_overall, fs::path("inst",'input_data','raw',"20260105","wesp_output_20260105.csv"), row.names=FALSE)
+write.csv(site_overall, fs::path("inst",'input_data','raw',"20260105","wesp_output_20260109.csv"), row.names=FALSE)
 
 
 
