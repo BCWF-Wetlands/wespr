@@ -15,8 +15,12 @@
 import_spatial_data <- function(aoi = NA, out_dir = NA) {
 
   # testing line
-  # aoi <- sf::st_read(fs::path("./temp/spatial_layers/aoi_example.gpkg"))
-  # end testing line
+   #aoi <- sf::st_read(fs::path("./temp/spatial_layers/aoi_example.gpkg"))
+   #aoi <- sf::st_read(fs::path("inst" , "input_data", "raw", "20260128","mud_lake.gpkg"))
+   #out_dir <- fs::path("inst" , "input_data", "raw", "20260128")
+     #list.files(data_raw)
+
+   # end testing line
 
   # check aoi is an sf object and the crs is in EPSG:3005
   if(!inherits(aoi, "sf")) {
@@ -330,8 +334,10 @@ import_spatial_data <- function(aoi = NA, out_dir = NA) {
       "EDGE_TYPE", "LINEAR_FEATURE_ID", "WATERSHED_GROUP_ID",
       "FEATURE_CODE", "GNIS_NAME"
     ) |>
-    bcdata::filter(-data$EDGE_TYPE %in% c(1450, 1400, 1200, 1300, 1425, 1410)) |>
-    bcdata::collect() |>
+    bcdata::collect()
+
+  fwa_stn <-fwa_stn |>
+    dplyr::filter(.data$EDGE_TYPE %in% c(1450, 1400, 1200, 1300, 1425, 1410)) |>
     dplyr::select(-.data$LENGTH_METRE, -.data$FEATURE_SOURCE, -.data$STREAM_ORDER, -.data$STREAM_MAGNITUDE, -.data$OBJECTID)
 
   if (nrow(fwa_stn) > 0) {
