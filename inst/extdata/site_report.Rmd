@@ -18,7 +18,7 @@ library(stringr)
 
 #testing lines 
 #calibration_scores_eco = calibration_scores_eco
-##calibration_scores_summary = calibration_scores_summary
+#calibration_scores_summary = calibration_scores_summary
 #classed_df = classed_df
 #output_dir = output_dir
 # end testing line 
@@ -191,11 +191,21 @@ ffraw <- ffraw |>
     service_type == "b" ~ "benefit"
   ))
 
+ffraw <- ffraw |> 
+  mutate(colour = case_when(
+      value > -1 & value < 1 ~ "#FDE725FF",
+      value > 1 & value < 4 ~ "#20A387FF",
+      value < -4 ~ "#482677FF",
+      value < -1 ~ "#20A387FF",
+      value > 4 ~ "#482677FF"))
+
+
 raw_plot <- ggplot(ffraw, aes(x = service_type_full, y = service_full_name)) +
   geom_tile(aes(fill = value)) +
   geom_text(aes(label = round(value, 1))) +
   #scale_fill_continuous("blue")
-  theme(palette.colour.continuous = c("#DEEBF7", "#9ECAE1", "#3182BD"))+
+  theme(palette.colour.continuous = c("#FDE725FF", "#20A387FF", "#453781FF"))+
+  #theme(palette.colour.discrete = c("#FDE725FF", "#20A387FF", "#482677FF"))+
   labs(
     x = "",
     y = "Ecosystem Function"
