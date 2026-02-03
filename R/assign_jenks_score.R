@@ -19,11 +19,11 @@
 #' }
 assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = NA, output_dir = NULL) {
   # testing lines
-  # ind_scores
-  # calibration_scores
-  # EcoP ="GD"
-  # report = TRUE
-  # output_dir <- fs::path("temp")
+   #ind_scores
+   #calibration_scores
+   #EcoP ="GD"
+   #report = TRUE
+   #output_dir <- fs::path("temp")
   # end testing lines
 
   # check calibration data contains ecoprovince
