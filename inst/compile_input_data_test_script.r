@@ -162,7 +162,7 @@ wespkey <- wesp_data |>
 
 site_overall <- purrr::map(c(1:4), function(x){
 
-#  x <- c(1:4)[1]
+  x <- c(1:4)[1]
   site <- as.wesp_site(wesp_data, site = x)
 
   site
@@ -179,7 +179,7 @@ site_overall <- purrr::map(c(1:4), function(x){
   get_responses(site)
   get_derived_values(site)
 
-  out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD", report = NA, output_dir = "temp")
+  out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD", report = TRUE, output_dir = "temp")
 
   out
 

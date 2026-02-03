@@ -48,9 +48,10 @@ usethis::use_data(calibration_scores, overwrite = TRUE)
 
 library(ggplot2)
 
-
-
 cals <- calibration_scores
+
+write.csv(cals, file.path(fs::path("inst", "input_data", "processed", "calibration_scores_sim_gd.csv")))
+
 
 # get number of ecoprovinces
 unique(cals$ecoprovince)
