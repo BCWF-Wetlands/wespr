@@ -27,6 +27,9 @@ format_rawinputs <- function(field_data,
 
   # # testing files
 #
+#  field_data <- fs::path("inst",'input_data','raw',"20260203", "WESP_2026_V0_0.csv")
+#  desktop_data <- fs::path("inst",'input_data','raw', "20260203", "WESP_BC_Desktop_Analysis_2026_V1_0.csv")
+  #
 #    field_data <- fs::path("inst",'input_data','raw',"20251222", "WESP_Field_AE2.csv")
 #    desktop_data <- fs::path("inst",'input_data','raw', "20251222", "WESP_Desktop_AE2.csv")
 #    write_subfiles = FALSE
@@ -76,7 +79,7 @@ format_rawinputs <- function(field_data,
            "F1_4" = .data$`deciduous 1-3 m tall`,
            "F1_5" = .data$`coniferous or evergreen <1 m tall (e.g., many ericaceous shrub species)`,
            "F1_6" = .data$`deciduous <1 m tall (e.g., deciduous tree seedlings)`,
-           "x4" =  .data$`Picture`,
+           #"x4" =  .data$`Picture`,
            "F2_0" = .data$`If <1% of the vegetated AA contains woody vegetation taller than 3 m, leave this question blank and SKIP to F4. Otherwise, follow the key below and mark ONE option that best describes MOST of the vegetated part of the AA.`,
            "F3_0" = .data$`Mark ALL the types that comprise >5% of the woody canopy cover in the AA or >5% of the wooded areas (if any) along its upland edge (perimeter). The edge should include only the trees whose canopies extend into the AA`,
            "F4_0" = .data$`If <5% of the AA has short (<1 m) woody cover, SELECT N/A. Otherwise, determine which two woody plant genera comprise the greatest portion of the short (<1 m) woody cover. Then choose one:`,
@@ -85,7 +88,8 @@ format_rawinputs <- function(field_data,
            "F7_0" = .data$`Woody plants that potentially produce succulent fruits or berries comprise ___% of the vegetated part of the AA.`,
            "F8_0" =.data$`The number of large snags (diameter >20 cm) in the AA plus adjacent upland area within 10 m of the wetland edge is:`,
            "F9_0" = .data$`The number of downed wood pieces longer than 2 m and with diameter >10 cm, and not persistently submerged, is __ per 10 x 10 m plot.`,
-           "F10_0" = .data$`The cover of mosses that form a dense cushion many centimeters thick (i.e., Sphagnum and other peat-forming species), including the moss obscured by taller sedges, shrubs, and other plants rooted in it, is ___% of the vegetated part of the AA.`,
+          # "F10_0" = .data$`The cover of mosses that form a dense cushion many centimeters thick (i.e., Sphagnum and other peat-forming species), including the moss obscured by taller sedges, shrubs, and other plants rooted in it, is ___% of the vegetated part of the AA.`,
+           "F10_0" = .data$`The cover of mosses that form a densely packed cushion many centimetres thick (i.e., Sphagnum and other peat-forming species), including the moss obscured by taller sedges, shrubs, and other plants rooted in it, is ___% of the vegetated part of the AA.`,
            "F11_0" = .data$`The areal cover of forbs (plants with conspicuous flowers at any time of year) reaches an annual maximum of ___% of the vegetated part of the AA.`,
            "F12_0" = .data$`Sedges (Carex spp.) and cottongrass (Eriophorum spp.) that form tussocks (raised mounds with dense stems and deep roots) occupy ___% of the vegetated area.`,
            "F13_0" = .data$`The extent of invasive plant cover in the vegetated AA is --% of the herbaceous cover (or woody cover, if the invasives are woody). The BC Report Invasives Andoid/iOS App or the Invasive Species Council of BC invasive species library may be used as resources`,
@@ -94,7 +98,7 @@ format_rawinputs <- function(field_data,
            "F16_0" = .data$`During any 2 consecutive weeks of the growing season, the extent of waters that are both shallower than 5 cm and not shaded by vegetation, added to areas that have bare saturated substrate (e.g., mudflat) that similarly have sparse or no vegetation canopy, are:`,
            "F17_0" =.data$`In parts of the AA that lack persistent water, the texture of soil in the uppermost layer is mostly: [To determine this, use a trowel to check in at least 3 different topographic positions within the site.]`,
            "F18_0" =.data$`Imagine the AA without any living vegetation (other than moss, if any). Excluding the portion of the AA that is always under water, the amount of hummocks, small pits, raised mounds, animal burrows, ruts, gullies, natural levees, microdepressions, and other areas of peat or mineral soil that are  raised or depressed >10 cm compared to most of the area within a few meters surrounding them is:`,
-           "x5" = .data$`Picture2`,
+           #"x5" = .data$`Picture2`,
            "F19_0" = .data$`The percentage of the AA that never contains surface water during an average year (that is, except perhaps for a few hours after snowmelt or rainstorms), but which is still a wetland, is:`,
            "F20_0" = .data$`The percentage of the AA's area that is between the annual high water and the annual low water (surface water) is: (must add to ~100 with F19 and F21)`,
            "F21_0" = .data$`Identify the parts of the AA that still contain surface water (flowing or ponded, open or hidden beneath vegetation) even during the driest times of a normal year, i.e., when the AA's surface water is at its lowest annual level. At that time, the percentage of the AA that still contains surface water is: (must add to ~100 with F19 and F20)`,
@@ -109,8 +113,9 @@ format_rawinputs <- function(field_data,
            "F30_0" = .data$`Within the AA, the largest ponded surface water patch, with or without inundated vegetation, that remains flooded to a depth of >10 cm for at least 3 consecutive weeks during the usual growing season comprises:`,
            "F31_0" = .data$`Including any open water abutting the AA, the summed area of all patches with open water (ponded or flowing) during most of the growing season.`,
            "F32_0" = .data$`Most of the time when surface water is present, the direct distance (fetch) measured along the longest dimension of open ponded water in the AA (or channel width if there is no ponded water) and possibly extending into any abutting waters is:`,
-           "F33_0" = .data$`At the time during the growing season when the AA's water level is lowest, the average width that seperates adjoining uplands from edge of open water within the AA:`,
-           "F34_0" = .data$`Most of the time when surface water is present, the distance from the edge of the largest body of open water within the AA to the nearest sizeable stand of tall dense woody cover (>1 ha, >2 m tall, >60% crown closure), either in the wetland or in upland, is`,
+          # "F33_0" = .data$`At the time during the growing season when the AA's water level is lowest, the average width that seperates adjoining uplands from edge of open water within the AA:`,
+           "F33_0" = .data$`At the time during the growing season when the AA's water level is lowest, the average width that separates adjoining uplands from the edge of open water within the AA:`,
+          "F34_0" = .data$`Most of the time when surface water is present, the distance from the edge of the largest body of open water within the AA to the nearest sizeable stand of tall dense woody cover (>1 ha, >2 m tall, >60% crown closure), either in the wetland or in upland, is`,
            "F35_0" = .data$`During most of the part of the growing season when surface water is present, the spatial pattern of inundated vegetation within the open water (or the open water within the vegetation) is mostly:`,
            "F36_0" = .data$`During most of the part of the growing season when water is present, the percentage of the AA's water edge length that is abutted by steep (>30% slope) unvegetated banks that are >1 m high is:`,
            "F37_0" = .data$`The percentage of the AA that contains sedge tussocks, tall bulrush, cattail, or living woody vegetation that  remains partially underwater  for more than 2 weeks of the growing season annually is:`,
@@ -124,7 +129,8 @@ format_rawinputs <- function(field_data,
            "F45_0" = .data$`The pH in most of the AA's surface water:`,
            "F45_1" = .data$`pH measurement`,
            "F46_0" = .data$`Was EC (Electrical Conductivity) measured?`,
-           "F46_1" = .data$`Enter EC in microSiemens`,
+          # "F46_1" = .data$`Enter EC in microSiemens`,
+           "F46_1" = .data$`Enter EC in microSiemens/cm`,
            "F47_0" = .data$`Select the first applicable choice:`,
            "F48_0" = .data$`Use of the AA by beaver during the past 5 years is (select most applicable ONE):`,
            "F49_0" = .data$`Within a 30 m-wide buffer around the AA (or a 50 m-wide buffer if the AA is >5 ha), are there roads, trails, buildings, or any other human-associated features, or areas burned intensively during the past 5 years, that have reduced vegetation normally present on any side of this AA. If no,  SKIP to F53.`,
@@ -354,3 +360,4 @@ format_rawinputs <- function(field_data,
 
   return(wesp)
 }
+

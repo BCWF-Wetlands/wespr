@@ -350,7 +350,8 @@ processing_officedata <- function(indata = indata) {
     dplyr::rename(
       "objectid" = .data$ObjectID,
       "globalid" = .data$GlobalID,
-      "Wetland_Co" = .data$`Preassigned wetland ID number (region initials followed by a number ie SI_1234)`,
+       "Wetland_Co" = .data$`Site ID (should match Field Assessment Form)`,
+      #"Wetland_Co" = .data$`Preassigned wetland ID number (region initials followed by a number ie SI_1234)`,
       "Assessors" = .data$`Name of Assessor`,
       "OF1_0" = .data$`OF1. Distance to Community`,
       "OF2_0" = .data$`OF 2. Distance to Frequently Traveled Road`,
