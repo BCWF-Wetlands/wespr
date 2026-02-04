@@ -123,8 +123,12 @@ library(dplyr)
 field_data <- fs::path("inst",'input_data','raw',"20251204", "WESP_FIELD_MA.csv")
 desktop_data <- fs::path("inst",'input_data','raw', "20251204", "WESP_DESKTOP_MA.csv")
 
-field_data <- fs::path("inst",'input_data','raw',"20251222", "WESP_Field_AE2.csv")
-desktop_data <- fs::path("inst",'input_data','raw', "20251222", "WESP_Desktop_AE2.csv")
+#field_data <- fs::path("inst",'input_data','raw',"20251222", "WESP_Field_AE2.csv")
+#desktop_data <- fs::path("inst",'input_data','raw', "20251222", "WESP_Desktop_AE2.csv")
+
+#field_data <- fs::path("inst",'input_data','raw',"20251222", "WESP_Field_AE2.csv")
+#desktop_data <- fs::path("inst",'input_data','raw', "20260203", "WESP_BC_Desktop_Analysis_2026_V1_0.csv")
+
 
 ww <- format_rawinputs(
   field_data <- field_data,
@@ -179,7 +183,7 @@ site_overall <- purrr::map(c(1:4), function(x){
   get_responses(site)
   get_derived_values(site)
 
-  out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD", report = TRUE, output_dir = "temp")
+  out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD", report = NA, output_dir = "temp")
 
   out
 
