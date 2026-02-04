@@ -16,7 +16,7 @@ We have included an example file in the package, which we can use for
 demonstration purposes:
 
 ``` r
-wesp_file <- system.file("input_data/reference_GD_20250620.csv", package = "wespr")
+wesp_file <- system.file("input_data/reference_multisite.csv", package = "wespr")
 wesp_data <- load_wesp_data(wesp_file)
 
 head(wesp_data)
@@ -118,7 +118,7 @@ function. Which requires the data to firstly be loaded using the
 function. For example the work flow would be:
 
 ``` r
-wesp_file <- system.file("input_data/reference_GD_20250620.csv", package = "wespr")
+wesp_file <- system.file("input_data/reference_multisite.csv", package = "wespr")
 wesp_data <- load_wesp_data(wesp_file)
 
 # generate a site key 

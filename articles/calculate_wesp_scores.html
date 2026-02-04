@@ -77,7 +77,7 @@ ecoprovince calibration data.</p>
 <p>We have included an example file in the package, which we can use for
 demonstration purposes:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">wesp_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/reference_GD_20250620.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">wesp_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/reference_multisite.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
 <span><span class="va">wesp_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_wesp_data.html">load_wesp_data</a></span><span class="op">(</span><span class="va">wesp_file</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">wesp_data</span><span class="op">)</span></span>
@@ -150,7 +150,7 @@ only need the raw values for each site we can use the
 firstly be loaded using the <code><a href="../reference/load_wesp_data.html">load_wesp_data()</a></code> function. For
 example the work flow would be:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">wesp_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/reference_GD_20250620.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">wesp_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"input_data/reference_multisite.csv"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
 <span><span class="va">wesp_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_wesp_data.html">load_wesp_data</a></span><span class="op">(</span><span class="va">wesp_file</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># generate a site key </span></span>
