@@ -21,10 +21,43 @@ knitr::opts_chunk$set(
 
 The B.C. Wildlife Federation’s Wetlands Workforce project is a collaboration with conservation organizations and First Nations working to maintain and monitor wetlands across British Columbia. https://bcwf.bc.ca/initiatives/wetlands-workforce/.  
 
-The [Wetland Ecosystem Services Protocol](https://wetlandsworkforce.ca/portfolio/wetlands-ecosystem-services-protocol/) (WESP) model is a standardized method for assessing the function and value of the services provided by wetlands.
+The [Wetland Ecosystem Services Protocol](https://wetlandsworkforce.ca/portfolio/wetlands-ecosystem-services-protocol/) (WESP-BC) model is a standardized method for assessing the function and value of the services provided by wetlands within British Columbia.
 
-wespr is an R package to help automate the validation of WESP data and to calculate 
-WESP indicators in a reproducible manner.
+wespr is an R package to assist with the preparation and assessment of wesp-BC scores. The package provides tools to assist with 1) downloading spatial layers, 2) prepossessing field and desktop questionnaires, 3) calculating wesp-BC scores and for a range of functional and beneficial ecosystem indicators, 4) advanced functions to upload and verify calibration datasets. 
+
+A series of vignettes with step by step instructions is provided to assist users.
+
+1) Pre-processing spatial data 
+
+- prepare spatial layers vignette. [here](https://bcwf-wetlands.github.io/wespr/articles/prepare_spatial_data.html). This vignette walks through a helper function which downloads a standard set of spatial layers via the bcdata packge. This data provides a majority of information required to answer desktop analysis portion of the wesp-BC protocol
+
+2) Post data survey123 datasets
+
+- Once the user has answered the required field and desktop survey123 surveys (and output these as .csv files), we use the *format_rawinputs()* function to standardize the input data into a structure that allows us to calculate the wespr-BC values. A full vignette with the steps is found [here](https://bcwf-wetlands.github.io/wespr/articles/prepare-rawdata.html)
+
+
+3) Calculate Wespr scores - single site
+
+
+
+
+4) Calculate Wespr scores - multiple site
+
+
+
+5) Developers: How to add new calibration datasets 
+
+
+
+6) Developers: tldr - anatomy of the wespr-bc 
+
+
+
+
+
+
+
+
 
 ## Installation
 
