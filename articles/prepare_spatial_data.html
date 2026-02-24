@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>prepare_spatial_data • wespr</title>
+<title>Preparing spatial data • wespr</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="prepare_spatial_data">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Preparing spatial data">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -34,8 +34,8 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/calculate_wesp_scores.html">Calculate Wespr Scores</a></li>
-    <li><a class="dropdown-item" href="../articles/prepare_spatial_data.html">prepare_spatial_data</a></li>
-    <li><a class="dropdown-item" href="../articles/prepare-rawdata.html">Prepare data for Wespr calculations</a></li>
+    <li><a class="dropdown-item" href="../articles/prepare_spatial_data.html">Preparing spatial data</a></li>
+    <li><a class="dropdown-item" href="../articles/prepare-rawdata.html">Prepare input data for Wespr calculations</a></li>
   </ul>
 </li>
       </ul>
@@ -56,7 +56,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>prepare_spatial_data</h1>
+      <h1>Preparing spatial data</h1>
             
       
 
@@ -67,38 +67,32 @@
     
 <p>This package has a number of functions to assist in completing the
 desktop analysis components of WESP-BC. One important step is to
-download the spatial data required for analysis. We can use the <a href="https://github.com/bcgov/bcdata" class="external-link">bcdata package</a> to download
-and prepare some of these datasets.</p>
-<p>Note a number of data sets need to be downloaded manually. These
-include:</p>
-<ol style="list-style-type: decimal">
-<li>
-<a href="https://catalogue.data.gov.bc.ca/dataset/7d61ff12-b85f-4aeb-ac8b-7b10e84b046c" class="external-link">BC
-Cumulative Effects Framework - Human Disturbance</a> (Government of
-British Columbia, 2023a). This data set is used in OF 31, 32, 41.The
-information required includes the following field:</li>
-</ol>
-<ul>
-<li>Natural vs disturbed</li>
-<li>Disturbed = Agriculture and clearing, cutblocks, mining and
-extraction, OGC Geophysical, OGC Infrastructure, Power, ROW, Rail and
-infrastructure, Urban</li>
-<li>Natural = all other categories (under CEF Disturb Group)</li>
-</ul>
-<ol start="2" style="list-style-type: decimal">
-<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/a489bc6a-f676-4503-8cd7-dcf0bdf2ae99" class="external-link">BC
-Cumulative Effects Framework – Integrated Roads – 2025</a> (Government
-of British Columbia, 2025a)</p></li>
-<li><p>Designated Lands. This file is a <a href="https://github.com/bcgov/designatedlands/releases/download/v0.1.0/designatedlands.gpkg.zip" class="external-link">downloadable
-zip file</a> (GitHub File). This data is used on OF 21, 22.</p></li>
-</ol>
-<p>All other standard data sets can be downloaded from the [BC Data
-Catalog] (<a href="https://catalogue.data.gov.bc.ca/" class="external-link uri">https://catalogue.data.gov.bc.ca/</a>).</p>
+download the spatial data required for analysis. A full list of
+suggested datasets is provided below. These data sets comprise two types
+1) data which can be downloaded directly using the <a href="https://github.com/bcgov/bcdata" class="external-link">bcdata package</a> and 2) data
+sets which require manual download. A full list of data sets is provided
+below.</p>
+<p>For those data sets which are accessible via the bcdata package, we
+can use the function import_spatial_data() function to automate this
+process.</p>
+<p>The user is required to input an area of interest for a given wetland
+or wetland areas and an output file location where the datasets will be
+saved in .gpkg format. Within this function we also generate an expanded
+area of interest by buffering the aoi by 10 kms (aoi_buffer_10km.gpkg).
+This provides an expanded aoi by which many of the datasets are clipped
+to and downloaded.</p>
+<p><br></p>
+<div class="section level2">
+<h2 id="example-workflow">1) Example workflow<a class="anchor" aria-label="anchor" href="#example-workflow"></a>
+</h2>
+<p>To run the function you will need two parameters. 1) A geospatial
+file (.gpkg) which defined the area of interest for your wetland. 2) An
+output folder location, into which processed data sets will be
+saved.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bcwf-wetlands.github.io/wespr/">wespr</a></span><span class="op">)</span></span></code></pre></div>
-<p>We need to specify an aoi of interest or Assessment Area (AA). We
-provide an example aoi wetland within this package in the format of a
-geopackage (.gpkg).</p>
+<p>We provide an example aoi wetland within this package in the format
+of a geopackage (.gpkg).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># read in aoi dataset </span></span>
 <span><span class="va">example_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"wespr"</span><span class="op">)</span></span>
@@ -107,10 +101,189 @@ geopackage (.gpkg).</p>
 <p>Our first step is to define the file folder where we want the outputs
 to be saved</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">out_dir</span> <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="st">"./temp/spatial_layers"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># define an output path to which datsets will be saved into</span></span>
+<span><span class="va">out_dir</span> <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/path.html" class="external-link">path</a></span><span class="op">(</span><span class="st">"./temp/spatial_layers"</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># run the function and wait</span></span>
 <span><span class="fu"><a href="../reference/import_spatial_data.html">import_spatial_data</a></span><span class="op">(</span><span class="va">aoi</span>, <span class="va">out_dir</span><span class="op">)</span></span></code></pre></div>
-  </main>
+<p>You will receive messages as the function progresses to provide
+details on what has been processed and if there are any data sets which
+do not contain relevant information within your aoi.</p>
+<p><br><br></p>
+</div>
+<div class="section level2">
+<h2 id="required-data-sets">2) Required data sets<a class="anchor" aria-label="anchor" href="#required-data-sets"></a>
+</h2>
+<div class="section level3">
+<h3 id="data-sets-downloaded-within-the-import_spatial_data-function">Data sets downloaded within the import_spatial_data() function:<a class="anchor" aria-label="anchor" href="#data-sets-downloaded-within-the-import_spatial_data-function"></a>
+</h3>
+<ol style="list-style-type: decimal">
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/97d8ef37-b8d2-4c3b-b772-6b25c1db13d0" class="external-link">Watershed
+Assessment Unit</a>. This is predominantly used as a boundary on which
+other questions may relate and is filtered to the 10km boundary, then
+the entire wau is selected. Output file name = wau.gpkg</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/22c7cb44-1463-48f7-8e47-88857f207702" class="external-link">Historic
+Fire Perimeters</a>. Fires are filter to those occurring after 2010 with
+a boundary of 10 km buffer.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/3b723ef2-abd4-4722-abea-9a51258eae15" class="external-link">BC
+Historical Fish Distribution Points (50,000) (Government of British
+Columbia, 2006)</a>. Fish distribution is filtered to a 10 km buffer.
+Output file = fish_obs_10km.gpkg.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/68327529-c0d5-4fcb-b84e-f8d98a7f8612" class="external-link">Conservation
+Lands (Government of British Columbia, 2025c)</a>. Conservation land
+type intersected with the 10 km buffer. Output file =
+cons_lands_10km.gpkg.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/076b8c98-a3f1-429b-9dae-03faed0c6aef" class="external-link">Critical
+Habitat for Federally-Listed Species at Risk-Posted (Government of
+British Columbia, 2024a)</a>. Critical habitat filtered to a 10km
+buffer. Output file = crit_hab_10km.gpkg.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/bb060417-b6e6-4548-b837-f9060d94743e" class="external-link">Digital
+Road Atlas (DRA)- Attributed Roads (Government of British Columbia,
+2025d)</a>. Roads are intersected with the 10km buffered boundary.
+Output file = roads_10km.gpkg.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/51832f47-efdf-4956-837a-45fc2c9032dd" class="external-link">Ecoprovinces
+- Ecoregion Ecosystem Classification of British Columbia (Government of
+British Columbia, 2004)</a>. Intersect the aoi with the Ecoprovinces to
+select the ecoprovince in which the wetland is within. Output file =
+eco_10km.gpkg.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/cb1e3aba-d3fe-4de1-a2d4-b8b6650fb1f6" class="external-link">Freshwater
+Atlas Lakes (Government of British Columbia, 2008b)</a>. The freshwater
+atlas lakes is intersected with the 10km buffered boundary, with the
+following fields retained ; “WATERBODY_POLY_ID”, “WATERSHED_GROUP_ID”,
+“WATERBODY_TYPE”, “AREA_HA”. The output file =
+fwa_lakes_10km.gpkg.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/f7dac054-efbf-402f-ab62-6fc4b32a619e" class="external-link">Freshwater
+Atlas Rivers (Government of British Columbia, 2025e)</a>. The freshwater
+atlas rivers is intersected with the 10km buffered boundary, with the
+following fields retained; “GNIS_NAME_1” and “WATERSHED_GROUP_ID” The
+output file = fwa_rivers_10km.gpkg.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/d7165359-52ef-41d0-b762-c53e3468ff3f" class="external-link">Freshwater
+Atlas Stream Directions (Government of British Columbia, 2023b)</a>.The
+freshwater atlas streams is intersected with the 10km buffered boundary.
+The output file = fwa_stdir_10km.gpkg.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/8f2aee65-9f4c-4f72-b54c-0937dbf3e6f7" class="external-link">Freshwater
+Atlas Glaciers (Government of British Columbia, 2008a)</a>. The
+freshwater atlas glaciers is intersected with the 10km buffered
+boundary, with the following fields retained; WATERSHED_GROUP_CODE and
+WATERSHED_GROUP_ID. The output file = fwa_glacier_10km.gpkg.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/92344413-8035-4c08-b996-65a9b3f62fca" class="external-link">Freshwater
+Atlas Stream Network (Government of British Columbia, 2024b)</a>. The
+stream network is intersected with the 10 km buffer. The features with
+an EDGE_TYPE = Flow Connector (1450), Isolated (1400), Waterbody
+Skeletons (1200,1300), Underground Connector (1425),Inferred Connector
+(1410) are selected. Of these the following fields are retained:
+Edge_type, Linear_feature_ID, Watershed_group_ID, Feature_code,
+GNES_name. The output file = “fwa_stn_10km.gpkg”.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/51f20b1a-ab75-42de-809d-bf415a0f9c62" class="external-link">Freshwater
+Atlas Watershed Groups (Government of British Columbia, 2008c)</a>.This
+data set is intersected with the 10 km buffer. It is used to estimate
+the max and min elevation (m) fields for each watershed (by
+Watershed_Group_Code). Future update to use regional lidar for more
+accurate elevations. The output file = “fwa_stn_10km.gpkg”.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/ab758580-809d-4e11-bb2c-df02ac5465c9" class="external-link">Freshwater
+Atlas Watershed Boundaries (Government of British Columbia, 2025f)</a>.
+This data set is intersected with the 10 km buffer and the following
+fields retained: WATERSHED_GROUP_CODE, FEATURE_SOURCE, OBJECTID,
+WATERSHED_GROUP_ID. The output file is “fwa_wsb_10km.gpkg”).</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/93b413d8-1840-4770-9629-641d74bd1cc6" class="external-link">Freshwater
+Atlas Wetlands (Government of British Columbia, 2025g)</a> This data set
+is intersected with the 10 km buffer and the output file =
+“fwa_wetlands_10km.gpkg”.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/c94e0c13-5385-49c1-9922-822e10135fc6" class="external-link">Geology
+Faults (Government of British Columbia, 2018)</a> This data set is
+intersected with the 10 km buffer and the output file =
+“geo_fault_10km.gpkg”.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/832b4523-7853-4ec5-8f9c-4314a0154927" class="external-link">Glaciers
+(Government of British Columbia, 2025h)</a> This data set is intersected
+with the 10 km buffer and the output file =
+“glaciers_10km.gpkg”.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/e3c3c580-996a-4668-8bc5-6aa7c7dc4932" class="external-link">Municipalities
+Legally Defined Administrative Areas of BC (Government of British
+Columbia, 2016)</a> This data set is intersected with the 10 km buffer
+and the following fields are retained : ADMIN_AREA_NAME,
+ADMIN_AREA_ABBREVIATION, OIC_MO_YEAR. The output file is
+“municipals_10km.gpkg”).</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/e3c3c580-996a-4668-8bc5-6aa7c7dc4932" class="external-link">BC
+Towns</a>. This data set is intersected with the 10 km buffer with the
+output file = “bc_major_towns.gpkg”.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/a306e21b-58d6-4b71-bac7-f3b1c8a4c779" class="external-link">NGO
+Conservation Areas Fee Simple (Government of British Columbia,
+2024c)</a> This data set is intersected with the 10 km buffer with the
+output file = “ngo_10km.gpkg”.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/395568e1-d233-4217-9732-7afadb6f4265" class="external-link">Reconnaissance
+Karst Potential Mapping (Government of British Columbia, 2002)</a>.This
+data set is intersected with the 10 km buffer with the output file =
+“karst_10km.gpkg”.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/0e035e55-f257-458f-9a96-80c01c69d389" class="external-link">Species
+and Ecosystems at Risk Publicly Available Occurrences - CDC (Government
+of British Columbia, 2025i)</a>. This data set is intersected with the
+10 km buffer with the output file = “SAR_10km.gpkg”.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/f3ece977-aa7f-4cb2-b7d0-de64155f6c83" class="external-link">TANTALIS
+Wildlife Management Areas (Government of British Columbia, 2025k)</a>
+This data set is intersected with the 10 km buffer with the output file
+= “wma_10km.gpkg”.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/550b3133-2004-468f-ba1f-b95d0e281e78" class="external-link">TANTALIS
+Conservancy Areas (Government of British Columbia, 2025j)</a>. This data
+set is intersected with the 10 km buffer with the output file =
+“cons_area_10km.gpkg”.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/712bd887-7763-4ed3-be46-cdaca5640cc1" class="external-link">Ungulate
+Winter Range Approved (Government of British Columbia, 2025l)</a>. This
+data set is intersected with the 10 km buffer with the output file =
+“uwr_10km.gpkg”.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/6ba30649-14cd-44ad-a11f-794feed39f40" class="external-link">VRI
+2024 Forest Vegetation Composite Polygons (Government of British
+Columbia, 2024d)</a> .This data set is intersected with the 10 km
+buffer. The following fields are retained: Site index,
+Site_Position_Meso, Bclcs_level_5, Bclcs_level_4 (forest type),
+bclcs_level_3 (wetlands), bclcs_level_2 (treed/non-treed/land/water),
+bclcs_level_1 (vegetated or non-vegetated). The output file is
+“vri_10km.gpkg”.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/7d5a14c4-3b6e-4c15-980b-68ee68796dbe" class="external-link">Wildlife
+Species Inventory Incidental Observations Publicly Available (Government
+of British Columbia, 2025o)</a>. This data set is intersected with the
+10 km buffer with the output file = “wsi_10km.gpkg”.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/8f45a611-ce07-4e9f-a4b5-27e123972816" class="external-link">Wildlife
+Species Inventory Survey Observations Publicly Available (Government of
+British Columbia, 2025n)</a>. This data set is intersected with the 10
+km buffer with the output file = “wsi2_10km.gpkg”.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/6d48657f-ab33-43c5-ad40-09bd56140845" class="external-link">Wildlife
+Species Inventory Telemetry Points Publicly Available (Government of
+British Columbia, 2025p)</a>. This data set is intersected with the 10
+km buffer with the output file = “wsi3_10km.gpkg”.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/50dc6ba5-8883-4bfc-b3aa-b420b190b45b" class="external-link">Wildlife
+Habitat Features Incidental Observations Publicly Available (Government
+of British Columbia, 2025m)</a> This data set is intersected with the 10
+km buffer with the output file = “wsi4_10km.gpkg”.</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/884c20fa-17c1-491a-b5cb-993be5dff8d3" class="external-link">Wildlife
+Habitat Features Survey Observations Publicly Available (Government of
+British Columbia, 2025n)</a>. This data set is intersected with the 10
+km buffer with the output file = “wsi5_10km.gpkg”.</p></li>
+</ol>
+<p><br></p>
+</div>
+<div class="section level3">
+<h3 id="data-sets-which-need-to-be-downloaded-manually">Data sets which need to be downloaded manually<a class="anchor" aria-label="anchor" href="#data-sets-which-need-to-be-downloaded-manually"></a>
+</h3>
+<ol start="32" style="list-style-type: decimal">
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/7d61ff12-b85f-4aeb-ac8b-7b10e84b046c" class="external-link">BC
+Cumulative Effects Framework - Human Disturbance</a> (Government of
+British Columbia, 2023a).The following fields are retained: Natural vs
+disturbed, Disturbed = Agriculture and clearing, cutblocks, mining and
+extraction, OGC Geophysical, OGC Infrastructure, Power, ROW, Rail and
+infrastructure, Urban. Natural = all other categories (under CEF Disturb
+Group)</p></li>
+<li><p><a href="https://catalogue.data.gov.bc.ca/dataset/a489bc6a-f676-4503-8cd7-dcf0bdf2ae99" class="external-link">BC
+Cumulative Effects Framework – Integrated Roads – 2025</a> (Government
+of British Columbia, 2025a)</p></li>
+<li><p>Designated Lands. This file is a <a href="https://github.com/bcgov/designatedlands/releases/download/v0.1.0/designatedlands.gpkg.zip" class="external-link">downloadable
+zip file</a> (GitHub File).</p></li>
+</ol>
+<p><br></p>
+<p><br></p>
+</div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
