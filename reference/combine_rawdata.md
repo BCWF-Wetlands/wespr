@@ -7,7 +7,7 @@ Combine all types of raw data
 ``` r
 combine_rawdata(
   field_data,
-  office_data,
+  desktop_data,
   EcoP = "GD",
   write_subfiles = TRUE,
   out_dir = "temp",
@@ -21,7 +21,7 @@ combine_rawdata(
 
   A path to the field data
 
-- office_data:
+- desktop_data:
 
   A path to the office data
 
