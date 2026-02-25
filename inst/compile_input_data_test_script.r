@@ -120,14 +120,14 @@ library(dplyr)
 #field_data <- fs::path("inst",'input_data','raw',"20251217", "field_assessment_by_class_20Nov2025.csv")
 #desktop_data <- fs::path("inst",'input_data','raw', "20251217", "office_data_by_class_formatted_for_R_12Dec2025.csv")
 
-field_data <- fs::path("inst",'input_data','raw',"20251204", "WESP_FIELD_MA.csv")
-desktop_data <- fs::path("inst",'input_data','raw', "20251204", "WESP_DESKTOP_MA.csv")
+#field_data <- fs::path("inst",'input_data','raw',"20251204", "WESP_FIELD_MA.csv")
+#desktop_data <- fs::path("inst",'input_data','raw', "20251204", "WESP_DESKTOP_MA.csv")
 
 #field_data <- fs::path("inst",'input_data','raw',"20251222", "WESP_Field_AE2.csv")
 #desktop_data <- fs::path("inst",'input_data','raw', "20251222", "WESP_Desktop_AE2.csv")
 
-#field_data <- fs::path("inst",'input_data','raw',"20251222", "WESP_Field_AE2.csv")
-#desktop_data <- fs::path("inst",'input_data','raw', "20260203", "WESP_BC_Desktop_Analysis_2026_V1_0.csv")
+field_data <- fs::path("inst",'input_data','raw',"20260203", "WESP_2026_V0_0.csv")
+desktop_data <- fs::path("inst",'input_data','raw', "20260203", "WESP_BC_Desktop_Analysis_2026_V1_0.csv")
 
 
 ww <- format_rawinputs(
@@ -138,9 +138,9 @@ ww <- format_rawinputs(
   overwrite = TRUE
 )
 
-write.csv(ww, fs::path("inst",'input_data','raw',"20260105","wesp_input_20260105.csv"), row.names=FALSE)
+write.csv(ww, fs::path("inst",'input_data','raw',"20260203","wesp_input_20260105.csv"), row.names=FALSE)
 
-indata <- fs::path("inst",'input_data','raw',"20260105","wesp_input_20260105.csv")
+indata <- fs::path("inst",'input_data','raw',"20260203","wesp_input_20260105.csv")
 
 check_indata(indata)
 
@@ -164,10 +164,10 @@ wespkey <- wesp_data |>
 
 
 
-site_overall <- purrr::map(c(1:4), function(x){
+#site_overall <- purrr::map(c(1:4), function(x){
 
-  x <- c(1:4)[1]
-  site <- as.wesp_site(wesp_data, site = x)
+  x <- 1
+  site <- as.wesp_site(wesp_data)
 
   site
 
@@ -183,7 +183,7 @@ site_overall <- purrr::map(c(1:4), function(x){
   get_responses(site)
   get_derived_values(site)
 
-  out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD", report = NA, output_dir = "temp")
+  out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD", report = TRUE, output_dir = "temp")
 
   out
 
