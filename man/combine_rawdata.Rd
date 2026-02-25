@@ -6,7 +6,7 @@
 \usage{
 combine_rawdata(
   field_data,
-  office_data,
+  desktop_data,
   EcoP = "GD",
   write_subfiles = TRUE,
   out_dir = "temp",
@@ -16,7 +16,7 @@ combine_rawdata(
 \arguments{
 \item{field_data}{A path to the field data}
 
-\item{office_data}{A path to the office data}
+\item{desktop_data}{A path to the office data}
 
 \item{EcoP}{A character string specifying the region. Default = 'GD'}
 

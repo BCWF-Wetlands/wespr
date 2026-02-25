@@ -1,7 +1,7 @@
 #' Combine all types of raw data
 #'
 #' @param field_data A path to the field data
-#' @param office_data A path to the office data
+#' @param desktop_data A path to the office data
 #' @param EcoP A character string specifying the region. Default = 'GD'
 #' @param write_subfiles A logical value specifying whether to write the subfiles. Default = TRUE
 #' @param out_dir A character string specifying the output directory.
@@ -22,7 +22,7 @@
 #' )
 #' }
 combine_rawdata <- function(field_data,
-                            office_data,
+                            desktop_data,
                             EcoP = "GD",
                             write_subfiles = TRUE,
                             out_dir = "temp",
@@ -37,13 +37,16 @@ combine_rawdata <- function(field_data,
   #list.files(data_raw)
 
 
-  field_data <- fs::path("inst",'input_data','raw',"20251217", "field_assessment_by_class_20Nov2025.xls")
-  office_data <- fs::path("inst",'input_data','raw', "20251217", "office_data_by_class_formatted_for_R_12Dec2025.xlsx")
+ # field <- "C:\\Users\\genev\\OneDrive\\Documents\\02.Contracts\\2023_BCWF_wetlands\\02.Code\\wespr\\inst\\extdata\\WESP_FIELDV1.csv"
+  #desktop <- "C:\\Users\\genev\\OneDrive\\Documents\\02.Contracts\\2023_BCWF_wetlands\\02.Code\\wespr\\inst\\extdata\\WESP_DESKTOPV1.csv"
+
+#  field_data <- fs::path("inst",'input_data','raw',"20251217", "field_assessment_by_class_20Nov2025.xls")
+#  office_data <- fs::path("inst",'input_data','raw', "20251217", "office_data_by_class_formatted_for_R_12Dec2025.xlsx")
 
  # field_data <- "C:/Users/genev/Downloads/wetland-ecosystem-services-protocol-r/wetland-ecosystem-services-protocol-r/data/input/2019-8473-01_field_assessment_formatted_data.xls"
     # office_data <- "C:/Users/genev/Downloads/wetland-ecosystem-services-protocol-r/wetland-ecosystem-services-protocol-r/data/input/2019-8473-01_desktop_analysis_scripted_data.xlsx"
-      EcoP = "GD"
-     write_subfiles = TRUE
+  #    EcoP = "GD"
+   #  write_subfiles = TRUE
    #  out_dir = "C:/Users/genev/Downloads/wetland-ecosystem-services-protocol-r/wetland-ecosystem-services-protocol-r/data/prepared"
    #  overwrite = TRUE
 
@@ -59,7 +62,7 @@ combine_rawdata <- function(field_data,
 
 
   # check format for field and data files
-  otype = readxl::excel_format(office_data)
+  otype = readxl::excel_format(desktop_data)
   if(otype != "xlsx"){
     cli::cli_abort("office data is required to be in .xlsx format, please check input")
   }
@@ -186,7 +189,7 @@ combine_rawdata <- function(field_data,
 
   # Note if showing error in opening make sure you dont have the file open
 
-  ofdata <- readxl::read_xlsx(office_data) |>
+  ofdata <- readxl::read_xlsx(desktop_data) |>
     dplyr::rename(Wetland_Co = .data$WTLND_ID) |>
     dplyr::filter(.data$Wetland_Co %in% WForm4$Wetland_Co) |>
     dplyr::rename("OF15_1" = .data$OF15) |>

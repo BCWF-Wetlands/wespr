@@ -1,0 +1,215 @@
+---
+title: "calculate wespr single site"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{calculate_wespr_single_site}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup,include=FALSE}
+library(wespr)
+```
+
+
+# Calculate Wespr Scores
+
+Once the wespr package has been installed, and the raw data processed using the steps outlined in the previous [vignette](https://bcwf-wetlands.github.io/wespr/articles/prepare-rawdata.html), we can calculate the wespr scores and compare the scores to the ecoprovince calibration data. 
+
+
+An example file in the package, which we can use for demonstration purposes:
+
+```{r, eval = FALSE}
+#wesp_file <- system.file("input_data/reference_multisite.csv", package = "wespr")
+#wesp_file <- system.file("input_data/reference_singlesite.csv", package = "wespr")
+
+# generate a path to point to the example dataset
+wesp_path <- fs::path("..","inst","input_data","raw","20260203", "wesp_input_20260105.csv")
+
+# load the wesp data 
+wesp_data <- load_wesp_data(wesp_path)
+
+# we can take a look at this file to see the format
+head(wesp_data)
+
+```
+
+```
+q_no, response_no,site_1
+F1,1,1
+F1,2,0
+F1,3,1
+F1,4,1
+F1,5,1
+F1,6,1
+F2,A1,0
+F2,A2,0
+F2,B1,0
+F2,B2,1
+```
+
+We will also generate a key for the site names which we can use later after processing the site information. 
+
+```{r, eval = FALSE}
+# generate a key for site names 
+wespkey <- wespr::generate_ids(wesp_data)
+
+```
+
+
+Next we convert the data into a special `wesp_site` object. This process validates
+the input data, and will give informative errors if a question is not answered correctly.
+It also calculates many "derived values" from the questions, which are common inputs into different
+indicator calculations.
+
+If there is more than one site in the input data, you can select which site you
+would like to use --- if no site is selected it will default to choosing the first 
+site in the file. See [here](https://bcwf-wetlands.github.io/wespr/articles/calculate_wespr_multi_site.html) for a step by step guide to processing multisite datasets.
+
+```{r, eval = FALSE}
+site <- as.wesp_site(wesp_data, site = 1)
+
+```
+
+You should not normally need to work with the internals of the `wesp_site` object
+as it is quite complex, however we can get an overview of what is in it by just 
+typing the name of the object:
+
+```{r, eval = FALSE}
+site
+
+```
+
+We can see that the responses are loaded, with a few flagged as incomplete, and
+the derived values have been calculated. However, the indicators have not yet
+been calculated.
+
+Now, we can calculate the indicator scores with the `calc_indicators()` function.
+
+You must assign the output of this function back to the original `wesp_site` 
+object, as it updates the `indicators` with the calculated values:
+
+```{r, eval = FALSE}
+site <- calc_indicators(site)
+```
+
+If we view the site object again, we can see the calculated indicator scores.
+
+```{r, eval = FALSE}
+site
+
+```
+
+We probably want to get the indicator scores out as a usable object. We can do 
+that with `get_indicator_scores()`, which gives them to us as a `data.frame`:
+
+```{r, eval = FALSE}
+ind_scores <- get_indicator_scores(site)
+```
+
+```
+  site   indicator    fun   ben
+   <chr>  <chr>      <dbl> <dbl>
+ 1 site_1 WS         3.61   6.98
+ 2 site_1 SR         0.778  4.28
+ 3 site_1 PR         6.20   3.06
+ 4 site_1 CP         6.78  NA   
+ 5 site_1 FR         1.67   7.51
+ 6 site_1 SENS       4.86  NA   
+ 7 site_1 STR        9.58  NA   
+ 8 site_1 NR         5.52   3.06
+ 9 site_1 APP        0      2.99
+10 site_1 PD         0      5.51
+11 site_1 KMH        2.99   5.60
+12 site_1 WB         0     10   
+13 site_1 POL        6.30   1.67
+14 site_1 RSB        6.94   4.83
+15 site_1 OE         4.54  NA   
+16 site_1 AM         5.03   3.10
+17 site_1 FH         0      3.33
+18 site_1 SFTS       2.94   3.27
+19 site_1 CRI       NA      6.58
+
+```
+An example format of the ind_score output is shown above, with the service type (rows) for each site with a column for function (fun) and benefit (ben). Note not every service has both a function and benefit so you will see NA values.  
+
+```{r see ind scores, eval = FALSE}
+# add site specific names
+ind_scores <- dplyr::left_join(wespkey, ind_scores, by = "site")
+ 
+# lets see what it looks like now
+ind_scores
+
+```
+
+Similarly, we can extract the original responses with `get_responses()`:
+
+```{r, eval = FALSE}
+get_responses(site)
+```
+
+We can also get out a data.frame of derived values, those values which are 
+calculated from the responses, and used as inputs into many indicators.
+
+```{r,eval = FALSE}
+get_derived_values(site)
+```
+
+
+
+## Assign Jenks scores
+
+Once we have calculated our scores we may wish to compare to see how our particular site compares with other wetlands in the same Ecoprovince. [Wespr protocol](https://bcwfwatershedteam.ca/wetland-ecosystem-services-protocol/) is based on wetland assessment in eight Ecoprovinces (Georgia Depression (GD), Southern Interior (SI),
+Central Interior (CI), Southern Interior Mountains (SIM), Sub-Boreal Interior (SBI), Boreal and Taiga Plains (BTP), Northern Boreal Mountains (NBM), and Coast and Mountains (CM)).
+
+In order to compare a particular site with the calibration sites (typically 100 sites per ecoregion), we can use the `assign_jenks_score()` function. This function requires the data to be loaded using the `load_wesp_data()` function as above.
+
+We can continue with our example from above using out ind_scores we have calculated. An example format of the ind_score output is shown, with the service type (rows) for each site with a column for function (fun) and benefit (ben). Note not every service has both a function and benefit so you will see NA values.  
+
+
+```{r, eval = FALSE}
+ind_scores
+
+```
+
+
+We can then use the `assign_jenks_score()` function to assign the Jenks breaks to each of the values. This function requires the calibration data to be loaded, which is included in the package. Calibration data is collected from approximate 100 sites in each ecoprovince. This data is then normalised and used to establish the threshold values for each service and function/benefit based on a distribution of values for the 100 sites. These thresholds can then be used as benchmarks for a given wetland within the same ecoprovince, to establish a service as high/medium/low. Note as thresholds are based on normalised values, we can extrapolate these to raw scores and assign the closest score based on the calibration dataset. Note in some cases where a raw score for the site to be assessed is below or above the raw calibration data score, these will be asssigned a L or H rank respectively. A warning message will also notify users if this is the case and for which service.  
+
+To assign a jenks score, we require 1) the indicator score data (as shown in steps above), 2) calibration scores (which are included in the package), and 3) the Ecoprovince to be assessed. 
+
+If the ecoprovince does not yet have calibration data loaded, users should select the next best ecoprovince available. 
+
+```{r eval = FALSE}
+
+out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD", report = FALSE, output_dir = "temp")
+```
+
+
+The output scores will include a column with a calibration_score (L,M,H,NA)
+
+```
+site   indicator value service_type calibrated_score
+   <chr>  <chr>     <dbl> <chr>        <chr>           
+ 1 site_1 WS        3.61  f            L               
+ 2 site_1 SR        0.778 f            M               
+ 3 site_1 PR        6.20  f            M               
+ 4 site_1 CP        6.78  f            L               
+ 5 site_1 FR        1.67  f            L               
+ 6 site_1 SENS      4.86  f            L               
+ 7 site_1 STR       9.58  f            H               
+ 8 site_1 NR        5.52  f            M               
+ 9 site_1 APP       0     f            L               
+10 site_1 PD        0     f            L  
+
+```
+
+
+```
+

@@ -15,11 +15,6 @@ load_wesp_data <- function(path) {
   )
   on.exit(options(opts))
 
-# testing lines
-# path <- fs::path("inst/input_data/wetFlat_20250413.csv")
-#xx<-
-# end testing lines
-
    readr::read_csv(
     path,
     col_types = "c",
@@ -43,6 +38,28 @@ load_wesp_data <- function(path) {
     ) |>
     dplyr::select("q_no", "response_no", dplyr::everything())
 }
+
+
+#' Generate a key with names to be retained
+#'
+#' @param wesp_data dataset which is output of load_wesp_data
+#'
+#' @return a `data.frame` of the responses object containing site names with site numbered key
+#' @export
+#'
+generate_ids <- function(wesp_data) {
+  wesp_data |>
+    dplyr::filter(.data$q_no == "Wetland") |>
+    tidyr::pivot_longer(
+      cols = -c(.data$response_no),
+      names_to = "site_no",
+      values_to = "wetland_id"
+    ) |>
+    dplyr::select(-.data$response_no) |>
+    dplyr::filter(.data$site_no != "q_no") |>
+    dplyr::rename("site" = .data$site_no)
+}
+
 
 
 #' Validate and record responses into a standard object
