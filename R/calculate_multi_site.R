@@ -3,7 +3,7 @@
 #' @param wespdata A data frame containing the formatted wesp data. This is the output of load_wesp_data()
 #' @param sites A numeric with the number of sites if specific sites are to be calculated. The default is NULL,
 #' which will include all sites in the calculation
-#'
+#' @param format A character "wide' or "long" in which the output will be formated
 #' @returns a dataframe with raw values for each site and each ecosystem service or benefit.
 #' @export
 #'
@@ -12,7 +12,7 @@
 #' wespdata <- load_wesp_data(system.file("input_data/wetFlat_20240130.csv", package = "wespr"))
 #' calculate_multi_site(wespdata)
 #'}
-calculate_multi_site <- function(wespdata, sites = NULL) {
+calculate_multi_site <- function(wespdata, sites = NULL, format = "wide") {
   # testing
   # wespdata <- load_wesp_data(system.file("input_data/wetFlat_20250325.csv", package = "wespr"))
   # sites <- NULL
@@ -54,19 +54,21 @@ calculate_multi_site <- function(wespdata, sites = NULL) {
   }) |> dplyr::bind_rows()
 
 
+  if(format == "wide"){
+
   # reformat into widetable for Raw data
 
   cdatf <- cdat |>
     dplyr::select(-"ben") |>
     tidyr::pivot_wider(names_from = "indicator", values_from = "fun", names_glue = "{indicator}_f_raw", ) |>
-    dplyr::select(.data$site, dplyr::everything()) |>
-    dplyr::mutate(site = as.numeric(sub("site_", "", .data$site)))
+    dplyr::select(.data$site, dplyr::everything()) #|>
+    #dplyr::mutate(site = as.numeric(sub("site_", "", .data$site)))
 
   cdatb <- cdat |>
     dplyr::select(-"fun") |>
     tidyr::pivot_wider(names_from = "indicator", values_from = "ben", names_glue = "{indicator}_b_raw", ) |>
-    dplyr::select(.data$site, dplyr::everything()) |>
-    dplyr::mutate(site = as.numeric(sub("site_", "", .data$site)))
+    dplyr::select(.data$site, dplyr::everything()) #|>
+    #dplyr::mutate(site = as.numeric(sub("site_", "", .data$site)))
 
   wespRaw <- dplyr::left_join(cdatf, cdatb, by = "site")
 
@@ -88,6 +90,12 @@ calculate_multi_site <- function(wespdata, sites = NULL) {
     # output a warning and file?
     cli::cli_alert_warning("NAs found for the following ecosystem function: { names(nas_check)[-1]},")
     cli::cli_alert_warning("at these sites: {nas_check$site }")
+  }
+
+  }else {
+  # export in long format
+
+    wespRaw <- cdat
   }
 
   return(wespRaw)
