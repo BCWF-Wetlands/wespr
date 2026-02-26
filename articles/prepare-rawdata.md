@@ -32,7 +32,7 @@ system.
 library(wespr)
 
 # Define the location of the survey123 Field data 
-field <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr")
+field_data <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr")
 ```
 
 ### Desktop data
@@ -48,7 +48,7 @@ Once the survey123 form has been completed, the data is exported as a
 
 ``` r
 # Define the location of the survey123 Desktop data 
-desktop <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr")
+desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr")
 ```
 
 Once both of these files are downloaded you are ready to use the wespr

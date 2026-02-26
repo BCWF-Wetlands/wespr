@@ -5,7 +5,7 @@ Calculate indicators for multiple sites
 ## Usage
 
 ``` r
-calculate_multi_site(wespdata, sites = NULL)
+calculate_multi_site(wespdata, sites = NULL, format = "wide")
 ```
 
 ## Arguments
@@ -20,6 +20,10 @@ calculate_multi_site(wespdata, sites = NULL)
   A numeric with the number of sites if specific sites are to be
   calculated. The default is NULL, which will include all sites in the
   calculation
+
+- format:
+
+  A character "wide' or "long" in which the output will be formated
 
 ## Value
 

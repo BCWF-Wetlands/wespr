@@ -32,6 +32,9 @@
   : Format raw inputs This function cleans, formats and combines raw
   outputs from field and desktop analysis survey123 forms.
 
+- [`generate_ids()`](https://bcwf-wetlands.github.io/wespr/reference/generate_ids.md)
+  : Generate a key with names to be retained
+
 - [`get_derived_values()`](https://bcwf-wetlands.github.io/wespr/reference/get_derived_values.md)
   :
 
@@ -58,3 +61,6 @@
 - [`record_values()`](https://bcwf-wetlands.github.io/wespr/reference/record_values.md)
   : Validate and record responses into a standard object This is an
   internal function to generate wesp class object
+
+- [`wespr_workflow()`](https://bcwf-wetlands.github.io/wespr/reference/wespr_workflow.md)
+  : Title

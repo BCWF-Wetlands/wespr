@@ -1,6 +1,6 @@
-# calculate wespr single site
+# calculate_wespr_single_site
 
-## Calculate Wespr Scores
+## 1) Import data in wesp site object
 
 Once the wespr package has been installed, and the raw data processed
 using the steps outlined in the previous
@@ -12,11 +12,8 @@ An example file in the package, which we can use for demonstration
 purposes:
 
 ``` r
-#wesp_file <- system.file("input_data/reference_multisite.csv", package = "wespr")
-#wesp_file <- system.file("input_data/reference_singlesite.csv", package = "wespr")
-
-# generate a path to point to the example dataset
-wesp_path <- fs::path("..","inst","input_data","raw","20260203", "wesp_input_20260105.csv")
+# point to example file
+wesp_file <- system.file("input_data/reference_singlesite.csv", package = "wespr")
 
 # load the wesp data 
 wesp_data <- load_wesp_data(wesp_path)
@@ -69,9 +66,66 @@ overview of what is in it by just typing the name of the object:
 site
 ```
 
-We can see that the responses are loaded, with a few flagged as
-incomplete, and the derived values have been calculated. However, the
-indicators have not yet been calculated.
+## 2) Explore in wesp site object
+
+We can see the structure of the wesp_site object includes a site name,
+any warnings or flags for missing data and a list of derived values.You
+can see the indicators have not yet been calculated at this stage.
+
+    A wesp_site object
+
+    Site:  site_1 
+
+    Incomplete Questions:  F59 
+      * Please ensure that it is valid to leave these questions unanswered.
+
+    Derived values:
+      *  AllWater = 0
+      *  NeverWater = 0
+      *  NoSeasonal = 0
+      *  NoPersis = 0
+      *  TempWet = 0
+      *  AllPermW = 0
+      *  HiFlucW = 0
+      *  TooShallow = 0
+      *  NoPond = 0
+      *  NoDeepPonded = 0
+      *  NoOW = 0
+      *  NoOutletX = 0
+      *  NoOutlet = 0
+      *  Inflow = 1
+      *  Disturb = 1
+      *  FishFound = 0
+      *  Moose = 0
+      *  Beaver = 1
+      *  Muskrat = 0
+      *  Bear = 1
+      *  Caribou = 0
+      *  NoCA = 0
+      *  Fishless = 0
+      *  GDeco = 0
+      *  CMeco = 0
+      *  SIMeco = 1
+      *  BPeco = 0
+      *  TPeco = 0
+      *  OutMap = 1
+      *  S1_sum = 4
+      *  S1_subscore = 0.33
+      *  S2_sum = 1
+      *  S2_subscore = 0.11
+      *  S3_sum = 1
+      *  S3_subscore = 0.11
+      *  S4_sum = 4
+      *  S4_subscore = 0.33
+      *  S5_sum = 0
+      *  S5_subscore = 0
+      *  S6_sum = 2
+      *  S6_subscore = 0.33
+
+    Indicators:
+    All indicators are NULL. Run `calc_indicators()` to calculate them.
+
+## 3) Calculate indicator raw scores
 
 Now, we can calculate the indicator scores with the
 [`calc_indicators()`](https://bcwf-wetlands.github.io/wespr/reference/calc_indicators.md)
@@ -91,6 +145,112 @@ scores.
 ``` r
 site
 ```
+
+    A wesp_site object
+
+    Site:  site_1 
+
+    Incomplete Questions:  F59 
+      * Please ensure that it is valid to leave these questions unanswered.
+
+    Derived values:
+      *  AllWater = 0
+      *  NeverWater = 0
+      *  NoSeasonal = 0
+      *  NoPersis = 0
+      *  TempWet = 0
+      *  AllPermW = 0
+      *  HiFlucW = 0
+      *  TooShallow = 0
+      *  NoPond = 0
+      *  NoDeepPonded = 0
+      *  NoOW = 0
+      *  NoOutletX = 0
+      *  NoOutlet = 0
+      *  Inflow = 1
+      *  Disturb = 1
+      *  FishFound = 0
+      *  Moose = 0
+      *  Beaver = 1
+      *  Muskrat = 0
+      *  Bear = 1
+      *  Caribou = 0
+      *  NoCA = 0
+      *  Fishless = 0
+      *  GDeco = 0
+      *  CMeco = 0
+      *  SIMeco = 1
+      *  BPeco = 0
+      *  TPeco = 0
+      *  OutMap = 1
+      *  S1_sum = 4
+      *  S1_subscore = 0.33
+      *  S2_sum = 1
+      *  S2_subscore = 0.11
+      *  S3_sum = 1
+      *  S3_subscore = 0.11
+      *  S4_sum = 4
+      *  S4_subscore = 0.33
+      *  S5_sum = 0
+      *  S5_subscore = 0
+      *  S6_sum = 2
+      *  S6_subscore = 0.33
+      
+      Indicators:
+      * WS:  
+        - fun: 2.97 
+        - ben: 3.3 
+      * SR:  
+        - fun: 0 
+        - ben: 4.09 
+      * PR:  
+        - fun: 4.77 
+        - ben: 3.03 
+      * CP:  
+        - fun: 7.06 
+      * FR:  
+        - fun: 4.93 
+        - ben: 1.06 
+      * SENS:  
+        - fun: 7.02 
+      * STR:  
+        - fun: 6.61 
+      * NR:  
+        - fun: 5.27 
+        - ben: 3.57 
+      * APP:  
+        - fun: 3.82 
+        - ben: 4.39 
+       * PD:  
+        - fun: 5.59 
+        - ben: 4.19 
+      * KMH:  
+        - fun: 6.41 
+        - ben: 3.93 
+      * WB:  
+        - fun: 5.62 
+        - ben: 10 
+      * POL:  
+        - fun: 5.95 
+        - ben: 2.25 
+      * RSB:  
+        - fun: 5.05 
+        - ben: 6.11 
+      * OE:  
+        - fun: 4.1 
+      * AM:  
+        - fun: 3.81 
+        - ben: 8.1 
+      * FH:  
+        - fun: 3.08 
+        - ben: 3.72 
+      * SFTS:  
+        - fun: 3.46 
+        - ben: 3.63 
+      * CRI:  
+        - ben: 4.93 
+
+    * Retrieve indicator scores with `get_indicator_scores()`
 
 We probably want to get the indicator scores out as a usable object. We
 can do that with
@@ -136,12 +296,25 @@ ind_scores <- dplyr::left_join(wespkey, ind_scores, by = "site")
 ind_scores
 ```
 
-Similarly, we can extract the original responses with
+There are a number of helper functions to extract information from the
+wespr_site object. For example we can gather just the responses with
 [`get_responses()`](https://bcwf-wetlands.github.io/wespr/reference/get_responses.md):
 
 ``` r
 get_responses(site)
 ```
+
+    no  question                            response_no   value
+    F1  Vegetation Height & Form Diversity    F1_1          3.00    
+    F1  Vegetation Height & Form Diversity    F1_2          0.00    
+    F1  Vegetation Height & Form Diversity    F1_3          2.00    
+    F1  Vegetation Height & Form Diversity    F1_4          2.00    
+    F1  Vegetation Height & Form Diversity    F1_5          1.00    
+    F1  Vegetation Height & Form Diversity    F1_6          3.00    
+    F10 Dense Moss Extent                     F10_1         0.00    
+    F10 Dense Moss Extent                     F10_2         1.00    
+    F10 Dense Moss Extent                     F10_3         0.00    
+    F10 Dense Moss Extent                     F10_4         0.00    
 
 We can also get out a data.frame of derived values, those values which
 are calculated from the responses, and used as inputs into many
@@ -151,7 +324,20 @@ indicators.
 get_derived_values(site)
 ```
 
-### Assign Jenks scores
+    name          value
+
+    AllWater        0.0000000           
+    NeverWater      0.0000000           
+    NoSeasonal      0.0000000           
+    NoPersis        0.0000000           
+    TempWet         0.0000000           
+    AllPermW        0.0000000           
+    HiFlucW         0.0000000           
+    TooShallow      0.0000000           
+    NoPond          0.0000000           
+    NoDeepPonded    0.0000000   
+
+## 4) Assign Jenks scores
 
 Once we have calculated our scores we may wish to compare to see how our
 particular site compares with other wetlands in the same Ecoprovince.
@@ -162,54 +348,74 @@ is based on wetland assessment in eight Ecoprovinces (Georgia Depression
 Mountains (SIM), Sub-Boreal Interior (SBI), Boreal and Taiga Plains
 (BTP), Northern Boreal Mountains (NBM), and Coast and Mountains (CM)).
 
-In order to compare a particular site with the calibration sites
-(typically 100 sites per ecoregion), we can use the
-[`assign_jenks_score()`](https://bcwf-wetlands.github.io/wespr/reference/assign_jenks_score.md)
-function. This function requires the data to be loaded using the
-[`load_wesp_data()`](https://bcwf-wetlands.github.io/wespr/reference/load_wesp_data.md)
-function as above.
-
-We can continue with our example from above using out ind_scores we have
-calculated. An example format of the ind_score output is shown, with the
-service type (rows) for each site with a column for function (fun) and
-benefit (ben). Note not every service has both a function and benefit so
-you will see NA values.
+Using our data from above we see the `ind_score` object is a data table
+with a row for each indicator and columns for the raw values for
+functions (fun) and benefits (ben). An example format of the ind_score
+output is shown, with the service type (rows) for each site with a
+column for function (fun) and benefit (ben). Note not every service has
+both a function and benefit so you will see NA values.
 
 ``` r
 ind_scores
 ```
 
-We can then use the
-[`assign_jenks_score()`](https://bcwf-wetlands.github.io/wespr/reference/assign_jenks_score.md)
-function to assign the Jenks breaks to each of the values. This function
-requires the calibration data to be loaded, which is included in the
-package. Calibration data is collected from approximate 100 sites in
-each ecoprovince. This data is then normalised and used to establish the
-threshold values for each service and function/benefit based on a
-distribution of values for the 100 sites. These thresholds can then be
-used as benchmarks for a given wetland within the same ecoprovince, to
-establish a service as high/medium/low. Note as thresholds are based on
-normalised values, we can extrapolate these to raw scores and assign the
-closest score based on the calibration dataset. Note in some cases where
-a raw score for the site to be assessed is below or above the raw
-calibration data score, these will be asssigned a L or H rank
-respectively. A warning message will also notify users if this is the
-case and for which service.
+    site    wetland_id indicator fun       ben
 
-To assign a jenks score, we require 1) the indicator score data (as
-shown in steps above), 2) calibration scores (which are included in the
-package), and 3) the Ecoprovince to be assessed.
+    site_1  SIM_90009     WS        2.968247    3.304924
+    site_1  SIM_90009     SR        0.000000    4.094300
+    site_1  SIM_90009     PR        4.772264    3.031987
+    site_1  SIM_90009     CP        7.055459    NA
+    site_1  SIM_90009     FR        4.930556    1.056566
+    site_1  SIM_90009     SENS      7.015852    NA
+    site_1  SIM_90009     STR       6.607143    NA
+
+We use the
+[`assign_jenks_score()`](https://bcwf-wetlands.github.io/wespr/reference/assign_jenks_score.md)
+function to assign a catergory of Low/Medium/High to each of the values,
+based on where our site sits in relation to 100 or more calibration
+sites for the given ecoprovince.
+
+The calibration data is stored within the package and can be [updated by
+package
+maintainers](https://bcwf-wetlands.github.io/wespr/articles/advanced-topics.html).
+This is an on-going project and data will be added as comes available.
+Steps to update the calibration data are outline
+[here](https://github.com/BCWF-Wetlands/wespr/tree/main/data-raw). Note
+this is an advanced/admin level action and not required to calculate
+values. Please contact the package dev team for assistance.
+
+Threshold values to define the low , medium or high class are determined
+by normalising all the reference data for each value and then looking
+for natural breask in the distribution (i.e. Jenks Breaks). These
+thresholds are then used as benchmarks and compared to our site of
+interest to determine which category it falls within.
+
+Note in some cases, out site value may fall below or above data gathers
+for the calibration sites. In this case, a warning message is provided
+to the user.
+
+To run this function we require:
+
+- the indicator score data (i.e. ind_scores in this workflow),
+- calibration data (this is stored as a file within the wespr package)
+- name of Ecoprovince in which the site occurs.
+- if a report is to be generated (T/F)
+- if a report = TRUE, an output directory where the report is to be
+  saved.
 
 If the ecoprovince does not yet have calibration data loaded, users
 should select the next best ecoprovince available.
 
 ``` r
-
-out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD", report = FALSE, output_dir = "temp")
+out <- assign_jenks_score(
+  ind_scores, 
+  calibration_scores, 
+  EcoP = "GD", 
+  report = FALSE, 
+  output_dir = "temp")
 ```
 
-The output scores will include a column with a calibration_score
-(L,M,H,NA)
+The output scores will include a column with a calibration_score (L,M,H)
 
     site   indicator value service_type calibrated_score
        <chr>  <chr>     <dbl> <chr>        <chr>           
@@ -224,4 +430,6 @@ The output scores will include a column with a calibration_score
      9 site_1 APP       0     f            L               
     10 site_1 PD        0     f            L  
 
-\`\`\`
+Now you have a data table with all indicators, service_type (function or
+benefit), raw scores and calibrated score (L/M/H). THis can be saved or
+exported as a .csv to be further explored.

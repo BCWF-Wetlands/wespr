@@ -114,6 +114,9 @@ These are advanced topics and not required to generate scores.
   : Format raw inputs This function cleans, formats and combines raw
   outputs from field and desktop analysis survey123 forms.
 
+- [`generate_ids()`](https://bcwf-wetlands.github.io/wespr/reference/generate_ids.md)
+  : Generate a key with names to be retained
+
 - [`get_derived_values()`](https://bcwf-wetlands.github.io/wespr/reference/get_derived_values.md)
   :
 
@@ -141,16 +144,17 @@ These are advanced topics and not required to generate scores.
   : Validate and record responses into a standard object This is an
   internal function to generate wesp class object
 
+- [`wespr_workflow()`](https://bcwf-wetlands.github.io/wespr/reference/wespr_workflow.md)
+  : Title
+
 # Articles
 
 ### All vignettes
 
 - [Advanced-topics](https://bcwf-wetlands.github.io/wespr/articles/Advanced-topics.md):
-- [Calculate Wespr
-  Scores](https://bcwf-wetlands.github.io/wespr/articles/calculate_wesp_scores.md):
+- [beginner_workflow](https://bcwf-wetlands.github.io/wespr/articles/beginner_workflow.md):
 - [calculate_wespr_multi_site](https://bcwf-wetlands.github.io/wespr/articles/calculate_wespr_multi_site.md):
-- [calculate wespr single
-  site](https://bcwf-wetlands.github.io/wespr/articles/calculate_wespr_single_site.md):
+- [calculate_wespr_single_site](https://bcwf-wetlands.github.io/wespr/articles/calculate_wespr_single_site.md):
 - [Preparing spatial
   data](https://bcwf-wetlands.github.io/wespr/articles/prepare_spatial_data.md):
 - [Prepare input data for Wespr
