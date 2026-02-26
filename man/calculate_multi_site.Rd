@@ -4,13 +4,15 @@
 \alias{calculate_multi_site}
 \title{Calculate indicators for multiple sites}
 \usage{
-calculate_multi_site(wespdata, sites = NULL)
+calculate_multi_site(wespdata, sites = NULL, format = "wide")
 }
 \arguments{
 \item{wespdata}{A data frame containing the formatted wesp data. This is the output of load_wesp_data()}
 
 \item{sites}{A numeric with the number of sites if specific sites are to be calculated. The default is NULL,
 which will include all sites in the calculation}
+
+\item{format}{A character "wide' or "long" in which the output will be formated}
 }
 \value{
 a dataframe with raw values for each site and each ecosystem service or benefit.

@@ -43,7 +43,7 @@ An example data file is included within this package for testing. Note using sys
 library(wespr)
 
 # Define the location of the survey123 Field data 
-field <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr")
+field_data <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr")
 
 ```
 
@@ -57,7 +57,7 @@ Once the survey123 form has been completed, the data is exported as a **.csv fil
 
 ```{r}
 # Define the location of the survey123 Desktop data 
-desktop <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr")
+desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr")
 
 ```
 
