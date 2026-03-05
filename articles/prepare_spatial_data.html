@@ -75,7 +75,7 @@ suggested datasets is provided below. These data sets comprise two types
 1) data which can be downloaded directly using the <a href="https://github.com/bcgov/bcdata" class="external-link">bcdata package</a> and 2) data
 sets which require manual download. A full list of data sets is provided
 below.</p>
-<p>For those data sets which are accessible via the bcdata package, we
+<p>For those datasets which are accessible via the bcdata package, we
 can use the function import_spatial_data() function to automate this
 process.</p>
 <p>The user is required to input an area of interest for a given wetland
@@ -93,7 +93,13 @@ file (.gpkg) which defined the area of interest for your wetland. 2) An
 output folder location, into which processed data sets will be
 saved.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bcwf-wetlands.github.io/wespr/">wespr</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install packages if required</span></span>
+<span><span class="co"># install.packages(c("sf", "bcdata"))</span></span>
+<span></span>
+<span><span class="co">#library(sf)</span></span>
+<span><span class="co">#library(bcdata)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bcwf-wetlands.github.io/wespr/">wespr</a></span><span class="op">)</span></span></code></pre></div>
 <p>We provide an example aoi wetland within this package in the format
 of a geopackage (.gpkg).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">

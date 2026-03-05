@@ -8,7 +8,7 @@ types 1) data which can be downloaded directly using the [bcdata
 package](https://github.com/bcgov/bcdata) and 2) data sets which require
 manual download. A full list of data sets is provided below.
 
-For those data sets which are accessible via the bcdata package, we can
+For those datasets which are accessible via the bcdata package, we can
 use the function import_spatial_data() function to automate this
 process.
 
@@ -28,6 +28,12 @@ To run the function you will need two parameters. 1) A geospatial file
 output folder location, into which processed data sets will be saved.
 
 ``` r
+# install packages if required
+# install.packages(c("sf", "bcdata"))
+
+#library(sf)
+#library(bcdata)
+
 library(wespr)
 ```
 
