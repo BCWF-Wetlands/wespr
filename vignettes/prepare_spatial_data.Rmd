@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 This package has a number of functions to assist in completing the desktop analysis components of WESP-BC. 
 One important step is to download the spatial data required for analysis. A full list of suggested datasets is provided below. These data sets comprise two types 1) data which can be downloaded directly using  the [bcdata package](https://github.com/bcgov/bcdata) and 2) data sets which require manual download.  A full list of data sets is provided below. 
 
-For those data sets which are accessible via the bcdata package, we can use the function import_spatial_data() function to automate this process. 
+For those datasets which are accessible via the bcdata package, we can use the function import_spatial_data() function to automate this process. 
 
 The user is required to input an area of interest for a given wetland or wetland areas and an output file location where the datasets will be saved in .gpkg format. Within this function we also generate an expanded area of interest by buffering the aoi by 10 kms (aoi_buffer_10km.gpkg). This provides an expanded aoi by which many of the datasets are clipped to and downloaded. 
 
@@ -30,6 +30,12 @@ The user is required to input an area of interest for a given wetland or wetland
 To run the function you will need two parameters. 1) A geospatial file (.gpkg) which defined the area of interest for your wetland. 2) An output folder location, into which processed data sets will be saved. 
 
 ```{r setup}
+# install packages if required
+# install.packages(c("sf", "bcdata"))
+
+#library(sf)
+#library(bcdata)
+
 library(wespr)
 
 ```
