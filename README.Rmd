@@ -38,7 +38,7 @@ devtools::install_github("BCWF-Wetlands/wespr")
 
 ## Example workflows
 
-A series of vignettes with step by step instructions is provided to assist users. It is assumed that users are generally familiar with the process of wespr-BC and have at least a basic knowledge of R coding. Further information on the WESP-BC data collection process is available [here](https://bcwfwatershedteam.ca/wetland-ecosystem-services-protocol/) 
+A series of vignettes with step by step instructions is provided to assist users. It is assumed that users are generally familiar with the process of wespr-BC and have at least a basic knowledge of R coding. Further information on the WESP-BC data collection process is available [here](https://bcwfwatershedteam.ca/wetland-ecosystem-services-protocol/).
 
 #### 1) Pre-processing spatial data 
 
@@ -46,8 +46,9 @@ A series of vignettes with step by step instructions is provided to assist users
 
 #### 2) Post data survey123 datasets
 
-Once the user has answered the required field and desktop survey123 surveys (and output these as .csv files), we use the *format_rawinputs()* function to standardize the input data into a structure that allows us to calculate the wespr-BC values. This [step by step guide](https://bcwf-wetlands.github.io/wespr/articles/prepare-rawdata.html) details the process.
+Once the user has answered the required field and desktop survey123 surveys (and output these as .csv files), users can choose from either a detailed or simple workflow. For beginner R users, we recommend using the [simplified analysis pathways](https://bcwf-wetlands.github.io/wespr/articles/prepare-rawdata.html), which condenses all the steps into a single function. 
 
+For users who are more comfortable using R or interested in a more detailed analysis, use the [step by step guide](https://bcwf-wetlands.github.io/wespr/articles/prepare-rawdata.html), which steps through the process using the *format_rawinputs()* function to standardize the input data into a structure that allows us to calculate the wespr-BC values.
 
 #### 3) Calculate Wespr scores - single site
 
@@ -64,4 +65,14 @@ Alternatively, where we have multiple wetland information, we can generate [scor
 For those interested in understanding how the wespr package operates under the hood. This technical [vignette](https://bcwf-wetlands.github.io/wespr/articles/Advanced-topics.html) provides advanced topics for keeners interested in understanding the structure of the R package in more detail. This covers two advanced topics 1) How to update provincial ecoprovince calibration data and 2) Understanding the anatomy of a wespr object. 
 
 These are advanced topics and not required to generate scores. 
+
+
+## Helpful tips and tricks
+
+Based on feedback and test we recommend these suggestions for users to provide a smooth workflow. 
+
+- Where possible use R project format or equivalent rather than using the setwd() function. This will help to navigate to your input and output products. Read up on why this is important [here](https://r4ds.had.co.nz/workflow-projects.html).
+
+- Ensure some common R packages are installed before you start. This includes "sf" and "dplyr"
+
 
