@@ -1,4 +1,4 @@
-# Prepare input data for Wespr calculations
+# Prepare input data for WESPR calculations
 
 ## 1) Prepare Raw data imports
 
@@ -24,7 +24,7 @@ The data is exported from survey123 as a **.csv file**. This will be the
 input file type for wespr.
 
 An example data file is included within this package for testing. Note
-using system.file() can create some difficulties on a OS operating
+using system.file() can create some difficulties on an OS operating
 system.
 
 ``` r
@@ -51,7 +51,7 @@ Once the survey123 form has been completed, the data is exported as a
 desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr")
 ```
 
-Once both of these files are downloaded you are ready to use the wespr
+Once both of these files are downloaded you are ready to use the WESPR
 preparation steps.  
   
 
@@ -60,17 +60,17 @@ preparation steps.
 Once the two csv files are prepared, we use the `format_rawdata`
 function. This function standardizes field names and data types and then
 combines field and desktop data into a single table ready to be used to
-calculate wespr values.
+calculate WESPR values.
 
 The user needs to define the following parameters:
 
 - field_data = the full filepath defining the location of the field
   data. Note this needs to be in R readable format and is expecting a
-  .csv file.
+  .csv file. Example “WESP_FILEDV1.csv”
 
 - desktop_data = the full filepath defining the location of the desktop
   analysis data. Note this needs to be in R readable format and is
-  expecting a .csv file.
+  expecting a .csv file. Example” WESP_DESKTOPV1.csv”
 
 - write_subfiles = TRUE or FALSE. This parameter determines if you want
   to produce individual files for each of the data components(field,
@@ -99,7 +99,7 @@ ww <- format_rawinputs(
   overwrite = TRUE
 )
 
-# write out the file so you can review 
+# write out the file which will combine both the field and desktop answers so you can review
 write.csv(ww, fs::path(output_dir,"wesp_input_20251125.csv"), row.names=FALSE)
 ```
 
@@ -142,7 +142,7 @@ In the example above we show the process for a single site.
 
 If you have data for multiple sites, i.e. multiple rows of data within
 your survey123 csv files, the final compiled data, with the first 10
-questions (rows) and 6 sites (columns) shown:
+questions (rows) and 6 sites (columns) will look like the following:
 
     Question,1,2,3,4,5,6
     F1_1,1,0,1,1,1,2

@@ -8,5 +8,5 @@
 - [calculate_wespr_single_site](https://bcwf-wetlands.github.io/wespr/articles/calculate_wespr_single_site.md):
 - [Preparing spatial
   data](https://bcwf-wetlands.github.io/wespr/articles/prepare_spatial_data.md):
-- [Prepare input data for Wespr
+- [Prepare input data for WESPR
   calculations](https://bcwf-wetlands.github.io/wespr/articles/prepare-rawdata.md):
