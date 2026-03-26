@@ -31,7 +31,7 @@ An example file in the package, which we can use for demonstration purposes:
 wesp_file <- system.file("input_data/reference_singlesite.csv", package = "wespr")
 
 # load the wesp data 
-wesp_data <- load_wesp_data(wesp_path)
+wesp_data <- load_wesp_data(wesp_file)
 
 # we can take a look at this file to see the format
 head(wesp_data)
@@ -426,4 +426,4 @@ site   indicator value service_type calibrated_score
 
 ```
 
-Now you have a data table with all indicators, service_type (function or benefit), raw scores and calibrated score (L/M/H). THis can be saved or exported as a .csv to be further explored. 
+Now you have a data table with all indicators, service_type (function or benefit), raw scores and calibrated score (L/M/H). This can be saved or exported as a .csv to be further explored. 
