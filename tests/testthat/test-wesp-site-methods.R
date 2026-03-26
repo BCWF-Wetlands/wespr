@@ -22,7 +22,7 @@ test_that("get_indicator_scores() fails with wrong input", {
 test_that("get_responses() works", {
   site <- make_test_site()
   expect_s3_class(get_responses(site), "data.frame")
-  expect_equal(nrow(get_responses(site)), 501)
+  expect_equal(nrow(get_responses(site)), 504)
   expect_equal(ncol(get_responses(site)), 4)
 })
 
@@ -33,7 +33,7 @@ test_that("get_responses() fails with wrong input", {
 test_that("get_derived_values() works", {
   site <- make_test_site()
   expect_s3_class(get_derived_values(site), "data.frame")
-  expect_equal(nrow(get_derived_values(site)), 41)
+  expect_equal(nrow(get_derived_values(site)), 44)
   expect_equal(ncol(get_derived_values(site)), 2)
 })
 
