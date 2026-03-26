@@ -272,3 +272,90 @@ write.csv(wespEcoS, fs::path(out_dir, out_name),row.names=FALSE)
 
 
 
+## test kylas data
+
+
+#feb22
+
+library(wespr)
+library (fs)
+library(dplyr)
+
+## update location of actual file
+#field_data <- fs::path("/Users/kylarushton/Desktop/WESP backup/WESPr/MudLake/MudLakeField3.csv")
+#desktop_data <- fs::path("/Users/kylarushton/Desktop/WESP backup/WESPr/MudLake/MudLakeDesktop3.csv")
+field_data <- fs::path("inst",'input_data','raw',"20260203", "WESP_2026_V0_0.csv")
+desktop_data <- fs::path("inst",'input_data','raw', "20260203", "WESP_BC_Desktop_Analysis_2026_V1_0.csv")
+
+#file.exists("/Users/kylarushton/Desktop/WESP backup/WESPr/MudLake/MudLakeField3.csv")
+#check what files actually exist in that folder, if getting a false return from the prior line
+
+ww <- format_rawinputs(
+  field_data <- field_data,
+  desktop_data <- desktop_data,
+  write_subfiles = FALSE,
+  out_dir = "temp",
+  overwrite = TRUE
+)
+
+
+# update output file path here also.
+#desktop_data <- fs::path("inst",'input_data','raw', "20260203", "WESP_BC_Desktop_Analysis_2026_V1_0.csv")
+
+write.csv(ww, fs::path("inst",'input_data','raw', "20260203", "WESPoutputs.csv"), row.names=FALSE)
+#this creates the flat output which will then feed into wespr.
+
+#in data:
+wesp_file <-  fs::path("inst",'input_data','raw', "20260203", "WESPoutputs.csv")
+wesp_data <- load_wesp_data(wesp_file)
+
+head(wesp_data)
+
+
+# generate a key for site names
+wespkey <- wesp_data |>
+  dplyr::filter(.data$q_no == "Wetland") |>
+  tidyr::pivot_longer(cols = -c(.data$response_no),
+                      names_to = "site_no",
+                      values_to = "wetland_id"
+  ) |>
+  dplyr::select(-response_no) |>
+  dplyr::filter(site_no != "q_no") |>
+  dplyr::rename("site" = .data$site_no)
+###convert into a WESP object
+
+site <- as.wesp_site(wesp_data, site = 1)
+site
+
+site <- calc_indicators(site)
+#view the values
+site
+ind_scores <- get_indicator_scores(site)
+
+# add site specific names
+ind_scores <- dplyr::left_join(wespkey, ind_scores, by = "site")
+
+
+ind_scores
+get_responses(site)
+get_derived_values(site)
+
+# select file
+wesp<-  fs::path("inst",'input_data','raw', "20260203", "WESPoutputs.csv")
+
+#load file and convert to wesp
+wesp_data <- load_wesp_data(wesp)
+site <- as.wesp_site(wesp_data)
+
+# update site name
+site$site_name <- wesp_data$site_1[wesp_data$q_no == "Wetland"]
+
+#calculate the scores and extract the indicator values
+site <- calc_indicators(site)
+ind_scores <- get_indicator_scores(site)
+
+out <- assign_jenks_score(ind_scores,
+                          calibration_scores,
+                          EcoP = "SIM",
+                          report = TRUE,
+                          output_dir = "/Users/kylarushton/Desktop/WESP backup/WESPr/MudLake")
