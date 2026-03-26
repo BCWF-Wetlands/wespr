@@ -16,7 +16,7 @@ purposes:
 wesp_file <- system.file("input_data/reference_singlesite.csv", package = "wespr")
 
 # load the wesp data 
-wesp_data <- load_wesp_data(wesp_path)
+wesp_data <- load_wesp_data(wesp_file)
 
 # we can take a look at this file to see the format
 head(wesp_data)
@@ -431,5 +431,5 @@ The output scores will include a column with a calibration_score (L,M,H)
     10 site_1 PD        0     f            L  
 
 Now you have a data table with all indicators, service_type (function or
-benefit), raw scores and calibrated score (L/M/H). THis can be saved or
+benefit), raw scores and calibrated score (L/M/H). This can be saved or
 exported as a .csv to be further explored.
