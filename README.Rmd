@@ -44,25 +44,25 @@ A series of vignettes with step by step instructions is provided to assist users
 
 [Prepare spatial layers vignette](https://bcwf-wetlands.github.io/wespr/articles/prepare_spatial_data.html) walks through a helper function to downloads a standard set of spatial layers via the bcdata packge. This data provides a majority of information required to answer desktop analysis portion of the wesp-BC protocol
 
-#### 2) Post data survey123 datasets
+#### 2) Prepare input data for WESPR calculations 
 
 Once the user has answered the required field and desktop survey123 surveys (and output these as .csv files), users can choose from either a detailed or simple workflow. For beginner R users, we recommend using the [simplified analysis pathways](https://bcwf-wetlands.github.io/wespr/articles/prepare-rawdata.html), which condenses all the steps into a single function. 
 
 For users who are more comfortable using R or interested in a more detailed analysis, use the [step by step guide](https://bcwf-wetlands.github.io/wespr/articles/prepare-rawdata.html), which steps through the process using the *format_rawinputs()* function to standardize the input data into a structure that allows us to calculate the wespr-BC values.
 
-#### 3) Calculate Wespr scores - single site
+#### 3) Calculate WESPR scores - single site
 
 Once the raw data has been converted to the wespr input format we can [calculate the wespr scores](https://bcwf-wetlands.github.io/wespr/articles/calculate_wespr_single_site.html) for the given site and compare these against a calibration dataset within the same Eocprovince. 
 
 
-#### 4) Calculate Wespr scores - multiple site
+#### 4) Calculate WESPR scores - multiple sites
 
 Alternatively, where we have multiple wetland information, we can generate [scores from multiple sites](https://bcwf-wetlands.github.io/wespr/articles/calculate_wespr_multi_site.html). 
 
 
 #### 5) Advanced topics
 
-For those interested in understanding how the wespr package operates under the hood. This technical [vignette](https://bcwf-wetlands.github.io/wespr/articles/Advanced-topics.html) provides advanced topics for keeners interested in understanding the structure of the R package in more detail. This covers two advanced topics 1) How to update provincial ecoprovince calibration data and 2) Understanding the anatomy of a wespr object. 
+For those interested in understanding how the WESPR package operates under the hood. This technical [vignette](https://bcwf-wetlands.github.io/wespr/articles/Advanced-topics.html) provides advanced topics for keeners interested in understanding the structure of the R package in more detail. This covers two advanced topics 1) How to update provincial ecoprovince calibration data and 2) Understanding the anatomy of a wespr object. 
 
 These are advanced topics and not required to generate scores. 
 
