@@ -358,5 +358,5 @@ ind_scores <- get_indicator_scores(site)
 out <- assign_jenks_score(ind_scores,
                           calibration_scores,
                           EcoP = "SIM",
-                          report = TRUE,
-                          output_dir = "/Users/kylarushton/Desktop/WESP backup/WESPr/MudLake")
+                          report = FALSE,
+                          output_dir = "test")
