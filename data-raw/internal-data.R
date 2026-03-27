@@ -60,7 +60,18 @@ library(bcdata)
 ecoprovince_sp <-  bcdc_query_geodata('WHSE_TERRESTRIAL_ECOLOGY.ERC_ECOPROVINCES_SP') |>
   bcdata::collect() |>
   select(ECOPROVINCE_CODE, ECOPROVINCE_NAME, geometry) |>
-  filter(!ECOPROVINCE_CODE %in% c("SAL","NEP" ))
+  filter(!ECOPROVINCE_CODE %in% c("SAL","NEP" )) |>
+  mutate(eco_code = dplyr::case_when(
+    ECOPROVINCE_CODE == "NBM" ~ "NBM",
+    ECOPROVINCE_CODE == "TAP" ~ "BTP",
+    ECOPROVINCE_CODE == "BOP" ~ "BTP",
+    ECOPROVINCE_CODE == "SBI" ~ "SBI",
+    ECOPROVINCE_CODE == "SIM" ~ "SIM",
+    ECOPROVINCE_CODE == "SOI"  ~ "SI",
+    ECOPROVINCE_CODE == "COM" ~ "CM",
+    ECOPROVINCE_CODE == "GED" ~ "GD",
+    ECOPROVINCE_CODE == "CEI" ~ "CI"
+  ))
 
 
 usethis::use_data(
