@@ -4,6 +4,7 @@ output: word_document
 params:
   calibration_scores_eco: calibration_scores_eco
   calibration_scores_summary: calibration_scores_summary,
+  ecoprovince_sp: ecoprovince_sp,
   classed_df: classed_df
   output_dir: output_dir
 ---
@@ -45,14 +46,9 @@ sname <- unique(classed_df$site)
 ## 1. Site Location 
 
 ```{r generate map, echo = FALSE}
-if (ecop == "GD"){
-  ecop = "GED"
 
-  # need to add some fixes for TBP here 
-  }
-  
 ecoi <- ecoprovince_sp |>
-  dplyr::filter(ECOPROVINCE_CODE == ecop)
+  dplyr::filter(eco_code == ecop)
 
 map1 <- ggplot() +
   geom_sf(data = ecoprovince_sp$geometry, fill = "lightgrey") +
@@ -107,7 +103,7 @@ outsum <- purrr::map(wcols, function(x) {
 
 outsum <- outsum |>
   dplyr::mutate(jenks = ordered(jenks, levels = c("H", "M", "L"))) |>
-  mutate(service_full_name = case_when(
+   dplyr::mutate(service_full_name =  dplyr::case_when(
     service_name == "AM" ~ "Amphibian Habitat (AM)",
     service_name == "APP" ~ "Aquatic Primary Productivity (APP)",
     service_name == "CP" ~ "Carbon Preservation (CP)",
@@ -140,107 +136,74 @@ outsum_f <- outsum |>
 ```
 
 
-```{r, echo = FALSE, include = FALSE}
-# # generate raw values plots based on themes 
-# 
-# # functions 
-# ffraw <- classed_df |> 
-#   mutate(service_name = indicator) |> 
-#   mutate(service_full_name = case_when(
-#     service_name == "AM" ~ "Amphibian Habitat (AM)",
-#     service_name == "APP" ~ "Aquatic Primary Productivity (APP)",
-#     service_name == "CP" ~ "Carbon Preservation (CP)",
-#     service_name == "CRI" ~ "Cultural Recreational Importance (CRI)",
-#     service_name == "FH" ~ "Fish Habitat (FH)",
-#     service_name == "FR" ~ "Fire Resistance (FR)",
-#     service_name == "KMH" ~ "Keystone Mammal Habitat (KMH)",
-#     service_name == "NR" ~ "Nitrate Removal and Retention (NR)",
-#     service_name == "OE" ~ "Organic Matter Export (OE)",
-#     service_name == "PD" ~ "Native Plant Diversity (PD)",
-#     service_name == "POL" ~ "Pollinator Habitat (POL)",
-#     service_name == "PR" ~ "Phosphorus Retention (PR)",
-#     service_name == "RSB" ~ "Raptor and Wetland Songbird Habitat (RSB)",
-#     service_name == "SENS" ~ "Wetland Sensitivity (SENS)",
-#     service_name == "SFTS" ~ "Stream Flow and Temperature Support (SFTS)",
-#     service_name == "SR" ~ "Sediment Retention and stabilization (SR)",
-#     service_name == "STR" ~ "Wetland Stressors (STR)",
-#     service_name == "WB" ~ "Waterbird Habitat (WB)",
-#     service_name == "WS" ~ "Water Storage and Delay (WS)"
-#   ))
-# 
-# ffraw <- ffraw |> 
-#   select(service_type, value, service_full_name) |> 
-#   mutate(service_type_full = case_when(
-#     service_type == "f" ~ "function",
-#     service_type == "b" ~ "benefit"
-#   ))
-# 
-# ffraw <- ffraw |> 
-#   mutate(colour = case_when(
-#       value > -1 & value < 1 ~ "#FDE725FF",
-#       value > 1 & value < 4 ~ "#20A387FF",
-#       value < -4 ~ "#482677FF",
-#       value < -1 ~ "#20A387FF",
-#       value > 4 ~ "#482677FF"))
-# 
-# 
-# raw_plot <- ggplot(ffraw, aes(x = service_type_full, y = service_full_name)) +
-#   geom_tile(aes(fill = value)) +
-#   geom_text(aes(label = round(value, 1))) +
-#   #scale_fill_continuous("blue")
-#   theme(palette.colour.continuous = c("#FDE725FF", "#20A387FF", "#453781FF"))+
-#   #theme(palette.colour.discrete = c("#FDE725FF", "#20A387FF", "#482677FF"))+
-#   labs(
-#     x = "",
-#     y = "Ecosystem Function"
-#   )+
-#   theme(legend.position="none")
-
-
-```
-
-
 ```{r, echo = FALSE}
 
 # generate the standard table 
 # set up the order of columns
-lsorder = c("Hydrologic Group (WSg)",
-          "Water Storage and Delay (WS)",
-          "Water Quality (WQg)",
-          "Sediment Retention and stabilization (SR)",
-          "Phosphorus Retention (PR)",
-          "Nitrate Removal and Retention (NR)",
-          "Aquatic Support (ASg)",
-          "Stream Flow and Temperature Support (SFTS)",
-           "Organic Matter Export (OE)",
-          "Aquatic Primary Productivity (APP)",
-          "Aquatic Habitat (AHg)",
-          "Fish Habitat (FH)",
-          "Waterbird Habitat (WB)",
-          "Amphibian Habitat (AM)",
-          "Transition Zone Habitat Group (THg)",
-          "Keystone Mammal Habitat (KMH)",
-          "Raptor and Wetland Songbird Habitat (RSB)",
-          "Native Plant Diversity (PD)",
-          "Pollinator Habitat (POL)",
-          "Other Values or Attributes",
-          "Carbon Preservation (CP)",
-          "Fire Resistance (FR)",
-          "Cultural Recreational Importance (CRI)",
-          "Wetland Sensitivity (SENS)",
-          "Wetland Stressors (STR)")
+lsorder <- c(
+  "Hydrologic Group (WSg)",
+  "Water Storage and Delay (WS)",
+  "Water Quality (WQg)",
+  "Sediment Retention and stabilization (SR)",
+  "Phosphorus Retention (PR)",
+  "Nitrate Removal and Retention (NR)",
+  "Aquatic Support (ASg)",
+  "Stream Flow and Temperature Support (SFTS)",
+  "Organic Matter Export (OE)",
+  "Aquatic Primary Productivity (APP)",
+  "Aquatic Habitat (AHg)",
+  "Fish Habitat (FH)",
+  "Waterbird Habitat (WB)",
+  "Amphibian Habitat (AM)",
+  "Transition Zone Habitat Group (THg)",
+  "Keystone Mammal Habitat (KMH)",
+  "Raptor and Wetland Songbird Habitat (RSB)",
+  "Native Plant Diversity (PD)",
+  "Pollinator Habitat (POL)",
+  "Other Values or Attributes",
+  "Carbon Preservation (CP)",
+  "Fire Resistance (FR)",
+  "Cultural Recreational Importance (CRI)",
+  "Wetland Sensitivity (SENS)",
+  "Wetland Stressors (STR)"
+)
 
 
-lsheader <- c("Hydrologic Group (WSg)",
-              "Water Quality (WQg)",
-              "Aquatic Support (ASg)",
-               "Aquatic Habitat (AHg)",
-               "Transition Zone Habitat Group (THg)",
-                "Other Values or Attributes")
+lsheader <- c(
+  "Hydrologic Group (WSg)",
+  "Water Quality (WQg)",
+  "Aquatic Support (ASg)",
+  "Aquatic Habitat (AHg)",
+  "Transition Zone Habitat Group (THg)",
+  "Other Values or Attributes"
+)
 
 
 
 # split function and benefit 
+classed_df <- classed_df |> 
+   dplyr::mutate(service_full_name =  dplyr::case_when(
+    indicator  == "AM" ~ "Amphibian Habitat (AM)",
+    indicator  == "APP" ~ "Aquatic Primary Productivity (APP)",
+    indicator  == "CP" ~ "Carbon Preservation (CP)",
+    indicator  == "CRI" ~ "Cultural Recreational Importance (CRI)",
+    indicator  == "FH" ~ "Fish Habitat (FH)",
+    indicator  == "FR" ~ "Fire Resistance (FR)",
+    indicator  == "KMH" ~ "Keystone Mammal Habitat (KMH)",
+    indicator  == "NR" ~ "Nitrate Removal and Retention (NR)",
+    indicator  == "OE" ~ "Organic Matter Export (OE)",
+    indicator  == "PD" ~ "Native Plant Diversity (PD)",
+    indicator  == "POL" ~ "Pollinator Habitat (POL)",
+    indicator  == "PR" ~ "Phosphorus Retention (PR)",
+    indicator  == "RSB" ~ "Raptor and Wetland Songbird Habitat (RSB)",
+    indicator  == "SENS" ~ "Wetland Sensitivity (SENS)",
+    indicator  == "SFTS" ~ "Stream Flow and Temperature Support (SFTS)",
+    indicator  == "SR" ~ "Sediment Retention and stabilization (SR)",
+    indicator  == "STR" ~ "Wetland Stressors (STR)",
+    indicator  == "WB" ~ "Waterbird Habitat (WB)",
+    indicator  == "WS" ~ "Water Storage and Delay (WS)"
+  )) 
+
 fntab <- classed_df |> 
   dplyr::filter(service_type == 'f') |> 
   dplyr::mutate(`Function Score (Standardize)` = sta_value,
@@ -262,7 +225,7 @@ bntab <- classed_df |>
          `Benefit Score (Standardize)`, `Benefit Rating`,
          `Benefit Score (Raw)`)
 
-tball <- left_join(fntab,bntab ) |> 
+tball <-  dplyr::left_join(fntab,bntab ) |> 
   dplyr::select("Wetland Functions and other attributes",
                 "Function Score (Standardize)", "Function Rating",
                  "Benefit Score (Standardize)",   "Benefit Rating",
@@ -273,13 +236,14 @@ tball <- left_join(fntab,bntab ) |>
 headers <- as.data.frame(lsheader ) |> 
   rename("Wetland Functions and other attributes" = lsheader)
 
-tball <- bind_rows(tball, headers)
+tball <-  dplyr::bind_rows(tball, headers)
 
 tball <- tball[match(lsorder, tball$"Wetland Functions and other attributes"),]
 ```
 
 ```{r, echo = FALSE}
 knitr::kable(tball)
+
 ```
 
 <br>
@@ -362,8 +326,8 @@ each function and benefit, based on the distribution of scores from the 100+ cal
 
 ```{r overall plots, echo=FALSE, fig.width=8, fig.height=7}
 tt <- calibration_scores_summary |>
-  group_by(.data$service) |>
-  select(-n) |>
+   dplyr::group_by(.data$service) |>
+   dplyr::select(-n) |>
   tidyr::pivot_wider(names_from = jenks, values_from = c(min, max)) |>
   dplyr::mutate(
     H = 10.1 - min_H,
@@ -382,25 +346,6 @@ ttt <- tt |>
 ttt <- ttt |>
   dplyr::mutate(class = ordered(catergory, levels = c("H", "M", "L"))) |>
   dplyr::mutate(service_full_name = case_when(
-    # service_name == "AM" ~ "Amphibian Habitat (AM)",
-    # service_name == "APP" ~ "Aquatic Primary Productivity (APP)",
-    # service_name == "CP" ~ "Carbon Preservation (CP)",
-    # service_name == "CRI" ~ "Cultural Recreational Importance (CRI)",
-    # service_name == "FH" ~ "Fish Habitat (FH)",
-    # service_name == "FR" ~ "Fire Resistance (FR)",
-    # service_name == "KMH" ~ "Keystone Mammal Habitat (KMH)",
-    # service_name == "NR" ~ "Nitrate Removal and Retention (NR)",
-    # service_name == "OE" ~ "Organic Matter Export (OE)",
-    # service_name == "PD" ~ "Native Plant Diversity (PD)",
-    # service_name == "POL" ~ "Pollinator Habitat (POL)",
-    # service_name == "PR" ~ "Phosphorus Retention (PR)",
-    # service_name == "RSB" ~ "Raptor and Wetland Songbird Habitat (RSB)",
-    # service_name == "SENS" ~ "Wetland Sensitivity (SENS)",
-    # service_name == "SFTS" ~ "Stream Flow and Temperature Support (SFTS)",
-    # service_name == "SR" ~ "Sediment Retention and stabilization (SR)",
-    # service_name == "STR" ~ "Wetland Stressors (STR)",
-    # service_name == "WB" ~ "Waterbird Habitat (WB)",
-    # service_name == "WS" ~ "Water Storage and Delay (WS)
     service_name == "STR" ~ "Wetland Stressors (STR)",
     service_name == "SENS" ~ "Wetland Sensitivity (SENS)",
     service_name == "CRI" ~ "Cultural Recreational Importance (CRI)",
@@ -444,35 +389,6 @@ ttt <- ttt |>
      "Water Storage and Delay (WS)")))
 
 
-# 
-#  c(#"Hydrologic Group (WSg)",
-#           "Water Storage and Delay (WS)",
-#           #"Water Quality (WQg)",
-#           "Sediment Retention and stabilization (SR)",
-#           "Phosphorus Retention (PR)",
-#           "Nitrate Removal and Retention (NR)",
-#          # "Aquatic Support (ASg)",
-#           "Stream Flow and Temperature Support (SFTS)",
-#            "Organic Matter Export (OE)",
-#           "Aquatic Primary Productivity (APP)",
-#          # "Aquatic Habitat (AHg)",
-#           "Fish Habitat (FH)",
-#           "Waterbird Habitat (WB)",
-#           "Amphibian Habitat (AM)",
-#           #"Transition Zone Habitat Group (THg)",
-#           "Keystone Mammal Habitat (KMH)",
-#           "Raptor and Wetland Songbird Habitat (RSB)",
-#           "Native Plant Diversity (PD)",
-#           "Pollinator Habitat (POL)",
-#           #"Other Values or Attributes",
-#           "Carbon Preservation (CP)",
-#           "Fire Resistance (FR)",
-#           "Cultural Recreational Importance (CRI)",
-#           "Wetland Sensitivity (SENS)",
-#           "Wetland Stressors (STR)")
-# 
-
-
 # match format for site data
 classed_df <- classed_df |>
   dplyr::mutate(
@@ -480,26 +396,7 @@ classed_df <- classed_df |>
     service_name = indicator,
     threshold = value
   ) |>
-  mutate(service_full_name = case_when(
-    # service_name == "AM" ~ "Amphibian Habitat (AM)",
-    # service_name == "APP" ~ "Aquatic Primary Productivity (APP)",
-    # service_name == "CP" ~ "Carbon Preservation (CP)",
-    # service_name == "CRI" ~ "Cultural Recreational Importance (CRI)",
-    # service_name == "FH" ~ "Fish Habitat (FH)",
-    # service_name == "FR" ~ "Fire Resistance (FR)",
-    # service_name == "KMH" ~ "Keystone Mammal Habitat (KMH)",
-    # service_name == "NR" ~ "Nitrate Removal and Retention (NR)",
-    # service_name == "OE" ~ "Organic Matter Export (OE)",
-    # service_name == "PD" ~ "Native Plant Diversity (PD)",
-    # service_name == "POL" ~ "Pollinator Habitat (POL)",
-    # service_name == "PR" ~ "Phosphorus Retention (PR)",
-    # service_name == "RSB" ~ "Raptor and Wetland Songbird Habitat (RSB)",
-    # service_name == "SENS" ~ "Wetland Sensitivity (SENS)",
-    # service_name == "SFTS" ~ "Stream Flow and Temperature Support (SFTS)",
-    # service_name == "SR" ~ "Sediment Retention and stabilization (SR)",
-    # service_name == "STR" ~ "Wetland Stressors (STR)",
-    # service_name == "WB" ~ "Waterbird Habitat (WB)",
-    # service_name == "WS" ~ "Water Storage and Delay (WS)"
+  dplyr::mutate(service_full_name = case_when(
     service_name == "STR" ~ "Wetland Stressors (STR)",
     service_name == "SENS" ~ "Wetland Sensitivity (SENS)",
     service_name == "CRI" ~ "Cultural Recreational Importance (CRI)",
@@ -525,9 +422,9 @@ classed_df <- classed_df |>
 
 # summary of the ranks overall
 all_ranks_f <- classed_df |>
-  filter(service_type == "f") |>
-  group_by(calibration_scores_summary) |>
-  summarise(n = n())
+  dplyr::filter(service_type == "f") |>
+  dplyr::group_by(calibration_scores_summary) |>
+  dplyr::summarise(n = n())
 
 # functions
 ft <- ttt |>
@@ -535,14 +432,14 @@ ft <- ttt |>
 
 fclass <- classed_df |>
   dplyr::filter(service_type == "f") |>
-  filter(!is.na(value)) |>
-  left_join(outsum)
+   dplyr::filter(!is.na(value)) |>
+   dplyr::left_join(outsum)
 
-fn_plot <- ggplot(ft, aes(x = threshold, y = service_full_name)) +
-  geom_bar(aes(fill = class), stat = "identity", position = "stack") +
+fn_plot <- ggplot2::ggplot(ft, aes(x = threshold, y = service_full_name)) +
+  ggplot2::geom_bar(aes(fill = class), stat = "identity", position = "stack") +
   scale_fill_viridis_d() +
   # geom_text(data= fclass,aes(x= max,y=service_full_name,label=n), color = "darkgrey",vjust=0) +
-  geom_point(data = fclass, aes(x = threshold, y = service_full_name, size = 1.25), colour = "darkgrey") +
+  ggplot2::geom_point(data = fclass, aes(x = threshold, y = service_full_name, size = 1.25), colour = "darkgrey") +
   labs(
     x = "Ecosystem Score",
     y = "Ecosystem Function"
@@ -582,10 +479,14 @@ bn_plot <-  ggplot(bt , aes(x = threshold,y = service_full_name  )) +
    scale_size(guide = 'none')+
    theme_minimal()
 
- #summary of the ranks overall 
- all_ranks_b <- bclass |> 
-  group_by(calibration_scores_summary) |>
-  summarise(n = n())
+bn_minplot <- bn_plot +
+   theme(axis.text.y=element_blank())
+
+# 
+#  #summary of the ranks overall 
+#  all_ranks_b <- bclass |> 
+#   group_by(calibration_scores_summary) |>
+#   summarise(n = n())
    
 ```
 
@@ -595,10 +496,9 @@ bn_plot <-  ggplot(bt , aes(x = threshold,y = service_full_name  )) +
 ```
 
 
-
 ```{r echo = FALSE, fig.show="hold", out.width="50%"}
 fn_plot 
-bn_plot 
+bn_minplot 
 ```
 
 <br>
