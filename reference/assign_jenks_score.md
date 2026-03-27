@@ -9,7 +9,7 @@ assign_jenks_score(
   ind_scores,
   calibration_scores,
   EcoP,
-  report = NA,
+  report = FALSE,
   output_dir = NULL
 )
 ```
@@ -32,8 +32,8 @@ assign_jenks_score(
 
 - report:
 
-  A logical indicating whether to generate a report. Default = NA will
-  not produce a report.
+  TRUE?FALSE. A logical indicating whether to generate a report. Default
+  = FALSE will not produce a report.
 
 - output_dir:
 
