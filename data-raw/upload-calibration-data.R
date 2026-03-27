@@ -24,7 +24,7 @@ library(dplyr)
 indata <- fs::path("inst/input_data/reference_SIM_20250620.csv")
 indata <- fs::path("inst/input_data/reference_GD_20250620.csv")
 
-ecop <- "SIM"
+ecop <- "GD"
 
 
 
