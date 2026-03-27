@@ -17,10 +17,10 @@ library(sf)
 library(stringr)
 
 #testing lines 
-#calibration_scores_eco = calibration_scores_eco
-#calibration_scores_summary = calibration_scores_summary
-#classed_df = classed_df
-#output_dir = output_dir
+calibration_scores_eco = calibration_scores_eco # calibration dataset
+calibration_scores_summary = calibration_scores_summary # summary of cal set for high and lows - used in graphics
+classed_df = classed_df # results per site 
+output_dir = output_dir # output dir
 # end testing line 
 
 ```
@@ -47,7 +47,9 @@ sname <- unique(classed_df$site)
 ```{r generate map, echo = FALSE}
 if (ecop == "GD"){
   ecop = "GED"
-}
+
+  # need to add some fixes for TBP here 
+  }
   
 ecoi <- ecoprovince_sp |>
   dplyr::filter(ECOPROVINCE_CODE == ecop)
@@ -57,6 +59,7 @@ map1 <- ggplot() +
   geom_sf(data = ecoi, fill = "lightblue") +
   labs(title = paste0("Ecoprovince : ", stringr::str_to_title(unique(ecoi$ECOPROVINCE_NAME))))+
   theme_void()
+
 ```
 
 ```{r plot map, echo = FALSE, fig.width=3.5, fig.height=3.25}
@@ -64,8 +67,10 @@ map1
 
 ```
 
-```{r, echo = FALSE}
+## Wetland Scores
 
+
+```{r, echo = FALSE}
 # generate the background information for Calibration thresholds
 # Calculate the numbers per group or by plot
 
@@ -134,72 +139,102 @@ outsum_f <- outsum |>
 
 ```
 
+
+NOTE: A score of 0 does not always mean the function or value is absent from the wetland. It usually
+means that this wetland has equal or less capacity than the lowest-scoring one, for that function or
+value, from among the 100+ calibration wetlands that were assessed previously for the EcoProvince.
+
+
+#### Output Descriptions
+
+The **Score** columns present the numeric score of a function, value, or attribute after it has been
+mathematically adjusted (standardized) to a full 0-10 point scale, based on calibration data from 100+
+test sites.
+
+The **Rating** columns indicate which of three rating categories [Lower (L), Moderate (M), Higher(H)]
+each normalized score is assigned to. Ratings convey the relative meaning of the numeric score and
+allow for comparison across different functions and benefits. The breaks between ratings differ for
+each function and benefit, based on the distribution of scores from the 100+ calibration wetlands.
 <br>
 
 
-### 2.1 Ecosystem Raw Scores
 
-We can review the scores based on raw scores or those classified into low, medium and high categories.
-
-
-```{r, echo = FALSE}
-# generate raw values plots based on themes 
-
-# functions 
-ffraw <- classed_df |> 
-  mutate(service_name = indicator) |> 
-  mutate(service_full_name = case_when(
-    service_name == "AM" ~ "Amphibian Habitat (AM)",
-    service_name == "APP" ~ "Aquatic Primary Productivity (APP)",
-    service_name == "CP" ~ "Carbon Preservation (CP)",
-    service_name == "CRI" ~ "Cultural Recreational Importance (CRI)",
-    service_name == "FH" ~ "Fish Habitat (FH)",
-    service_name == "FR" ~ "Fire Resistance (FR)",
-    service_name == "KMH" ~ "Keystone Mammal Habitat (KMH)",
-    service_name == "NR" ~ "Nitrate Removal and Retention (NR)",
-    service_name == "OE" ~ "Organic Matter Export (OE)",
-    service_name == "PD" ~ "Native Plant Diversity (PD)",
-    service_name == "POL" ~ "Pollinator Habitat (POL)",
-    service_name == "PR" ~ "Phosphorus Retention (PR)",
-    service_name == "RSB" ~ "Raptor and Wetland Songbird Habitat (RSB)",
-    service_name == "SENS" ~ "Wetland Sensitivity (SENS)",
-    service_name == "SFTS" ~ "Stream Flow and Temperature Support (SFTS)",
-    service_name == "SR" ~ "Sediment Retention and stabilization (SR)",
-    service_name == "STR" ~ "Wetland Stressors (STR)",
-    service_name == "WB" ~ "Waterbird Habitat (WB)",
-    service_name == "WS" ~ "Water Storage and Delay (WS)"
-  ))
-
-ffraw <- ffraw |> 
-  select(service_type, value, service_full_name) |> 
-  mutate(service_type_full = case_when(
-    service_type == "f" ~ "function",
-    service_type == "b" ~ "benefit"
-  ))
-
-ffraw <- ffraw |> 
-  mutate(colour = case_when(
-      value > -1 & value < 1 ~ "#FDE725FF",
-      value > 1 & value < 4 ~ "#20A387FF",
-      value < -4 ~ "#482677FF",
-      value < -1 ~ "#20A387FF",
-      value > 4 ~ "#482677FF"))
-
-
-raw_plot <- ggplot(ffraw, aes(x = service_type_full, y = service_full_name)) +
-  geom_tile(aes(fill = value)) +
-  geom_text(aes(label = round(value, 1))) +
-  #scale_fill_continuous("blue")
-  theme(palette.colour.continuous = c("#FDE725FF", "#20A387FF", "#453781FF"))+
-  #theme(palette.colour.discrete = c("#FDE725FF", "#20A387FF", "#482677FF"))+
-  labs(
-    x = "",
-    y = "Ecosystem Function"
-  )+
-  theme(legend.position="none")
+```{r, echo = FALSE, include = FALSE}
+# # generate raw values plots based on themes 
+# 
+# # functions 
+# ffraw <- classed_df |> 
+#   mutate(service_name = indicator) |> 
+#   mutate(service_full_name = case_when(
+#     service_name == "AM" ~ "Amphibian Habitat (AM)",
+#     service_name == "APP" ~ "Aquatic Primary Productivity (APP)",
+#     service_name == "CP" ~ "Carbon Preservation (CP)",
+#     service_name == "CRI" ~ "Cultural Recreational Importance (CRI)",
+#     service_name == "FH" ~ "Fish Habitat (FH)",
+#     service_name == "FR" ~ "Fire Resistance (FR)",
+#     service_name == "KMH" ~ "Keystone Mammal Habitat (KMH)",
+#     service_name == "NR" ~ "Nitrate Removal and Retention (NR)",
+#     service_name == "OE" ~ "Organic Matter Export (OE)",
+#     service_name == "PD" ~ "Native Plant Diversity (PD)",
+#     service_name == "POL" ~ "Pollinator Habitat (POL)",
+#     service_name == "PR" ~ "Phosphorus Retention (PR)",
+#     service_name == "RSB" ~ "Raptor and Wetland Songbird Habitat (RSB)",
+#     service_name == "SENS" ~ "Wetland Sensitivity (SENS)",
+#     service_name == "SFTS" ~ "Stream Flow and Temperature Support (SFTS)",
+#     service_name == "SR" ~ "Sediment Retention and stabilization (SR)",
+#     service_name == "STR" ~ "Wetland Stressors (STR)",
+#     service_name == "WB" ~ "Waterbird Habitat (WB)",
+#     service_name == "WS" ~ "Water Storage and Delay (WS)"
+#   ))
+# 
+# ffraw <- ffraw |> 
+#   select(service_type, value, service_full_name) |> 
+#   mutate(service_type_full = case_when(
+#     service_type == "f" ~ "function",
+#     service_type == "b" ~ "benefit"
+#   ))
+# 
+# ffraw <- ffraw |> 
+#   mutate(colour = case_when(
+#       value > -1 & value < 1 ~ "#FDE725FF",
+#       value > 1 & value < 4 ~ "#20A387FF",
+#       value < -4 ~ "#482677FF",
+#       value < -1 ~ "#20A387FF",
+#       value > 4 ~ "#482677FF"))
+# 
+# 
+# raw_plot <- ggplot(ffraw, aes(x = service_type_full, y = service_full_name)) +
+#   geom_tile(aes(fill = value)) +
+#   geom_text(aes(label = round(value, 1))) +
+#   #scale_fill_continuous("blue")
+#   theme(palette.colour.continuous = c("#FDE725FF", "#20A387FF", "#453781FF"))+
+#   #theme(palette.colour.discrete = c("#FDE725FF", "#20A387FF", "#482677FF"))+
+#   labs(
+#     x = "",
+#     y = "Ecosystem Function"
+#   )+
+#   theme(legend.position="none")
 
 
 ```
+
+
+NOTE: A score of 0 does not always mean the function or value is absent from the wetland. It usually
+means that this wetland has equal or less capacity than the lowest-scoring one, for that function or
+value, from among the 100+ calibration wetlands that were assessed previously for the EcoProvince.
+
+
+#### Output Descriptions
+
+The **Score** columns present the numeric score of a function, value, or attribute after it has been
+mathematically adjusted (standardized) to a full 0-10 point scale, based on calibration data from 100+
+test sites.
+
+The **Rating** columns indicate which of three rating categories [Lower (L), Moderate (M), Higher(H)]
+each normalized score is assigned to. Ratings convey the relative meaning of the numeric score and
+allow for comparison across different functions and benefits. The breaks between ratings differ for
+each function and benefit, based on the distribution of scores from the 100+ calibration wetlands.
+<br>
 
 
 ```{r raw_plots, echo = FALSE, width = 10}
