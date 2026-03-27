@@ -21,9 +21,9 @@ knitr::opts_chunk$set(
 
 The B.C. Wildlife Federation’s Wetlands Workforce project is a collaboration with conservation organizations and First Nations working to maintain and monitor wetlands across British Columbia. https://bcwf.bc.ca/initiatives/wetlands-workforce/.  
 
-The [Wetland Ecosystem Services Protocol](https://bcwfwatershedteam.ca/wetland-ecosystem-services-protocol/) (WESP-BC) model is a standardized method for assessing the function and value of the services provided by wetlands within British Columbia.
+The [Wetland Ecosystem Services Protocol](https://bcwfwatershedteam.ca/wetland-ecosystem-services-protocol/) (WESP-BC) model is a standardized method for assessing the function and benefit of the services provided by wetlands within British Columbia.
 
-Wespr is an R package to assist with the preparation and assessment of wesp-BC scores. The package provides tools to assist with 1) downloading spatial layers, 2) prepossessing field and desktop questionnaires, 3) calculating wesp-BC scores for a range of functional and beneficial ecosystem indicators, 4) advanced functions to upload and verify calibration data sets.
+WESPR is an R package to assist with the preparation and assessment of WESP-BC scores. The package provides tools to assist with 1) downloading spatial layers, 2) preparing inuts form the field and desktop assessment surveys, 3) calculates scores and ratings and outputs a report of WESP-BC for a range of functions and attributes, 4) advanced functions to upload and verify calibration data sets.
 
 
 
@@ -46,9 +46,9 @@ A series of vignettes with step by step instructions is provided to assist users
 
 #### 2) Prepare input data for WESPR calculations 
 
-Once the user has answered the required field and desktop survey123 surveys (and output these as .csv files), users can choose from either a detailed or simple workflow. For beginner R users, we recommend using the [simplified analysis pathways](https://bcwf-wetlands.github.io/wespr/articles/prepare-rawdata.html), which condenses all the steps into a single function. 
+Once the user has answered the required field and desktop survey123 surveys (and output these as .csv files), users can choose from either a simple or detailed workflow. For beginner R users, we recommend using the [simplified analysis pathways](https://bcwf-wetlands.github.io/wespr/articles/prepare-rawdata.html), which condenses all the steps into a single function. 
 
-For users who are more comfortable using R or interested in a more detailed analysis, use the [step by step guide](https://bcwf-wetlands.github.io/wespr/articles/prepare-rawdata.html), which steps through the process using the *format_rawinputs()* function to standardize the input data into a structure that allows us to calculate the wespr-BC values.
+For users who are more comfortable using R or interested in a more detailed analysis, use the [step by step guide](https://bcwf-wetlands.github.io/wespr/articles/prepare-rawdata.html), which steps through the process using the *format_rawinputs()* function to standardize the input data into a structure that allows us to calculate the WESPR-BC scores and ratings.
 
 #### 3) Calculate WESPR scores - single site
 
@@ -62,7 +62,7 @@ Alternatively, where we have multiple wetland information, we can generate [scor
 
 #### 5) Advanced topics
 
-For those interested in understanding how the WESPR package operates under the hood. This technical [vignette](https://bcwf-wetlands.github.io/wespr/articles/Advanced-topics.html) provides advanced topics for keeners interested in understanding the structure of the R package in more detail. This covers two advanced topics 1) How to update provincial ecoprovince calibration data and 2) Understanding the anatomy of a wespr object. 
+For those interested in understanding how the WESPR package operates under the hood. This technical [vignette](https://bcwf-wetlands.github.io/wespr/articles/Advanced-topics.html) provides advanced topics for those interested in understanding the structure of the R package in more detail. This covers two advanced topics 1) How to update provincial ecoprovince calibration data and 2) Understanding the anatomy of a WESPR object. 
 
 These are advanced topics and not required to generate scores. 
 
