@@ -197,7 +197,6 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = FA
   }) |> dplyr::bind_rows()
 
 
-
   classed_df <- classed_df |>
     dplyr::filter(!is.na(.data$value)) |>
     dplyr::mutate(value = round(.data$value, 2),
