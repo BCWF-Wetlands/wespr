@@ -30,6 +30,9 @@ calculate_jenks_score <- function(wespdata, sites = NULL, out_dir, out_name = "w
 
   # run multi-site analysis
   wespRaw <- calculate_multi_site(wespdata, sites = sites)
+  wespRaw <- wespRaw |>
+    dplyr::mutate(site = as.numeric(gsub("site_", "", .data$site)))
+
   #wespRaw <- calculate_multi_site(wesp_data, sites = NULL)
 
 
