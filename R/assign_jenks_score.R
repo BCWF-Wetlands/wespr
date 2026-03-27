@@ -3,7 +3,7 @@
 #' @param ind_scores A data.frame of indicator scores. The output of get_indicator_scores().
 #' @param calibration_scores an internal dataset containing the calibration data for all sites. This can be updated by admin.
 #' @param EcoP A character string specifying the region. Default = 'GD'
-#' @param report A logical indicating whether to generate a report. Default = NA will not produce a report.
+#' @param report TRUE?FALSE. A logical indicating whether to generate a report. Default = FALSE will not produce a report.
 #' @param output_dir A character string specifying the directory to save the report. Default = NULL.
 #'
 #' @returns A data.frame with indicator scores and jenks classification score (Low, Medium, High (L, M, H)).
@@ -17,7 +17,7 @@
 #' ind_scores <- get_indicator_scores(site)
 #' out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD")
 #' }
-assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = NA, output_dir = NULL) {
+assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = FALSE, output_dir = NULL) {
   # testing lines
    #ind_scores
    #calibration_scores
@@ -35,7 +35,7 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = NA
 
 
   # if report option selected, check there is an output dir
-  if (!is.na(report) & is.null(output_dir)){
+  if (isTRUE(report) & is.null(output_dir)) {
     cli::cli_abort("Report is requested but no {output_dir} parameter is specified.
                    Please add the filepath location where you want the report to be saved")
   }
@@ -63,6 +63,29 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = NA
   ## remove the site column
   wcols <- wcols[!wcols %in% c("site", "wetland_id", "ecoprovince")]
   wcols <- unique(sub("^([^_]*_[^_]*).*", "\\1", wcols))
+
+
+
+  # get the highest and lowest raw scores across all sites for standardizing value
+  raw_range_scores <- calibration_scores_eco
+
+  min_raw_cal <- as.data.frame(sapply(calibration_scores_eco, min, na.rm = TRUE))
+  names(min_raw_cal) <- "min"
+
+  max_raw_cal <- as.data.frame(sapply(calibration_scores_eco, max, na.rm = TRUE))
+  names(max_raw_cal) <- "max"
+
+  min_max_raw_cal <- cbind(min_raw_cal, max_raw_cal)
+  min_max_raw_cal$names <- row.names(min_max_raw_cal)
+  min_max_raw_cal <- tibble::as_tibble(min_max_raw_cal)
+
+  raw_names <- grep("_raw", min_max_raw_cal$names, value = T)
+
+  min_max_raw_cal <- min_max_raw_cal |>
+    dplyr::filter(names %in% raw_names)
+
+
+
 
   # loop through the data and get the min and max values of the raw scores
 
@@ -108,12 +131,19 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = NA
       dplyr::filter(.data$service_name == trow$indicator) |>
       dplyr::filter(.data$service_type == trow$service_type)
 
+    # get the highest and lowest raw value for standardization data across all sites
+    calr_min_max <- paste0(unique(calr$service), "_raw")
+    min_max_raw_cal_i <- min_max_raw_cal |> dplyr::filter(names == calr_min_max)
+    cal_raw_min <- as.numeric(min_max_raw_cal_i$min)
+    cal_raw_max <- as.numeric(min_max_raw_cal_i$max)
+
     my_min <- trow$value
     my_max <- trow$value
 
     # is na then assign to NA
     if (is.na(my_min)) {
       cal_val <- NA
+      sta_val <- NA
     } else {
       my_df_filtered <- calr |>
         dplyr::rowwise() |>
@@ -142,30 +172,48 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = NA
       }
     }
 
-    trow |> dplyr::mutate(calibration_scores_summary = cal_val)
+    if (!is.na(my_min)) {
+      # calculate the standardized value
+      sta_val <- dplyr::case_when(
+        trow$value < cal_raw_min ~ 0,
+        trow$value > cal_raw_max ~ 10,
+        .default = NA
+      )
+      if (is.na(sta_val)) {
+        sta_val <- 10 * ((trow$value - cal_raw_min) / (cal_raw_max - cal_raw_min))
+      }
+    }
+
+    trow |> dplyr::mutate(
+      calibration_scores_summary = cal_val,
+      standardized_score = sta_val
+    )
   }) |> dplyr::bind_rows()
+
 
 
   classed_df <- classed_df |>
     dplyr::filter(!is.na(.data$value)) |>
-    dplyr::mutate(value = round(.data$value, 2))
+    dplyr::mutate(value = round(.data$value, 2),
+                  sta_value = round(.data$standardized_score,2)) |>
+    dplyr::select(site, indicator, service_type, value, sta_value,calibration_scores_summary )
 
-  return(classed_df)
 
-  if (!is.na(report)) {
+  if (isTRUE(report)) {
     cli::cli_alert_info("Generating a site report")
 
-    RMD <- fs::path_package("wespr", "extdata/site_report.rmd")
+    #RMD <- fs::path_package("wespr", "extdata/site_report.rmd")
+    RMD <- system.file("extdata/site_report.rmd", package = "wespr")
 
     rmarkdown::render(RMD,
-      params = list(
-        calibration_scores_eco = calibration_scores_eco,
-        calibration_scores_summary = calibration_scores_summary,
-        classed_df = classed_df
-      ),
-      output_dir = output_dir
+                      params = list(
+                        calibration_scores_eco = calibration_scores_eco,
+                        calibration_scores_summary = calibration_scores_summary,
+                        classed_df = classed_df
+                      ),
+                      output_dir = output_dir
     )
   }
-
+  return(classed_df)
 
 }
