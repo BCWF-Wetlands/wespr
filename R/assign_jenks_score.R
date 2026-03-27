@@ -19,7 +19,13 @@
 #' }
 assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = FALSE, output_dir = NULL) {
   # testing lines
-   #ind_scores
+  ind_scores
+  calibration_scores
+  EcoP = "SIM"
+  report = TRUE
+  output_dir = "temp"
+
+  #ind_scores
    #calibration_scores
    #EcoP ="GD"
    #report = TRUE
