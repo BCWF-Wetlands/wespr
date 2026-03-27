@@ -306,8 +306,6 @@ write.csv(ww, fs::path("inst",'input_data','raw', "20260203", "WESPoutputs.csv")
 #this creates the flat output which will then feed into wespr.
 
 wesp_file <-"C:\\Users\\genev\\OneDrive\\Documents\\02.Contracts\\2023_BCWF_wetlands\\02.Code\\wespr\\inst\\input_data\\archive\\wesp_F_S.csv"
-
-
 #in data:
 #wesp_file <-  fs::path("inst",'input_data','raw', "20260203", "WESPoutputs.csv")
 wesp_data <- load_wesp_data(wesp_file)
