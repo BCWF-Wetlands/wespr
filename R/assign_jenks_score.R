@@ -19,7 +19,7 @@
 #' }
 assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = FALSE, output_dir = NULL) {
   # testing lines
-  # ind_scores
+  ## ind_scores
   # calibration_scores
   # EcoP = "SIM"
   # report = TRUE
@@ -201,7 +201,7 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = FA
     dplyr::filter(!is.na(.data$value)) |>
     dplyr::mutate(value = round(.data$value, 2),
                   sta_value = round(.data$standardized_score,2)) |>
-    dplyr::select(site, indicator, service_type, value, sta_value,calibration_scores_summary )
+    dplyr::select(.data$site, .data$indicator, .data$service_type, .data$value, .data$sta_value,.data$calibration_scores_summary )
 
 
   if (isTRUE(report)) {
@@ -214,6 +214,7 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = FA
                       params = list(
                         calibration_scores_eco = calibration_scores_eco,
                         calibration_scores_summary = calibration_scores_summary,
+                        ecoprovince_sp = ecoprovince_sp,
                         classed_df = classed_df
                       ),
                       output_dir = output_dir
