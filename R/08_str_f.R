@@ -39,20 +39,27 @@ str_fun <- function(site) {
 
   fire20 <- wt_max(indicator_data, "F55")
 
+  #Stressor Subscore
+  #S1
   alttiming <- vals$S1_subscore
 
+  #S2
   nutrload <- vals$S2_subscore
 
+  #S3
   contam20 <- vals$S3_subscore
 
+  #S4
   sedload <- vals$S4_subscore
 
+  #S5
   soildisturb <- vals$S5_subscore
 
+  #S6
   wldisturb <- vals$S6_subscore
 
 
-  # subcomponents
+  # subscores
 
   hydrostress <- mean_na(c(alttiming, constric20, disturb20))
 
