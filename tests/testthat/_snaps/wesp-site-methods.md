@@ -37,8 +37,11 @@
         *  GDeco = 1
         *  CMeco = 0
         *  SIMeco = 0
-        *  BPeco = 0
-        *  TPeco = 0
+        *  BTPeco = 0
+        *  CIeco = 0
+        *  NBMeco = 0
+        *  SBIeco = 0
+        *  SIeco = 0
         *  OutMap = 1
         *  S1_sum = 0
         *  S1_subscore = 0
@@ -95,8 +98,11 @@
         *  GDeco = 1
         *  CMeco = 0
         *  SIMeco = 0
-        *  BPeco = 0
-        *  TPeco = 0
+        *  BTPeco = 0
+        *  CIeco = 0
+        *  NBMeco = 0
+        *  SBIeco = 0
+        *  SIeco = 0
         *  OutMap = 1
         *  S1_sum = 0
         *  S1_subscore = 0
@@ -113,37 +119,37 @@
       
       Indicators:
         * WS:  
-          - fun: 1.94 
-          - ben: 5.97 
+          - fun: 1.95 
+          - ben: 5.51 
         * SR:  
           - fun: 0 
-          - ben: 4.16 
+          - ben: 4.05 
         * PR:  
           - fun: 3.32 
-          - ben: 4.14 
+          - ben: 3.37 
         * CP:  
-          - fun: 6.56 
+          - fun: 6.69 
         * FR:  
           - fun: 6.58 
-          - ben: 8.21 
+          - ben: 6.67 
         * SENS:  
-          - fun: 4.92 
+          - fun: 4.84 
         * STR:  
           - fun: 5.31 
         * NR:  
-          - fun: 4.16 
-          - ben: 4.14 
+          - fun: 4.1 
+          - ben: 3.37 
         * APP:  
-          - fun: 4.47 
-          - ben: 3.14 
+          - fun: 4.3 
+          - ben: 3.11 
         * PD:  
-          - fun: 4.12 
+          - fun: 4.1 
           - ben: 3.55 
         * KMH:  
-          - fun: 6.59 
+          - fun: 6.56 
           - ben: 6.37 
         * WB:  
-          - fun: 4.71 
+          - fun: 4.67 
           - ben: 4.38 
         * POL:  
           - fun: 5.05 
@@ -152,16 +158,16 @@
           - fun: 0 
           - ben: 5.58 
         * OE:  
-          - fun: 3.71 
+          - fun: 3.32 
         * AM:  
-          - fun: 4.79 
+          - fun: 4.75 
           - ben: 7.46 
         * FH:  
-          - fun: 3.04 
-          - ben: 1.57 
+          - fun: 3.02 
+          - ben: 1.56 
         * SFTS:  
           - fun: 3.55 
-          - ben: 4 
+          - ben: 4.3 
         * CRI:  
           - ben: 4.13 
       

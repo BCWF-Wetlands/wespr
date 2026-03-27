@@ -428,13 +428,11 @@ processing_officedata <- function(indata = indata) {
 
   # Number of sub-categories for each variable -
 
-  #TODO: Need to update the OF44 values to 9 options
-
   NparseVars <- c(
     5, 6, 7, 6, 3, 3, 4, 6,
     4, 3, 5, 5, 6, 5, 3, 3,
     5, 5, 3, 4, 5, 5, 5, 5,
-    5, 3, 5, 5
+    5, 3, 5, 8
   )
 
   df1 <- odata %>%
@@ -493,9 +491,6 @@ processing_officedata <- function(indata = indata) {
   #################################################################################
 
   # case4: multi responses - still to fix this one ###########################
-
-  # TODO: update these once OF20CK_ changed to OF+
-
 
   multiresp <- c("OF24_0")
   multirespN <- c(5)

@@ -24,6 +24,21 @@ question_metadata <- read_sheet(gs_id, sheet = "all_indicators", col_types = "c"
   mutate(n_responses = as.integer(n_responses)) |>
   select(-starts_with("x"), -no_indicators)
 
+
+# march 2026 add temp fix to update the ecoprovince number - this does not seem to be working anymore?
+question_metadata <- question_metadata |>
+  mutate(n_responses = case_when(
+    no == "OF44" ~ 8,
+    TRUE ~ n_responses
+  )) |>  mutate(unique_values  = case_when(
+    no == "OF44" ~ "GDeco;CMeco;SIMeco;BTPeco;CIeco;NBMeco;SBIeco;SIeco",
+    TRUE ~ unique_values
+  ))  |>  mutate(unique_value_response = case_when(
+    no == "OF44" ~ "OF44_1==1;OF44_2==1;OF44_3==1;OF44_4==1;OF44_5==1;OF44_6==1;OF44_7==1;OF44_8==1",
+    TRUE ~ unique_value_response
+  ))
+
+
 indicator_weightings <- read_sheet(
   gs_id,
   sheet = "weightings",

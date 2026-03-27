@@ -10,6 +10,7 @@
 #' @export
 load_wesp_data <- function(path) {
 
+  #path <- wesp_file
   opts <- options(
     rlib_name_repair_verbosity = "quiet"
   )

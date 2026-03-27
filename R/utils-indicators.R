@@ -122,6 +122,11 @@ local_moisture_deficit <- function(vals) {
     vals$SIMeco == 1 ~ (vals$OF25_1 - 0) / 825,
     vals$BPeco == 1 ~ (vals$OF25_1 - 24) / 381,
     vals$TPeco == 1 ~ (vals$OF25_1 - 0) / 219,
+    vals$BTPeco == 1 ~ (vals$OF25_1 - 0) / 219, # same as Taiga Plains
+    vals$CIeco == 1 ~ (vals$OF25_1 - 0) / 330,  # Shoudl be updated to new ecoregion
+    vals$NBMeco == 1 ~ (vals$OF25_1 - 0) / 330, # Shoudl be updated to new ecoregion
+    vals$SBIeco == 1 ~ (vals$OF25_1 - 0) / 330, # Shoudl be updated to new ecoregion
+    vals$SIeco == 1 ~ (vals$OF25_1 - 0) / 330,  # Shoudl be updated to new ecoregion
     .default = NA_real_
   )
 }
@@ -141,6 +146,11 @@ degree_days_index <- function(vals) {
     vals$SIMeco == 1 ~ (vals$OF26_1 - 205) / 2279,
     vals$BPeco == 1 ~ (vals$OF26_1 - 720) / 1114,
     vals$TPeco == 1 ~ (vals$OF26_1 - 487) / 957,
+    vals$BTPeco == 1 ~ (vals$OF26_1 - 720) / 1114, # same as Taiga Plains
+    vals$CIeco == 1 ~ (vals$OF26_1 - 205) / 2279,  # Shoudl be updated to new ecoregion
+    vals$NBMeco == 1 ~ (vals$OF26_1 - 487) / 957,  # Shoudl be updated to new ecoregion
+    vals$SBIeco == 1 ~ (vals$OF26_1 - 205) / 2279, # Shoudl be updated to new ecoregion
+    vals$SIeco == 1 ~ (vals$OF26_1 - 205) / 2279,  # Shoudl be updated to new ecoregion
     .default = NA_real_
   )
 }
@@ -157,13 +167,14 @@ local_solar_input <- function(vals){
     vals$SIMeco == 1 ~ (vals$OF27_1 - 32.3) / 14.2,
     vals$BPeco == 1 ~ (vals$OF27_1 - 32.1) /6.4,
     vals$TPeco == 1 ~ (vals$OF27_1 - 30.1) / 7.1,
+    vals$BTPeco == 1 ~ (vals$OF27_1 - 30.1) / 7.1, # check and update
+    vals$CIeco == 1 ~ (vals$OF27_1 - 32.3) / 14.2, # check and update
+    vals$NBMeco == 1 ~ (vals$OF27_1 - 30.1) / 7.1, # check and update
+    vals$SBIeco == 1 ~ (vals$OF26_1 - 32.3) / 14.2, # check and update
+    vals$SIeco == 1 ~ (vals$OF27_1 - 32.3) / 14.2,  # check and update
     .default = NA_real_
   ))
 }
-
-
-
-
 
 
 
@@ -176,9 +187,6 @@ road_density_wau <- function(vals, indicator_data) {
       wt_max(indicator_data, "OF42")
     }
   }
-
-
-
 
 
 
