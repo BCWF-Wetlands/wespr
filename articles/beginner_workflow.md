@@ -27,5 +27,5 @@ out <- wespr_workflow(field_data = field_data,
                       EcoP = "GD",
                       out_dir = "temp")
 
-write.csv(out, fs::path(out_dir, "wespr_outputs.csv"))
+write.csv(out, fs::path("temp", "wespr_outputs.csv"))
 ```
