@@ -5,14 +5,14 @@
     Output
       $ws
       $ws$fun
-      Score: 1.948413 
+      Score: 1.935506 
         Subscores: 
-          - subsurf: 0.78
+          - subsurf: 0.76
           - livestore: 0.2
           - friction: 0.58
       
       $ws$ben
-      Score: 5.51
+      Score: 5.97
       
       $sr
       $sr$fun
@@ -20,43 +20,43 @@
         Subscores: 
           - livestore: 0.12
           - dryintercept: 0.32
-          - wetintercept: 0.62
+          - wetintercept: 0.63
           - connectiv: 0
       
       $sr$ben
-      Score: 4.05
+      Score: 4.16
       
       $pr
       $pr$fun
-      Score: 3.321759 
+      Score: 3.318051 
         Subscores: 
-          - interceptdry: 0.46
+          - interceptdry: 0.45
           - interceptwet: NA
           - connec: 0.58
           - adsorb: 0
           - desorb: 0.31
       
       $pr$ben
-      Score: 3.37
+      Score: 4.14
       
       $cp
       $cp$fun
-      Score: 6.69
+      Score: 6.56
       
       $fr
       $fr$fun
       Score: 6.58
       $fr$ben
-      Score: 6.67
+      Score: 8.21
       
       $sens
       $sens$fun
-      Score: 4.835119 
+      Score: 4.917037 
         Subscores: 
           - abiosens: 1
           - biosens: 0
           - colonizer: 0.39
-          - growrate: 0.54
+          - growrate: 0.57
       
       
       $str
@@ -70,36 +70,36 @@
       
       $nr
       $nr$fun
-      Score: 4.099061 
+      Score: 4.157013 
         Subscores: 
-          - warmth: 0.47
+          - warmth: 0.52
           - intercept: 0.39
           - connecc: 0.58
           - organic: 0.5
           - redox: 0.25
       
       $nr$ben
-      Score: 3.37
+      Score: 4.14
       
       $app
       $app$fun
-      Score: 4.302083 
+      Score: 4.472765 
         Subscores: 
           - npinput: 0.15
           - npcycling: 0.62
-          - templight: 0.5
+          - templight: 0.57
           - stressors: 0.45
       
       $app$ben
-      Score: 3.11
+      Score: 3.14
       
       $pd
       $pd$fun
-      Score: 4.096313 
+      Score: 4.12476 
         Subscores: 
           - spparea: 0.2
           - vrichness: 0.24
-          - aqfertilpd: 0.43
+          - aqfertilpd: 0.45
           - vscape: 0.69
           - stresspd: 0.7
       
@@ -108,10 +108,10 @@
       
       $kmh
       $kmh$fun
-      Score: 6.555793 
+      Score: 6.586857 
         Subscores: 
           - beaverhab: 1
-          - muskrathab: 0.67
+          - muskrathab: 0.69
           - moosehab: 0.25
           - caribouhab: NA
           - bearhab: 0.7
@@ -121,11 +121,11 @@
       
       $wb
       $wb$fun
-      Score: 4.673608 
+      Score: 4.714273 
         Subscores: 
           - lscape: 0.55
-          - hydro: 0.61
-          - produc: 0.43
+          - hydro: 0.63
+          - produc: 0.45
           - struc: 0.53
       
       $wb$ben
@@ -158,29 +158,29 @@
       
       $oe
       $oe$fun
-      Score: 3.320551 
+      Score: 3.705953 
         Subscores: 
-          - histaccum: 0.67
-          - productiv: 0.43
-          - exportpot: 0.5
+          - histaccum: 0.66
+          - productiv: 0.45
+          - exportpot: 0.57
       
       
       $am
       $am$fun
-      Score: 4.747613 
+      Score: 4.790346 
         Subscores: 
           - waterscape: 0.32
           - hydro: 0.7
           - aqstruc: 0.75
           - terrstruc: 0.59
-          - biostress: 0.49
+          - biostress: 0.52
       
       $am$ben
       Score: 7.46
       
       $fh
       $fh$fun
-      Score: 3.017104 
+      Score: 3.036069 
         Subscores: 
           - hydro: 0.67
           - struc: 0.28
@@ -188,7 +188,7 @@
           - nostress: 0.14
       
       $fh$ben
-      Score: 1.56
+      Score: 1.57
       
       $sfts
       $sfts$fun
@@ -199,7 +199,7 @@
           - groundwater: 0.2
       
       $sfts$ben
-      Score: 4.3
+      Score: 4
       
       $cri
       $cri$ben
