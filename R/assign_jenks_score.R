@@ -19,18 +19,11 @@
 #' }
 assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = FALSE, output_dir = NULL) {
   # testing lines
-  ## ind_scores
-  # calibration_scores
-  # EcoP = "SIM"
-  # report = TRUE
-  # output_dir = "temp"
-
   #ind_scores
-   #calibration_scores
-   #EcoP ="GD"
-   #report = TRUE
-   #output_dir <- fs::path("temp")
-  # end testing lines
+  #calibration_scores
+  #EcoP = "SIM"
+  #report = TRUE
+  #output_dir = "temp"
 
   # check calibration data contains ecoprovince
   if (!EcoP %in% unique(calibration_scores$ecoprovince)) {
@@ -70,8 +63,6 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = FA
   wcols <- wcols[!wcols %in% c("site", "wetland_id", "ecoprovince")]
   wcols <- unique(sub("^([^_]*_[^_]*).*", "\\1", wcols))
 
-
-
   # get the highest and lowest raw scores across all sites for standardizing value
   raw_range_scores <- calibration_scores_eco
 
@@ -89,8 +80,6 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = FA
 
   min_max_raw_cal <- min_max_raw_cal |>
     dplyr::filter(names %in% raw_names)
-
-
 
 
   # loop through the data and get the min and max values of the raw scores
