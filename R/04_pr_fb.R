@@ -1,12 +1,11 @@
-
 # function
+
 pr_fun <- function(site) {
 
   indicator_data <- get_indicator_data(site, "pr", "fun")
   vals <- get_vals(indicator_data)
   weights <- get_weights(indicator_data)
 
-  #keeping this in fro the minute but updated to remove from final model.
   outmap4 <- ifelse(((vals$NoOutlet + vals$NoOutletX >0) & vals$OF6_1 == 0), 1, 0)
 
   aspect4 <- wt_max(indicator_data, "OF7")
@@ -67,8 +66,7 @@ pr_fun <- function(site) {
     NA_real_
   }
 
-  # TODO - check this one : on questions list
-
+  # TODO - check this one : on questions list line 93 (https://docs.google.com/spreadsheets/d/1ukZW0Ywi_S6M8aE9sMkq9eRsxQGn4ejD6esN_10SEus/edit?gid=0#gid=0)
   soildisturb4 <- 1 - vals$S5_subscore
 
   ## calculate function sub-components
@@ -152,12 +150,11 @@ pr_ben <- function(site) {
     vals$F42_1
   }
 
-  # check these are NA and not blanks
+
   conductiv4v <- ifelse(is.na(vals$F46a_1) , NA_real_ ,
                         ifelse(vals$F46a_1 < 150, 0,
                                ifelse(vals$F46a_1 > 500, 1, 0.5)))
 
-  # check these are NA and not blanks
   tds4v <- ifelse(is.na(vals$F46b_1), NA_real_ ,
                   ifelse(vals$F46b_1 < 100, 0,
                          ifelse(vals$F46b_1 > 350, 1, 0.5)))
