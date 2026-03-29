@@ -1,5 +1,4 @@
-
-#' Title
+#' Run the entire wespr workflow
 #'
 #' @param desktop_data A file path to survey123 csv file for office data collected
 #' @param field_data A file path to survey123 csv file for field data collected
@@ -39,8 +38,8 @@ wespr_workflow <- function(desktop_data,
   )
 
   # write out the file so you can review
-  write.csv(ww, fs::path(output_dir, "raw_wespr_input.csv"), row.names = FALSE)
-  wesp_file <- fs::path(output_dir, "raw_wespr_input.csv")
+  utils::write.csv(ww, fs::path(out_dir, "raw_wespr_input.csv"), row.names = FALSE)
+  wesp_file <- fs::path(out_dir, "raw_wespr_input.csv")
 
   # Read in data into wesp format
   wesp_data <- load_wesp_data(wesp_file)
@@ -57,11 +56,8 @@ wespr_workflow <- function(desktop_data,
   # loop through all
   site_overall <- purrr::map(usites, function(x) {
     soi <- x
-
     ind_scores <- allsites_long |> dplyr::filter(site == soi)
-
-    out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = EcoP)
-
+    out <- assign_jenks_score(ind_scores, wespr::calibration_scores, EcoP = EcoP)
     out
   }) |> dplyr::bind_rows()
 
