@@ -24,6 +24,17 @@ library(dplyr)
 indata <- fs::path("inst/input_data/reference_SIM_20250620.csv")
 indata <- fs::path("inst/input_data/reference_GD_20250620.csv")
 
+
+
+# to add
+indata <- fs::path("inst/input_data/reference_SI_20260319.csv")
+indata <- fs::path("inst/input_data/reference_SBI_20260319.csv")
+indata <- fs::path("inst/input_data/reference_TBP_20260319.csv")
+indata <- fs::path("inst/input_data/reference_CI_20260319.csv")
+
+
+
+
 ecop <- "GD"
 
 
