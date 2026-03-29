@@ -2,7 +2,7 @@
 % Please edit documentation in R/wespr_workflow.R
 \name{wespr_workflow}
 \alias{wespr_workflow}
-\title{Title}
+\title{Run the entire wespr workflow}
 \usage{
 wespr_workflow(desktop_data, field_data, out_dir, EcoP)
 }
@@ -19,7 +19,7 @@ wespr_workflow(desktop_data, field_data, out_dir, EcoP)
 A tibble with the combined data
 }
 \description{
-Title
+Run the entire wespr workflow
 }
 \examples{
 \dontrun{
