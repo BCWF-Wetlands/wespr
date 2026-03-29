@@ -37,7 +37,8 @@ Suggests:
     rmarkdown,
     bcdata,
     sf,
-    lubridate
+    lubridate,
+    gt
 Config/testthat/edition: 3
 Depends: 
     R (>= 4.1.0)
