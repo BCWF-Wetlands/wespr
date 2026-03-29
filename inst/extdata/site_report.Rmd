@@ -1,5 +1,5 @@
 ---
-title: "WESP site report"
+title: "WESP Site Report"
 output: word_document
 params:
   calibration_scores_eco: calibration_scores_eco
@@ -16,12 +16,13 @@ library(dplyr)
 library(ggplot2)
 library(sf)
 library(stringr)
+library(gt)
 
-#testing lines 
-#calibration_scores_eco = calibration_scores_eco # calibration dataset
-#calibration_scores_summary = calibration_scores_summary # summary of cal set for high and lows - used in graphics
-#classed_df = classed_df # results per site 
-#output_dir = output_dir # output dir
+# #testing lines 
+# calibration_scores_eco = calibration_scores_eco # calibration dataset
+# calibration_scores_summary = calibration_scores_summary # summary of cal set for high and lows - used in graphics
+# classed_df = classed_df # results per site 
+# output_dir = output_dir # output dir
 # end testing line 
 
 ```
@@ -42,6 +43,8 @@ sname <- unique(classed_df$site)
 
 **Ecoprovince :** `r ecop`
 
+<br>
+<br>
 
 ## 1. Site Location 
 
@@ -64,7 +67,7 @@ map1
 ```
 <br>
 
-## 2. Wetland Scores
+## 2. Wetland Scores and Ratings
 
 ```{r, echo = FALSE}
 # generate the background information for Calibration thresholds
@@ -132,14 +135,11 @@ cal_no <- calibration_scores_eco
 outsum_f <- outsum |>
   dplyr::filter(service_type == "f")
 
-
 ```
 
 
 ```{r, echo = FALSE}
-
 # generate the standard table 
-# set up the order of columns
 lsorder <- c(
   "Hydrologic Group (WSg)",
   "Water Storage and Delay (WS)",
@@ -168,17 +168,14 @@ lsorder <- c(
   "Wetland Stressors (STR)"
 )
 
-
-lsheader <- c(
-  "Hydrologic Group (WSg)",
-  "Water Quality (WQg)",
-  "Aquatic Support (ASg)",
-  "Aquatic Habitat (AHg)",
-  "Transition Zone Habitat Group (THg)",
-  "Other Values or Attributes"
-)
-
-
+# lsheader <- c(
+#   "Hydrologic Group (WSg)",
+#   "Water Quality (WQg)",
+#   "Aquatic Support (ASg)",
+#   "Aquatic Habitat (AHg)",
+#   "Transition Zone Habitat Group (THg)",
+#   "Other Values or Attributes"
+# )
 
 # split function and benefit 
 classed_df <- classed_df |> 
@@ -231,18 +228,89 @@ tball <-  dplyr::left_join(fntab,bntab ) |>
                  "Benefit Score (Standardize)",   "Benefit Rating",
                  "Function Score (Raw)","Benefit Score (Raw)")
 
-
 # add other headers
-headers <- as.data.frame(lsheader ) |> 
-  rename("Wetland Functions and other attributes" = lsheader)
+#headers <- as.data.frame(lsheader ) |> 
+#  rename("Wetland Functions and other attributes" = lsheader)
 
-tball <-  dplyr::bind_rows(tball, headers)
+#tball <-  dplyr::bind_rows(tball, headers)
 
 tball <- tball[match(lsorder, tball$"Wetland Functions and other attributes"),]
+tball <- tball |> 
+  filter(!is.na(`Wetland Functions and other attributes`))
+
 ```
 
+
 ```{r, echo = FALSE}
-knitr::kable(tball)
+#knitr::kable(tball)
+
+```
+
+
+```{r generate table, echo = FALSE}
+gt_tbl <- gt(tball)
+
+gt_tbl <-
+  tball |>
+  gt(rowname_col = "Wetland Functions and other attributes") |> 
+  tab_stubhead(label = "Wetland Functions and other attributes") #|> 
+# tab_header(
+#    title = "Wetland Function and Benefits scores and ratings",
+#  )
+gt_tbl <-
+  gt_tbl |>
+  tab_row_group(
+    label = "Other Values or Attributes",
+    rows = 15:18
+)|>
+  tab_row_group(
+    label = "Transition Zone Habitat Group (THg)",
+    rows = 11:14
+  )|> 
+  tab_row_group(
+    label = "Aquatic Habitat (AHg)",
+    rows = 8:10
+  )|> 
+  tab_row_group(
+    label = "Aquatic Support (ASg)",
+    rows = 5:7
+  ) |>  
+  tab_row_group(
+    label = "Water Quality (WQg)",
+    rows = 2:4 
+  ) |>
+  tab_row_group(
+    label = "Hydrologic Group (WSg)",
+    rows = 1
+  ) 
+
+#gt_tbl
+
+gt_tbl <- gt_tbl |> 
+  tab_spanner(
+    label = "Function",
+    columns = c(`Function Score (Standardize)`, `Function Rating`)
+  )|>
+  tab_spanner(
+    label = "Benefit",
+    columns = c("Benefit Score (Standardize)", "Benefit Rating")
+  ) |> 
+  tab_spanner(
+    label = "Raw Scores",
+    columns = c( "Function Score (Raw)","Benefit Score (Raw)")
+  ) |> 
+  cols_align(align = "center") |> 
+  cols_align(align = "left", columns = "Wetland Functions and other attributes") |> 
+#   tab_source_note(
+#     source_note = md("NOTE: A score of 0 does not always mean the function or value is absent from the wetland. It usually
+# means that this wetland has equal or less capacity than the lowest-scoring one, for that function or
+# value, from among the 100+ calibration wetlands that were assessed previously for the EcoProvince.")) |>   
+  tab_options(
+    table.font.size = "small"
+  )
+
+gt_tbl
+      
 
 ```
 
@@ -272,9 +340,12 @@ each function and benefit, based on the distribution of scores from the 100+ cal
 #raw_plot
 
 ```
+
+<br>
 <br>
 
-### 2.2 Ecosystem Scores
+
+### 2.2 Ecosystem Scores and Ratings
 
 ```{r, echo = FALSE}
 # # generate raw values plots based on themes 
@@ -442,21 +513,21 @@ fn_plot <- ggplot2::ggplot(ft, aes(x = threshold, y = service_full_name)) +
   ggplot2::geom_point(data = fclass, aes(x = threshold, y = service_full_name, size = 1.25), colour = "darkgrey") +
   labs(
     x = "Ecosystem Score",
-    y = "Ecosystem Function"
+    y = "Ecosystem Function",
+    fill = "Rating"
   ) +
   scale_size(guide = 'none')+
   theme_minimal()
 
+
 ```
 
 
-The plot below shows where `r sname` scores relative to the baseline values for the `r ecop` Ecoprovince. The grey dot indicated the score for the single site, while the yellow, aqua and purple bars show the threshold values for Low, Medium, High ranked sites within the Ecoprovince.  
+The plots below shows where `r sname` scores relative to the baseline values for the `r ecop` Ecoprovince. The grey dot indicates the score for the single site, while the yellow, aqua and purple bars show the threshold values for Lower, Medium and Higher ranked sites within the Ecoprovince.  
 
-```{r, echo = FALSE, fig.width=8, fig.height=6}
+```{r, echo = FALSE, fig.width=8, fig.height=6, units = cm}
  fn_plot
 ```
-
-<br>
 
 ```{r, echo = FALSE, fig.width=8, fig.height=6}
  # Benefit
@@ -475,12 +546,13 @@ bn_plot <-  ggplot(bt , aes(x = threshold,y = service_full_name  )) +
     geom_point(data =  bclass, aes( x = threshold, y = service_full_name, size = 1.25 ), colour = "darkgrey")+
    labs(
         x = "Ecosystem Score",
-        y = "Ecosystem Benefit") +
+        y = "Ecosystem Benefit",
+    fill = "Rating") +
    scale_size(guide = 'none')+
    theme_minimal()
 
-bn_minplot <- bn_plot +
-   theme(axis.text.y=element_blank())
+#bn_minplot <- bn_plot +
+#   theme(axis.text.y=element_blank())
 
 # 
 #  #summary of the ranks overall 
@@ -491,17 +563,13 @@ bn_minplot <- bn_plot +
 ```
 
 
-```{r echo = FALSE, fig.width=8, fig.height=6}
+```{r echo = FALSE, fig.width=8, fig.height=6 ,units = cm}
  bn_plot 
 ```
 
 
 ```{r echo = FALSE, fig.show="hold", out.width="50%"}
-fn_plot 
-bn_minplot 
+#fn_plot 
+#bn_minplot 
 ```
 
-<br>
-
-
-<br>
