@@ -22,7 +22,6 @@ fh_fun <- function(site) {
     wt_max(indicator_data, "OF41")
   }
 
-
   rddenswau10 <- if(sum_na(vals$OF42_1, vals$OF42_2, vals$OF42_3) == 0 ||
     vals$NoCA == 1) {
     NA_real_
@@ -76,17 +75,7 @@ fh_fun <- function(site) {
 
   bufferpct10 <- vegetation_buffer_along_permin(vals, indicator_data)
 
-  # It took a bit to figure out the circular logic here, but it turns out
-  # outmap9 and outdura10 will always get the same value, based on whether
-  # or not the sum of NoOutlet + NoOutletX (which are also the values of
-  # F40_5 and F40_4) is greater than zero
-  # if (vals$NoOutlet + vals$NoOutletX == 0) {
-  #   outmap9 <- outdura10 <- wt_max(indicator_data, "F40")
-  # } else {
-  #   outdura10 <- outmap9 <- vals$OF6_1
-  # }
 
-  # check this is the correct way (1 and 0 )
   outmap9 <- ifelse(((vals$NoOutlet + vals$NoOutletX >0) & vals$OF6_1 == 0), 1, 0)
   outdura10 <- wt_max(indicator_data, "F40")
 

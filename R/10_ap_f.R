@@ -14,21 +14,6 @@ app_fun <- function(site) {
     mappedout8  <- outdur8 <- vals$OF6_1
   }
 
-#
-#   # TODO: SOmthing not correct here : might need to addd an ifelse as circular with these two formulars
-#   mappedout8 <- if(vals$NoOutlet + vals$NoOutletX == 0){
-#     outdur8
-#   } else {
-#     vals$OF6_1
-#   }
-#
-#   # TO DO : check this formlar makes sense in order with other formulars
-#   outdur8 <- if(vals$F40_4 + vals$F40_5 > 0) {
-#     mappedout8
-#   } else {
-#     wt_max(indicator_data, "F40")
-#   }
-
 
   aspect8 <- wt_max(indicator_data, "OF7")
 
@@ -113,12 +98,10 @@ app_fun <- function(site) {
   )
 
 
-  # check these are NA and not blanks
   conductiv8 <- ifelse(is.na(vals$F46a_1), NA_real_ ,
                         ifelse(vals$F46a_1 < 150, 0,
                                ifelse(vals$F46a_1 > 500, 1, 0.5)))
 
-  # check these are NA and not blanks
   tdsapp8 <- ifelse(is.na(vals$F46b_1), NA_real_ ,
                   ifelse(vals$F46b_1 < 100, 0,
                          ifelse(vals$F46b_1 > 350, 1, 0.5)))

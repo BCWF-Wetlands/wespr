@@ -32,9 +32,7 @@ sfts_fun <- function(site) {
 
   soiltex2 <- wt_max(indicator_data, "F17")
 
-  # calculator is incorrect here
   alldry2 <- wt_max(indicator_data, "F19")
-
 
   woodydryshade2 <- if(vals$NeverWater == 1 || vals$NoPersis == 1) {
     NA_real_
