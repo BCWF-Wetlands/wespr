@@ -64,7 +64,10 @@ calibration_scores <- dplyr::bind_rows(calibration_scores, calibration_scores_ci
 check <- calibration_scores |>
   group_by(ecoprovince) |>
              count()
+calibration_scores <- calibration_scores |>
+  filter(ecoprovince !=  "SBI")
 
+calibration_scores <- rbind(calibration_scores, calibration_scores_new)
 
 write.csv(calibration_scores, fs::path("temp", "wesp_scores_all.csv"))
 
