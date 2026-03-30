@@ -1,64 +1,63 @@
-## Internal function to update calibration data
+## Internal function to generate comparison plots for c
 
 load_all()
 library(dplyr)
 
-
-
-#SIM data - read in SIM reference data
-
-simref <- load_wesp_data(system.file("input_data/reference_SIM_20250620.csv", package = "wespr"))
-
-# run the base scores for comparison
-base_score <- calculate_jenks_score(simref, out_dir = "temp", out_name = "wesp_sim_scores_base.csv")
-
-base_score <-base_score |>
-  dplyr::mutate(ecoprovince = "SIM") |>
-  dplyr::select(-wetland_id)
-
-
-# GD scores - read in GD reference data
-
-gdref <- load_wesp_data(system.file("input_data/reference_GD_20250620.csv", package = "wespr"))
-
-# run the base scores for comparison
-base_score_gd <- calculate_jenks_score(gdref, out_dir = "temp", out_name = "wesp_gd_scores_base.csv")
-
-base_score_gd <- base_score_gd |>
-  mutate(ecoprovince = "GD") |>
-  select(-wetland_id)
-
-
-
-#SBI data - read in SIM reference data
-
-smiref <- load_wesp_data(system.file("input_data/reference_SBI_20260319.csv", package = "wespr"))
-site <- as.wesp_site(smiref, site = 62)
-site <- calc_indicators(site)
-
-
-
-
-
-
-# run the base scores for comparison
-base_score <- calculate_jenks_score(simref, out_dir = "temp", out_name = "wesp_sim_scores_base.csv")
-
-base_score <-base_score |>
-  dplyr::mutate(ecoprovince = "SIM") |>
-  dplyr::select(-wetland_id)
-
-
-
-# merge both together
-
-calibration_scores <- bind_rows(base_score_gd, base_score)
-
-
-# update the dataset back to package
-usethis::use_data(calibration_scores, overwrite = TRUE)
-
-
+#
+# #SIM data - read in SIM reference data
+#
+# simref <- load_wesp_data(system.file("input_data/reference_SIM_20250620.csv", package = "wespr"))
+#
+# # run the base scores for comparison
+# base_score <- calculate_jenks_score(simref, out_dir = "temp", out_name = "wesp_sim_scores_base.csv")
+#
+# base_score <-base_score |>
+#   dplyr::mutate(ecoprovince = "SIM") |>
+#   dplyr::select(-wetland_id)
+#
+#
+# # GD scores - read in GD reference data
+#
+# gdref <- load_wesp_data(system.file("input_data/reference_GD_20250620.csv", package = "wespr"))
+#
+# # run the base scores for comparison
+# base_score_gd <- calculate_jenks_score(gdref, out_dir = "temp", out_name = "wesp_gd_scores_base.csv")
+#
+# base_score_gd <- base_score_gd |>
+#   mutate(ecoprovince = "GD") |>
+#   select(-wetland_id)
+#
+#
+#
+# #SBI data - read in SIM reference data
+#
+# smiref <- load_wesp_data(system.file("input_data/reference_SBI_20260319.csv", package = "wespr"))
+# site <- as.wesp_site(smiref, site = 62)
+# site <- calc_indicators(site)
+#
+#
+#
+#
+#
+#
+# # run the base scores for comparison
+# base_score <- calculate_jenks_score(simref, out_dir = "temp", out_name = "wesp_sim_scores_base.csv")
+#
+# base_score <-base_score |>
+#   dplyr::mutate(ecoprovince = "SIM") |>
+#   dplyr::select(-wetland_id)
+#
+#
+#
+# # merge both together
+#
+# calibration_scores <- bind_rows(base_score_gd, base_score)
+#
+#
+# # update the dataset back to package
+# usethis::use_data(calibration_scores, overwrite = TRUE)
+#
+#
 
 
 
@@ -69,9 +68,6 @@ usethis::use_data(calibration_scores, overwrite = TRUE)
 library(ggplot2)
 
 cals <- calibration_scores
-
-#write.csv(cals, file.path(fs::path("inst", "input_data", "processed", "calibration_scores_sim_gd.csv")))
-
 
 # get number of ecoprovinces
 unique(cals$ecoprovince)
