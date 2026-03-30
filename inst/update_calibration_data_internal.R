@@ -124,16 +124,36 @@ outsum_b <- outsum |>
 
 # 1) compare the histograpms - FUNCTIONS
 
-ggplot(outsum_f, aes(x = raw , fill = jenks)) +
-  geom_histogram( alpha=0.6, position = 'identity')+
-  scale_fill_viridis_d()+
-  geom_density(data=outsum_f, aes(x=raw, group=jenks, fill=jenks), adjust=1.5, alpha=.4) +
-  facet_wrap(~service_full_name + ecoprovince, scales = "free_y") +
-  labs(title = "Calibration Sites threshold values for Ecosystem Functions",
+inds <- unique(outsum_f$service_full_name)
+
+# need to reform these plots so they are visible
+
+outplots <- purrr::map(inds, function(x) {
+
+  #x<-inds[1]
+
+  outsum_fi <- outsum_f |>
+    filter(service_full_name == x)
+  outname <- unique(outsum_fi$service)
+
+  pf <- ggplot(outsum_fi, aes(x = raw , fill = jenks)) +
+    geom_histogram( alpha=0.6, position = 'identity')+
+    scale_fill_viridis_d()+
+    geom_density(data=outsum_fi, aes(x=raw, group=jenks, fill=jenks), adjust=1.5, alpha=.4) +
+    facet_wrap(~service_full_name + ecoprovince, scales = "free_y") +
+    labs(title = paste0("Calibration Sites threshold values for Ecosystem Functions: ", x),
        x = "Function Score",
        y = "Number of sites") +
   guides(col= guide_legend(title= "Class"))+
   theme_minimal()
+
+ ggsave(fs::path("temp", paste0("calibration_plot_",outname , ".png")), pf)
+
+)
+}
+
+
+
 
 
 
