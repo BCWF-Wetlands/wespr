@@ -74,10 +74,17 @@ ecoprovince_sp <-  bcdc_query_geodata('WHSE_TERRESTRIAL_ECOLOGY.ERC_ECOPROVINCES
   ))
 
 
+#ecoprovince_sp <- vctrs::vec_proxy(ecoprovince_sp)
+#vctrs::vec_restore(ecoprovince_sp)
+
+calibration_scores <- read.csv(fs::path("temp","wesp_scores_all.csv")) |>
+  dplyr::select(-X)
+
 usethis::use_data(
   question_metadata,
   indicator_weightings,
   ecoprovince_sp,
+  calibration_scores,
   internal = TRUE,
   overwrite = TRUE
 )
