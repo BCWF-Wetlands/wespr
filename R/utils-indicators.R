@@ -147,8 +147,6 @@ degree_days_index <- function(vals) {
     vals$GDeco == 1 ~ (vals$OF26_1 - 931) / 1545,
     vals$CMeco == 1 ~ (vals$OF26_1 - 238) / 1475,
     vals$SIMeco == 1 ~ (vals$OF26_1 - 205) / 2279,
-   #vals$BPeco == 1 ~ (vals$OF26_1 - 720) / 1114,
-   # vals$TPeco == 1 ~ (vals$OF26_1 - 487) / 957,
     vals$BTPeco == 1 ~ (vals$OF26_1 - 720) / 1114, # same as Taiga Plains
     vals$CIeco == 1 ~ (vals$OF26_1 - 205) / 2279,  # Shoudl be updated to new ecoregion
     vals$NBMeco == 1 ~ (vals$OF26_1 - 487) / 957,  # Shoudl be updated to new ecoregion
@@ -168,12 +166,10 @@ local_solar_input <- function(vals){
     vals$GDeco == 1 ~ (vals$OF27_1 - 28.7) / 14.4,
     vals$CMeco == 1 ~ (vals$OF27_1 - 26.3) / 11,
     vals$SIMeco == 1 ~ (vals$OF27_1 - 32.3) / 14.2,
-    #vals$BPeco == 1 ~ (vals$OF27_1 - 32.1) /6.4,
-    #vals$TPeco == 1 ~ (vals$OF27_1 - 30.1) / 7.1,
     vals$BTPeco == 1 ~ (vals$OF27_1 - 30.1) / 7.1, # check and update
     vals$CIeco == 1 ~ (vals$OF27_1 - 32.3) / 14.2, # check and update
     vals$NBMeco == 1 ~ (vals$OF27_1 - 30.1) / 7.1, # check and update
-    vals$SBIeco == 1 ~ (vals$OF26_1 - 32.3) / 14.2, # check and update
+    vals$SBIeco == 1 ~ (vals$OF27_1 - 32.3) / 14.2, # check and update
     vals$SIeco == 1 ~ (vals$OF27_1 - 32.3) / 14.2,  # check and update
     .default = NA_real_
   ))

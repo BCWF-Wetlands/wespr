@@ -1,44 +1,63 @@
-## Internal function to update calibration data
+## Internal function to generate comparison plots for c
 
 load_all()
 library(dplyr)
 
-
-
-#SIM data - read in SIM reference data
-
-simref <- load_wesp_data(system.file("input_data/reference_SIM_20250620.csv", package = "wespr"))
-
-# run the base scores for comparison
-base_score <- calculate_jenks_score(simref, out_dir = "temp", out_name = "wesp_sim_scores_base.csv")
-
-base_score <-base_score |>
-  dplyr::mutate(ecoprovince = "SIM") |>
-  dplyr::select(-wetland_id)
-
-
-# GD scores - read in GD reference data
-
-gdref <- load_wesp_data(system.file("input_data/reference_GD_20250620.csv", package = "wespr"))
-
-# run the base scores for comparison
-base_score_gd <- calculate_jenks_score(gdref, out_dir = "temp", out_name = "wesp_gd_scores_base.csv")
-
-base_score_gd <- base_score_gd |>
-  mutate(ecoprovince = "GD") |>
-  select(-wetland_id)
-
-
-
-# merge both together
-
-calibration_scores <- bind_rows(base_score_gd, base_score)
-
-
-# update the dataset back to package
-usethis::use_data(calibration_scores, overwrite = TRUE)
-
-
+#
+# #SIM data - read in SIM reference data
+#
+# simref <- load_wesp_data(system.file("input_data/reference_SIM_20250620.csv", package = "wespr"))
+#
+# # run the base scores for comparison
+# base_score <- calculate_jenks_score(simref, out_dir = "temp", out_name = "wesp_sim_scores_base.csv")
+#
+# base_score <-base_score |>
+#   dplyr::mutate(ecoprovince = "SIM") |>
+#   dplyr::select(-wetland_id)
+#
+#
+# # GD scores - read in GD reference data
+#
+# gdref <- load_wesp_data(system.file("input_data/reference_GD_20250620.csv", package = "wespr"))
+#
+# # run the base scores for comparison
+# base_score_gd <- calculate_jenks_score(gdref, out_dir = "temp", out_name = "wesp_gd_scores_base.csv")
+#
+# base_score_gd <- base_score_gd |>
+#   mutate(ecoprovince = "GD") |>
+#   select(-wetland_id)
+#
+#
+#
+# #SBI data - read in SIM reference data
+#
+# smiref <- load_wesp_data(system.file("input_data/reference_SBI_20260319.csv", package = "wespr"))
+# site <- as.wesp_site(smiref, site = 62)
+# site <- calc_indicators(site)
+#
+#
+#
+#
+#
+#
+# # run the base scores for comparison
+# base_score <- calculate_jenks_score(simref, out_dir = "temp", out_name = "wesp_sim_scores_base.csv")
+#
+# base_score <-base_score |>
+#   dplyr::mutate(ecoprovince = "SIM") |>
+#   dplyr::select(-wetland_id)
+#
+#
+#
+# # merge both together
+#
+# calibration_scores <- bind_rows(base_score_gd, base_score)
+#
+#
+# # update the dataset back to package
+# usethis::use_data(calibration_scores, overwrite = TRUE)
+#
+#
 
 
 
@@ -49,9 +68,6 @@ usethis::use_data(calibration_scores, overwrite = TRUE)
 library(ggplot2)
 
 cals <- calibration_scores
-
-#write.csv(cals, file.path(fs::path("inst", "input_data", "processed", "calibration_scores_sim_gd.csv")))
-
 
 # get number of ecoprovinces
 unique(cals$ecoprovince)
@@ -124,16 +140,34 @@ outsum_b <- outsum |>
 
 # 1) compare the histograpms - FUNCTIONS
 
-ggplot(outsum_f, aes(x = raw , fill = jenks)) +
-  geom_histogram( alpha=0.6, position = 'identity')+
-  scale_fill_viridis_d()+
-  geom_density(data=outsum_f, aes(x=raw, group=jenks, fill=jenks), adjust=1.5, alpha=.4) +
-  facet_wrap(~service_full_name + ecoprovince, scales = "free_y") +
-  labs(title = "Calibration Sites threshold values for Ecosystem Functions",
+inds <- unique(outsum_f$service_full_name)
+
+# need to reform these plots so they are visible
+
+outplots <- purrr::map(inds, function(x){
+
+  #x<-inds[1]
+
+  outsum_fi <- outsum_f |>
+    filter(service_full_name == x)
+  outname <- unique(outsum_fi$service)
+
+  pf <- ggplot(outsum_fi, aes(x = raw , fill = jenks)) +
+    geom_histogram( alpha=0.6, position = 'identity')+
+    scale_fill_viridis_d()+
+    geom_density(data=outsum_fi, aes(x=raw, group=jenks, fill=jenks), adjust=1.5, alpha=.4) +
+    facet_wrap(~service_full_name + ecoprovince, scales = "free_y") +
+    labs(title = paste0("Calibration Sites threshold values for Ecosystem Functions: ", x),
        x = "Function Score",
        y = "Number of sites") +
   guides(col= guide_legend(title= "Class"))+
   theme_minimal()
+
+ ggsave(fs::path("temp", paste0("calibration_plot_",outname , ".png")), pf)
+
+})
+
+
 
 
 
@@ -155,12 +189,17 @@ ggplot(outsum_b, aes(x = raw , fill = jenks)) +
 # compare by thresholda for each grouping
 
 
+
+
+
+
+
 # 2) compare the thresholds
 
 
 outsum_th <- purrr::map(wcols, function(x) {
   # get the columns for each service
-  #x <- wcols[1]
+  x <- wcols[15]
 
   tw <- calibration_scores |>
     group_by(ecoprovince) |>

@@ -26,11 +26,8 @@ format_rawinputs <- function(field_data,
                             overwrite = FALSE) {
 
   # # testing files
-#
-#  field_data <- fs::path("inst",'input_data','raw',"20260203", "WESP_2026_V0_0.csv")
-#  desktop_data <- fs::path("inst",'input_data','raw', "20260203", "WESP_BC_Desktop_Analysis_2026_V1_0.csv")
-
-  #
+  #  field_data <- fs::path("inst",'input_data','raw',"20260203", "WESP_2026_V0_0.csv")
+  #  desktop_data <- fs::path("inst",'input_data','raw', "20260203", "WESP_BC_Desktop_Analysis_2026_V1_0.csv
   # field_data <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr")
   # desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr")
   # write_subfiles = FALSE
