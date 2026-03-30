@@ -23,7 +23,7 @@ library(dplyr)
 #indata <- fs::path("inst/input_data/reference_SIM_20250620.csv"); ecop <- "SIM"
 #indata <- fs::path("inst/input_data/reference_GD_20250620.csv"); ecop <- "GD"
 #indata <- fs::path("inst/input_data/reference_SI_20260319.csv"); ecop <- "SI"
-#indata <- fs::path("inst/input_data/reference_SBI_20260319.csv"); ecop <- "SBI"
+indata <- fs::path("inst/input_data/reference_SBI_20260319.csv"); ecop <- "SBI"
 #indata <- fs::path("inst/input_data/reference_TBP_20260319.csv"); ecop <- "TBP"
 #indata <- fs::path("inst/input_data/reference_CI_20260319.csv");  ecop <- "CI"
 

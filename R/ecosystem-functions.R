@@ -1,4 +1,5 @@
 get_indicator_data <- function(site, ind, type = c("fun", "ben")) {
+
   check_wesp_site(site)
 
   type <- match.arg(type)

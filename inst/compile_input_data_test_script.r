@@ -229,7 +229,7 @@ indata <- fs::path("inst/input_data/reference_GD_20250620.csv")
 #check_indata(indata)
 
 wesp_data <- load_wesp_data(indata)
-site <- as.wesp_site(wesp_data)
+site <- as.wesp_site(wesp_data, site = 1)
 
 
 calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = "wesp_scores_GD.csv")

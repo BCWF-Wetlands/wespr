@@ -19,7 +19,7 @@ as.wesp_site <- function(data, site = NULL) {
   # testing
   #data = wesp_data
   #site = 1
-  # end testing
+   #end testing
 
   site <- site %||% setdiff(names(data), c("q_no", "response_no"))[1]
 
