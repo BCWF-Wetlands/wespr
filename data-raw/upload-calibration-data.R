@@ -97,14 +97,16 @@ if(!missing(calibration_scores)){
   calibration_scores <- calibration_scores_new
 }
 
-#calibration_scores = NA
-# export data as part of the package
 
 calibration_scores
 
-# convert to internal data
-usethis::use_data(
-  calibration_scores,
-  internal = TRUE,
-  overwrite = TRUE
-)
+# note you need to output this updated version by rerunning this https://github.com/BCWF-Wetlands/wespr/blob/main/data-raw/upload-calibration-data.R
+# with all the internal data in one hit.
+
+
+# # convert to internal data
+# usethis::use_data(
+#   calibration_scores,
+#   internal = TRUE,
+#   overwrite = TRUE
+# )
