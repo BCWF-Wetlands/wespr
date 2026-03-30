@@ -30,6 +30,26 @@ base_score_gd <- base_score_gd |>
 
 
 
+#SBI data - read in SIM reference data
+
+smiref <- load_wesp_data(system.file("input_data/reference_SBI_20260319.csv", package = "wespr"))
+site <- as.wesp_site(smiref, site = 62)
+site <- calc_indicators(site)
+
+
+
+
+
+
+# run the base scores for comparison
+base_score <- calculate_jenks_score(simref, out_dir = "temp", out_name = "wesp_sim_scores_base.csv")
+
+base_score <-base_score |>
+  dplyr::mutate(ecoprovince = "SIM") |>
+  dplyr::select(-wetland_id)
+
+
+
 # merge both together
 
 calibration_scores <- bind_rows(base_score_gd, base_score)
@@ -128,7 +148,7 @@ inds <- unique(outsum_f$service_full_name)
 
 # need to reform these plots so they are visible
 
-outplots <- purrr::map(inds, function(x) {
+outplots <- purrr::map(inds, function(x){
 
   #x<-inds[1]
 
@@ -149,9 +169,7 @@ outplots <- purrr::map(inds, function(x) {
 
  ggsave(fs::path("temp", paste0("calibration_plot_",outname , ".png")), pf)
 
-)
-}
-
+})
 
 
 
@@ -175,12 +193,17 @@ ggplot(outsum_b, aes(x = raw , fill = jenks)) +
 # compare by thresholda for each grouping
 
 
+
+
+
+
+
 # 2) compare the thresholds
 
 
 outsum_th <- purrr::map(wcols, function(x) {
   # get the columns for each service
-  #x <- wcols[1]
+  x <- wcols[15]
 
   tw <- calibration_scores |>
     group_by(ecoprovince) |>
