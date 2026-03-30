@@ -157,9 +157,10 @@ outplots <- purrr::map(inds, function(x){
     scale_fill_viridis_d()+
     geom_density(data=outsum_fi, aes(x=raw, group=jenks, fill=jenks), adjust=1.5, alpha=.4) +
     facet_wrap(~service_full_name + ecoprovince, scales = "free_y") +
-    labs(title = paste0("Calibration Sites threshold values for Ecosystem Functions: ", x),
+    labs(title = paste0("Calibration Sites: ", x),
        x = "Function Score",
-       y = "Number of sites") +
+       y = "Number of sites",
+       fill = "Rating") +
   guides(col= guide_legend(title= "Class"))+
   theme_minimal()
 
@@ -170,26 +171,47 @@ outplots <- purrr::map(inds, function(x){
 
 
 
+# 1) compare the histograpms - BENEFITS
+#
+# ggplot(outsum_b, aes(x = raw , fill = jenks)) +
+#   geom_histogram( alpha=0.6, position = 'identity')+
+#   scale_fill_viridis_d()+
+#   geom_density(data=outsum_b, aes(x=raw, group=jenks, fill=jenks), adjust=1.5, alpha=.4) +
+#   facet_wrap(~service_full_name + ecoprovince, scales = "free_y") +
+#   labs(title = "Calibration Sites threshold values for Ecosystem Benefits",
+#        x = "Benefit Score",
+#        y = "Number of sites") +
+#   guides(col= guide_legend(title= "Class"))+
+#   theme_minimal()
 
 
-# 1) comapre the histograpms - BENEFITS
+inds <- unique(outsum_b$service_full_name)
 
-ggplot(outsum_b, aes(x = raw , fill = jenks)) +
-  geom_histogram( alpha=0.6, position = 'identity')+
-  scale_fill_viridis_d()+
-  geom_density(data=outsum_b, aes(x=raw, group=jenks, fill=jenks), adjust=1.5, alpha=.4) +
-  facet_wrap(~service_full_name + ecoprovince, scales = "free_y") +
-  labs(title = "Calibration Sites threshold values for Ecosystem Benefits",
-       x = "Benefit Score",
-       y = "Number of sites") +
-  guides(col= guide_legend(title= "Class"))+
-  theme_minimal()
+# need to reform these plots so they are visible
 
+outplots <- purrr::map(inds, function(x){
 
-# compare by thresholda for each grouping
+  #x<-inds[1]
 
+  outsum_bi <- outsum_b |>
+    filter(service_full_name == x)
+  outname <- unique(outsum_bi$service)
 
+  pf <- ggplot(outsum_bi, aes(x = raw , fill = jenks)) +
+    geom_histogram( alpha=0.6, position = 'identity')+
+    scale_fill_viridis_d()+
+    geom_density(data=outsum_bi, aes(x=raw, group=jenks, fill=jenks), adjust=1.5, alpha=.4) +
+    facet_wrap(~service_full_name + ecoprovince, scales = "free_y") +
+    labs(title = paste0("Calibration Sites: ", x),
+         x = "Benefit Score",
+         y = "Number of sites",
+         fill = "Rating") +
+    guides(col= guide_legend(title= "Class"))+
+    theme_minimal()
 
+  ggsave(fs::path("temp", paste0("calibration_plot_",outname , ".png")), pf)
+
+})
 
 
 
@@ -199,7 +221,7 @@ ggplot(outsum_b, aes(x = raw , fill = jenks)) +
 
 outsum_th <- purrr::map(wcols, function(x) {
   # get the columns for each service
-  x <- wcols[15]
+ # x <- wcols[15]
 
   tw <- calibration_scores |>
     group_by(ecoprovince) |>
@@ -277,7 +299,8 @@ fn_plot <- ggplot(ft, aes(x = threshold, y = service_full_name)) +
  # geom_point(data = fclass, aes(x = threshold, y = service_full_name, size = 1.25), colour = "darkgrey") +
   labs(
     x = "Ecosystem Score",
-    y = "Ecosystem Function"
+    y = "Ecosystem Function",
+    fill = "Rating"
   ) +
   scale_size(guide = 'none')+
   theme_minimal()
@@ -301,7 +324,8 @@ bn_plot <- ggplot(ftb, aes(x = threshold, y = service_full_name)) +
   # geom_point(data = fclass, aes(x = threshold, y = service_full_name, size = 1.25), colour = "darkgrey") +
   labs(
     x = "Ecosystem Score",
-    y = "Ecosystem Benefit"
+    y = "Ecosystem Benefit",
+    fill = "Rating"
   ) +
   scale_size(guide = 'none')+
   theme_minimal()
