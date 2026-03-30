@@ -1,27 +1,22 @@
-# Run
+# Early testing script for internal review
+# out of date relative to latest scriting updates
+
 # devtools::load_all()#, or in RStudio Ctrl+Shift+L to load the package
 # during development, or:
 # install_github("BCWF-wetlands/wespr)
 # library(wespr)
 
-
-
 # download and run libraries for required processing
 
 install_github("BCWF-wetlands/wespr")
 library(wespr)
-
 library(readr)
 library(dplyr)
-
-
 
 # read in data and filter to questions we have implemented, and just one site:
 #data <- load_wesp_data(system.file("input_data/wetFlat_20250417.csv", package = "wespr"))
 data <- load_wesp_data(system.file("input_data/reference_SIM_20250620.csv", package = "wespr"))
-
-
-head(data)
+#head(data)
 
 # convert the first site to wesp format
 wespsite <- as.wesp_site(data)
@@ -31,11 +26,8 @@ wespsite_specific <- as.wesp_site(data,21)
 
 site <- wespsite_specific
 
-
-
 # calculate the indicators
 site_calcs <- calc_indicators(wespsite)
-
 
 # review the outputs
 
@@ -43,19 +35,14 @@ site_calcs <- calc_indicators(wespsite)
 get_q(site_calcs, "F1_1")
 get_q(site_calcs, "NeverWater")
 
-
 # get the responses from the site
 get_responses(site_calcs)
 
 # get the derived values
 get_derived_values(site_calcs)
 
-
-
-
 # convert to a data frame indicator data into a easy to work with format
 site_calcs_summ = get_indicator_scores(site_calcs)
-
 
 
 
@@ -65,13 +52,9 @@ data <- load_wesp_data(system.file("input_data/wetFlat_20250417.csv", package = 
 
 allsites <- calculate_multi_site(data)
 
-
 allsites
 
-
-
 # import a site and compare a single site to the calibration dataset
-
 
 data <- load_wesp_data(system.file("input_data/wetFlat_20250417.csv", package = "wespr"))
 data <- load_wesp_data(system.file("input_data/reference_SIM_20250620.csv", package = "wespr"))

@@ -1,4 +1,4 @@
-# sensitivity summary outputs
+# sensitivity summary outputs - internal scripting
 
 # internal script to summarise and plot the full sensitivity analysis
 # this is only run on the linux machine

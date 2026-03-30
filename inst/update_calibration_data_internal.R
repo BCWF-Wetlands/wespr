@@ -1,4 +1,5 @@
-## Internal function to generate comparison plots for c
+## Internal function to generate comparison plots for comparison of ecoprovinces
+## last updated March 2026
 
 load_all()
 library(dplyr)
