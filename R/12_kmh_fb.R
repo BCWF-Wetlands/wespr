@@ -169,7 +169,7 @@ kmh_fun <- function(site) {
   # check the calculation with array works correctly
   caribouhab <- ifelse(vals$AllPermW == 1, 0,
                          ifelse(vals$GDeco == 1, NA_real_,
-                                max_na(c(vals$Caribou, (mean_na(c(willow19, moss19, conifon19, conifon19, oldgro19, woodyhtmix19)) +
+                                max_na(c(vals$Caribou, (mean_na(c(willow19, moss19, conif19, conifon19, oldgro19, woodyhtmix19)) +
                                                 mean_na(c( distrd19, rddens19, intact19, buffalt19, bufferpct19, disturb19, growdays19))) / 2)))
                   )
 
