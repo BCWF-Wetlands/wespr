@@ -354,8 +354,8 @@ NoDeepPonded	0.0000000
 
 ## 4) Assign Jenks scores
 
-Once we have calculated our scores we may wish to compare to see how our particular site compares with other wetlands in the same Ecoprovince. [Wespr protocol](https://bcwfwatershedteam.ca/wetland-ecosystem-services-protocol/) is based on wetland assessment in eight Ecoprovinces (Georgia Depression (GD), Southern Interior (SI),
-Central Interior (CI), Southern Interior Mountains (SIM), Sub-Boreal Interior (SBI), Boreal and Taiga Plains (BTP), Northern Boreal Mountains (NBM), and Coast and Mountains (CM)).
+Once we have calculated our scores we may wish to compare to see how our particular site compares with other wetlands in the same Ecoprovince. [Wespr protocol](https://bcwfwatershedteam.ca/wetland-ecosystem-services-protocol/) is based on wetland assessment in eight Ecoprovinces [Georgia Depression (GD), Southern Interior (SI),
+Central Interior (CI), Southern Interior Mountains (SIM), Sub-Boreal Interior (SBI), Boreal and Taiga Plains (BTP), Northern Boreal Mountains (NBM), and Coast and Mountains (CM)].
 
 Using our data from above we see the `ind_score` object is a data table with a row for each indicator and columns for the raw values for functions (fun) and benefits (ben).  An example format of the ind_score output is shown, with the service type (rows) for each site with a column for function (fun) and benefit (ben). Note not every service has both a function and benefit so you will see NA values.  
 
@@ -384,7 +384,7 @@ The calibration data is stored within the package and can be [updated by package
 
 Threshold values to define the low , medium or high class are determined by normalising all the reference data for each value and then looking for natural breask in the distribution (i.e. Jenks Breaks). These thresholds are then used as benchmarks and compared to our site of interest to determine which category it falls within. 
 
-Note in some cases, out site value may fall below or above data gathers for the calibration sites. In this case, a warning message is provided to the user.
+Note in some cases, a wetland site value may fall below or above data gathered for the calibration sites. In this case, a warning message is provided to the user.
 
 
 To run this function we require: 
@@ -396,7 +396,7 @@ To run this function we require:
 - if a report = TRUE, an output directory where the report is to be saved. 
 
 
-If the ecoprovince does not yet have calibration data loaded, users should select the next best ecoprovince available. 
+If the ecoprovince does not yet have calibration data loaded, users should select the next best ecoprovince available. Ecoprovinces not yet calibrated inlcude: Central Interior (CI), Northern Boreal Mountains (NBM), and Coast and Mountains (CM)
 
 ```{r eval = FALSE}
 out <- assign_jenks_score(
@@ -407,8 +407,9 @@ out <- assign_jenks_score(
   output_dir = "temp")
 
 ```
+Calibrated Ecoprovinces (as of April 2026) include the following: Georgia Depression (GD), Southern Interior (SI), Southern Interior Mountains (SIM), Sub-Boreal Interior (SBI), and Boreal and Taiga Plains (BTP).
 
-The output scores will include a column with a calibration_score (L,M,H)
+The output scores will include a column with a normalized rating (calibration_score) of L = lower M = moderate or H = higher (L,M,H)
 
 ```
 site   indicator value service_type calibrated_score
@@ -426,4 +427,4 @@ site   indicator value service_type calibrated_score
 
 ```
 
-Now you have a data table with all indicators, service_type (function or benefit), raw scores and calibrated score (L/M/H). This can be saved or exported as a .csv to be further explored. 
+Now you have a data table with all indicators, service_type (function or benefit), raw scores and normalized scores and ratings (L = lower, M = moderate, H = higher) and is referred to as "calibration_score" in the headings. This can be saved or exported as a .csv to be further explored. 
