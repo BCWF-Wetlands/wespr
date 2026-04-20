@@ -1,7 +1,7 @@
 # Preparing spatial data
 
 This package has a number of functions to assist in completing the
-desktop analysis components of WESP-BC. One important step is to
+desktop assessment components of WESP-BC. One important step is to
 download the spatial data required for analysis. A full list of
 suggested datasets is provided below. These data sets comprise two
 types 1) data which can be downloaded directly using the [bcdata
@@ -12,12 +12,12 @@ For those datasets which are accessible via the bcdata package, we can
 use the function import_spatial_data() function to automate this
 process.
 
-The user is required to input an area of interest for a given wetland or
-wetland areas and an output file location where the datasets will be
-saved in .gpkg format. Within this function we also generate an expanded
-area of interest by buffering the aoi by 10 kms (aoi_buffer_10km.gpkg).
-This provides an expanded aoi by which many of the datasets are clipped
-to and downloaded.
+The user is required to input an area of interest (aoi) for a given
+wetland or wetland areas and an output file location where the datasets
+will be saved in .gpkg format. Within this function we also generate an
+expanded area of interest by buffering the aoi by 10 kms
+(aoi_buffer_10km.gpkg). This provides an expanded aoi by which many of
+the datasets are clipped to and downloaded.
 
   
 
