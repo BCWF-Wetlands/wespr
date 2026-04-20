@@ -4,7 +4,7 @@
 library(wespr)
 ```
 
-To help with the use of WESPR, we have developed a workflow to
+To help with the use of wespr, we have developed a workflow to
 streamline the steps to generate wetland ecosystem values.
 
 The follow function steps through from raw files to calculate wespr
