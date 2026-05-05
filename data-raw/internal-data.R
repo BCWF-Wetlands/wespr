@@ -18,14 +18,14 @@ library(janitor)
 
 gs_id <- "1kk_RT7_cz6yT6hBYx6Es5ZIie3V9IU85ZkraJBDHTj8"
 
+## Data 1: question_metadata - internal dataset used in wespr calculations
+
 question_metadata <- read_sheet(gs_id, sheet = "all_indicators", col_types = "c",
                              .name_repair = make_clean_names) |>
   filter(!is.na(no), no != "score") |>
   mutate(n_responses = as.integer(n_responses)) |>
   select(-starts_with("x"), -no_indicators)
 
-
-# march 2026 add temp fix to update the ecoprovince number - this does not seem to be working anymore?
 question_metadata <- question_metadata |>
   mutate(n_responses = case_when(
     no == "OF44" ~ 8,
@@ -39,6 +39,7 @@ question_metadata <- question_metadata |>
   ))
 
 
+## Data 2: Indicator_weightings - internal dataset used in wespr calculations2
 indicator_weightings <- read_sheet(
   gs_id,
   sheet = "weightings",
@@ -47,19 +48,13 @@ indicator_weightings <- read_sheet(
 ) |>
   mutate(type_f_b = tolower(substr(type_f_b, 1, 3)))
 
-# write_csv(all_indicators, "inst/input_data/all_indicators.csv")
-# write_csv(weightings, "inst/input_data/weightings.csv")
-
 
 ##################################################################
-
-# get the base data information for mapping report
-
+## Data 3: Base Ecoprovince data used within report function
 library(bcdata)
-
 ecoprovince_sp <-  bcdc_query_geodata('WHSE_TERRESTRIAL_ECOLOGY.ERC_ECOPROVINCES_SP') |>
   bcdata::collect() |>
-  dplyr::select(ECOPROVINCE_CODE, ECOPROVINCE_NAME, geometry) |>
+  dplyr::select(.data$ECOPROVINCE_CODE, .data$ECOPROVINCE_NAME, .data$geometry) |>
   dplyr::filter(!ECOPROVINCE_CODE %in% c("SAL","NEP" )) |>
   dplyr::mutate(eco_code = dplyr::case_when(
     ECOPROVINCE_CODE == "NBM" ~ "NBM",
@@ -74,15 +69,13 @@ ecoprovince_sp <-  bcdc_query_geodata('WHSE_TERRESTRIAL_ECOLOGY.ERC_ECOPROVINCES
   ))
 
 
-#ecoprovince_sp <- vctrs::vec_proxy(ecoprovince_sp)
-#vctrs::vec_restore(ecoprovince_sp)
 
-##TODO - still need to run this one
+## Data 4: Calibration data update using (upload_calibration_data.R script)
 
 calibration_scores <- read.csv(fs::path("temp","wesp_scores_all_20260504.csv"))
 
 
-## build a name key
+## Data 5: Build internal key to help streamline accrynmys
 
 service_app <-  c("STR", "SENS", "CRI","FR", "CP","POL", "PD",
                       "RSB", "KMH","AM", "WB", "FH", "APP","OE",
@@ -108,9 +101,8 @@ service_name <- c("Wetland Stressors (STR)",
                       "Water Storage and Delay (WS)")
 ind_key <- tibble(service_app, service_name)
 
-
-## Generate a weights table for users to review - This is purely for info,
-# no used in any calculations
+## Data 6: Generate a weights table for users to review - This is purely for info,
+# not used in any calculations
 
 wt_table <- indicator_weightings |>
   dplyr::select(q_no, response_no , q_text, q_responses,q_weighting,indicator,type_f_b ) |>
@@ -122,7 +114,6 @@ wt_table <- indicator_weightings |>
 
 wt_table <- left_join(wt_table, ind_key, by = join_by(indicator ==service_app))  |>
   mutate(response_no = ifelse(response_no %in% c("????", "?????"), "Not Applicable",response_no ))
-
 
 
 
