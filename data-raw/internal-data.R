@@ -59,9 +59,9 @@ library(bcdata)
 
 ecoprovince_sp <-  bcdc_query_geodata('WHSE_TERRESTRIAL_ECOLOGY.ERC_ECOPROVINCES_SP') |>
   bcdata::collect() |>
-  select(ECOPROVINCE_CODE, ECOPROVINCE_NAME, geometry) |>
-  filter(!ECOPROVINCE_CODE %in% c("SAL","NEP" )) |>
-  mutate(eco_code = dplyr::case_when(
+  dplyr::select(ECOPROVINCE_CODE, ECOPROVINCE_NAME, geometry) |>
+  dplyr::filter(!ECOPROVINCE_CODE %in% c("SAL","NEP" )) |>
+  dplyr::mutate(eco_code = dplyr::case_when(
     ECOPROVINCE_CODE == "NBM" ~ "NBM",
     ECOPROVINCE_CODE == "TAP" ~ "BTP",
     ECOPROVINCE_CODE == "BOP" ~ "BTP",
@@ -77,14 +77,62 @@ ecoprovince_sp <-  bcdc_query_geodata('WHSE_TERRESTRIAL_ECOLOGY.ERC_ECOPROVINCES
 #ecoprovince_sp <- vctrs::vec_proxy(ecoprovince_sp)
 #vctrs::vec_restore(ecoprovince_sp)
 
-calibration_scores <- read.csv(fs::path("temp","wesp_scores_all.csv")) |>
-  dplyr::select(-X)
+##TODO - still need to run this one
+
+calibration_scores <- read.csv(fs::path("temp","wesp_scores_all_20260504.csv"))
+
+
+## build a name key
+
+service_app <-  c("STR", "SENS", "CRI","FR", "CP","POL", "PD",
+                      "RSB", "KMH","AM", "WB", "FH", "APP","OE",
+                      "SFTS", "NR","PR", "SR" ,"WS")
+service_name <- c("Wetland Stressors (STR)",
+                      "Wetland Sensitivity (SENS)",
+                      "Cultural Recreational Importance (CRI)",
+                      "Fire Resistance (FR)",
+                      "Carbon Preservation (CP)",
+                      "Pollinator Habitat (POL)",
+                      "Native Plant Diversity (PD)",
+                      "Raptor and Wetland Songbird Habitat (RSB)",
+                      "Keystone Mammal Habitat (KMH)",
+                      "Amphibian Habitat (AM)",
+                      "Waterbird Habitat (WB)",
+                      "Fish Habitat (FH)",
+                      "Aquatic Primary Productivity (APP)",
+                      "Organic Matter Export (OE)",
+                      "Stream Flow and Temperature Support (SFTS)",
+                      "Nitrate Removal and Retention (NR)",
+                      "Phosphorus Retention (PR)",
+                      "Sediment Retention and stabilization (SR)",
+                      "Water Storage and Delay (WS)")
+ind_key <- tibble(service_app, service_name)
+
+
+## Generate a weights table for users to review - This is purely for info,
+# no used in any calculations
+
+wt_table <- indicator_weightings |>
+  dplyr::select(q_no, response_no , q_text, q_responses,q_weighting,indicator,type_f_b ) |>
+  mutate(indicator = ifelse(indicator == "Sens", "SENS", indicator)) |>
+  mutate(type_f_b = case_when(
+    type_f_b == "fun" ~ "function",
+    type_f_b == "ben" ~ "benefit",
+  ))
+
+wt_table <- left_join(wt_table, ind_key, by = join_by(indicator ==service_app))  |>
+  mutate(response_no = ifelse(response_no %in% c("????", "?????"), "Not Applicable",response_no ))
+
+
+
 
 usethis::use_data(
   question_metadata,
   indicator_weightings,
   ecoprovince_sp,
   calibration_scores,
+  ind_key,
+  wt_table,
   internal = TRUE,
   overwrite = TRUE
 )
