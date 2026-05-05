@@ -19,17 +19,18 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/BCWF-Wetlands/wespr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/BCWF-Wetlands/wespr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The B.C. Wildlife Federation’s Wetlands Workforce project is a collaboration with conservation organizations and First Nations working to maintain and monitor wetlands across British Columbia. https://bcwf.bc.ca/initiatives/wetlands-workforce/.  
+The [Wetland Ecosystem Services Protocol](https://bcwfwatershedteam.ca/wetland-ecosystem-services-protocol/) (WESP-BC) is a standardized function assessment method for assessing the function and benefit of the services provided by wetlands within British Columbia. This work has been led by the B.C. Wildife Federation’s Wetlands Workforce project is a collaboration with conservation organizations, First Nations and the Government of British Columbia to maintain and monitor wetlands across British Columbia. https://bcwf.bc.ca/initiatives/wetlands-workforce/.
+  
+wespr is an R package to assist with the preparation and assessment of WESP-BC scores and ratings. The wespr package provides tools to assist with 1) preparing of spatial layers to beased on the WESP-BC assessment area (AA) to answer the destop assessment questions, 2) preparing inputs from the field and desktop assessment surveys, and 3) calculates scores and ratings for an assessed wetland and and outputs a report for the functions and benefits of that wetland. In addition, there are several advanced functions to help users understand the underpinnings of wespr.
 
-The [Wetland Ecosystem Services Protocol](https://bcwfwatershedteam.ca/wetland-ecosystem-services-protocol/) (WESP-BC) model is a standardized method for assessing the function and benefit of the services provided by wetlands within British Columbia.
+NOTE: wespr is undergoing active development. Language and terminology are subject to refinement to ensure alignment with associated products and standards
 
-WESPR is an R package to assist with the preparation and assessment of WESP-BC scores. The package provides tools to assist with 1) downloading spatial layers, 2) preparing inuts form the field and desktop assessment surveys, 3) calculates scores and ratings and outputs a report of WESP-BC for a range of functions and attributes, 4) advanced functions to upload and verify calibration data sets.
-
+wespr is a companion tool that is referred to in the WESP-BC User Manual (***link forthcoming***) and the Desktop Assessment Guide (https://bcwfwatershedteam.ca/wp-content/uploads/2026/03/WESP-BC-Desktop-Assessment-User-Guide.pdf)
 
 
 ## Installation
 
-You can install the development version of wespr from [GitHub](https://github.com/) with:
+You can install the more recent version of wespr from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
@@ -38,34 +39,32 @@ devtools::install_github("BCWF-Wetlands/wespr")
 
 ## Example workflows
 
-A series of vignettes with step by step instructions is provided to assist users. It is assumed that users are generally familiar with the process of wespr-BC and have at least a basic knowledge of R coding. Further information on the WESP-BC data collection process is available [here](https://bcwfwatershedteam.ca/wetland-ecosystem-services-protocol/).
+A series of vignettes (or workflows) with step-by-step instructions are provided to assist users. It is assumed that users have basic knowledge of R coding and some familiarity with WESP-BC. Further information for WESP-BC is available from the BCWF Watershed Team (https://bcwfwatershedteam.ca/wetland-ecosystem-services-protocol/) and through the Government of B.C's Wetlands in B.C. website under tools and resources (https://www2.gov.bc.ca/gov/content?id=4F2AEC9C0123427E984FEF670005AC28).
 
-#### 1) Pre-processing spatial data 
+#### 1) Prepare Spatial Data
+[Prepare spatial layers vignette](https://bcwf-wetlands.github.io/wespr/articles/prepare_spatial_data.html) walks through a helper function to download a standard set of spatial layers via the bcdata package. This data provides a majority of information required to answer desktop assessment portion of the WESP-BC protocol. 
 
-[Prepare spatial layers vignette](https://bcwf-wetlands.github.io/wespr/articles/prepare_spatial_data.html) walks through a helper function to downloads a standard set of spatial layers via the bcdata packge. This data provides a majority of information required to answer desktop analysis portion of the wesp-BC protocol
+#### 2) Simple Workflow
+Once the user has answered the required field and desktop questions to the survey123 surveys (and output these as .csv files), users can choose from either a simple or detailed workflow. 
 
-#### 2) Prepare input data for WESPR calculations 
+The [simple workflow](https://bcwf-wetlands.github.io/wespr/articles/beginner_workflow.html), is recommended for beginner R users and condenses all the steps of the detailed workflow into a single function to result in generating a WESP-BC site report.
 
-Once the user has answered the required field and desktop survey123 surveys (and output these as .csv files), users can choose from either a simple or detailed workflow. For beginner R users, we recommend using the [simplified analysis pathways](https://bcwf-wetlands.github.io/wespr/articles/prepare-rawdata.html), which condenses all the steps into a single function. 
+#### 3) Detailed Workflow 
 
-For users who are more comfortable using R or interested in a more detailed analysis, use the [step by step guide](https://bcwf-wetlands.github.io/wespr/articles/prepare-rawdata.html), which steps through the process using the *format_rawinputs()* function to standardize the input data into a structure that allows us to calculate the WESPR-BC scores and ratings.
+For users who are more comfortable using R or interested in a more detailed analysis, use the [step-by-step guide](https://bcwf-wetlands.github.io/wespr/articles/prepare-rawdata.html), which steps through the process using the *format_rawinputs()* function to standardize the input data into a structure that allows us to calculate the WESPR-BC scores and ratings. Followed by using one of the next two workflows:
 
-#### 3) Calculate WESPR scores - single site
+Single Site - Once the raw data has been converted to the wespr input format we can [calculate the wespr scores](https://bcwf-wetlands.github.io/wespr/articles/calculate_wespr_single_site.html) for the given site and compare these against a calibration dataset within the same Ecoprovince. 
 
-Once the raw data has been converted to the wespr input format we can [calculate the wespr scores](https://bcwf-wetlands.github.io/wespr/articles/calculate_wespr_single_site.html) for the given site and compare these against a calibration dataset within the same Eocprovince. 
+Multiple Sites - Alternatively, where users have collected information for multiple wetlands, [scores from multiple sites](https://bcwf-wetlands.github.io/wespr/articles/calculate_wespr_multi_site.html) can be generated.
 
+#### 4) Generate Site Report
+***to be filled out by Gen***
 
-#### 4) Calculate WESPR scores - multiple sites
+#### s1) Advanced topics
 
-Alternatively, where we have multiple wetland information, we can generate [scores from multiple sites](https://bcwf-wetlands.github.io/wespr/articles/calculate_wespr_multi_site.html). 
-
-
-#### 5) Advanced topics
-
-For those interested in understanding how the WESPR package operates under the hood. This technical [vignette](https://bcwf-wetlands.github.io/wespr/articles/Advanced-topics.html) provides advanced topics for those interested in understanding the structure of the R package in more detail. This covers two advanced topics 1) How to update provincial ecoprovince calibration data and 2) Understanding the anatomy of a WESPR object. 
+For those interested in understanding how the wespr package operates under the hood. The [s1_Advanced topics vignette](https://bcwf-wetlands.github.io/wespr/articles/Advanced-topics.html) provides information for those interested in understanding the structure of the wespr package in more detail. This covers two advanced topics 1) Understanding and updating internal data for WESP-BC such as calibration daya and 2) Understanding the anatomy of a wespr object. 
 
 These are advanced topics and not required to generate scores. 
-
 
 ## Helpful tips and tricks
 
