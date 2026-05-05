@@ -7,3 +7,5 @@
 inst/doc
 docs
 /temp*
+/doc/
+/Meta/

@@ -100,6 +100,8 @@ for multiple wetlands, [scores from multiple
 sites](https://bcwf-wetlands.github.io/wespr/articles/r5-Calculate-wespr-multi-site.html)
 can be generated.
 
+<br>
+
 #### s1) Advanced topics
 
 For those interested in understanding how the wespr package operates
