@@ -3,8 +3,6 @@
 #' @param ind_scores A data.frame of indicator scores. The output of get_indicator_scores().
 #' @param calibration_scores an internal dataset containing the calibration data for all sites. This can be updated by admin.
 #' @param EcoP A character string specifying the region. Default = 'GD'
-#' @param report TRUE?FALSE. A logical indicating whether to generate a report. Default = FALSE will not produce a report.
-#' @param output_dir A character string specifying the directory to save the report. Default = NULL.
 #'
 #' @returns A data.frame with indicator scores and jenks classification score (Low, Medium, High (L, M, H)).
 #' @export
@@ -17,12 +15,12 @@
 #' ind_scores <- get_indicator_scores(site)
 #' out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD")
 #' }
-assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = FALSE, output_dir = NULL) {
+#'
+assign_jenks_score <- function(ind_scores, calibration_scores, EcoP) {
   # testing lines
   #ind_scores
   #calibration_scores
   #EcoP = "SIM"
-  #report = TRUE
   #output_dir = "temp"
 
   # check calibration data contains ecoprovince
@@ -30,13 +28,6 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = FA
     cli::cli_abort("No calibration data is currently stored for the selected Eco Province.
                    Please check your ecoprovince name or select from the following:
                    {unique(calibration_scores$ecoprovince)}")
-  }
-
-
-  # if report option selected, check there is an output dir
-  if (isTRUE(report) & is.null(output_dir)) {
-    cli::cli_abort("Report is requested but no {output_dir} parameter is specified.
-                   Please add the filepath location where you want the report to be saved")
   }
 
   # format ind_scores to long format
@@ -193,22 +184,23 @@ assign_jenks_score <- function(ind_scores, calibration_scores, EcoP, report = FA
     dplyr::select(.data$site, .data$indicator, .data$service_type, .data$value, .data$sta_value,.data$calibration_scores_summary )
 
 
-  if (isTRUE(report)) {
-    cli::cli_alert_info("Generating a site report")
+#   if (isTRUE(report)) {
+#     cli::cli_alert_info("Generating a site report")
+#
+#     #RMD <- fs::path_package("wespr", "extdata/site_report.rmd")
+#     RMD <- system.file("extdata/site_report.rmd", package = "wespr")
+#
+#     rmarkdown::render(RMD,
+#                       params = list(
+#                         calibration_scores_eco = calibration_scores_eco,
+#                         calibration_scores_summary = calibration_scores_summary,
+#                         ecoprovince_sp = ecoprovince_sp,
+#                         classed_df = classed_df
+#                       ),
+#                       output_dir = output_dir
+#     )
+#   }
 
-    #RMD <- fs::path_package("wespr", "extdata/site_report.rmd")
-    RMD <- system.file("extdata/site_report.rmd", package = "wespr")
-
-    rmarkdown::render(RMD,
-                      params = list(
-                        calibration_scores_eco = calibration_scores_eco,
-                        calibration_scores_summary = calibration_scores_summary,
-                        ecoprovince_sp = ecoprovince_sp,
-                        classed_df = classed_df
-                      ),
-                      output_dir = output_dir
-    )
-  }
   return(classed_df)
 
 }
