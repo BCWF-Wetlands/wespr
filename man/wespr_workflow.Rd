@@ -4,7 +4,7 @@
 \alias{wespr_workflow}
 \title{Run the entire wespr workflow}
 \usage{
-wespr_workflow(desktop_data, field_data, out_dir, EcoP)
+wespr_workflow(desktop_data, field_data, out_dir, EcoP, report_dir)
 }
 \arguments{
 \item{desktop_data}{A file path to survey123 csv file for office data collected}
@@ -14,6 +14,8 @@ wespr_workflow(desktop_data, field_data, out_dir, EcoP)
 \item{out_dir}{A character string specifying the output directory.}
 
 \item{EcoP}{A character string specifying the region. Default = 'GD'}
+
+\item{report_dir}{A character string specifying the output directory for the report document}
 }
 \value{
 A tibble with the combined data

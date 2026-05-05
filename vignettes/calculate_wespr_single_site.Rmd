@@ -74,7 +74,7 @@ site in the file. See [here](https://bcwf-wetlands.github.io/wespr/articles/calc
 site <- as.wesp_site(wesp_data, site = 1)
 
 ```
-
+    
 You should not normally need to work with the internals of the `wesp_site` object
 as it is quite complex, however we can get an overview of what is in it by just 
 typing the name of the object:
@@ -382,7 +382,7 @@ We use the `assign_jenks_score()` function to assign a catergory of Low/Medium/H
 
 The calibration data is stored within the package and can be [updated by package maintainers](https://bcwf-wetlands.github.io/wespr/articles/advanced-topics.html). This is an on-going project and data will be added as comes available. Steps to update the calibration data are outline [here](https://github.com/BCWF-Wetlands/wespr/tree/main/data-raw). Note this is an advanced/admin level action and not required to calculate values. Please contact the package dev team for assistance. 
 
-Threshold values to define the low , medium or high class are determined by normalising all the reference data for each value and then looking for natural breask in the distribution (i.e. Jenks Breaks). These thresholds are then used as benchmarks and compared to our site of interest to determine which category it falls within. 
+Threshold values to define the low , medium or high class are determined by normalizing all the reference data for each value and then looking for natural breaks in the distribution (i.e. Jenks Breaks). These thresholds are then used as benchmarks and compared to our site of interest to determine which category it falls within. 
 
 Note in some cases, out site value may fall below or above data gathers for the calibration sites. In this case, a warning message is provided to the user.
 
@@ -392,8 +392,6 @@ To run this function we require:
 - the indicator score data (i.e. ind_scores in this workflow), 
 - calibration data (this is stored as a file within the wespr package)
 - name of Ecoprovince in which the site occurs.
-- if a report is to be generated (T/F)
-- if a report = TRUE, an output directory where the report is to be saved. 
 
 
 If the ecoprovince does not yet have calibration data loaded, users should select the next best ecoprovince available. 
@@ -402,9 +400,7 @@ If the ecoprovince does not yet have calibration data loaded, users should selec
 out <- assign_jenks_score(
   ind_scores, 
   calibration_scores, 
-  EcoP = "GD", 
-  report = FALSE, 
-  output_dir = "temp")
+  EcoP = "GD")
 
 ```
 
@@ -425,5 +421,24 @@ site   indicator value service_type calibrated_score
 10 site_1 PD        0     f            L  
 
 ```
+
+Now you have a data table with all indicators, service_type (function or benefit), raw scores and calibrated score (L/M/H). This can be saved or exported as a .csv to be further explored. 
+
+
+Users can also generate a summary report per site. This requires similar inputs as used to assign_jenks_score, however users also need to define file path location where the report will be saved as a .word document. 
+In this example we use a folder called "temp"
+
+```{r eval = FALSE}
+
+out <- build_report(
+  ind_scores, 
+  calibration_scores, 
+  EcoP = "GD",
+  output_dir = "temp")
+
+```
+
+
+
 
 Now you have a data table with all indicators, service_type (function or benefit), raw scores and calibrated score (L/M/H). This can be saved or exported as a .csv to be further explored. 

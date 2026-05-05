@@ -61,6 +61,7 @@ wespkey <- generate_ids(wesp_data)
 
 # calculate scores and choose long format 
 allsites_long <- calculate_multi_site(wesp_data, format = "long")
+allsites_long <- dplyr::left_join(wespkey, allsites_long, by = "site")
 
 # make a list of all unique sites 
 usites <- unique(allsites_long$site)
@@ -68,11 +69,13 @@ usites <- unique(allsites_long$site)
 # loop through all 
 site_overall <- purrr::map(usites, function(x){
   
-  soi = x
+ # x = usites[1]
 
-  ind_scores <- allsites_long |> dplyr::filter(site == soi)
+  ind_scores <- allsites_long |> dplyr::filter(site == x)
 
   out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD")
+ 
+  build_report(ind_scores, calibration_scores, EcoP = "GD", output_dir = "temp")
 
   out
 
