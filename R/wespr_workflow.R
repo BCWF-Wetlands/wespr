@@ -52,6 +52,7 @@ wespr_workflow <- function(desktop_data,
 
   # calculate scores and choose long format
   allsites_long <- calculate_multi_site(wesp_data, format = "long")
+  allsites_long <- dplyr::left_join(wespkey, allsites_long, by = "site")
 
   # make a list of all unique sites
   usites <- unique(allsites_long$site)
