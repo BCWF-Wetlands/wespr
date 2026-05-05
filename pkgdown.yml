@@ -1,14 +1,11 @@
-pandoc: 3.1.11
+pandoc: 3.8.3
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
-  Advanced-topics: Advanced-topics.html
-  beginner_workflow: beginner_workflow.html
-  calculate_wespr_multi_site: calculate_wespr_multi_site.html
-  calculate_wespr_single_site: calculate_wespr_single_site.html
-  prepare_spatial_data: prepare_spatial_data.html
-  prepare-rawdata: prepare-rawdata.html
-last_built: 2026-04-20T20:30Z
-urls:
-  reference: https://bcwf-wetlands.github.io/wespr/reference
-  article: https://bcwf-wetlands.github.io/wespr/articles
+  r1-Preparing-Spatial-Data: r1-Preparing-Spatial-Data.html
+  r2-Simple-Workflow: r2-Simple-Workflow.html
+  r3-Prepare-input-data-for_wespr-calculations: r3-Prepare-input-data-for_wespr-calculations.html
+  r4-Calculate-wespr-single-site: r4-Calculate-wespr-single-site.html
+  r5-Calculate-wespr-multi-site: r5-Calculate-wespr-multi-site.html
+  s1-Advanced-topics: s1-Advanced-topics.html
+last_built: 2026-05-05T05:34Z

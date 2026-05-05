@@ -13,7 +13,7 @@ get_indicator_scores(site, ...)
 - site:
 
   A `wesp_site` object, having been updated with
-  [`calc_indicators()`](https://bcwf-wetlands.github.io/wespr/reference/calc_indicators.md)
+  [`calc_indicators()`](calc_indicators.md)
 
 - ...:
 

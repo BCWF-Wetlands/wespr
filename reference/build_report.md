@@ -1,11 +1,11 @@
-# Assign Jenks score based on calibration dataset
+# Build Site Report
 
-Assign Jenks score based on calibration dataset
+Build Site Report
 
 ## Usage
 
 ``` r
-assign_jenks_score(ind_scores, calibration_scores, EcoP)
+build_report(ind_scores, calibration_scores, EcoP, output_dir = NULL)
 ```
 
 ## Arguments
@@ -24,6 +24,11 @@ assign_jenks_score(ind_scores, calibration_scores, EcoP)
 
   A character string specifying the region. Default = 'GD'
 
+- output_dir:
+
+  A character string specifying the directory to save the report.
+  Default = NULL.
+
 ## Value
 
 A data.frame with indicator scores and jenks classification score (Low,
@@ -39,5 +44,6 @@ site <- as.wesp_site(wesp_data)
 site <- calc_indicators(site)
 ind_scores <- get_indicator_scores(site)
 out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD")
+out <- build_report(ind_scores, calibration_scores, EcoP = "GD", output_dir = "temp")
 } # }
 ```

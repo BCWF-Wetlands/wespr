@@ -1,0 +1,175 @@
+# r3 Prepare input data for wespr calculations
+
+``` r
+
+library(wespr)
+```
+
+## 1) Prepare Raw data imports
+
+The first step in calculating wespr scores for a wetland is to
+standardise and quality check the input data compiled by the user.
+
+As of November 2025, data collection is comprised of two parts:
+
+- Field data collected using a survey123 form (WESP_FIELDV1.csv)
+- Desktop data collected using a survey123 form (WESP_DESKTOPV1.csv)
+
+Note for advanced users the desktop analysis can be conducted using the
+R package[WESP_OF](https://github.com/BCWF-Wetlands/WESP_OF) github
+repo. This is beyond the scope of this tutorial.
+
+### Field data
+
+Field data is collected on site using the survey123 form. This is
+intended to control data inputs and standardize the data collection
+process. These comprise all the *field* and *stressor* questions.
+
+The data is exported from survey123 as a **.csv file**. This will be the
+input file type for wespr.
+
+An example data file is included within this package for testing. Note
+using system.file() can create some difficulties on an OS operating
+system.
+
+``` r
+
+# load library
+library(wespr)
+
+# Define the location of the survey123 Field data 
+field_data <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr")
+```
+
+### Desktop data
+
+Desktop data is also collected using a survey123 form. A helper function
+[`import_spatial_data()`](../reference/import_spatial_data.md) can be
+used to import a stanadard set of spatial dataset required for the
+Desktop Analysis. A vingette which details this process can be found
+`vignette("prepare_spatial_data")`.
+
+Once the survey123 form has been completed, the data is exported as a
+**.csv file**. An example file is found within the package.
+
+``` r
+
+# Define the location of the survey123 Desktop data 
+desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr")
+```
+
+Once both of these files are downloaded you are ready to use the WESPR
+preparation steps.  
+  
+
+## 2) Compile and format raw data in wespr
+
+Once the two csv files are prepared, we use the `format_rawdata`
+function. This function standardizes field names and data types and then
+combines field and desktop data into a single table ready to be used to
+calculate WESPR values.
+
+The user needs to define the following parameters:
+
+- field_data = the full filepath defining the location of the field
+  data. Note this needs to be in R readable format and is expecting a
+  .csv file. Example “WESP_FILEDV1.csv”
+
+- desktop_data = the full filepath defining the location of the desktop
+  analysis data. Note this needs to be in R readable format and is
+  expecting a .csv file. Example” WESP_DESKTOPV1.csv”
+
+- write_subfiles = TRUE or FALSE. This parameter determines if you want
+  to produce individual files for each of the data components(field,
+  desktop and stressor data components). This allows for an intermediate
+  manual review process. The default values is FALSE.
+
+- out_dir = a filepath to the location in which your subfiles will be
+  saved. This expects an R readable format and will only be used if
+  write_subfiles = TRUE.
+
+- overwrite = TRUE or FALSE. If subfiles already exist, do you want to
+  overwrite them?
+
+An example of how to use this function is as follows:
+
+``` r
+
+
+# point to the location where you want the outputs to be saved
+output_dir = "outputs"
+
+ww <- format_rawinputs(
+  field_data <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr"),
+  desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr"),
+  write_subfiles = FALSE,
+  out_dir = output_dir,
+  overwrite = TRUE
+)
+
+# write out the file which will combine both the field and desktop answers so you can review
+write.csv(ww, fs::path(output_dir,"wesp_input_20251125.csv"), row.names=FALSE)
+```
+
+### The final output
+
+The combined data should now be in the following format:
+
+    Question,1
+    F1_1,1
+    F1_2,4
+    F1_3,0
+    F1_4,2
+    F1_5,0
+    F1_6,1
+    F2_A1,1
+    F2_A2,0
+    F2_B1,0
+    F2_B2,0
+
+Each row is a unique question and each column is a unique site.
+
+  
+  
+
+## 3) Quality checking the data
+
+We can then check QA the data using the `check_indata` function. This
+function checks the data for missing values, and ensures the data is in
+the correct format.
+
+``` r
+
+indata <- fs::path(output_dir,"wesp_input_20251125.csv")
+
+check_indata(indata)
+```
+
+Note this will show where there are missing values.
+
+In the example above we show the process for a single site.
+
+If you have data for multiple sites, i.e. multiple rows of data within
+your survey123 csv files, the final compiled data, with the first 10
+questions (rows) and 6 sites (columns) will look like the following:
+
+    Question,1,2,3,4,5,6
+    F1_1,1,0,1,1,1,2
+    F1_2,0,3,3,2,0,2
+    F1_3,1,0,3,1,1,1
+    F1_4,1,4,1,1,1,3
+    F1_5,1,0,1,1,1,0
+    F1_6,1,1,1,1,1,4
+    F2_A1,0,0,0,0,0,1
+    F2_A2,0,0,0,0,0,0
+    F2_B1,0,1,0,0,0,0
+    F2_B2,1,0,1,1,1,0
+
+Congratulations, you have now prepared your raw data into a format which
+can be used to calcualte wespr scores.
+
+The next step in this process is to calculate wespr scores. Refer to the
+following instructions for a \[single site\]
+(<https://bcwf-wetlands.github.io/wespr/articles/r4-Calculate-wespr-single-site.html>);
+or for \[multiple sites\]
+(<https://bcwf-wetlands.github.io/wespr/articles/r5-Calculate-wespr-single-site.html>).

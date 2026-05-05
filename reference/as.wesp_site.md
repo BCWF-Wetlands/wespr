@@ -1,10 +1,10 @@
 # Convert a data.frame of WESP question responses to a `wesp_site`
 
 Read a `data.frame` that has been read in by
-[`load_wesp_data()`](https://bcwf-wetlands.github.io/wespr/reference/load_wesp_data.md)
-and convert it into a `wesp_site` object, in preparation for calculating
-the indicators. This function also calculates various "derived" values
-that are used in indicator calculations.
+[`load_wesp_data()`](load_wesp_data.md) and convert it into a
+`wesp_site` object, in preparation for calculating the indicators. This
+function also calculates various "derived" values that are used in
+indicator calculations.
 
 ## Usage
 
@@ -17,10 +17,8 @@ as.wesp_site(data, site = NULL)
 - data:
 
   `data.frame` of questions and responses, ideally created by reading in
-  data with
-  [`load_wesp_data()`](https://bcwf-wetlands.github.io/wespr/reference/load_wesp_data.md).
-  Contains columns `q_no`, `response_no`, and one or more `site_[x]`
-  columns.
+  data with [`load_wesp_data()`](load_wesp_data.md). Contains columns
+  `q_no`, `response_no`, and one or more `site_[x]` columns.
 
 - site:
 

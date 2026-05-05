@@ -13,7 +13,7 @@ calc_indicators(site)
 - site:
 
   An object of type `wesp_site`, as created with
-  [`as.wesp_site()`](https://bcwf-wetlands.github.io/wespr/reference/as.wesp_site.md).
+  [`as.wesp_site()`](as.wesp_site.md).
 
 ## Value
 

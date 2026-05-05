@@ -5,7 +5,7 @@ Run the entire wespr workflow
 ## Usage
 
 ``` r
-wespr_workflow(desktop_data, field_data, out_dir, EcoP)
+wespr_workflow(desktop_data, field_data, out_dir, EcoP, report_dir)
 ```
 
 ## Arguments
@@ -25,6 +25,11 @@ wespr_workflow(desktop_data, field_data, out_dir, EcoP)
 - EcoP:
 
   A character string specifying the region. Default = 'GD'
+
+- report_dir:
+
+  A character string specifying the output directory for the report
+  document
 
 ## Value
 
