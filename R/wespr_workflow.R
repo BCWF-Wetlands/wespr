@@ -4,6 +4,7 @@
 #' @param field_data A file path to survey123 csv file for field data collected
 #' @param out_dir A character string specifying the output directory.
 #' @param EcoP A character string specifying the region. Default = 'GD'
+#' @param report_dir A character string specifying the output directory for the report document
 #'
 #' @returns A tibble with the combined data
 #' @export
@@ -21,12 +22,14 @@
 wespr_workflow <- function(desktop_data,
                            field_data,
                            out_dir,
-                           EcoP){
-  # Test outputs
+                           EcoP,
+                           report_dir){
+  # # Test outputs
   # out_dir = "outputs"
   # field_data <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr")
   # desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr")
   # EcoP = "GD"
+  # report_dir  = "temp"
 
   # format raw data
   ww <- format_rawinputs(
@@ -58,6 +61,8 @@ wespr_workflow <- function(desktop_data,
     soi <- x
     ind_scores <- allsites_long |> dplyr::filter(site == soi)
     out <- assign_jenks_score(ind_scores, wespr::calibration_scores, EcoP = EcoP)
+    build_report(ind_scores, calibration_scores, EcoP = "GD", output_dir = report_dir)
+
     out
   }) |> dplyr::bind_rows()
 
