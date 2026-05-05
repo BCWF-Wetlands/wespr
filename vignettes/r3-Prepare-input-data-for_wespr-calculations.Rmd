@@ -1,9 +1,8 @@
 ---
-title: "Prepare input data for WESPR calculations"
-#output: word_document
+title: "r3 Prepare input data for wespr calculations"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Prepare input data for Wespr calculations}
+  %\VignetteIndexEntry{r3 Prepare input data for wespr calculations}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -13,6 +12,10 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+```
+
+```{r setup}
+library(wespr)
 ```
 
 

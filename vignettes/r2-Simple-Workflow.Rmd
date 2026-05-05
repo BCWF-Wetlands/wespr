@@ -1,8 +1,8 @@
 ---
-title: "beginner_workflow"
+title: "r2 Simple Workflow"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{beginner_workflow}
+  %\VignetteIndexEntry{r2 Simple Workflow}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,16 +18,22 @@ knitr::opts_chunk$set(
 library(wespr)
 ```
 
-To help with the use of wespr, we have developed a workflow to streamline the steps to generate wetland ecosystem values. 
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
 
-The follow function steps through from raw files to calculate wespr scores and assign jenks breaks. 
+To help with the use of WESPR-BC, we have developed a workflow to streamline the steps to generate wetland ecosystem values. 
+
+The follow function steps through from raw files to calculate WESPR-BC scores, assign jenks breaks and output a report.
 Users need to define the following parameters: 
 
 - field_data : file path to location of field survey123 output (.csv)
 - desktop_data : file path to location of desktop survey123 output (.csv)
-- Eco : ecoprovince code (i.e "GD")
+- Eco : BC Ecoprovince code (i.e "GD")
 - out_dir : file path to location where output files will be saved
-
 
 ```{r, eval = FALSE}
 # Define the location of the survey123 Desktop data 
@@ -37,7 +43,8 @@ desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package =
 out <- wespr_workflow(field_data = field_data,
                       desktop_data = desktop_data, 
                       EcoP = "GD",
-                      out_dir = "temp")
+                      out_dir = "temp", 
+                      report_dir = "temp")
 
 write.csv(out, fs::path("temp", "wespr_outputs.csv"))
 

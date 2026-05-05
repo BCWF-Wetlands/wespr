@@ -1,8 +1,8 @@
 ---
-title: "Preparing spatial data"
+title: "r1 Preparing Spatial Data"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Preparing spatial data}
+  %\VignetteIndexEntry{r1 Preparing Spatial Data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -1,8 +1,8 @@
 ---
-title: "Advanced-topics"
+title: "s1 Advanced topics"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Advanced-topics}
+  %\VignetteIndexEntry{s1 Advanced topics}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup, include = FALSE}
+```{r setup}
 library(wespr)
 ```
 
@@ -107,6 +107,5 @@ site$derived_values
 
 site$indicators
 ```
-
 
 

@@ -1,8 +1,8 @@
 ---
-title: "calculate_wespr_multi_site"
+title: "r5 Calculate wespr multi-site"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{calculate_wespr_multi_site}
+  %\VignetteIndexEntry{r5 Calculate wespr multi-site}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -87,5 +87,3 @@ all_jenks <- dplyr::left_join(wespkey, site_overall, by = "site")
 
 
 ```
-
-
