@@ -164,6 +164,6 @@ F2_B2,1,0,1,1,1,0
 
 Congratulations, you have now prepared your raw data into a format which can be used to calcualte wespr scores. 
 
-The next step in this process is to calculate wespr scores. Refer to the following instructions for a [single site] (https://bcwf-wetlands.github.io/wespr/articles/calculate_wespr_single_site.html); or for [multiple sites] (https://bcwf-wetlands.github.io/wespr/articles/calculate_wespr_multi_site.html).
+The next step in this process is to calculate wespr scores. Refer to the following instructions for a [single site] (https://bcwf-wetlands.github.io/wespr/articles/r4-Calculate-wespr-single-site.html); or for [multiple sites] (https://bcwf-wetlands.github.io/wespr/articles/r5-Calculate-wespr-single-site.html).
 
 
