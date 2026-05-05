@@ -20,89 +20,48 @@ library(dplyr)
 
 # update this line to point to specific file location
 
-#indata <- fs::path("inst/input_data/reference_SIM_20250620.csv"); ecop <- "SIM"
-#indata <- fs::path("inst/input_data/reference_GD_20250620.csv"); ecop <- "GD"
-#indata <- fs::path("inst/input_data/reference_SI_20260319.csv"); ecop <- "SI"
+indata <- fs::path("inst/input_data/reference_SIM_20260331.csv"); ecop <- "SIM"
+indata <- fs::path("inst/input_data/reference_GD_20250620.csv"); ecop <- "GD"
+indata <- fs::path("inst/input_data/reference_SI_20260319.csv"); ecop <- "SI"
 indata <- fs::path("inst/input_data/reference_SBI_20260319.csv"); ecop <- "SBI"
-#indata <- fs::path("inst/input_data/reference_TBP_20260319.csv"); ecop <- "TBP"
-#indata <- fs::path("inst/input_data/reference_CI_20260319.csv");  ecop <- "CI"
+indata <- fs::path("inst/input_data/reference_TBP_20260319.csv"); ecop <- "TBP"
+indata <- fs::path("inst/input_data/reference_CI_20260319.csv");  ecop <- "CI"
 
 
 # Read in data into wesp format
 wesp_data <- load_wesp_data(indata)
-
 # generate a site key
 wespkey <- wespr::generate_ids(wesp_data)
 
 # calculate the scores
-# note this script generates the jenks breaks on the normalised scores based on the 100 or so
-# reference site
-
 wespclass <- calculate_jenks_score(wesp_data, out_dir = "temp",  out_name = paste0("wesp_scores_", ecop, ".csv"))
 
+# get list of csvs
+lst <- list.files(fs::path("temp"), pattern = "wesp_score*")
+lst <- lst[3:8]
 
-# add the Eco province name
-calibration_scores_new <- wespclass |>
-  dplyr::mutate(ecoprovince = ecop) #|>
- # dplyr::select(-wetland_id)
+cal_combined <- purrr::map(lst, function(i){
 
- calibration_scores_ci <- calibration_scores_new
-#calibration_scores_tbp <- calibration_scores_new
-# calibration_scores_sbi <- calibration_scores_new
-#calibration_scores_si <- calibration_scores_new
-#calibration_scores_gd <- calibration_scores_new
-#calibration_scores_sim <- calibration_scores_new
+  #i <- lst[1]
+  ecopr <- gsub("wesp_scores_", "", i)
+  ecopr <- gsub(".csv", "", ecopr)
 
+  fl <- read.csv(fs::path("temp",i))
+  fl <- fl |>
+    dplyr::mutate(ecoprovince = ecopr)
 
-calibration_scores <- dplyr::bind_rows(calibration_scores_gd, calibration_scores_sim)
-calibration_scores <- dplyr::bind_rows(calibration_scores, calibration_scores_si)
-calibration_scores <- dplyr::bind_rows(calibration_scores, calibration_scores_sbi)
-calibration_scores <- dplyr::bind_rows(calibration_scores, calibration_scores_tbp)
-calibration_scores <- dplyr::bind_rows(calibration_scores, calibration_scores_ci)
+  fl
+}) |> bind_rows()
 
-
-check <- calibration_scores |>
-  group_by(ecoprovince) |>
-             count()
-calibration_scores <- calibration_scores |>
-  filter(ecoprovince !=  "SBI")
-
-calibration_scores <- rbind(calibration_scores, calibration_scores_new)
-
-write.csv(calibration_scores, fs::path("temp", "wesp_scores_all.csv"))
+unique(cal_combined$ecoprovince)
 
 
-# if data already exists then read in first and merge or updata
+write.csv(cal_combined, fs::path("temp", "wesp_scores_all_20260504.csv"), row.names = FALSE)
 
-if(!missing(calibration_scores)){
-  # read in the existing calibration scores
-  calibration_scores <- wespr::calibration_scores
-  # check if the new data is already in the existing data
-  if (any(calibration_scores$ecoprovince %in% ecop)) {
-
-    cli::cli_alert_warning("Calibration scores for {ecop} already exist. Updating existing data.")
-
-    calibration_scores_to_update <- calibration_scores |>
-      dplyr::filter(.data$ecoprovince != ecop)
-
-    calibration_scores <- bind_rows(calibration_scores_to_update, calibration_scores_new)
-
-    # update the existing data with the new data
-  } else {
-    # add the new data to the existing data
-    calibration_scores <- dplyr::bind_rows(calibration_scores, calibration_scores_new)
-  }
-} else {
-  # if no existing data then just use the new data
-  calibration_scores <- calibration_scores_new
-}
-
-
-calibration_scores
+## once this is generated it needs to be run through the "update_calibrarion_data_internal.R script"
 
 # note you need to output this updated version by rerunning this https://github.com/BCWF-Wetlands/wespr/blob/main/data-raw/upload-calibration-data.R
 # with all the internal data in one hit.
-
 
 # # convert to internal data
 # usethis::use_data(
