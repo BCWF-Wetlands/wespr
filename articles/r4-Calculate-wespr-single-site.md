@@ -455,6 +455,8 @@ moderate, H = higher) and is referred to as “calibration_score” in the
 headings. This can be saved or exported as a .csv to be further
 explored.
 
+## 5) Site Report
+
 Users can also generate a summary report per site. This requires similar
 inputs as used for the assign_jenks_score() function. Users also need to
 define an output directory where the output file will be saved. In this
