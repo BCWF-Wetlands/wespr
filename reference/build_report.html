@@ -46,7 +46,15 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">build_report</span><span class="op">(</span><span class="va">ind_scores</span>, <span class="va">calibration_scores</span>, <span class="va">EcoP</span>, output_dir <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">build_report</span><span class="op">(</span></span>
+<span>  <span class="va">ind_scores</span>,</span>
+<span>  <span class="va">calibration_scores</span>,</span>
+<span>  <span class="va">EcoP</span>,</span>
+<span>  EcoP_calibration <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  output_dir <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  x_loc <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  y_loc <span class="op">=</span> <span class="cn">NA</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -62,11 +70,24 @@
 
 
 <dt id="arg-ecop">EcoP<a class="anchor" aria-label="anchor" href="#arg-ecop"></a></dt>
-<dd><p>A character string specifying the region. Default = 'GD'</p></dd>
+<dd><p>A character string specifying the region in which the wetland was sampled. Default = 'GD'</p></dd>
+
+
+<dt id="arg-ecop-calibration">EcoP_calibration<a class="anchor" aria-label="anchor" href="#arg-ecop-calibration"></a></dt>
+<dd><p>A character string specifying the region in which will be calibrated against. Default = N.
+This should only be used where no calibration data is available for the ecoprovince where the wetland was sampled.</p></dd>
 
 
 <dt id="arg-output-dir">output_dir<a class="anchor" aria-label="anchor" href="#arg-output-dir"></a></dt>
 <dd><p>A character string specifying the directory to save the report. Default = NULL.</p></dd>
+
+
+<dt id="arg-x-loc">x_loc<a class="anchor" aria-label="anchor" href="#arg-x-loc"></a></dt>
+<dd><p>A latitude location in WGS84 to plot the wetland location on the map in the report. Default is NA.</p></dd>
+
+
+<dt id="arg-y-loc">y_loc<a class="anchor" aria-label="anchor" href="#arg-y-loc"></a></dt>
+<dd><p>A longitude location in WGS84 to plot the wetland location on the map in the report. Default is NA.</p></dd>
 
 </dl></div>
     <div class="section level2">

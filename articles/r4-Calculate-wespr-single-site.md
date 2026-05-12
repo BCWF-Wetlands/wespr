@@ -460,7 +460,7 @@ explored.
 Users can also generate a summary report per site. This requires similar
 inputs as used for the assign_jenks_score() function. Users also need to
 define an output directory where the output file will be saved. In this
-example below, we use a folder called “temp”
+example below, we use a folder called “temp”.
 
 ``` r
 
@@ -469,6 +469,9 @@ out <- build_report(
   ind_scores, 
   calibration_scores, 
   EcoP = "GD",
+  EcoP_calibration = NA,
+  x_loc = -119.42,
+  y_loc = 49.8611,
   output_dir = "temp")
 ```
 

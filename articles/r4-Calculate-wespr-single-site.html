@@ -467,13 +467,16 @@ explored.</p>
 <p>Users can also generate a summary report per site. This requires
 similar inputs as used for the assign_jenks_score() function. Users also
 need to define an output directory where the output file will be saved.
-In this example below, we use a folder called “temp”</p>
+In this example below, we use a folder called “temp”.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/build_report.html">build_report</a></span><span class="op">(</span></span>
 <span>  <span class="va">ind_scores</span>, </span>
 <span>  <span class="va">calibration_scores</span>, </span>
 <span>  EcoP <span class="op">=</span> <span class="st">"GD"</span>,</span>
+<span>  EcoP_calibration <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  x_loc <span class="op">=</span> <span class="op">-</span><span class="fl">119.42</span>,</span>
+<span>  y_loc <span class="op">=</span> <span class="fl">49.8611</span>,</span>
 <span>  output_dir <span class="op">=</span> <span class="st">"temp"</span><span class="op">)</span></span></code></pre></div>
 <p>Now you have a data table with all indicators, service_type (function
 or benefit), raw scores and calibrated score (L/M/H). This can be saved
