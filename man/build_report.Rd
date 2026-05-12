@@ -4,16 +4,31 @@
 \alias{build_report}
 \title{Build Site Report}
 \usage{
-build_report(ind_scores, calibration_scores, EcoP, output_dir = NULL)
+build_report(
+  ind_scores,
+  calibration_scores,
+  EcoP,
+  EcoP_calibration = NA,
+  output_dir = NULL,
+  x_loc = NA,
+  y_loc = NA
+)
 }
 \arguments{
 \item{ind_scores}{A data.frame of indicator scores. The output of get_indicator_scores().}
 
 \item{calibration_scores}{an internal dataset containing the calibration data for all sites. This can be updated by admin.}
 
-\item{EcoP}{A character string specifying the region. Default = 'GD'}
+\item{EcoP}{A character string specifying the region in which the wetland was sampled. Default = 'GD'}
+
+\item{EcoP_calibration}{A character string specifying the region in which will be calibrated against. Default = N.
+This should only be used where no calibration data is available for the ecoprovince where the wetland was sampled.}
 
 \item{output_dir}{A character string specifying the directory to save the report. Default = NULL.}
+
+\item{x_loc}{A latitude location in WGS84 to plot the wetland location on the map in the report. Default is NA.}
+
+\item{y_loc}{A longitude location in WGS84 to plot the wetland location on the map in the report. Default is NA.}
 }
 \value{
 A data.frame with indicator scores and jenks classification score (Low, Medium, High (L, M, H)).

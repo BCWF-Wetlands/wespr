@@ -3,7 +3,11 @@
 #'
 #' @param ind_scores A data.frame of indicator scores. The output of get_indicator_scores().
 #' @param calibration_scores an internal dataset containing the calibration data for all sites. This can be updated by admin.
-#' @param EcoP A character string specifying the region. Default = 'GD'
+#' @param EcoP A character string specifying the region in which the wetland was sampled. Default = 'GD'
+#' @param EcoP_calibration A character string specifying the region in which will be calibrated against. Default = N.
+#' This should only be used where no calibration data is available for the ecoprovince where the wetland was sampled.
+#' @param x_loc A latitude location in WGS84 to plot the wetland location on the map in the report. Default is NA.
+#' @param y_loc A longitude location in WGS84 to plot the wetland location on the map in the report. Default is NA.
 #' @param output_dir A character string specifying the directory to save the report. Default = NULL.
 #'
 #' @returns A data.frame with indicator scores and jenks classification score (Low, Medium, High (L, M, H)).
@@ -18,20 +22,40 @@
 #' out <- assign_jenks_score(ind_scores, calibration_scores, EcoP = "GD")
 #' out <- build_report(ind_scores, calibration_scores, EcoP = "GD", output_dir = "temp")
 #' }
-build_report <- function(ind_scores, calibration_scores, EcoP, output_dir = NULL) {
+build_report <- function(ind_scores, calibration_scores, EcoP, EcoP_calibration = NA,output_dir = NULL,x_loc = NA,y_loc = NA) {
 
-  # ## testing lines
-  # ind_scores
-  # calibration_scores
-  # EcoP = "SIM"
-  # output_dir = "temp"
+ #  # ## testing lines
+ # ind_scores
+ #  calibration_scores
+ #  EcoP = "GD"
+ #  EcoP_calibration =NA
+ #  output_dir = "temp"
+ #  x_loc = NA #, -119.46
+ # y_loc = NA#, 49.8611
+
+
+  # check the ecoprovince to use
+  if(!is.na(EcoP_calibration) & EcoP_calibration != EcoP){
+    cli::cli_alert_warning("The ecoprovince chosen for calibration differs from the
+                   Ecoprovince in which the wetland was sampled.")
+  }
 
   # check calibration data contains ecoprovince
-  if (!EcoP %in% unique(calibration_scores$ecoprovince)) {
-    cli::cli_abort("No calibration data is currently stored for the selected Eco Province.
+  if(is.na(EcoP_calibration)) {
+    if (!EcoP %in% unique(calibration_scores$ecoprovince)) {
+      cli::cli_abort("No calibration data is currently stored for the selected Eco Province.
                    Please check your ecoprovince name or select from the following:
                    {unique(calibration_scores$ecoprovince)}")
+    }
+  } else {
+    if (!EcoP_calibration %in% unique(calibration_scores$ecoprovince)) {
+      cli::cli_abort("No calibration data is currently stored for the selected Eco Province for calibration.
+                   Please check your ecoprovince name or select from the following:
+                   {unique(calibration_scores$ecoprovince)}")
+    }
   }
+
+
 
   # check output file folder exisits
   if (!dir.exists(fs::path(output_dir))) {
@@ -64,8 +88,20 @@ build_report <- function(ind_scores, calibration_scores, EcoP, output_dir = NULL
 
   ind <- rbind(ind, indb)
 
-  calibration_scores_eco <- calibration_scores |>
-    dplyr::filter(.data$ecoprovince == EcoP)
+
+  # grab ecoprovince spatial data for calibration
+  #EcoP = "GA"
+  #EcoP_calibration = "SIM"
+
+  if(!is.na(EcoP_calibration) & EcoP_calibration != EcoP){
+    calibration_scores_eco <- calibration_scores |>
+      dplyr::filter(.data$ecoprovince == EcoP_calibration)
+  } else {
+    calibration_scores_eco <- calibration_scores |>
+      dplyr::filter(.data$ecoprovince == EcoP)
+  }
+
+
 
   # format the calibration scores to summarise to get the range of each category per service
 
@@ -213,8 +249,11 @@ build_report <- function(ind_scores, calibration_scores, EcoP, output_dir = NULL
                     params = list(
                       calibration_scores_eco = calibration_scores_eco,
                       calibration_scores_summary = calibration_scores_summary,
+                      EcoP_calibration = EcoP_calibration,
                       ecoprovince_sp = ecoprovince_sp,
-                      classed_df = classed_df
+                      classed_df = classed_df,
+                      x_loc = x_loc,
+                      y_loc= y_loc
                     ),
                     output_dir = output_dir
   )

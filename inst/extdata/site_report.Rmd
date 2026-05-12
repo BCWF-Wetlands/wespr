@@ -4,9 +4,12 @@ output: word_document
 params:
   calibration_scores_eco: calibration_scores_eco
   calibration_scores_summary: calibration_scores_summary,
+  EcoP_calibration: EcoP_calibration,
   ecoprovince_sp: ecoprovince_sp,
   classed_df: classed_df
   output_dir: output_dir
+  x_loc: x_loc
+  y_loc: y_loc
 ---
 
 ```{r setup, include=FALSE}
@@ -18,22 +21,27 @@ library(sf)
 library(stringr)
 library(gt)
 
-# #testing lines 
+# # #testing lines 
 # calibration_scores_eco = calibration_scores_eco # calibration dataset
 # calibration_scores_summary = calibration_scores_summary # summary of cal set for high and lows - used in graphics
-# classed_df = classed_df # results per site 
+# classed_df = classed_df # results per site
 # output_dir = output_dir # output dir
-# end testing line 
+# x_loc =  x_loc
+# y_loc = y_loc
+# EcoP_calibration = EcoP_calibration
+
+## end testing line 
 
 ```
 
 
-```{r cars, echo = FALSE}
+```{r define names, echo = FALSE}
 #summary(cars)
 ecop <- unique(calibration_scores_summary$ecoprovince)
 sname <- unique(classed_df$site)
+wlname <- unique(classed_df$wetland_id)
+ecop_cal <- ifelse(is.na(EcoP_calibration),ecop, EcoP_calibration)
 
-# add map to show where in the province
 
 ```
 
@@ -41,7 +49,15 @@ sname <- unique(classed_df$site)
 
 **Site Name :** `r sname`
 
-**Ecoprovince :** `r ecop`
+**Wetland Id :** `r wlname`
+
+**Wetland location X:** `r x_loc` 
+
+**Wetland location Y:** `r y_loc`
+
+**Wetland Ecoprovince :** `r ecop`
+
+**Calibration Ecoprovince :** `r ecop_cal`
 
 <br>
 <br>
@@ -49,6 +65,28 @@ sname <- unique(classed_df$site)
 ## 1. Site Location 
 
 ```{r generate map, echo = FALSE}
+
+library(bcdata)
+ecoprovince_sp <-  bcdata::bcdc_query_geodata('WHSE_TERRESTRIAL_ECOLOGY.ERC_ECOPROVINCES_SP') |>
+  bcdata::collect() |>
+  dplyr::select(.data$ECOPROVINCE_CODE, .data$ECOPROVINCE_NAME, .data$geometry) |>
+  dplyr::filter(!ECOPROVINCE_CODE %in% c("SAL","NEP" )) |>
+  dplyr::mutate(eco_code = dplyr::case_when(
+    ECOPROVINCE_CODE == "NBM" ~ "NBM",
+    ECOPROVINCE_CODE == "TAP" ~ "BTP",
+    ECOPROVINCE_CODE == "BOP" ~ "BTP",
+    ECOPROVINCE_CODE == "SBI" ~ "SBI",
+    ECOPROVINCE_CODE == "SIM" ~ "SIM",
+    ECOPROVINCE_CODE == "SOI"  ~ "SI",
+    ECOPROVINCE_CODE == "COM" ~ "CM",
+    ECOPROVINCE_CODE == "GED" ~ "GD",
+    ECOPROVINCE_CODE == "CEI" ~ "CI"
+  ))
+
+if(!is.na(x_loc) & !is.na(y_loc)){
+  pts <- sf::st_as_sf(data.frame(x = x_loc, y = y_loc), coords = c("x", "y"), crs = 4326)
+  pts <- sf::st_transform(pts, st_crs(ecoprovince_sp))
+} 
 
 ecoi <- ecoprovince_sp |>
   dplyr::filter(eco_code == ecop)
@@ -58,6 +96,12 @@ map1 <- ggplot() +
   geom_sf(data = ecoi, fill = "lightblue") +
   labs(title = paste0("Ecoprovince : ", stringr::str_to_title(unique(ecoi$ECOPROVINCE_NAME))))+
   theme_void()
+
+if(!is.na(x_loc) & !is.na(y_loc)){
+  map1 <- map1 + 
+    geom_sf(data = pts, color = "red", size = 3) 
+}
+
 
 ```
 
@@ -69,7 +113,7 @@ map1
 
 ## 2. Wetland Scores and Ratings
 
-```{r, echo = FALSE}
+```{r run calibration calculations, echo = FALSE}
 # generate the background information for Calibration thresholds
 # Calculate the numbers per group or by plot
 
@@ -138,7 +182,7 @@ outsum_f <- outsum |>
 ```
 
 
-```{r, echo = FALSE}
+```{r build table, echo = FALSE}
 # generate the standard table 
 lsorder <- c(
   "Hydrologic Group (WSg)",
@@ -203,29 +247,29 @@ classed_df <- classed_df |>
 
 fntab <- classed_df |> 
   dplyr::filter(service_type == 'f') |> 
-  dplyr::mutate(`Function Score (Standardize)` = sta_value,
+  dplyr::mutate(`Function Score (Standardized)` = sta_value,
                 `Function Rating` = calibration_scores_summary,
                 `Function Score (Raw)` = value,
                 `Wetland Functions and other attributes` = service_full_name) |> 
   dplyr::select( `Wetland Functions and other attributes`,
-         `Function Score (Standardize)`, `Function Rating`,
+         `Function Score (Standardized)`, `Function Rating`,
          `Function Score (Raw)`)
 
 # split function and benefit 
 bntab <- classed_df |> 
   dplyr::filter(service_type == 'b') |> 
-  dplyr::mutate(`Benefit Score (Standardize)` = sta_value,
+  dplyr::mutate(`Benefit Score (Standardized)` = sta_value,
                 `Benefit Rating` = calibration_scores_summary,
                 `Benefit Score (Raw)` = value,
                 `Wetland Functions and other attributes` = service_full_name) |> 
   dplyr::select( `Wetland Functions and other attributes`,
-         `Benefit Score (Standardize)`, `Benefit Rating`,
+         `Benefit Score (Standardized)`, `Benefit Rating`,
          `Benefit Score (Raw)`)
 
 tball <-  dplyr::left_join(fntab,bntab ) |> 
   dplyr::select("Wetland Functions and other attributes",
-                "Function Score (Standardize)", "Function Rating",
-                 "Benefit Score (Standardize)",   "Benefit Rating",
+                "Function Score (Standardized)", "Function Rating",
+                 "Benefit Score (Standardized)",   "Benefit Rating",
                  "Function Score (Raw)","Benefit Score (Raw)")
 
 # add other headers
@@ -289,11 +333,11 @@ gt_tbl <-
 gt_tbl <- gt_tbl |> 
   tab_spanner(
     label = "Function",
-    columns = c(`Function Score (Standardize)`, `Function Rating`)
+    columns = c(`Function Score (Standardized)`, `Function Rating`)
   )|>
   tab_spanner(
     label = "Benefit",
-    columns = c("Benefit Score (Standardize)", "Benefit Rating")
+    columns = c("Benefit Score (Standardized)", "Benefit Rating")
   ) |> 
   tab_spanner(
     label = "Raw Scores",
@@ -395,7 +439,7 @@ each function and benefit, based on the distribution of scores from the 100+ cal
 
 
 
-```{r overall plots, echo=FALSE, fig.width=8, fig.height=7}
+```{r build overall plots, echo=FALSE, fig.width=8, fig.height=7}
 tt <- calibration_scores_summary |>
    dplyr::group_by(.data$service) |>
    dplyr::select(-n) |>
@@ -525,11 +569,11 @@ fn_plot <- ggplot2::ggplot(ft, aes(x = threshold, y = service_full_name)) +
 
 The plots below shows where `r sname` scores relative to the baseline values for the `r ecop` Ecoprovince. The grey dot indicates the score for the single site, while the yellow, aqua and purple bars show the threshold values for Lower, Medium and Higher ranked sites within the Ecoprovince.  
 
-```{r, echo = FALSE, fig.width=8, fig.height=6, units = cm}
+```{r add plot, echo = FALSE, fig.width=8, fig.height=6, units = cm}
  fn_plot
 ```
 
-```{r, echo = FALSE, fig.width=8, fig.height=6}
+```{r build benefit plots, echo = FALSE, fig.width=8, fig.height=6}
  # Benefit
  bt <- ttt |> 
    dplyr::filter(service_type == "b") 
@@ -563,13 +607,8 @@ bn_plot <-  ggplot(bt , aes(x = threshold,y = service_full_name  )) +
 ```
 
 
-```{r echo = FALSE, fig.width=8, fig.height=6 ,units = cm}
+```{r add benefit plot, echo = FALSE, fig.width=8, fig.height=6 ,units = cm}
  bn_plot 
 ```
 
-
-```{r echo = FALSE, fig.show="hold", out.width="50%"}
-#fn_plot 
-#bn_minplot 
-```
 
