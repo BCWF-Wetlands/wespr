@@ -74,7 +74,7 @@ the survey123 surveys (and output these as .csv files), users can choose
 from either a simple or detailed workflow.
 
 The [simple
-workflow](https://bcwf-wetlands.github.io/wespr/articles/rr-Simple-Workflow.html),
+workflow](https://bcwf-wetlands.github.io/wespr/articles/r2-Simple-Workflow.html),
 is recommended for beginner R users and condenses all the steps of the
 detailed workflow into a single function to result in generating a
 WESP-BC site report.
