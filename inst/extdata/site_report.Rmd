@@ -21,7 +21,7 @@ library(sf)
 library(stringr)
 library(gt)
 
-# # #testing lines 
+# # # #testing lines 
 # calibration_scores_eco = calibration_scores_eco # calibration dataset
 # calibration_scores_summary = calibration_scores_summary # summary of cal set for high and lows - used in graphics
 # classed_df = classed_df # results per site
@@ -29,7 +29,7 @@ library(gt)
 # x_loc =  x_loc
 # y_loc = y_loc
 # EcoP_calibration = EcoP_calibration
-
+# 
 ## end testing line 
 
 ```
@@ -266,7 +266,7 @@ bntab <- classed_df |>
          `Benefit Score (Standardized)`, `Benefit Rating`,
          `Benefit Score (Raw)`)
 
-tball <-  dplyr::left_join(fntab,bntab ) |> 
+tball <-  dplyr::full_join(fntab,bntab ) |> 
   dplyr::select("Wetland Functions and other attributes",
                 "Function Score (Standardized)", "Function Rating",
                  "Benefit Score (Standardized)",   "Benefit Rating",
@@ -305,7 +305,7 @@ gt_tbl <-
   gt_tbl |>
   tab_row_group(
     label = "Other Values or Attributes",
-    rows = 15:18
+    rows = 15:19
 )|>
   tab_row_group(
     label = "Transition Zone Habitat Group (THg)",
