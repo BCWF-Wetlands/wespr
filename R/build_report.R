@@ -24,14 +24,14 @@
 #' }
 build_report <- function(ind_scores, calibration_scores, EcoP, EcoP_calibration = NA,output_dir = NULL,x_loc = NA,y_loc = NA) {
 
- #  # ## testing lines
- # ind_scores
- #  calibration_scores
- #  EcoP = "GD"
- #  EcoP_calibration =NA
- #  output_dir = "temp"
- #  x_loc = NA #, -119.46
- # y_loc = NA#, 49.8611
+ # #  # ## testing lines
+ #  ind_scores
+ #   calibration_scores
+ #   EcoP = "GD"
+ #   EcoP_calibration =NA
+ #   output_dir = "temp"
+ #   x_loc = NA #, -119.46
+ #  y_loc = NA#, 49.8611
 
 
   # check the ecoprovince to use
