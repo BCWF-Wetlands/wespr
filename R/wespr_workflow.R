@@ -18,7 +18,7 @@
 #'     desktop_data = system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr"),
 #'     out_dir = "temp",
 #'     EcoP = "GD",
-#'     EcoP_calibration= "SIM"
+#'     EcoP_calibration = "SIM",
 #'     report_dir = "temp")
 #' }
 wespr_workflow <- function(desktop_data,
