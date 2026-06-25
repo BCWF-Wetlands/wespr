@@ -15,7 +15,6 @@ Description: Takes responses from a predetermined set of office and field-based
 License: Apache License (>= 2)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Imports: 
     dplyr,
     readr,
@@ -28,7 +27,9 @@ Imports:
     openxlsx,
     readxl,
     ggplot2,
-    tibble
+    tibble,
+    gt,
+    lubridate
 Suggests: 
     testthat (>= 3.0.0),
     cli,
@@ -36,12 +37,11 @@ Suggests:
     knitr,
     rmarkdown,
     bcdata,
-    sf,
-    lubridate,
-    gt
+    sf
 Config/testthat/edition: 3
 Depends: 
     R (>= 4.1.0)
 VignetteBuilder: knitr
 URL: https://bcwf-wetlands.github.io/wespr/
 LazyData: true
+Config/roxygen2/version: 8.0.0
