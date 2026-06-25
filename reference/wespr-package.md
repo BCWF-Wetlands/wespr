@@ -16,6 +16,8 @@ Useful links:
 
 Authors:
 
+- Genevieve Perkins <gperkins@ninoxconsulting.ca>
+
 - Andy Teucher <andy.teucher@gmail.com>
   ([ORCID](https://orcid.org/0000-0002-7840-692X))
 

@@ -28,7 +28,9 @@ out <- wespr_workflow(field_data = field_data,
                       desktop_data = desktop_data, 
                       EcoP = "GD",
                       out_dir = "temp", 
-                      report_dir = "temp")
-
+                      report_dir = "temp",
+                      EcoP_calibration = NA)
+                      
+                
 write.csv(out, fs::path("temp", "wespr_outputs.csv"))
 ```

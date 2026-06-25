@@ -5,7 +5,14 @@ Run the entire wespr workflow
 ## Usage
 
 ``` r
-wespr_workflow(desktop_data, field_data, out_dir, EcoP, report_dir)
+wespr_workflow(
+  desktop_data,
+  field_data,
+  out_dir,
+  EcoP,
+  EcoP_calibration,
+  report_dir
+)
 ```
 
 ## Arguments
@@ -26,6 +33,12 @@ wespr_workflow(desktop_data, field_data, out_dir, EcoP, report_dir)
 
   A character string specifying the region. Default = 'GD'
 
+- EcoP_calibration:
+
+  A character string specifying the region in which will be calibrated
+  against. Default = N. This should only be used where no calibration
+  data is available for the ecoprovince where the wetland was sampled.
+
 - report_dir:
 
   A character string specifying the output directory for the report
@@ -36,15 +49,3 @@ wespr_workflow(desktop_data, field_data, out_dir, EcoP, report_dir)
 A tibble with the combined data
 
 ## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-wespr_workflow(
-  field_data = fs::path("inst/input_data/raw", "field_survey123_edited.xls"),
-  office_data = fs::path("inst/input_data/raw", "scripted_office.xlsx"),
-  EcoP = "GD",
-  write_subfiles = FALSE,
-  out_dir = "temp",
-  overwrite = TRUE)
-} # }
-```
