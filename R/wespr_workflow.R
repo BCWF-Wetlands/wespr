@@ -14,8 +14,8 @@
 #' @examples
 #' \dontrun{
 #' wespr_workflow(
-#'     field_data <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr"),
-#'     desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr"),
+#'     field_data = system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr"),
+#'     desktop_data = system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr"),
 #'     out_dir = "temp",
 #'     EcoP = "GD",
 #'     EcoP_calibration= "SIM"
