@@ -43,8 +43,8 @@ You can install the more recent version of wespr from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("BCWF-Wetlands/wespr")
+# install.packages("pak")
+pak::pak("BCWF-Wetlands/wespr")
 ```
 
 ## Example workflows
