@@ -14,6 +14,7 @@ params:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
 library(wespr)
 library(dplyr)
 library(ggplot2)
@@ -292,38 +293,38 @@ tball <- tball |>
 
 
 ```{r generate table, echo = FALSE}
-gt_tbl <- gt(tball)
+gt_tbl <- gt::gt(tball)
 
 gt_tbl <-
   tball |>
-  gt(rowname_col = "Wetland Functions and other attributes") |> 
-  tab_stubhead(label = "Wetland Functions and other attributes") #|> 
+  gt::gt(rowname_col = "Wetland Functions and other attributes") |> 
+  gt::tab_stubhead(label = "Wetland Functions and other attributes") #|> 
 # tab_header(
 #    title = "Wetland Function and Benefits scores and ratings",
 #  )
 gt_tbl <-
   gt_tbl |>
-  tab_row_group(
+  gt::tab_row_group(
     label = "Other Values or Attributes",
     rows = 15:19
 )|>
-  tab_row_group(
+  gt::tab_row_group(
     label = "Transition Zone Habitat Group (THg)",
     rows = 11:14
   )|> 
-  tab_row_group(
+  gt::tab_row_group(
     label = "Aquatic Habitat (AHg)",
     rows = 8:10
   )|> 
-  tab_row_group(
+  gt::tab_row_group(
     label = "Aquatic Support (ASg)",
     rows = 5:7
   ) |>  
-  tab_row_group(
+  gt::tab_row_group(
     label = "Water Quality (WQg)",
     rows = 2:4 
   ) |>
-  tab_row_group(
+  gt::tab_row_group(
     label = "Hydrologic Group (WSg)",
     rows = 1
   ) 
@@ -331,25 +332,25 @@ gt_tbl <-
 #gt_tbl
 
 gt_tbl <- gt_tbl |> 
-  tab_spanner(
+  gt::tab_spanner(
     label = "Function",
     columns = c(`Function Score (Standardized)`, `Function Rating`)
   )|>
-  tab_spanner(
+  gt::tab_spanner(
     label = "Benefit",
     columns = c("Benefit Score (Standardized)", "Benefit Rating")
   ) |> 
-  tab_spanner(
+  gt::tab_spanner(
     label = "Raw Scores",
     columns = c( "Function Score (Raw)","Benefit Score (Raw)")
   ) |> 
-  cols_align(align = "center") |> 
-  cols_align(align = "left", columns = "Wetland Functions and other attributes") |> 
+  gt::cols_align(align = "center") |> 
+  gt::cols_align(align = "left", columns = "Wetland Functions and other attributes") |> 
 #   tab_source_note(
 #     source_note = md("NOTE: A score of 0 does not always mean the function or value is absent from the wetland. It usually
 # means that this wetland has equal or less capacity than the lowest-scoring one, for that function or
 # value, from among the 100+ calibration wetlands that were assessed previously for the EcoProvince.")) |>   
-  tab_options(
+  gt::tab_options(
     table.font.size = "small"
   )
 

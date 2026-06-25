@@ -4,7 +4,14 @@
 \alias{wespr_workflow}
 \title{Run the entire wespr workflow}
 \usage{
-wespr_workflow(desktop_data, field_data, out_dir, EcoP, report_dir)
+wespr_workflow(
+  desktop_data,
+  field_data,
+  out_dir,
+  EcoP,
+  EcoP_calibration,
+  report_dir
+)
 }
 \arguments{
 \item{desktop_data}{A file path to survey123 csv file for office data collected}
@@ -14,6 +21,9 @@ wespr_workflow(desktop_data, field_data, out_dir, EcoP, report_dir)
 \item{out_dir}{A character string specifying the output directory.}
 
 \item{EcoP}{A character string specifying the region. Default = 'GD'}
+
+\item{EcoP_calibration}{A character string specifying the region in which will be calibrated against. Default = N.
+This should only be used where no calibration data is available for the ecoprovince where the wetland was sampled.}
 
 \item{report_dir}{A character string specifying the output directory for the report document}
 }
@@ -26,11 +36,11 @@ Run the entire wespr workflow
 \examples{
 \dontrun{
 wespr_workflow(
-  field_data = fs::path("inst/input_data/raw", "field_survey123_edited.xls"),
-  office_data = fs::path("inst/input_data/raw", "scripted_office.xlsx"),
-  EcoP = "GD",
-  write_subfiles = FALSE,
-  out_dir = "temp",
-  overwrite = TRUE)
+    field_data <- system.file(file.path('extdata','WESP_FIELDV1.csv'), package = "wespr"),
+    desktop_data <- system.file(file.path('extdata','WESP_DESKTOPV1.csv'), package = "wespr"),
+    out_dir = "temp",
+    EcoP = "GD",
+    EcoP_calibration= "SIM"
+    report_dir = "temp")
 }
 }
