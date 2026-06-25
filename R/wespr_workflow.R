@@ -65,7 +65,7 @@ wespr_workflow <- function(desktop_data,
   wespkey <- generate_ids(wesp_data)
 
   # join x and y values
-  wespkey <- dplyr::left_join(wespkey, xy)
+  wespkey <- dplyr::left_join(wespkey, xy, by = "wetland_id")
 
 
   # calculate scores and choose long format
