@@ -25,7 +25,7 @@ wespr_workflow <- function(desktop_data,
                            field_data,
                            out_dir,
                            EcoP,
-                           EcoP_calibration,
+                           EcoP_calibration = NA,
                            report_dir){
   # # # Test outputs
   #  out_dir = "outputs"
