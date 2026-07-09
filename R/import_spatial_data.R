@@ -16,10 +16,10 @@ import_spatial_data <- function(aoi = NA, out_dir = NA) {
 
   # testing line
    #aoi <- sf::st_read(fs::path("./temp/spatial_layers/aoi_example.gpkg"))
+   #example_dir <- system.file("extdata", package = "wespr")
+   #aoi <- sf::st_read(fs::path(example_dir, "aoi_example.gpkg"))
    #aoi <- sf::st_read(fs::path("inst" , "input_data", "raw", "20260128","mud_lake.gpkg"))
    #out_dir <- fs::path("inst" , "input_data", "raw", "20260128")
-     #list.files(data_raw)
-
    # end testing line
 
   # check aoi is an sf object and the crs is in EPSG:3005
@@ -30,13 +30,11 @@ import_spatial_data <- function(aoi = NA, out_dir = NA) {
     stop("The 'aoi' parameter must have a coordinate reference system of EPSG:3005.")
   }
 
-
   # check that the out_dir exists, if not create it
   if(!fs::dir_exists(out_dir)) {
     fs::dir_create(out_dir, recurse = TRUE)
     cli::cli_alert_info("Created output directory at {.path {out_dir}}")
   }
-
 
   # buffer_2km_nowetland <- sf::st_buffer(aoi, dist = 2000)
   # sf::st_write(buffer_2km_nowetland, fs::path(out_dir, "aoi_buffer_2km.gpkg"), append = FALSE, quiet =TRUE)
@@ -64,6 +62,7 @@ import_spatial_data <- function(aoi = NA, out_dir = NA) {
   wau <- bcdata::bcdc_query_geodata("97d8ef37-b8d2-4c3b-b772-6b25c1db13d0") |>
    bcdata::filter(bcdata::INTERSECTS(buffer_10km)) |>
    bcdata::collect()
+
 
   # check that the buffer_10km interesects the entire polygon
   wau_check_id <- bcdata::bcdc_query_geodata("97d8ef37-b8d2-4c3b-b772-6b25c1db13d0") |>
